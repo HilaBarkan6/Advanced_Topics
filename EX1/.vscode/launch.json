@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Run main.exe",
+        "type": "cppvsdbg",  // use "cppdbg" for WSL or MinGW GDB
+        "request": "launch",
+        "program": "${workspaceFolder}/main.exe",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceFolder}",
+        "environment": [],
+        "console": "integratedTerminal", // or "integratedTerminal"
+        "preLaunchTask": "Build C++", // this links to your task
+        "internalConsoleOptions": "neverOpen"
+      }
+    ]
+  }

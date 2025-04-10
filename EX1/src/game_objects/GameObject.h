@@ -7,11 +7,10 @@ protected:
     bool is_exploded;
 
 public:
-
     GameObject(/* args */): is_exploded(false) {}
     virtual ~GameObject();
-    bool getIsExploded() const {}
-    void setIsExploded(bool exploded) {}
+    bool getIsExploded() const;
+    void setIsExploded(bool exploded);
 };
 
 #endif

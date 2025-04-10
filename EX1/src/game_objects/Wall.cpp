@@ -1,7 +1,5 @@
 #include "Wall.h"
 
-Wall::Wall() : lives(2) {}
-
 void Wall::hits() {
     lives--;
 }

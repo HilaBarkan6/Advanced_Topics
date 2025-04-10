@@ -4,29 +4,20 @@
 #include "Shell.h"
 #include <vector>
 
-enum CanonDirection
-{
-    UP,
-    UP_RIGHT,
-    UP_LEFT,
-    DOWN,
-    DOWN_RIGHT,
-    DOWN_LEFT,
-    LEFT,
-    RIGHT
-};
+
 
 class Tank : public GameObject
 {
     private:
+        int location_x;
+        int location_y;
         CanonDirection canon_direction;
         Shell  unused_shells[16];
         std::vector<Shell> flying_shells;
         std::vector<Shell> dead_shells;
-        int location_x;
-        int location_y;
         int last_shoot_turn_index;
         int last_backwards_turn_index;
+        bool alive;
 
     public:
         Tank(int x, int y, CanonDirection direction);
@@ -39,6 +30,8 @@ class Tank : public GameObject
         int getLastBackwardsTurnIndex() const;
         CanonDirection getCanonDirection() const;
         void setCanonDirection(CanonDirection direction);
+        void setAlive();
+        bool getAlive();
 
 };
 

@@ -12,6 +12,8 @@
           "-Werror",
           "-pedantic",
           "main.cpp",
+          "src/*.cpp",
+          "src/game_objects/*.cpp",
           "-o",
           "main.exe"
         ],

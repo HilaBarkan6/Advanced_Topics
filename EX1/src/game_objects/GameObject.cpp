@@ -3,6 +3,7 @@
 bool GameObject::getIsExploded() const { return is_exploded; }
 void GameObject::setIsExploded(bool exploded) { is_exploded = exploded; }
 
+GameObject::~GameObject() = default;
 
 
 

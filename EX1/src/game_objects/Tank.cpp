@@ -2,7 +2,7 @@
 #include "Shell.h"
 #include <vector>
 
-Tank::Tank(int x, int y, CanonDirection direction) : GameObject() ,location_x(x), location_y(y), canon_direction(direction), last_shoot_turn_index(-1), last_backwards_turn_index(-1) {
+Tank::Tank(int x, int y, CanonDirection direction) : GameObject() ,location_x(x), location_y(y), canon_direction(direction), last_shoot_turn_index(-1), last_backwards_turn_index(-1), alive(true) {
     for(int i = 0; i < 16; i++){
         unused_shells[i] = Shell();
     }
@@ -43,4 +43,12 @@ void Tank::setCanonDirection(CanonDirection direction) {
 
 CanonDirection Tank::getCanonDirection() const {
     return canon_direction;
+}
+
+void Tank::setAlive(){
+    alive = false;
+}
+
+bool Tank::getAlive(){
+    return alive;
 }

@@ -1,9 +1,8 @@
 #include "Player.h"
 
-void Player::setTank(Tank* tank) {
-    this->tank = tank;
-}
+Player::Player(int id) : id(id) {}
 
-Tank* Player::getTank() const {
-    return tank;
+
+int Player::getId() const {
+    return id;
 }

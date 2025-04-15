@@ -2,16 +2,17 @@
 #define CANONDIRECTION_H
 
 enum class CanonDirection
-{
-    None,
+{  
+    UP_LEFT,
     UP,
     UP_RIGHT,
-    UP_LEFT,
-    DOWN,
+    RIGHT,
     DOWN_RIGHT,
+    DOWN,
     DOWN_LEFT,
     LEFT,
-    RIGHT
+    
 };
+
 
 #endif

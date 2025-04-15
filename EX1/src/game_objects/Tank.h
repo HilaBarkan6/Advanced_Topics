@@ -12,11 +12,10 @@ class Tank : public GameObject
         int location_x;
         int location_y;
         CanonDirection canon_direction;
-        Shell  unused_shells[16];
         std::vector<Shell> flying_shells;
         std::vector<Shell> dead_shells;
-        int last_shoot_turn_index;
-        int last_backwards_turn_index;
+        int unused_shells_count;
+       
         bool alive;
 
     public:
@@ -24,14 +23,20 @@ class Tank : public GameObject
         int getLocationX() const;
         int getLocationY() const;
         void setLocation(int x, int y);
-        void setLastShootTurnIndex(int index);
-        int getLastShootTurnIndex() const;
-        void setLastBackwardsTurnIndex(int index);
-        int getLastBackwardsTurnIndex() const;
+  
+
         CanonDirection getCanonDirection() const;
         void setCanonDirection(CanonDirection direction);
         void setAlive();
         bool getAlive();
+
+        int getUnusedShellsCount() const;
+        void setUnusedShellsCount(int count) ;
+
+        std::vector<Shell>& getFlyingShells();
+
+
+       
 
 };
 

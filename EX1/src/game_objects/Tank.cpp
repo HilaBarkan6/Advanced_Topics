@@ -2,11 +2,7 @@
 #include "Shell.h"
 #include <vector>
 
-Tank::Tank(int x, int y, CanonDirection direction) : GameObject() ,location_x(x), location_y(y), canon_direction(direction), last_shoot_turn_index(-1), last_backwards_turn_index(-1), alive(true) {
-    for(int i = 0; i < 16; i++){
-        unused_shells[i] = Shell();
-    }
-}
+Tank::Tank(int x, int y, CanonDirection direction) : GameObject(), location_x(x), location_y(y), canon_direction(direction), unused_shells_count(16), alive(true) {}
 
 int Tank::getLocationX() const {
     return location_x;
@@ -21,21 +17,8 @@ void Tank::setLocation(int x, int y) {
     location_y = y;
 }
 
-void Tank::setLastShootTurnIndex(int index) {
-    last_shoot_turn_index = index;
-}
 
-int Tank::getLastShootTurnIndex() const {
-    return last_shoot_turn_index;
-}
 
-void Tank::setLastBackwardsTurnIndex(int index) {
-    last_backwards_turn_index = index;
-}
-
-int Tank::getLastBackwardsTurnIndex() const {
-    return last_backwards_turn_index;
-}
 
 void Tank::setCanonDirection(CanonDirection direction) {
     canon_direction = direction;
@@ -52,3 +35,16 @@ void Tank::setAlive(){
 bool Tank::getAlive(){
     return alive;
 }
+
+int Tank::getUnusedShellsCount() const {
+    return unused_shells_count;
+}
+
+void Tank::setUnusedShellsCount(int count) {
+    unused_shells_count = count;
+}
+
+std::vector <Shell>& Tank::getFlyingShells() {
+    return flying_shells;
+}
+

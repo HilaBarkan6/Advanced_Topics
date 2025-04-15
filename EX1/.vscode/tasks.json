@@ -11,6 +11,7 @@
           "-Wextra",
           "-Werror",
           "-pedantic",
+          "-g",
           "main.cpp",
           "src/*.cpp",
           "src/game_objects/*.cpp",

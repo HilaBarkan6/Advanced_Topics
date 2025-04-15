@@ -7,8 +7,8 @@
 class Player
 {
     protected:
-        Tank* tank;
-
+        int id;
+   
     public:
         enum class Action{
             FORWARD,
@@ -17,13 +17,15 @@ class Player
             ROTATE_0125_RIGHT,
             ROTATE_025_RIGHT,
             ROTATE_0125_LEFT,
-            SHOOT
+            SHOOT,
+            NOTHING
         };
-        Player() : tank(nullptr) {};
-        void setTank(Tank* tank);
-        Tank* getTank() const;
+        Player(int id);
         virtual ~Player() = default;
         virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2) = 0;
+        int getId() const;
+
+    
 };
 
 #endif

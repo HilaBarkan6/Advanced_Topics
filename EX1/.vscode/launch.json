@@ -3,7 +3,7 @@
     "configurations": [
       {
         "name": "Run main.exe",
-        "type": "cppvsdbg",  // use "cppdbg" for WSL or MinGW GDB
+        "type": "cppdbg",  // use "cppdbg" for WSL or MinGW GDB
         "request": "launch",
         "program": "${workspaceFolder}/main.exe",
         "args": ["C:/Projects/Advanced_Topics/EX1/input/input1.txt"],
@@ -12,7 +12,9 @@
         "environment": [],
         "console": "integratedTerminal", // or "integratedTerminal"
         "preLaunchTask": "Build C++", // this links to your task
-        "internalConsoleOptions": "neverOpen"
+        "internalConsoleOptions": "neverOpen",
+        "MIMode": "gdb",
+        "miDebuggerPath": "gdb", // path to gdb.exe
       }
     ]
   }

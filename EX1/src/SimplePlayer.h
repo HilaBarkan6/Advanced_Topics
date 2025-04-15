@@ -4,9 +4,9 @@
 
 class SimplePlayer : public Player {
     public:
-        SimplePlayer() = default;
+        SimplePlayer(int id) : Player(id) {};
         virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2) override;
-        virtual ~SimplePlayer();
+    
         
 };
 

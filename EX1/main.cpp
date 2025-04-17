@@ -1,5 +1,6 @@
 #include "src/GameManager.h"
 #include "src/SimplePlayer.h"
+#include "src/SecondPlayer.h"
 #include <iostream>
 
 
@@ -9,15 +10,19 @@ int main(int argc, char* argv[]){
         return 1;
     }
     Player* player1 = new SimplePlayer(1); 
-    Player* player2 = new SimplePlayer(2);
+    Player* player2 = new SecondPlayer(2);
     const std::string input_file = argv[1];
     const std::string output_file = "output/output.txt";
-    GameManager* m = new GameManager(player1, player2, input_file, output_file);
-    m->runGame();
+    try{
+        GameManager* m = new GameManager(player1, player2, input_file, output_file);
+        m->runGame();
+        delete m;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Cannot recover from error, finishing game." << std::endl;
+        return 1;
+    }
+    
 
-
-    delete m;
-    delete player1;
-    delete player2;
     return 0;
 }

@@ -12,14 +12,14 @@ class Tank : public GameObject
         int location_x;
         int location_y;
         CanonDirection canon_direction;
-        std::vector<Shell> flying_shells;
-        std::vector<Shell> dead_shells;
+        std::vector<Shell *> flying_shells;
         int unused_shells_count;
        
         bool alive;
 
     public:
         Tank(int x, int y, CanonDirection direction);
+        //~Tank() override;
         int getLocationX() const;
         int getLocationY() const;
         void setLocation(int x, int y);
@@ -33,7 +33,9 @@ class Tank : public GameObject
         int getUnusedShellsCount() const;
         void setUnusedShellsCount(int count) ;
 
-        std::vector<Shell>& getFlyingShells();
+        std::vector<Shell *>& getFlyingShells();
+
+        void deleteShell(Shell * shell);
 
 
        

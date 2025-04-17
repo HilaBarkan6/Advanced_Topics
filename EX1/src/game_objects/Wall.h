@@ -8,7 +8,7 @@ class Wall : public GameObject
         int lives;
     public:
         Wall() : GameObject(), lives(2) {}
-        void hits();
+        void reduceLife();
         bool isDestroyed() const;
         //~Wall() override = default;
    

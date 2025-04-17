@@ -10,6 +10,16 @@
 #include <vector>
 #include <string>
 #include <utility> 
+#include <unordered_map>
+#include <set>
+
+
+struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator()(const std::pair<T1, T2>& pair) const {
+        return std::hash<T1>()(pair.first) ^ (std::hash<T2>()(pair.second) << 1);
+    }
+};
 
 class GameManager
 {
@@ -37,11 +47,12 @@ class GameManager
         bool no_more_shells;
         //game will finish when this is 40
         int counter_no_shells;
+        std::set<Shell *> shells_to_delete;
 
     public:
         GameManager(Player* player1, Player* player2, const std::string& pathInputFile, const std::string& pathOutputFile);
         ~GameManager();
-        void prepareGame();
+        //void prepareGame();
         void runGame();
         void finishGame();
         void printBoard();
@@ -49,7 +60,9 @@ class GameManager
         void applyAction(Player* player, Tank* tank, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file);
         bool canMoveBackward(Player* player) const;
         CanonDirection rotate(CanonDirection cur_dir, int rotation);
-        void updateShellNextLocation(Shell shell);
+        void updateShellNextLocation(Shell &shell);
+        void MoveShells(bool is_even_turn, std::ofstream& output_file);
+        void deleteShells();
 };
 
 

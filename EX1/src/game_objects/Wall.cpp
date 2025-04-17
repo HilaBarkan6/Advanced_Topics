@@ -1,6 +1,6 @@
 #include "Wall.h"
 
-void Wall::hits() {
+void Wall::reduceLife() {
     lives--;
 }
 

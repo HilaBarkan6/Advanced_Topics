@@ -19,7 +19,10 @@ class Tank : public GameObject
 
     public:
         Tank(int x, int y, CanonDirection direction);
-        //~Tank() override;
+        Tank (const Tank&) = delete;
+        Tank& operator= (const Tank&) = delete;
+
+        ~Tank() override;
         int getLocationX() const;
         int getLocationY() const;
         void setLocation(int x, int y);

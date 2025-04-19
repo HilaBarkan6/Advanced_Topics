@@ -57,10 +57,10 @@ void Tank::deleteShell(Shell * shell) {
     }
 }
 
-// Tank::~Tank() {
-//     for (Shell* shell : flying_shells) {
-//         delete shell; // Clean up the dynamically allocated Shell objects
-//     }
-//     flying_shells.clear(); // Clear the vector to avoid dangling pointers
-// }
+Tank::~Tank() {
+    for (Shell* shell : flying_shells) {
+        delete shell; // Clean up the dynamically allocated Shell objects
+    }
+    flying_shells.clear(); // Clear the vector to avoid dangling pointers
+}
 

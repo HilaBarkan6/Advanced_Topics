@@ -252,10 +252,10 @@ bool GameManager::canMoveBackward(Player* player) const{
 
 }
 
-std::pair<int, int> GameManager::getNewLocation(Player* player, Tank tank_to_move, Player::Action wanted_action){
+std::pair<int, int> GameManager::getNewLocation(Player* player, Tank* tank_to_move, Player::Action wanted_action){
     int dx = 0;
     int dy = 0;
-    CanonDirection dir = tank_to_move.getCanonDirection();
+    CanonDirection dir = tank_to_move->getCanonDirection();
     if(wanted_action == Player::Action::FORWARD){
         switch(dir){
             case CanonDirection::UP: dx = -1; dy = 0; break;
@@ -282,8 +282,8 @@ std::pair<int, int> GameManager::getNewLocation(Player* player, Tank tank_to_mov
             default: break;
         }
     }
-    int x_location = (tank_to_move.getLocationX() + dx + height) % height;
-    int y_location = (tank_to_move.getLocationY() + dy + width) % width;
+    int x_location = (tank_to_move->getLocationX() + dx + height) % height;
+    int y_location = (tank_to_move->getLocationY() + dy + width) % width;
     return std::make_pair(x_location, y_location);
 }
 
@@ -703,9 +703,9 @@ void GameManager::runGame(){
         if(turn_counter%2 == 0){
             MoveShells(true, output_file);
             Player::Action action1 = player1->getAction(board, *tank1, *tank2);
-            std::pair<int, int> new_tank1_Location = getNewLocation(player1, *tank1, action1);
+            std::pair<int, int> new_tank1_Location = getNewLocation(player1, tank1, action1);
             Player::Action action2 = player2->getAction(board, *tank1, *tank2);
-            std::pair<int, int> new_tank2_Location = getNewLocation(player2, *tank2, action2);
+            std::pair<int, int> new_tank2_Location = getNewLocation(player2, tank2, action2);
             // check collision should check if a tank wants to move to a new shell location or to a new next shell location
             std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
             deleteShells();

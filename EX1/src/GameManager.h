@@ -56,7 +56,7 @@ class GameManager
         void runGame();
         void finishGame();
         void printBoard();
-        std::pair<int, int> getNewLocation(Player* player, Tank tank_to_move, Player::Action wanted_action);
+        std::pair<int, int> getNewLocation(Player* player, Tank* tank_to_move, Player::Action wanted_action);
         void applyAction(Player* player, Tank* tank, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file);
         bool canMoveBackward(Player* player) const;
         CanonDirection rotate(CanonDirection cur_dir, int rotation);

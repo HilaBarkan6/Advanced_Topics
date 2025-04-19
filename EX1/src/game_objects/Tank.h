@@ -25,6 +25,7 @@ class Tank : public GameObject
         ~Tank() override;
         int getLocationX() const;
         int getLocationY() const;
+        std::pair<int, int> getLocation() const;
         void setLocation(int x, int y);
   
 
@@ -36,12 +37,12 @@ class Tank : public GameObject
         int getUnusedShellsCount() const;
         void setUnusedShellsCount(int count) ;
 
-        std::vector<Shell *>& getFlyingShells();
+        const std::vector<Shell *>& getFlyingShells() const;
 
         void deleteShell(Shell * shell);
 
-
-       
+        void addFlyingShell(Shell * shell);
+    
 
 };
 

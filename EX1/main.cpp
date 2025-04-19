@@ -1,6 +1,7 @@
 #include "src/GameManager.h"
 #include "src/SimplePlayer.h"
 #include "src/SecondPlayer.h"
+#include "src/DefensivePlayer.h"
 #include <iostream>
 
 
@@ -9,8 +10,8 @@ int main(int argc, char* argv[]){
         std::cerr << "Please provide the input file path as a command line argument." << std::endl;
         return 1;
     }
-    Player* player1 = new SimplePlayer(1); 
-    Player* player2 = new SecondPlayer(2);
+    Player* player1 = new DefensivePlayer(1); 
+    Player* player2 = new DefensivePlayer(2);
     const std::string input_file = argv[1];
     const std::string output_file = "output/output.txt";
     try{

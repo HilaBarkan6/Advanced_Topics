@@ -103,7 +103,7 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
                 case '1':{
                     // TODO - should be left, up is for testing
                     if(tank1_count == 0){
-                        tank1 = new Tank(row, col, CanonDirection::UP); 
+                        tank1 = new Tank(row, col, CanonDirection::LEFT); 
                         board.setGameObjectAt(row, col, new Empty());
                         tank1_count++;
                     }
@@ -326,8 +326,8 @@ std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_locat
         tank2->setAlive();
     }
     // with shell
-    std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
-    std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
+    const std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
+    const std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
     int tank1_hits_counter = 0;
     int tank2_hits_counter = 0;
     for(size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
@@ -424,8 +424,8 @@ std::pair<int, int> GameManager::getShellLocation(const Tank* const tank_to_shoo
 }
 
 void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
-    std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
-    std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
+    const std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
+    const std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
     std::unordered_map<std::pair<int, int>, std::vector<Shell*>, pair_hash> shell_locations_map;
 
     for (size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
@@ -652,7 +652,7 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
                 std::pair<int, int> new_shell_location = getShellLocation(tank_to_aplly);
                 Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_aplly->getCanonDirection(), id);
                 updateShellNextLocation(*shell_to_shoot);
-                tank_to_aplly->getFlyingShells().push_back(shell_to_shoot);
+                tank_to_aplly->addFlyingShell(shell_to_shoot);
                 tank_to_aplly->setUnusedShellsCount(tank_to_aplly->getUnusedShellsCount() - 1);
                 std::cout << "Tank " << player->getId() << " shoot shell"  << std::endl;
                 output_file << "Tank " << player->getId() << " shoot shell"  << std::endl;
@@ -702,9 +702,9 @@ void GameManager::runGame(){
         // Both players and shells should move
         if(turn_counter%2 == 0){
             MoveShells(true, output_file);
-            Player::Action action1 = player1->getAction(board, *tank1, *tank2);
+            Player::Action action1 = player1->getAction(board, *tank1, *tank2, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
             std::pair<int, int> new_tank1_Location = getNewLocation(player1, tank1, action1);
-            Player::Action action2 = player2->getAction(board, *tank1, *tank2);
+            Player::Action action2 = player2->getAction(board, *tank2, *tank1, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
             std::pair<int, int> new_tank2_Location = getNewLocation(player2, tank2, action2);
             // check collision should check if a tank wants to move to a new shell location or to a new next shell location
             std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);

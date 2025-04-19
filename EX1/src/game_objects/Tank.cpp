@@ -45,7 +45,7 @@ void Tank::setUnusedShellsCount(int count) {
     unused_shells_count = count;
 }
 
-std::vector <Shell *>& Tank::getFlyingShells() {
+const std::vector<Shell *>& Tank::getFlyingShells() const {
     return flying_shells;
 }
 
@@ -64,3 +64,10 @@ Tank::~Tank() {
     flying_shells.clear(); // Clear the vector to avoid dangling pointers
 }
 
+std::pair<int, int> Tank::getLocation() const {
+    return std::make_pair(location_x, location_y);
+}
+
+void::Tank::addFlyingShell(Shell * shell) {
+    flying_shells.push_back(shell);
+}

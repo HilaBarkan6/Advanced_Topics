@@ -119,37 +119,37 @@ bool Player::clearPath(const Board& board, int sx, int sy, int tx, int ty) const
 }
 
 bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const int x, const int y, const CanonDirection dir) const {
-    std::pair<int, int> my_location = std::make_pair(x, y);
-    std::pair<int, int> op_location = op_tank.getLocation();
+    int ox = op_tank.getLocationX();
+    int oy = op_tank.getLocationY();
 
     
-    if(dir == CanonDirection::UP && my_location.first > op_location.first && my_location.second == op_location.second){
-        for(int i = op_location.first + 1; i< my_location.first; i++){
-            if(board.isWallLocation(i, op_location.second)){
+    if(dir == CanonDirection::UP && x > ox && y == oy){
+        for(int i = ox + 1; i< x; i++){
+            if(board.isWallLocation(i, oy)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::DOWN && my_location.first < op_location.first && my_location.second == op_location.second){
-        for(int i = my_location.first + 1; i< op_location.first; i++){
-            if(board.isWallLocation(i, op_location.second)){
+    else if(dir == CanonDirection::DOWN && x < ox && y == oy){
+        for(int i = x + 1; i< ox; i++){
+            if(board.isWallLocation(i, oy)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::LEFT && my_location.first == op_location.first && my_location.second > op_location.second){
-        for(int i = op_location.second + 1; i< my_location.second; i++){
-            if(board.isWallLocation(op_location.first, i)){
+    else if(dir == CanonDirection::LEFT && x == ox && y > oy){
+        for(int i = oy + 1; i< y; i++){
+            if(board.isWallLocation(ox, i)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::RIGHT && my_location.first == op_location.first && my_location.second < op_location.second){
-        for(int i = my_location.second + 1; i< op_location.second; i++){
-            if(board.isWallLocation(op_location.first, i)){
+    else if(dir == CanonDirection::RIGHT && x == ox && y < oy){
+        for(int i = y + 1; i< oy; i++){
+            if(board.isWallLocation(ox, i)){
                 return false;
             }
         }
@@ -157,32 +157,32 @@ bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const
         
     }
    
-    else if(dir == CanonDirection::UP_RIGHT && my_location.first > op_location.first && my_location.second < op_location.second && my_location.first - op_location.first == op_location.second - my_location.second){
-        for(int i = op_location.first + 1, j = op_location.second - 1; i< my_location.first && j> my_location.second; i++, j--){
+    else if(dir == CanonDirection::UP_RIGHT && x > ox && y < oy && x - ox == oy - y){
+        for(int i = ox + 1, j = oy - 1; i< x && j> y; i++, j--){
             if(board.isWallLocation(i, j)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::UP_LEFT && my_location.first > op_location.first && my_location.second > op_location.second && my_location.first - op_location.first == my_location.second - op_location.second){
-        for(int i = op_location.first + 1, j = op_location.second + 1; i< my_location.first && j< my_location.second; i++, j++){
+    else if(dir == CanonDirection::UP_LEFT && x > ox && y > oy && x - ox == y - oy){
+        for(int i = ox + 1, j = oy + 1; i< x && j< y; i++, j++){
             if(board.isWallLocation(i, j)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::DOWN_LEFT && my_location.first < op_location.first && my_location.second > op_location.second && op_location.first - my_location.first == my_location.second - op_location.second){
-        for(int i = my_location.first + 1, j = op_location.second + 1; i< op_location.first && j< my_location.second; i++, j++){
+    else if(dir == CanonDirection::DOWN_LEFT && x < ox && y > oy && ox - x == y - oy){
+        for(int i = x + 1, j = oy + 1; i< ox && j< y; i++, j++){
             if(board.isWallLocation(i, j)){
                 return false;
             }
         }
         return true;
     }
-    else if(dir == CanonDirection::DOWN_RIGHT && my_location.first < op_location.first && my_location.second < op_location.second && my_location.first - op_location.first == my_location.second - op_location.second){
-        for(int i = my_location.first + 1, j = my_location.second + 1; i< op_location.first && j < op_location.second; i++, j++){
+    else if(dir == CanonDirection::DOWN_RIGHT && x < ox && y < oy && x - ox == y - oy){
+        for(int i = x + 1, j = y + 1; i< ox && j < oy; i++, j++){
             if(board.isWallLocation(i, j)){
                 return false;
             }

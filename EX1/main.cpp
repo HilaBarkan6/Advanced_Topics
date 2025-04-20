@@ -4,6 +4,7 @@
 #include "src/DefensivePlayer.h"
 #include "src/OffensivePlayer.h"
 #include <iostream>
+#include <memory>
 
 
 int main(int argc, char* argv[]){
@@ -12,12 +13,12 @@ int main(int argc, char* argv[]){
         return 1;
     }
     // Create players inherits from "Player" class, currently first defensive and second offensive.
-    Player* player1 = new DefensivePlayer(1); 
-    Player* player2  = new OffensivePlayer(2);
+    std::unique_ptr<Player> player1(new DefensivePlayer(1)); 
+    std::unique_ptr<Player> player2(new OffensivePlayer(2));
     const std::string input_file = argv[1];
     const std::string output_file = "output/output.txt";
     try{
-        GameManager m(player1, player2, input_file, output_file);
+        GameManager m(std::move(player1), std::move(player2), input_file, output_file);
         m.runGame();
     }
     catch (const std::exception& e) {
@@ -25,6 +26,6 @@ int main(int argc, char* argv[]){
         return 1;
     }
     
-
     return 0;
 }
+

@@ -12,6 +12,7 @@
 #include <utility> 
 #include <unordered_map>
 #include <set>
+#include <memory>
 
 struct pair_hash {
     template <class T1, class T2>
@@ -23,8 +24,11 @@ struct pair_hash {
 class GameManager
 {
     private:
-        Player* player1;
-        Player* player2;
+        std::string path_input_file;
+        std::string path_output_file;
+
+        std::unique_ptr<Player> player1;
+        std::unique_ptr<Player> player2;
 
         // Used to check if player can move backward according to the rules, 
         // first - counter since requesting backward, second - if player is waiting for backward move, third - if last action preformed is backward movement.
@@ -36,9 +40,6 @@ class GameManager
         int player2_last_shooting;
         Tank tank1;
         Tank tank2;
-
-        std::string path_input_file;
-        std::string path_output_file;
 
         Board board;
         int width;
@@ -68,8 +69,8 @@ class GameManager
         void deleteShells();
 
     public:
-        GameManager(Player* player1, Player* player2, const std::string& pathInputFile, const std::string& pathOutputFile);
-        ~GameManager();
+        GameManager(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2, const std::string& pathInputFile, const std::string& pathOutputFile);
+        ~GameManager() = default;
         void runGame();
 };
 

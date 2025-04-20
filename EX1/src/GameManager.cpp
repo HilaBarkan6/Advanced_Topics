@@ -20,7 +20,20 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(Player* player1, Player* player2, const std::string& input_file, const std::string& output_file) : player1(player1), player2(player2), path_input_file(input_file), path_output_file(output_file), player1_backwards_info(0, false, false), player2_backwards_info(0, false, false), player1_last_shooting(-1), player2_last_shooting(-1), turn_counter(0), no_more_shells(false), counter_no_shells(0) {
+GameManager::GameManager(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2, const std::string& input_file, const std::string& output_file) 
+    : path_input_file(input_file), 
+      path_output_file(output_file), 
+      player1(std::move(player1)), 
+      player2(std::move(player2)), 
+
+      player1_backwards_info(0, false, false), 
+      player2_backwards_info(0, false, false),
+      player1_last_shooting(-1), 
+      player2_last_shooting(-1),
+      turn_counter(0), 
+      no_more_shells(false), 
+      counter_no_shells(0)
+    {
     // Initialize the game board and players
     // read first two lines for height and width.
     std::ifstream file(path_input_file);
@@ -167,11 +180,6 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
     }
 }
 
-GameManager::~GameManager() {
-    delete player1;
-    delete player2;
-}
-
 void GameManager::runGame(){
     // create and open output file
     std::ofstream output_file;
@@ -197,7 +205,7 @@ void GameManager::runGame(){
             // check collision should check if a tank wants to move to a new shell location or to a new next shell location
             std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
             deleteShells();
-            
+
             // Appling action
             applyAction(tank1, action1, can_move.first, new_tank1_Location, output_file);
             applyAction(tank2 ,action2, can_move.second, new_tank2_Location, output_file);

@@ -9,43 +9,39 @@
 class Tank : public GameObject
 {
     private:
+        int id;
+        bool alive;
         int location_x;
         int location_y;
         CanonDirection canon_direction;
-        std::vector<Shell *> flying_shells;
         int unused_shells_count;
-       
-        bool alive;
-
+        // currently flying shells shooted by this tank
+        std::vector<Shell *> flying_shells;
+        
     public:
-        Tank(int x, int y, CanonDirection direction);
+        Tank(int x, int y, CanonDirection direction, int id);
+        Tank(){};
         Tank (const Tank&) = delete;
-        Tank& operator= (const Tank&) = delete;
+        ~Tank();
 
-        ~Tank() override;
+        int getId() const;
+
+        bool getAlive();
+        void setAlive();
+
         int getLocationX() const;
         int getLocationY() const;
-        std::pair<int, int> getLocation() const;
         void setLocation(int x, int y);
   
-
         CanonDirection getCanonDirection() const;
         void setCanonDirection(CanonDirection direction);
-        void setAlive();
-        bool getAlive();
-
+        
         int getUnusedShellsCount() const;
         void setUnusedShellsCount(int count) ;
 
         const std::vector<Shell *>& getFlyingShells() const;
-
-        void deleteShell(Shell * shell);
-
         void addFlyingShell(Shell * shell);
-    
-
+        void deleteShell(Shell * shell);
 };
-
-
 
 #endif

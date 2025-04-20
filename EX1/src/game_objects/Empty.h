@@ -2,9 +2,6 @@
 #define EMPTY_H
 #include "GameObject.h"
 
-class Empty: public GameObject
-{
-    
-};
+class Empty: public GameObject{};
 
 #endif

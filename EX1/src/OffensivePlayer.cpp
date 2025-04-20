@@ -5,8 +5,9 @@ Player::Action OffensivePlayer::getAction(const Board& board, const Tank& my_tan
 
     int x = my_tank.getLocationX();
     int y = my_tank.getLocationY(); 
+    int shells_comming_count = shellIsComming(board, my_tank, op_tank, x, y);
 
-    if(shellIsComming(board, my_tank, op_tank, x, y) <=2 ){
+    if(shells_comming_count <=2 && shells_comming_count >=0){
         return defensiveMove(board, my_tank, op_tank);
     }
     return offensiveMove(board, my_tank, op_tank, allow_shoot);
@@ -42,6 +43,10 @@ Player::Action OffensivePlayer::defensiveMove(const Board& board, const Tank& my
 }
 
 Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my_tank, const Tank& op_tank, const bool allow_shoot){
+    visited.clear();
+    q = std::queue<QueueNode>();
+    int height = board.getRows();
+    int width = board.getColumns();
     int x = my_tank.getLocationX();
     int y = my_tank.getLocationY();
     CanonDirection dir = my_tank.getCanonDirection();
@@ -76,6 +81,8 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
             case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
             default: break;
         }
+        new_x = (new_x + height) % height;
+        new_y = (new_y + width) % width;
 
         if(canMove(board, new_x, new_y, op_tank, my_tank)){
             State new_state = {new_x, new_y, current_dir};
@@ -102,5 +109,5 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
         }
         
     }
-    Player::Action::BACKWARD;
+    return Player::Action::BACKWARD;
 }

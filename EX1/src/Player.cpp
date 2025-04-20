@@ -8,7 +8,6 @@ int Player::getId() const {
     return id;
 }
 
-//TODO - this return
 int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& op_tank, int x_to_check, int y_to_check) const{
     int x = x_to_check;
     int y = y_to_check;
@@ -21,6 +20,11 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
 
     int min_distance = INT_MAX;
     for(Shell * shell : all_shells){
+        std::pair<int,int> shell_prev_location = shell->getPrevLocation();
+        //bad move - move into a shell
+        if(shell_prev_location.first == x_to_check && shell_prev_location.second == y_to_check ){
+            return 0;
+        }
         std::pair<int, int> shell_location = shell->getLocation();
         int sx = shell_location.first;
         int sy = shell_location.second;
@@ -190,8 +194,9 @@ bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const
 
 
 bool Player::canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank) const{
+    int shell_comming_turn_count = shellIsComming(board, my_tank, op_tank, x, y);
     return !board.isWallLocation(x, y) &&
      !board.isMineLocation(x, y) && 
      (op_tank.getLocationX() != x && op_tank.getLocationY() != y) &&
-     shellIsComming(board, my_tank, op_tank, x, y)>2;
+     (shell_comming_turn_count>2 || shell_comming_turn_count == -1) ;
 }

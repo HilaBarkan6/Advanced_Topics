@@ -19,12 +19,14 @@ class Board{
         Board(){};
         ~Board(); // Destructor to clean up dynamically allocated memory
 
+        int getRows() const;
+        int getColumns() const;
+
         bool isWallLocation(int x, int y) const;
         bool isMineLocation(int x, int y) const;
-        bool isEmptyLocation(int x, int y) const;
-        void setGameObjectAt(int x, int y, GameObject* obj);
-        GameObject* getGameObjectAt(int x, int y) const;
-};
 
+        GameObject* getGameObjectAt(int x, int y) const;
+        void setGameObjectAt(int x, int y, GameObject* obj);     
+};
 
 #endif

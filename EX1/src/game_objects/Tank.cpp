@@ -3,7 +3,26 @@
 #include <vector>
 #include <algorithm>
 
-Tank::Tank(int x, int y, CanonDirection direction) : GameObject(), location_x(x), location_y(y), canon_direction(direction), unused_shells_count(16), alive(true) {}
+Tank::Tank(int x, int y, CanonDirection direction, int id) : GameObject(), id(id), alive(true), location_x(x), location_y(y), canon_direction(direction), unused_shells_count(16) {}
+
+Tank::~Tank() {
+    for (Shell* shell : flying_shells) {
+        delete shell; // Clean up the dynamically allocated Shell objects
+    }
+    flying_shells.clear(); // Clear the vector to avoid dangling pointers
+}
+
+int Tank::getId() const {
+    return id;
+}
+
+bool Tank::getAlive(){
+    return alive;
+}
+
+void Tank::setAlive(){
+    alive = false;
+}
 
 int Tank::getLocationX() const {
     return location_x;
@@ -18,24 +37,14 @@ void Tank::setLocation(int x, int y) {
     location_y = y;
 }
 
-
-
+CanonDirection Tank::getCanonDirection() const {
+    return canon_direction;
+}
 
 void Tank::setCanonDirection(CanonDirection direction) {
     canon_direction = direction;
 }
 
-CanonDirection Tank::getCanonDirection() const {
-    return canon_direction;
-}
-
-void Tank::setAlive(){
-    alive = false;
-}
-
-bool Tank::getAlive(){
-    return alive;
-}
 
 int Tank::getUnusedShellsCount() const {
     return unused_shells_count;
@@ -49,6 +58,10 @@ const std::vector<Shell *>& Tank::getFlyingShells() const {
     return flying_shells;
 }
 
+void::Tank::addFlyingShell(Shell * shell) {
+    flying_shells.push_back(shell);
+}
+
 void Tank::deleteShell(Shell * shell) {
     auto it = std::find(flying_shells.begin(), flying_shells.end(), shell);
     if (it != flying_shells.end()) {
@@ -57,17 +70,8 @@ void Tank::deleteShell(Shell * shell) {
     }
 }
 
-Tank::~Tank() {
-    for (Shell* shell : flying_shells) {
-        delete shell; // Clean up the dynamically allocated Shell objects
-    }
-    flying_shells.clear(); // Clear the vector to avoid dangling pointers
-}
 
-std::pair<int, int> Tank::getLocation() const {
-    return std::make_pair(location_x, location_y);
-}
 
-void::Tank::addFlyingShell(Shell * shell) {
-    flying_shells.push_back(shell);
-}
+
+
+

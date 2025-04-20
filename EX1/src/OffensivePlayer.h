@@ -34,14 +34,12 @@ class OffensivePlayer : public Player {
     public:
         OffensivePlayer(int id) : Player(id) {};
         virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2, const bool allow_shoot) override;
-
-    private:
         std::unordered_set<State, StateHash> visited;
         std::queue<QueueNode> q;
         Player::Action defensiveMove(const Board& board, const Tank& my_tank, const Tank& op_tank);
         Player::Action offensiveMove(const Board& board, const Tank& my_tank, const Tank& op_tank, const bool allow_shoot);
-                
-};
 
+            
+};
 
 #endif

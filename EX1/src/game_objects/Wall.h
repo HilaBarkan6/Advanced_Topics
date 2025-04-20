@@ -9,9 +9,7 @@ class Wall : public GameObject
     public:
         Wall() : GameObject(), lives(2) {}
         void reduceLife();
-        bool isDestroyed() const;
-        //~Wall() override = default;
-   
+        bool isDestroyed() const;   
 };
 
 

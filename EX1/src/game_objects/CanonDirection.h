@@ -10,9 +10,7 @@ enum class CanonDirection
     DOWN_RIGHT,
     DOWN,
     DOWN_LEFT,
-    LEFT,
-    
+    LEFT, 
 };
-
 
 #endif

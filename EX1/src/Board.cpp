@@ -1,7 +1,6 @@
 #include "Board.h"
 
-Board::Board(int rows, int columns) : rows(rows), columns(columns), board(rows, std::vector<GameObject*>(columns, nullptr)) {   
-}
+Board::Board(int rows, int columns) : rows(rows), columns(columns), board(rows, std::vector<GameObject*>(columns, nullptr)){}
 
 Board::~Board() {
     for (int i = 0; i < rows; ++i) {
@@ -11,10 +10,12 @@ Board::~Board() {
     }
 }
 
-void Board::setGameObjectAt(int x, int y, GameObject* obj) {
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
-        board[x][y] = obj;
-    }
+int Board::getRows() const {
+    return rows;
+}
+
+int Board::getColumns() const {
+    return columns;
 }
 
 bool Board::isWallLocation(int x, int y) const {
@@ -31,16 +32,16 @@ bool Board::isMineLocation(int x, int y) const {
     return false;
 }
 
-bool Board::isEmptyLocation(int x, int y) const{
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
-        return dynamic_cast<Empty*>(board[x][y]) != nullptr;
-    }
-    return false;
-}
-
 GameObject* Board::getGameObjectAt(int x, int y) const {
     if (x >= 0 && x < rows && y >= 0 && y < columns) {
         return board[x][y];
     }
     return nullptr;
 }
+
+void Board::setGameObjectAt(int x, int y, GameObject* obj) {
+    if (x >= 0 && x < rows && y >= 0 && y < columns) {
+        board[x][y] = obj;
+    }
+}
+

@@ -3,14 +3,10 @@
 
 class GameObject
 {
-protected:
-    bool is_exploded;
+    public:
+        GameObject();
+        virtual ~GameObject();
 
-public:
-    GameObject(/* args */): is_exploded(false) {}
-    virtual ~GameObject();
-    bool getIsExploded() const;
-    void setIsExploded(bool exploded);
 };
 
 #endif

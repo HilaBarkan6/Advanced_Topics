@@ -4,9 +4,6 @@
 #include <sstream>
 #include <unordered_map>
 
-
-
-
 // Overload operator<< for CanonDirection
 std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     switch (direction) {
@@ -23,9 +20,9 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(Player* player1, Player* player2, const std::string& input_file, const std::string& output_file) : player1(player1), player2(player2),tank1(nullptr),tank2(nullptr) ,path_input_file(input_file), path_output_file(output_file), game_over(false), player1_backwards_info(0, false, false), player2_backwards_info(0, false, false), player1_last_shooting(-1), player2_last_shooting(-1), turn_counter(0), no_more_shells(false), counter_no_shells(0) {
+GameManager::GameManager(Player* player1, Player* player2, const std::string& input_file, const std::string& output_file) : player1(player1), player2(player2), path_input_file(input_file), path_output_file(output_file), player1_backwards_info(0, false, false), player2_backwards_info(0, false, false), player1_last_shooting(-1), player2_last_shooting(-1), turn_counter(0), no_more_shells(false), counter_no_shells(0) {
     // Initialize the game board and players
-    // read first two lines
+    // read first two lines for height and width.
     std::ifstream file(path_input_file);
     if (!file.is_open()) {
         std::cerr << "Error opening file: " << path_input_file << std::endl;
@@ -71,7 +68,6 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
     bool extra_col = false;
 
     while(std::getline(file, line)){
-        //std::istringstream iss(line);
         if(row >= height){
             has_errors = true;
             error_log << "Too many rows, ignoring.\n";
@@ -95,15 +91,14 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
                     board.setGameObjectAt(row, col, new Wall());
                     break;
                 case '@':
-                    board.setGameObjectAt(row, col, new Mine()); // Placeholder for tank direction
+                    board.setGameObjectAt(row, col, new Mine());
                     break;
                 case ' ':
                     board.setGameObjectAt(row, col, new Empty());
                     break;
                 case '1':{
-                    // TODO - should be left, up is for testing
                     if(tank1_count == 0){
-                        tank1 = new Tank(row, col, CanonDirection::LEFT); 
+                        this->tank1 = Tank(row, col, CanonDirection::LEFT, 1); 
                         board.setGameObjectAt(row, col, new Empty());
                         tank1_count++;
                     }
@@ -116,7 +111,7 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
                 }
                 case '2': {
                     if(tank2_count == 0){
-                        tank2 = new Tank(row, col, CanonDirection::RIGHT); 
+                        this->tank2 = Tank(row, col, CanonDirection::RIGHT, 2); 
                         board.setGameObjectAt(row, col, new Empty());
                         tank2_count++;
                     }
@@ -143,18 +138,14 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
         std::cerr << "Missing tank for player 2.\n"; 
         throw std::runtime_error("Missing tank for player 2.");
     }
-    
-
     if (missing_col){
         has_errors = true;
         error_log << "Missig column, fiiled with spaces.\n";
     }
-
     if (extra_col){
         has_errors = true;
         error_log << "Too many columns, ignoring.\n";
     }
-
 
     //Fill missing rows if needed
     for(; row < height; ++row){
@@ -176,68 +167,64 @@ GameManager::GameManager(Player* player1, Player* player2, const std::string& in
     }
 }
 
-// void GameManager::prepareGame(){
-//     // Read input file
-//     std::ifstream file(path_input_file);
-//     if (!file.is_open()) {
-//         std::cerr << "Error opening file: " << path_input_file << std::endl;
-//         return;
-//     }
-
-//     std::string line;
-//     std::getline(file, line);
-//     std::getline(file, line);
-//     // Create board
-//     int row = 0;
-//     while(std::getline(file, line) && row<height){
-//         std::istringstream iss(line);
-//         int line_length = static_cast<int>(line.size());
-//         for (int col = 0; col < width && col<line_length ; ++col){
-//             char cell = line[col];
-//             switch (cell){
-//                 case '#':
-//                     board.setGameObjectAt(row, col, new Wall());
-//                     break;
-//                 case '@':
-//                     board.setGameObjectAt(row, col, new Mine()); // Placeholder for tank direction
-//                     break;
-//                 case ' ':
-//                     board.setGameObjectAt(row, col, new Empty());
-//                     break;
-//                 case '1':{
-//                     // TODO - should be left, up is for testing
-//                     tank1 = new Tank(row, col, CanonDirection::UP); 
-//                     board.setGameObjectAt(row, col, new Empty());
-//                     break;
-//                 }
-//                 case '2': {
-//                     tank2 = new Tank(row, col, CanonDirection::RIGHT); 
-//                     board.setGameObjectAt(row, col, new Empty());
-//                     break;
-//                 }
-//                 default:
-//                     // Handle some error
-//                     std::cerr << "Error in board file " << path_input_file << std::endl;
-//                     break;
-
-//             }
-//         }
-//         row++;
-//     }
-
-//     file.close();
-
-// }
-
-void GameManager::finishGame(){
-    // Write to output file
+GameManager::~GameManager() {
+    delete player1;
+    delete player2;
 }
 
+void GameManager::runGame(){
+    // create and open output file
+    std::ofstream output_file;
+    output_file.open(path_output_file, std::ios::out);
+    if(!output_file.is_open()){
+        std::cerr << "Error opening output file: " << path_output_file << std::endl;
+        return;
+    }
 
-bool GameManager::canMoveBackward(Player* player) const{
+    // Main loop
+    while (!isGameOver(output_file)) {
+        // Even turn - both players and shells should move
+        if(turn_counter%2 == 0){
+            MoveShells(true, output_file);
+
+            // Request action from both players, get the new locations they will cause, check if possible to aplly, if so then apply.
+            Player::Action action1 = player1->getAction(board, tank1, tank2, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
+            std::pair<int, int> new_tank1_Location = getNewLocation(tank1, action1);
+
+            Player::Action action2 = player2->getAction(board, tank2, tank1, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
+            std::pair<int, int> new_tank2_Location = getNewLocation(tank2, action2);
+
+            // check collision should check if a tank wants to move to a new shell location or to a new next shell location
+            std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
+            deleteShells();
+            
+            // Appling action
+            applyAction(tank1, action1, can_move.first, new_tank1_Location, output_file);
+            applyAction(tank2 ,action2, can_move.second, new_tank2_Location, output_file);
+        }
+        //Odd turn - only Shells move
+        else{
+            MoveShells(false, output_file);
+            deleteShells();
+        }
+        
+        // Check if all shells were shooted and should start counting for finish.
+        if(tank1.getUnusedShellsCount()==0 && tank2.getUnusedShellsCount()==0){
+            no_more_shells = true;
+            counter_no_shells++;
+            std::cout << "Both tanks have no more shells, counting 40 turns to finish"<< std::endl;
+            output_file<< "Both tanks have no more shells, counting 40 turns to finish"<<  std::endl;
+            std::cout << "counter is "<< counter_no_shells << std::endl;
+
+        }
+        turn_counter++;
+    }
+}
+
+bool GameManager::canMoveBackward(int player_id) const{
     bool last_action_backward = false;
     int counter = 0;
-    if(player == player1){
+    if(player_id == 1){
         last_action_backward = std::get<1>(player1_backwards_info);
         counter = std::get<0>(player1_backwards_info);
     }
@@ -252,10 +239,10 @@ bool GameManager::canMoveBackward(Player* player) const{
 
 }
 
-std::pair<int, int> GameManager::getNewLocation(Player* player, Tank* tank_to_move, Player::Action wanted_action){
+std::pair<int, int> GameManager::getNewLocation(const Tank& tank_to_move, Player::Action wanted_action){
     int dx = 0;
     int dy = 0;
-    CanonDirection dir = tank_to_move->getCanonDirection();
+    CanonDirection dir = tank_to_move.getCanonDirection();
     if(wanted_action == Player::Action::FORWARD){
         switch(dir){
             case CanonDirection::UP: dx = -1; dy = 0; break;
@@ -269,7 +256,7 @@ std::pair<int, int> GameManager::getNewLocation(Player* player, Tank* tank_to_mo
             default: break;
         }
     }
-    else if (wanted_action == Player::Action::BACKWARD && canMoveBackward(player)){
+    else if (wanted_action == Player::Action::BACKWARD && canMoveBackward(tank_to_move.getId())){
         switch(dir){
             case CanonDirection::UP: dx = 1; dy = 0; break;
             case CanonDirection::DOWN: dx = -1; dy = 0; break;
@@ -282,8 +269,8 @@ std::pair<int, int> GameManager::getNewLocation(Player* player, Tank* tank_to_mo
             default: break;
         }
     }
-    int x_location = (tank_to_move->getLocationX() + dx + height) % height;
-    int y_location = (tank_to_move->getLocationY() + dy + width) % width;
+    int x_location = (tank_to_move.getLocationX() + dx + height) % height;
+    int y_location = (tank_to_move.getLocationY() + dy + width) % width;
     return std::make_pair(x_location, y_location);
 }
 
@@ -306,28 +293,28 @@ std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_locat
         std::cout << "Tank 1 hit a mine!" << std::endl;
         output_file << "Tank 1 hit a mine!" << std::endl;
         tank1_can_move = false;
-        tank1->setAlive();
+        tank1.setAlive();
     }
     if(board.isMineLocation(tank2_location.first, tank2_location.second)){
         std::cout << "Tank 2 hit a mine!" << std::endl;
         output_file << "Tank 2 hit a mine!" << std::endl;  
         tank2_can_move = false;
-        tank2->setAlive();
+        tank2.setAlive();
     }
     // with each other
     if((tank1_location.first == tank2_location.first && tank1_location.second == tank2_location.second) || 
-        (tank1_location.first == tank2->getLocationX() && tank1_location.second == tank2->getLocationY() &&
-        tank2_location.first == tank1->getLocationX() && tank2_location.second == tank1->getLocationY())){
+        (tank1_location.first == tank2.getLocationX() && tank1_location.second == tank2.getLocationY() &&
+        tank2_location.first == tank1.getLocationX() && tank2_location.second == tank1.getLocationY())){
         std::cout << "Tank 1 and Tank 2 collided!" << std::endl;
         output_file << "Tank 1 and Tank 2 collided!" << std::endl;
         tank1_can_move = false;
         tank2_can_move = false;
-        tank1->setAlive();
-        tank2->setAlive();
+        tank1.setAlive();
+        tank2.setAlive();
     }
     // with shell
-    const std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
-    const std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
+    const std::vector<Shell *>& flying_shells1 = tank1.getFlyingShells();
+    const std::vector<Shell *>& flying_shells2 = tank2.getFlyingShells();
     int tank1_hits_counter = 0;
     int tank2_hits_counter = 0;
     for(size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
@@ -349,13 +336,13 @@ std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_locat
     }
     if (tank1_hits_counter > 0){
         tank1_can_move = false;
-        tank1->setAlive();
+        tank1.setAlive();
         std::cout << tank1_hits_counter << "shells hit tank 1" << std::endl;
         output_file << tank1_hits_counter << "shells hit tank 1" << std::endl;
     }
     if(tank2_hits_counter > 0){
         tank2_can_move = false;
-        tank2->setAlive();
+        tank2.setAlive();
         std::cout << tank2_hits_counter << "shells hit tank 2" << std::endl;
         output_file << tank2_hits_counter << "shells hit tank 2" << std::endl;
     }
@@ -366,7 +353,7 @@ std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_locat
 
 bool GameManager::isGameOver(std::ofstream& output_file) {
     // Check if either player is dead
-    if (tank1->getAlive() && tank2->getAlive()) {
+    if (tank1.getAlive() && tank2.getAlive()) {
         if(no_more_shells && counter_no_shells>=80){
             output_file << "Game over - no more shells" << std::endl;
             std::cout << "Game over - no more shells" << std::endl;
@@ -374,16 +361,16 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
         }
         return false; 
     }
-    if (!tank1->getAlive() && !tank2->getAlive()) {
+    if (!tank1.getAlive() && !tank2.getAlive()) {
         output_file << "Tie - both tanks exploded" << std::endl;
         std::cout << "Tie - both tanks exploded" << std::endl;
         return true;
     }
-    else if (!tank1->getAlive()) {
+    else if (!tank1.getAlive()) {
         output_file << "Player 2 wins!" << std::endl;
         std::cout << "Player 2 wins!" << std::endl;
         return true;
-    } else if (!tank2->getAlive()) {
+    } else if (!tank2.getAlive()) {
         output_file << "Player 1 wins!" << std::endl;
         std::cout << "Player 1 wins!" << std::endl;
         return true;
@@ -403,10 +390,10 @@ CanonDirection GameManager::rotate(CanonDirection cur_dir, int rotation) {
     return static_cast<CanonDirection>(new_dir);
 }
 
-std::pair<int, int> GameManager::getShellLocation(const Tank* const tank_to_shoot) const{
+std::pair<int, int> GameManager::getShellLocationOnCreation(const Tank& tank_to_shoot) const{
     int dx = 0;
     int dy = 0;
-    CanonDirection dir = tank_to_shoot->getCanonDirection();
+    CanonDirection dir = tank_to_shoot.getCanonDirection();
     switch(dir){
         case CanonDirection::UP: dx = -1; dy = 0; break;
         case CanonDirection::DOWN: dx = 1; dy = 0; break;
@@ -418,14 +405,14 @@ std::pair<int, int> GameManager::getShellLocation(const Tank* const tank_to_shoo
         case CanonDirection::DOWN_RIGHT: dx = 1; dy = 1; break;
         default: break;
     }
-    int x_location = (tank_to_shoot->getLocationX() + dx + height) % height;
-    int y_location = (tank_to_shoot->getLocationY() + dy + width) % width;
+    int x_location = (tank_to_shoot.getLocationX() + dx + height) % height;
+    int y_location = (tank_to_shoot.getLocationY() + dy + width) % width;
     return std::make_pair(x_location, y_location);
 }
 
 void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
-    const std::vector<Shell *>& flying_shells1 = tank1->getFlyingShells();
-    const std::vector<Shell *>& flying_shells2 = tank2->getFlyingShells();
+    const std::vector<Shell *>& flying_shells1 = tank1.getFlyingShells();
+    const std::vector<Shell *>& flying_shells2 = tank2.getFlyingShells();
     std::unordered_map<std::pair<int, int>, std::vector<Shell*>, pair_hash> shell_locations_map;
 
     for (size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
@@ -470,24 +457,24 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
         int tank1_hits_counter = 0;
         int tank2_hits_counter = 0;
         for (auto& [key, vec] : shell_locations_map){
-            if (key.first == tank1->getLocationX() && key.second == tank1->getLocationY())
+            if (key.first == tank1.getLocationX() && key.second == tank1.getLocationY())
             {
                 tank1_hits_counter++;
 
             }
-            if (key.first == tank2->getLocationX() && key.second == tank2->getLocationY())
+            if (key.first == tank2.getLocationX() && key.second == tank2.getLocationY())
             {
                 tank2_hits_counter++;
             }
             
         }  
         if (tank1_hits_counter>0){
-            tank1 ->setAlive();
+            tank1.setAlive();
             std::cout << tank1_hits_counter << " shells hit tank 1" << std::endl;
             output_file << tank1_hits_counter << " shells hit tank 1" << std::endl;
         }
         if(tank2_hits_counter>0){
-            tank2 ->setAlive();
+            tank2.setAlive();
             std::cout << tank2_hits_counter << " shells hit tank 2" << std::endl;
             output_file << tank2_hits_counter << " shells hit tank 2" << std::endl;
         }
@@ -510,10 +497,10 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
 void GameManager::deleteShells(){
     for(Shell * shell : shells_to_delete){
         if(shell->getTankID() == 1){
-           tank1->deleteShell(shell);
+           tank1.deleteShell(shell);
         }
         else{
-            tank2->deleteShell(shell);
+            tank2.deleteShell(shell);
         }    
     }
     shells_to_delete.clear();
@@ -540,9 +527,10 @@ void GameManager::updateShellNextLocation(Shell &shell){
     shell.setNextLocation(std::make_pair(x_location, y_location));
 }
 
-void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file) {
+void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file) {
+    int id = tank_to_apply.getId();
     if (action != Player::Action::BACKWARD){
-        if(player == player1 && std::get<2>(player1_backwards_info) ){
+        if(id == 1 && std::get<2>(player1_backwards_info) ){
             if (action == Player::Action::FORWARD ){
                 std::get<2>(player1_backwards_info) = false;
                 std::get<0>(player1_backwards_info) = 0;
@@ -556,7 +544,7 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
             }
             return;
         }
-        else if(player == player2 && std::get<2>(player2_backwards_info) ){
+        else if(id == 2 && std::get<2>(player2_backwards_info) ){
             if (action == Player::Action::FORWARD ){
                 std::get<2>(player2_backwards_info) = false;
                 std::get<0>(player2_backwards_info) = 0;
@@ -574,19 +562,19 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
     }
     if (action == Player::Action::FORWARD) {
         if (can_move) {
-            tank_to_aplly->setLocation(new_location.first, new_location.second);
-            output_file << "Tank" << player->getId() << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-            std::cout << "Tank" << player->getId() << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl; 
+            tank_to_apply.setLocation(new_location.first, new_location.second);
+            output_file << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
+            std::cout << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl; 
         }
     } 
     else if (action == Player::Action::BACKWARD ) {
         
-        if(canMoveBackward(player)) {
+        if(canMoveBackward(id)) {
             if (can_move) {
-                tank_to_aplly->setLocation(new_location.first, new_location.second);
-                output_file << "Tank" << player->getId() << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-                std::cout << "Tank" << player->getId() << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-                if (player == player1) {
+                tank_to_apply.setLocation(new_location.first, new_location.second);
+                output_file << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
+                std::cout << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
+                if (id == 1) {
                     std::get<0>(player1_backwards_info) = 0;
                     std::get<1>(player1_backwards_info) = true;
                     std::get<2>(player1_backwards_info) = false;
@@ -599,9 +587,9 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
         }
         else{
             // wait
-            output_file << "Tank" << player->getId() << "is waiting for backward" << std::endl;
-            std::cout << "Tank" << player->getId() << "is waiting for backward"  << std::endl;
-            if (player == player1) {
+            output_file << "Tank" << id << "is waiting for backward" << std::endl;
+            std::cout << "Tank" << id << "is waiting for backward"  << std::endl;
+            if (id == 1) {
                 std::get<2>(player1_backwards_info) = true;
                 std::get<0>(player1_backwards_info) += 1;
             } else {
@@ -612,71 +600,68 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
         
     } else if (action == Player::Action::ROTATE_025_LEFT) {
         // Rotate left logic
-        tank_to_aplly->setCanonDirection(rotate(tank_to_aplly->getCanonDirection(), -2));
-        std::cout << "Tank " << player->getId() << " rotated 1/4 left to " << tank_to_aplly->getCanonDirection() << std::endl;
-        output_file << "Tank " << player->getId() << " rotated 1/4 left to " << tank_to_aplly->getCanonDirection() << std::endl;
+        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), -2));
+        std::cout << "Tank " << id << " rotated 1/4 left to " << tank_to_apply.getCanonDirection() << std::endl;
+        output_file << "Tank " << id << " rotated 1/4 left to " << tank_to_apply.getCanonDirection() << std::endl;
 
     } else if (action == Player::Action::ROTATE_0125_RIGHT) {
         // Rotate right logic
-        tank_to_aplly->setCanonDirection(rotate(tank_to_aplly->getCanonDirection(), 1));
-        std::cout << "Tank " << player->getId() << " rotated 1/8 right to " << tank_to_aplly->getCanonDirection()<< std::endl;
-        output_file << "Tank " << player->getId() << " rotated 1/8 right to " << tank_to_aplly->getCanonDirection()<< std::endl;
+        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), 1));
+        std::cout << "Tank " << id << " rotated 1/8 right to " << tank_to_apply.getCanonDirection()<< std::endl;
+        output_file << "Tank " << id << " rotated 1/8 right to " << tank_to_apply.getCanonDirection()<< std::endl;
     } else if (action == Player::Action::ROTATE_025_RIGHT) {
         // Rotate right logic
-        tank_to_aplly->setCanonDirection(rotate(tank_to_aplly->getCanonDirection(), 2));
-        std::cout << "Tank " << player->getId() << " rotated 1/4 right to " << tank_to_aplly->getCanonDirection()<< std::endl;
-        output_file << "Tank " << player->getId() << " rotated 1/4 right to " << tank_to_aplly->getCanonDirection()<< std::endl;
+        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), 2));
+        std::cout << "Tank " << id << " rotated 1/4 right to " << tank_to_apply.getCanonDirection()<< std::endl;
+        output_file << "Tank " << id << " rotated 1/4 right to " << tank_to_apply.getCanonDirection()<< std::endl;
     } else if (action == Player::Action::ROTATE_0125_LEFT) {
         // Rotate left logic
-        tank_to_aplly->setCanonDirection(rotate(tank_to_aplly->getCanonDirection(), -1));
-        std::cout << "Tank " << player->getId() << " rotated 1/8 left to " << tank_to_aplly->getCanonDirection() << std::endl;
-        output_file << "Tank " << player->getId() << " rotated 1/8 left to " << tank_to_aplly->getCanonDirection() << std::endl;
+        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), -1));
+        std::cout << "Tank " << id << " rotated 1/8 left to " << tank_to_apply.getCanonDirection() << std::endl;
+        output_file << "Tank " << id << " rotated 1/8 left to " << tank_to_apply.getCanonDirection() << std::endl;
 
 
     } else if (action == Player::Action::SHOOT) {
         // Shoot logic
         int last = -1;
-        int id = -1;
-        if (player == player1){
+        if (id == 1){
             last = player1_last_shooting;
-            id = 1;
         }
         else{
             last = player2_last_shooting;
-            id = 2;
         }
         
         if(last == -1 || turn_counter- last > 8 ){ 
-            if(tank_to_aplly->getUnusedShellsCount() > 0){
+            if(tank_to_apply.getUnusedShellsCount() > 0){
                 //shoot
-                std::pair<int, int> new_shell_location = getShellLocation(tank_to_aplly);
-                Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_aplly->getCanonDirection(), id);
+                std::pair<int, int> new_shell_location = getShellLocationOnCreation(tank_to_apply);
+                Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
                 updateShellNextLocation(*shell_to_shoot);
-                tank_to_aplly->addFlyingShell(shell_to_shoot);
-                tank_to_aplly->setUnusedShellsCount(tank_to_aplly->getUnusedShellsCount() - 1);
-                std::cout << "Tank " << player->getId() << " shoot shell"  << std::endl;
-                output_file << "Tank " << player->getId() << " shoot shell"  << std::endl;
-                if (player == player1) {
+                tank_to_apply.addFlyingShell(shell_to_shoot);
+                tank_to_apply.setUnusedShellsCount(tank_to_apply.getUnusedShellsCount() - 1);
+                std::cout << "Tank " << id << " shoot shell"  << std::endl;
+                output_file << "Tank " << id << " shoot shell"  << std::endl;
+                if (id == 1) {
                     player1_last_shooting = turn_counter;
                 } else {
                     player2_last_shooting = turn_counter;
                 }
             }
             else{
-                std::cout << "Tank " << player->getId() << " has no more shells to shoot"  << std::endl;
-                output_file << "Tank " << player->getId() << " has no more shells to shoot"  << std::endl;
+                std::cout << "Tank " << id << " has no more shells to shoot"  << std::endl;
+                output_file << "Tank " << id << " has no more shells to shoot"  << std::endl;
             }
         }
         else{
-            std::cout << "Tank " << player->getId() << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
-            output_file<< "Tank " << player->getId() << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
+            std::cout << "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
+            output_file<< "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
         }
 
     }
 
     // if last action wasn't backward set boolean to false
     if (action != Player::Action::BACKWARD) {
-        if (player == player1) {
+        if (id == 1) {
             std::get<1>(player1_backwards_info) = false;
         } else {
             std::get<1>(player2_backwards_info) = false;
@@ -687,71 +672,6 @@ void GameManager::applyAction(Player* player, Tank* tank_to_aplly, Player::Actio
 }
 
 
-void GameManager::runGame(){
-    //prepareGame();
-    // create and open output file
-    std::ofstream output_file;
-    output_file.open(path_output_file, std::ios::out);
-    if(!output_file.is_open()){
-        std::cerr << "Error opening output file: " << path_output_file << std::endl;
-        return;
-    }
 
-    // Main loop
-    while (!isGameOver(output_file)) {
-        // Both players and shells should move
-        if(turn_counter%2 == 0){
-            MoveShells(true, output_file);
-            Player::Action action1 = player1->getAction(board, *tank1, *tank2, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
-            std::pair<int, int> new_tank1_Location = getNewLocation(player1, tank1, action1);
-            Player::Action action2 = player2->getAction(board, *tank2, *tank1, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
-            std::pair<int, int> new_tank2_Location = getNewLocation(player2, tank2, action2);
-            // check collision should check if a tank wants to move to a new shell location or to a new next shell location
-            std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
-            deleteShells();
-            // Move tanks
-            applyAction(player1, tank1, action1, can_move.first, new_tank1_Location, output_file);
-            applyAction(player2, tank2 ,action2, can_move.second, new_tank2_Location, output_file);
-        }
-        //Only Shells move
-        else{
-            MoveShells(false, output_file);
-            deleteShells();
-        }
-        
-        if(tank1->getUnusedShellsCount()==0 && tank2->getUnusedShellsCount()==0){
-            no_more_shells = true;
-            counter_no_shells++;
-            std::cout << "Both tanks have no more shells, counting 40 turns to finish"<< std::endl;
-            output_file<< "Both tanks have no more shells, counting 40 turns to finish"<<  std::endl;
-            std::cout << "counter is "<< counter_no_shells << std::endl;
 
-        }
-        turn_counter++;
-    }
-    finishGame();
-}
 
-void GameManager::printBoard(){
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            GameObject* obj = board.getGameObjectAt(i, j);
-            if (dynamic_cast<Wall*>(obj)) {
-                std::cout << "#";
-            } else if (dynamic_cast<Mine*>(obj)) {
-                std::cout << "@";
-            } else {
-                std::cout << " ";
-            }
-        }
-        std::cout << std::endl;
-    }
-}
-
-GameManager::~GameManager() {
-    // Clean up resources
-    delete player1;
-    delete player2;
-    //delete tank1;
-    //delete tank2;
-}

@@ -16,7 +16,7 @@
                 "src/*.cpp",
                 "src/game_objects/*.cpp",
                 "-o",
-                "main.exe"
+                "tank_game.exe"
             ],
             "group": "build",
             "problemMatcher": [

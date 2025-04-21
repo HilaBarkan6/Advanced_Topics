@@ -4,10 +4,8 @@
 
 class SimplePlayer : public Player {
     public:
-        SimplePlayer(int id) : Player(id) {};
-        virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2, const bool allow_shoot) override;
-    
-        
+        SimplePlayer() : Player() {};
+        virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2, const bool allow_shoot) override;      
 };
 
 

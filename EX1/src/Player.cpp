@@ -1,13 +1,6 @@
 #include "Player.h"
 #include <cmath>
 
-Player::Player(int id) : id(id) {}
-
-
-int Player::getId() const {
-    return id;
-}
-
 int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& op_tank, int x_to_check, int y_to_check) const{
     int x = x_to_check;
     int y = y_to_check;
@@ -21,14 +14,20 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
     int min_distance = INT_MAX;
     for(Shell * shell : all_shells){
         std::pair<int,int> shell_prev_location = shell->getPrevLocation();
-        //bad move - move into a shell
-        if(shell_prev_location.first == x_to_check && shell_prev_location.second == y_to_check ){
+        /* Player shouldn't move into shell_prev_location, since shells fly twice as fast as player and shells are moved before (according to Amir's recommendation in the forum)
+         * Example for a tank turn:
+         * Shell moves from [0,0] to [0,2]
+         * Player considers to move from [1,1] to [0,1]
+         * new shell location after this move should be [0,2], but there is a collision in [1,1], so this is a bad move and should be avoided */
+        if(shell_prev_location.first == x && shell_prev_location.second == y){
             return 0;
         }
         std::pair<int, int> shell_location = shell->getLocation();
         int sx = shell_location.first;
         int sy = shell_location.second;
         CanonDirection dir = shell->getFlyingDirection();
+        // Used ChatGpt to calculate distances, prompt was "Given the location of the shell and tank, check if according to the shell direction it can hit the tank"
+        // We also gave ChatGpt the instructions about shells movement.
         if(sx == x){
             if(sy < y && dir == CanonDirection::RIGHT){
                 if(clearPath(board, sx, sy, x, y)){
@@ -82,6 +81,7 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
 }
 
 bool Player::clearPath(const Board& board, int sx, int sy, int tx, int ty) const {
+    // As part of the prompt of shellIsComming, ChatGpt also suggested this function
     int dx = tx - sx;
     int dy = ty - sy;
 
@@ -114,15 +114,13 @@ bool Player::clearPath(const Board& board, int sx, int sy, int tx, int ty) const
         }
         return true;
     }
-
     return false;
 }
 
 bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const int x, const int y, const CanonDirection dir) const {
     int ox = op_tank.getLocationX();
     int oy = op_tank.getLocationY();
-
-    
+  
     if(dir == CanonDirection::UP && x > ox && y == oy){
         for(int i = ox + 1; i< x; i++){
             if(board.isWallLocation(i, oy)){
@@ -153,10 +151,8 @@ bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const
                 return false;
             }
         }
-        return true;
-        
+        return true;   
     }
-   
     else if(dir == CanonDirection::UP_RIGHT && x > ox && y < oy && x - ox == oy - y){
         for(int i = ox + 1, j = oy - 1; i< x && j> y; i++, j--){
             if(board.isWallLocation(i, j)){
@@ -191,7 +187,6 @@ bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const
     }
     return false;
 }
-
 
 bool Player::canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank) const{
     int shell_comming_turn_count = shellIsComming(board, my_tank, op_tank, x, y);

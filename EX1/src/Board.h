@@ -12,12 +12,12 @@ class Board{
     private:
         int rows;
         int columns;
-        std::vector<std::vector<GameObject*>> board; // 2D vector of GameObject pointers
+        std::vector<std::vector<GameObject*>> board;
 
     public:
         Board(int rows, int columns);
         Board(){};
-        ~Board(); // Destructor to clean up dynamically allocated memory
+        ~Board();
 
         int getRows() const;
         int getColumns() const;

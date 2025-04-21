@@ -4,11 +4,8 @@
 
 class DefensivePlayer : public Player {
     public:
-        DefensivePlayer(int id) : Player(id) {};
-        virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2, const bool allow_shoot) override;
-
-          
+        DefensivePlayer() : Player() {};
+        virtual Action getAction(const Board& board, const Tank& tank1, const Tank& tank2, const bool allow_shoot) override;        
 };
-
 
 #endif

@@ -66,7 +66,7 @@ void Tank::deleteShell(Shell * shell) {
     auto it = std::find(flying_shells.begin(), flying_shells.end(), shell);
     if (it != flying_shells.end()) {
         flying_shells.erase(it);
-        delete shell; // Clean up the dynamically allocated Shell object
+        delete shell;
     }
 }
 

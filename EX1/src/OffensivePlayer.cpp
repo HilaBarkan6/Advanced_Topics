@@ -2,7 +2,6 @@
 #include <iostream>
 
 Player::Action OffensivePlayer::getAction(const Board& board, const Tank& my_tank, const Tank& op_tank, const bool allow_shoot){
-
     int x = my_tank.getLocationX();
     int y = my_tank.getLocationY(); 
     int shells_comming_count = shellIsComming(board, my_tank, op_tank, x, y);
@@ -11,7 +10,6 @@ Player::Action OffensivePlayer::getAction(const Board& board, const Tank& my_tan
         return defensiveMove(board, my_tank, op_tank);
     }
     return offensiveMove(board, my_tank, op_tank, allow_shoot);
-
 }
 
 Player::Action OffensivePlayer::defensiveMove(const Board& board, const Tank& my_tank, const Tank& op_tank){
@@ -39,10 +37,12 @@ Player::Action OffensivePlayer::defensiveMove(const Board& board, const Tank& my
         return Player::Action::BACKWARD;
     }
     return Player::Action::ROTATE_025_LEFT;
-
 }
 
 Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my_tank, const Tank& op_tank, const bool allow_shoot){
+    // Used ChatGpt to write the skeleton of this function, prompt was "Write a BFS algorithm to find the opponent's tank and prioritize shooting when possible".
+    // afterwards we wrote another prompt "Only find the first action to preform"
+    // we gave ChatGpt the instructions for a reasonable algorithm 
     visited.clear();
     q = std::queue<QueueNode>();
     int height = board.getRows();
@@ -67,7 +67,7 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
             return current.depth==0 && allow_shoot ? Player::Action::SHOOT : current.firstAction;
         }
 
-        //Moving forward options
+        // Moving forward options
         int new_x = current_x;
         int new_y = current_y;
         switch(current_dir){
@@ -106,8 +106,7 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
                 Player::Action act = current.depth == 0 ? rotationType : current.firstAction;
                 q.push(QueueNode{new_state, act, current.depth + 1});
             }
-        }
-        
+        }  
     }
     return Player::Action::BACKWARD;
 }

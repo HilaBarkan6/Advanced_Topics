@@ -10,11 +10,12 @@ Player::Action DefensivePlayer::getAction(const Board& board, const Tank& my_tan
     int dy = 0;
     CanonDirection dir = my_tank.getCanonDirection();
 
+    // If can shoot, prioritize shooting
     if(allow_shoot && canShootFromLocation(board, op_tank, x, y, dir)){
         return Player::Action::SHOOT;
     }
 
-    // if(shellIsComming(board, my_tank, op_tank, x, y)!=-1){
+    // Otherwise, try to move to a good place and if not possible, rotate, so maybe in the next turn escaping will be possible.
     switch(dir){
         case CanonDirection::UP: dx = -1; dy = 0; break;
         case CanonDirection::DOWN: dx = 1; dy = 0; break;
@@ -39,12 +40,6 @@ Player::Action DefensivePlayer::getAction(const Board& board, const Tank& my_tan
     else if(canMove(board, new_x_b, new_y_b, op_tank, my_tank)){
         return Player::Action::BACKWARD;
     }
-    //else{
     return Player::Action::ROTATE_025_LEFT;
-    //}
-    
-    // }
-    // return Player::Action::FORWARD;
-
 }
 

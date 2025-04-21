@@ -29,9 +29,12 @@ class GameManager
 
         std::unique_ptr<Player> player1;
         std::unique_ptr<Player> player2;
-
-        // Used to check if player can move backward according to the rules, 
-        // first - counter since requesting backward, second - if player is waiting for backward move, third - if last action preformed is backward movement.
+ 
+        /* Used to check if player can move backward according to the rules
+         * first - counter since requesting backward
+         * second - if last action preformed is backward movement
+         * third - if player is waiting for backward move.
+         * Used ChatGpt to create and use the tuples. prompt was - "How to store 3 variable with different types in a data structure." */
         std::tuple<int, bool, bool> player1_backwards_info;
         std::tuple<int, bool, bool> player2_backwards_info;
 
@@ -57,7 +60,7 @@ class GameManager
         void updateShellNextLocation(Shell &shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
         std::pair<int, int> getNewLocation(const Tank& tank_to_move, Player::Action wanted_action);
-        // Given the tanks new wanted location, checks collisions between all relevant objects.
+        // Given the tanks new wanted locations, checks collisions between all relevant objects.
         std::pair<bool,bool> checkCollisions(std::pair<int,int> tank1_new_location, std::pair<int,int> tank2_new_location, std::ofstream& output_file);
         void applyAction(Tank& tank_to_apply, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file);
         bool canMoveBackward(int player_id) const;

@@ -223,7 +223,7 @@ void GameManager::runGame(){
             std::cout << "Both tanks have no more shells, counting 40 turns to finish"<< std::endl;
             output_file<< "Both tanks have no more shells, counting 40 turns to finish"<<  std::endl;
             std::cout << "counter is "<< counter_no_shells << std::endl;
-
+            output_file << "counter is "<< counter_no_shells << std::endl;
         }
         turn_counter++;
     }
@@ -620,8 +620,8 @@ void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool c
             }
         }
         else{
-            std::cout << "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
-            output_file<< "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - turn_counter - last)/2 << " more turns"<< std::endl;
+            std::cout << "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - (turn_counter - last))/2 << " more turns"<< std::endl;
+            output_file<< "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - (turn_counter - last))/2 << " more turns"<< std::endl;
         }
     }
 

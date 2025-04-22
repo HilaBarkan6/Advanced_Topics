@@ -1,0 +1,407 @@
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Tank 1 shoot shell, created in location [1, 4]
+Tank 2 shoot shell, created in location [1, 1]
+Both tanks have no more shells, counting 40 turns to finish
+counter is 1
+Both tanks have no more shells, counting 40 turns to finish
+counter is 2
+shells collided at location [1, 2]
+Tank 1 is not ready to shoot, needs to wait 3 more turns
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+Both tanks have no more shells, counting 40 turns to finish
+counter is 3
+Both tanks have no more shells, counting 40 turns to finish
+counter is 4
+Tank 1 is not ready to shoot, needs to wait 2 more turns
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Both tanks have no more shells, counting 40 turns to finish
+counter is 5
+Both tanks have no more shells, counting 40 turns to finish
+counter is 6
+Tank 1 is not ready to shoot, needs to wait 1 more turns
+Tank 2 is not ready to shoot, needs to wait 1 more turns
+Both tanks have no more shells, counting 40 turns to finish
+counter is 7
+Both tanks have no more shells, counting 40 turns to finish
+counter is 8
+Tank 1 is not ready to shoot, needs to wait 0 more turns
+Tank 2 is not ready to shoot, needs to wait 0 more turns
+Both tanks have no more shells, counting 40 turns to finish
+counter is 9
+Both tanks have no more shells, counting 40 turns to finish
+counter is 10
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 11
+Both tanks have no more shells, counting 40 turns to finish
+counter is 12
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 13
+Both tanks have no more shells, counting 40 turns to finish
+counter is 14
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 15
+Both tanks have no more shells, counting 40 turns to finish
+counter is 16
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 17
+Both tanks have no more shells, counting 40 turns to finish
+counter is 18
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 19
+Both tanks have no more shells, counting 40 turns to finish
+counter is 20
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 21
+Both tanks have no more shells, counting 40 turns to finish
+counter is 22
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 23
+Both tanks have no more shells, counting 40 turns to finish
+counter is 24
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 25
+Both tanks have no more shells, counting 40 turns to finish
+counter is 26
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 27
+Both tanks have no more shells, counting 40 turns to finish
+counter is 28
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 29
+Both tanks have no more shells, counting 40 turns to finish
+counter is 30
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 31
+Both tanks have no more shells, counting 40 turns to finish
+counter is 32
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 33
+Both tanks have no more shells, counting 40 turns to finish
+counter is 34
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 35
+Both tanks have no more shells, counting 40 turns to finish
+counter is 36
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 37
+Both tanks have no more shells, counting 40 turns to finish
+counter is 38
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 39
+Both tanks have no more shells, counting 40 turns to finish
+counter is 40
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 41
+Both tanks have no more shells, counting 40 turns to finish
+counter is 42
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 43
+Both tanks have no more shells, counting 40 turns to finish
+counter is 44
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 45
+Both tanks have no more shells, counting 40 turns to finish
+counter is 46
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 47
+Both tanks have no more shells, counting 40 turns to finish
+counter is 48
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 49
+Both tanks have no more shells, counting 40 turns to finish
+counter is 50
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 51
+Both tanks have no more shells, counting 40 turns to finish
+counter is 52
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 53
+Both tanks have no more shells, counting 40 turns to finish
+counter is 54
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 55
+Both tanks have no more shells, counting 40 turns to finish
+counter is 56
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 57
+Both tanks have no more shells, counting 40 turns to finish
+counter is 58
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 59
+Both tanks have no more shells, counting 40 turns to finish
+counter is 60
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 61
+Both tanks have no more shells, counting 40 turns to finish
+counter is 62
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 63
+Both tanks have no more shells, counting 40 turns to finish
+counter is 64
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 65
+Both tanks have no more shells, counting 40 turns to finish
+counter is 66
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 67
+Both tanks have no more shells, counting 40 turns to finish
+counter is 68
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 69
+Both tanks have no more shells, counting 40 turns to finish
+counter is 70
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 71
+Both tanks have no more shells, counting 40 turns to finish
+counter is 72
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 73
+Both tanks have no more shells, counting 40 turns to finish
+counter is 74
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 75
+Both tanks have no more shells, counting 40 turns to finish
+counter is 76
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 77
+Both tanks have no more shells, counting 40 turns to finish
+counter is 78
+Tank 1 has no more shells to shoot
+Tank 2 has no more shells to shoot
+Both tanks have no more shells, counting 40 turns to finish
+counter is 79
+Both tanks have no more shells, counting 40 turns to finish
+counter is 80
+Game over - no more shells

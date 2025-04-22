@@ -12,11 +12,11 @@
                 "-Werror",
                 "-pedantic",
                 "-g",
-                "main.cpp",
+                "tests.cpp",
                 "src/*.cpp",
                 "src/game_objects/*.cpp",
                 "-o",
-                "tank_game.exe"
+                "tank_game_tests.exe"
             ],
             "group": "build",
             "problemMatcher": [

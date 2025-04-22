@@ -1,0 +1,11 @@
+Tank1moved to [2, 0]
+Tank2moved to [1, 1]
+Tank1moved to [2, 5]
+Tank2moved to [1, 2]
+Tank1moved to [2, 4]
+Tank2moved to [1, 3]
+Tank1moved to [2, 3]
+Tank2moved to [1, 4]
+Tank 2 hit a mine!
+Tank1moved to [2, 2]
+Player 1 wins!

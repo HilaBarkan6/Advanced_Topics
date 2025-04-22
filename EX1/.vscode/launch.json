@@ -5,7 +5,7 @@
         "name": "Run main.exe",
         "type": "cppdbg",  // use "cppdbg" for WSL or MinGW GDB
         "request": "launch",
-        "program": "${workspaceFolder}/tank_game.exe",
+        "program": "${workspaceFolder}/tank_game_tests.exe",
         "args": ["C:/Projects/Advanced_Topics/EX1/input/input1.txt"],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",

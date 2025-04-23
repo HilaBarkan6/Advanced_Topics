@@ -34,8 +34,9 @@ class Player
         // Check if a tank in location [x,y] can shoot the op_tank with his current direction without hitting a wall.
         bool canShootFromLocation(const Board& board, const Tank& op_tank, const int x, const int y, const CanonDirection dir) const;
 
-        // Check if tank can move to loction [x,y] without hitting wall or mine, the op_tank or getting hit by a close shell.
-        bool canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank) const;
+        // Check if tank can move to loction [x,y] without hitting wall or mine or the op_tank, 
+        // and that there are no shells with distance from new location that is less then wanted_distance.
+        bool canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank, int wanted_distance_from_shell) const;
 };
 
 #endif

@@ -4,6 +4,8 @@
 int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& op_tank, int x_to_check, int y_to_check) const{
     int x = x_to_check;
     int y = y_to_check;
+    int width = board.getColumns();
+    //int height = board.getRows();
     
     const std::vector<Shell *>& flying_shells1 = op_tank.getFlyingShells();
     const std::vector<Shell *>& flying_shells2 = my_tank.getFlyingShells();
@@ -29,11 +31,19 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
         // Used ChatGpt to calculate distances, prompt was "Given the location of the shell and tank, check if according to the shell direction it can hit the tank"
         // We also gave ChatGpt the instructions about shells movement.
         if(sx == x){
-            if(sy < y && dir == CanonDirection::RIGHT){
-                if(clearPath(board, sx, sy, x, y)){
-                    min_distance = std::min(min_distance, abs(y-sy));
+            if(dir == CanonDirection::RIGHT){
+                if(sy < y){
+                    if(clearPath(board, sx, sy, x, y)){
+                        min_distance = std::min(min_distance, abs(y-sy));
+                    }
+                }
+                else{
+                    if(clearPath(board, sx, sy, x, y)){
+                        min_distance = std::min(min_distance, width - abs(y-sy));
+                    } 
                 }
             }
+            
             if(sy > y && dir == CanonDirection::LEFT){
                 if(clearPath(board, sx, sy, x, y)){
                     min_distance = std::min(min_distance, abs(y-sy));
@@ -70,9 +80,16 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
                     min_distance = std::min(min_distance, abs(x-sx));
                 }
             }
-            if(dx > 0 && dy > 0 && dir == CanonDirection::DOWN_RIGHT){
-                if(clearPath(board, sx, sy, x, y)){
-                    min_distance = std::min(min_distance, abs(x-sx));
+            if(dir == CanonDirection::DOWN_RIGHT){
+                if(dx > 0 && dy > 0 ){
+                    if(clearPath(board, sx, sy, x, y)){
+                        min_distance = std::min(min_distance, abs(x-sx));
+                    }
+                }
+                else if(dx < 0 && dy < 0){
+                    if(clearPath(board, sx, sy, x, y)){
+                        min_distance = std::min(min_distance, width - abs(x-sx));
+                    } 
                 }
             }
         }
@@ -188,10 +205,10 @@ bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const
     return false;
 }
 
-bool Player::canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank) const{
+bool Player::canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank, int wanted_distance_from_shell) const{
     int shell_comming_turn_count = shellIsComming(board, my_tank, op_tank, x, y);
     return !board.isWallLocation(x, y) &&
      !board.isMineLocation(x, y) && 
      (op_tank.getLocationX() != x && op_tank.getLocationY() != y) &&
-     (shell_comming_turn_count>2 || shell_comming_turn_count == -1) ;
+     (shell_comming_turn_count>wanted_distance_from_shell || shell_comming_turn_count == -1) ;
 }

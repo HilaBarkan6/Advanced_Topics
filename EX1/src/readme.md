@@ -20,3 +20,7 @@ Implement more types of Players -
     New players should inherit from abstract "Player" class and implement "getAction" function.
     To use them, include them in the main file, create instance and send them to GameManager as unique_ptr.
 
+Notes - 
+    We assume board and players were designed to create a reasonable game that should be finished.
+    If the game designed to not finish, we allow it. For example - if both players stays in place and just rotating, the game will run forever.
+    Game can be finished only by the conditions described in the assignment.

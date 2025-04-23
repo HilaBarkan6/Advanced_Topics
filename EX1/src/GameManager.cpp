@@ -492,6 +492,9 @@ std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_locat
 }
 
 void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file) {
+    if(!tank_to_apply.getAlive()){
+        return;
+    }
     int id = tank_to_apply.getId();
 
     if (action != Player::Action::BACKWARD){

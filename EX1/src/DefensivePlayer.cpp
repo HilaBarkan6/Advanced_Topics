@@ -34,10 +34,10 @@ Player::Action DefensivePlayer::getAction(const Board& board, const Tank& my_tan
     int new_y_b = (y-dy + width) % width;
 
     
-    if(canMove(board, new_x_f,  new_y_f, op_tank, my_tank)){
+    if(canMove(board, new_x_f,  new_y_f, op_tank, my_tank, 2)){
         return Player::Action::FORWARD;
     }
-    else if(canMove(board, new_x_b, new_y_b, op_tank, my_tank)){
+    else if(canMove(board, new_x_b, new_y_b, op_tank, my_tank, 6)){
         return Player::Action::BACKWARD;
     }
     return Player::Action::ROTATE_025_LEFT;

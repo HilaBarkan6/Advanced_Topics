@@ -5,3 +5,4 @@ Input 5 - player 1 shoot and player 2 do nothing, shell should hit player 2, pla
 Input 6 - player 1 move forward and hitting the wall, player 2 shoot, wall should be destoried after 2 hits and player 1 should move until shell hits him
 Input 7 - player 2 is offensive and player 1 just rotating, player 2 should move until it can shoot from digonal and win 
 Input 1 - both players stays in place (just rotating), game should run forever
+Input 8 - player1 is defensive player2 is offensive. player2 fails to shoot at 1 and game runs forever.

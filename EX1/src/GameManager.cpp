@@ -533,8 +533,8 @@ void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool c
     if (action == Player::Action::FORWARD) {
         if (can_move) {
             tank_to_apply.setLocation(new_location.first, new_location.second);
-            output_file << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-            std::cout << "Tank" << id << "moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl; 
+            output_file << "Tank" << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
+            std::cout << "Tank" << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl; 
         }
     } 
 
@@ -613,8 +613,19 @@ void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool c
                 output_file << "Tank " << id << " shoot shell, created in location [" << new_shell_location.first << ", " << new_shell_location.second <<"]"  << std::endl;
                 if (id == 1) {
                     player1_last_shooting = turn_counter;
+                    //if tank 2 is on the same location as the shell creation location. tank 2 is dead
+                    if(tank2.getLocationX() == new_shell_location.first && tank2.getLocationY() == new_shell_location.first){
+                        std::cout << "Shell was created on tank 2!"<< std::endl;
+                        output_file << "Shell was created on tank 2!" << std::endl;
+                        tank2.setAlive();
+                    }
                 } else {
                     player2_last_shooting = turn_counter;
+                    if(tank1.getLocationX() == new_shell_location.first && tank1.getLocationY() == new_shell_location.second){
+                        std::cout << "Shell was created on tank 1!"<< std::endl;
+                        output_file << "Shell was created on tank 1!" << std::endl;
+                        tank1.setAlive();
+                    }
                 }
             }
             else{

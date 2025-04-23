@@ -1,0 +1,9 @@
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/4 right to DOWN
+Tank 1 is waiting for backward
+Tank 2 shoot shell, created in location [5, 3]
+Action is ignored for tank 1, still waiting to move backwards
+Tank 2 is not ready to shoot, needs to wait 3 more turns
+1 shells hit tank 1
+Tank 2 is not ready to shoot, needs to wait 2 more turns
+Player 2 wins!

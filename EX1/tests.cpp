@@ -59,29 +59,29 @@ int main() {
         // GameManager gm7(std::move(p7_1), std::move(p7_2), input7, output7);
         // gm7.runGame();
 
-        // // Game 8
-        // std::unique_ptr<Player> p8_1(new SimplePlayer());
+        // Game 8
+        // std::unique_ptr<Player> p8_1(new DefensivePlayer());
         // std::unique_ptr<Player> p8_2(new OffensivePlayer());
         // std::string input8 = "C:/Projects/Advanced_Topics/EX1/input/input_8.txt";
         // std::string output8 = "output/output_input_8.txt";
         // GameManager gm8(std::move(p8_1), std::move(p8_2), input8, output8);
         // gm8.runGame();
 
-        // // Game 9
-        // std::unique_ptr<Player> p9_1(new DefensivePlayer());
-        // std::unique_ptr<Player> p9_2(new SecondPlayer());
-        // std::string input9 = "C:/Projects/Advanced_Topics/EX1/input/input_9.txt";
-        // std::string output9 = "output/output_input_9.txt";
-        // GameManager gm9(std::move(p9_1), std::move(p9_2), input9, output9);
-        // gm9.runGame();
+        // Game 9
+        std::unique_ptr<Player> p9_1(new DefensivePlayer());
+        std::unique_ptr<Player> p9_2(new OffensivePlayer());
+        std::string input9 = "C:/Projects/Advanced_Topics/EX1/input/input_9.txt";
+        std::string output9 = "output/output_input_9.txt";
+        GameManager gm9(std::move(p9_1), std::move(p9_2), input9, output9);
+        gm9.runGame();
 
         // Game 10
-        std::unique_ptr<Player> p10_1(new DefensivePlayer());
-        std::unique_ptr<Player> p10_2(new OffensivePlayer());
-        std::string input10 = "C:/Projects/Advanced_Topics/EX1/input/input_10.txt";
-        std::string output10 = "output/output_input_10.txt";
-        GameManager gm10(std::move(p10_1), std::move(p10_2), input10, output10);
-        gm10.runGame();
+        // std::unique_ptr<Player> p10_1(new DefensivePlayer());
+        // std::unique_ptr<Player> p10_2(new OffensivePlayer());
+        // std::string input10 = "C:/Projects/Advanced_Topics/EX1/input/input_10.txt";
+        // std::string output10 = "output/output_input_10.txt";
+        // GameManager gm10(std::move(p10_1), std::move(p10_2), input10, output10);
+        // gm10.runGame();
 
          // Game 1
         //  std::unique_ptr<Player> p1_1(new RotatingPlayer());

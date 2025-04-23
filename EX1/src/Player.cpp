@@ -5,7 +5,7 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
     int x = x_to_check;
     int y = y_to_check;
     int width = board.getColumns();
-    //int height = board.getRows();
+    int height = board.getRows();
     
     const std::vector<Shell *>& flying_shells1 = op_tank.getFlyingShells();
     const std::vector<Shell *>& flying_shells2 = my_tank.getFlyingShells();
@@ -33,182 +33,143 @@ int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& 
         if(sx == x){
             if(dir == CanonDirection::RIGHT){
                 if(sy < y){
-                    if(clearPath(board, sx, sy, x, y)){
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
                         min_distance = std::min(min_distance, abs(y-sy));
                     }
                 }
                 else{
-                    if(clearPath(board, sx, sy, x, y)){
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
                         min_distance = std::min(min_distance, width - abs(y-sy));
                     } 
                 }
             }
             
-            if(sy > y && dir == CanonDirection::LEFT){
-                if(clearPath(board, sx, sy, x, y)){
-                    min_distance = std::min(min_distance, abs(y-sy));
+            if(dir == CanonDirection::LEFT){
+                if (sy > y){
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, abs(y-sy));
+                    }
+                }
+                else{
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, width - abs(y-sy));
+                    }
                 }
             }
         }
         if(sy == y){
-            if(sx < x && dir == CanonDirection::DOWN){
-                if(clearPath(board, sx, sy, x, y)){
-                    min_distance = std::min(min_distance, abs(x-sx));
+            if(dir == CanonDirection::DOWN){
+                if(sx < x){
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, abs(x-sx));
+                    }
+                }
+                else{
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, height - abs(x-sx));
+                    }
                 }
             }
-            if(sx > x && dir == CanonDirection::UP){
-                if(clearPath(board, sx, sy, x, y)){
-                    min_distance = std::min(min_distance, abs(x-sx));
+            if(dir == CanonDirection::UP){
+                if (sx > x){
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, abs(x-sx));
+                    }
+                }
+                else{
+                    if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                        min_distance = std::min(min_distance, height - abs(x-sx));
+                    }
                 }
             }
         }
-        int dx = x-sx;
-        int dy = y-sy;
+        int dx = (x - sx + height) % height;
+        int dy = (y - sy + width) % width;
         if(abs(dx) == abs(dy)){
             if(dx < 0 && dy > 0 && dir == CanonDirection::UP_RIGHT){
-                if(clearPath(board, sx, sy, x, y)){
+                if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
                     min_distance = std::min(min_distance, abs(x-sx));
                 }
             }
             if(dx< 0 && dy < 0 && dir == CanonDirection::UP_LEFT){
-                if(clearPath(board, sx, sy, x, y)){
+                if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
                     min_distance = std::min(min_distance, abs(x-sx));
                 }
             }
             if(dx > 0 && dy < 0 && dir == CanonDirection::DOWN_LEFT){
-                if(clearPath(board, sx, sy, x, y)){
+                if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
                     min_distance = std::min(min_distance, abs(x-sx));
                 }
             }
-            if(dir == CanonDirection::DOWN_RIGHT){
-                if(dx > 0 && dy > 0 ){
-                    if(clearPath(board, sx, sy, x, y)){
-                        min_distance = std::min(min_distance, abs(x-sx));
-                    }
+            if(dx > 0 && dy > 0 && dir == CanonDirection::DOWN_RIGHT){  
+                if(clearPathFromSrcToDst(board, sx, sy, x, y, dir)){
+                    min_distance = std::min(min_distance, abs(x-sx));
                 }
-                else if(dx < 0 && dy < 0){
-                    if(clearPath(board, sx, sy, x, y)){
-                        min_distance = std::min(min_distance, width - abs(x-sx));
-                    } 
-                }
+                  
             }
         }
     }
     return min_distance==INT_MAX ? -1 : min_distance;
 }
 
-bool Player::clearPath(const Board& board, int sx, int sy, int tx, int ty) const {
-    // As part of the prompt of shellIsComming, ChatGpt also suggested this function
-    int dx = tx - sx;
-    int dy = ty - sy;
-
-    // Horizontal
-    if (dx == 0 && dy != 0) {
-        int step = (dy > 0) ? 1 : -1;
-        for (int y = sy + step; y != ty; y += step) {
-            if (board.isWallLocation(sx, y)) return false;
-        }
-        return true;
-    }
-
-    // Vertical
-    if (dy == 0 && dx != 0) {
-        int step = (dx > 0) ? 1 : -1;
-        for (int x = sx + step; x != tx; x += step) {
-            if (board.isWallLocation(x, sy)) return false;
-        }
-        return true;
-    }
-
-    // Digonal (45 degrees)
-    if (abs(dx) == abs(dy)) {
-        int stepX = (dx > 0) ? 1 : -1;
-        int stepY = (dy > 0) ? 1 : -1;
-        for (int i = 1; i < abs(dx); ++i) {
-            int x = sx + i * stepX;
-            int y = sy + i * stepY;
-            if (board.isWallLocation(x, y)) return false;
-        }
-        return true;
-    }
-    return false;
-}
-
-bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const int x, const int y, const CanonDirection dir) const {
-    int ox = op_tank.getLocationX();
-    int oy = op_tank.getLocationY();
-  
-    if(dir == CanonDirection::UP && x > ox && y == oy){
-        for(int i = ox + 1; i< x; i++){
-            if(board.isWallLocation(i, oy)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::DOWN && x < ox && y == oy){
-        for(int i = x + 1; i< ox; i++){
-            if(board.isWallLocation(i, oy)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::LEFT && x == ox && y > oy){
-        for(int i = oy + 1; i< y; i++){
-            if(board.isWallLocation(ox, i)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::RIGHT && x == ox && y < oy){
-        for(int i = y + 1; i< oy; i++){
-            if(board.isWallLocation(ox, i)){
-                return false;
-            }
-        }
-        return true;   
-    }
-    else if(dir == CanonDirection::UP_RIGHT && x > ox && y < oy && x - ox == oy - y){
-        for(int i = ox + 1, j = oy - 1; i< x && j> y; i++, j--){
-            if(board.isWallLocation(i, j)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::UP_LEFT && x > ox && y > oy && x - ox == y - oy){
-        for(int i = ox + 1, j = oy + 1; i< x && j< y; i++, j++){
-            if(board.isWallLocation(i, j)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::DOWN_LEFT && x < ox && y > oy && ox - x == y - oy){
-        for(int i = x + 1, j = oy + 1; i< ox && j< y; i++, j++){
-            if(board.isWallLocation(i, j)){
-                return false;
-            }
-        }
-        return true;
-    }
-    else if(dir == CanonDirection::DOWN_RIGHT && x < ox && y < oy && x - ox == y - oy){
-        for(int i = x + 1, j = y + 1; i< ox && j < oy; i++, j++){
-            if(board.isWallLocation(i, j)){
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
+bool Player::canShootFromLocation(const Board& board, const Tank& op_tank, const int x, const int y, const CanonDirection dir) const{
+   return clearPathFromSrcToDst(board, x, y, op_tank.getLocationX(), op_tank.getLocationY(), dir);
 }
 
 bool Player::canMove(const Board& board, int x, int y, const Tank& op_tank, const Tank& my_tank, int wanted_distance_from_shell) const{
     int shell_comming_turn_count = shellIsComming(board, my_tank, op_tank, x, y);
     return !board.isWallLocation(x, y) &&
      !board.isMineLocation(x, y) && 
-     (op_tank.getLocationX() != x && op_tank.getLocationY() != y) &&
+     (op_tank.getLocationX() != x || op_tank.getLocationY() != y) &&
      (shell_comming_turn_count>wanted_distance_from_shell || shell_comming_turn_count == -1) ;
+}
+
+bool Player::clearPathFromSrcToDst(const Board& board, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir) const{
+    int cx = src_x;
+    int cy = src_y;
+    int ox = dst_x;
+    int oy = dst_y;
+    int cols = board.getColumns();
+    int rows = board.getRows();
+    for (int steps = 0; steps < std::max(rows, cols); ++steps) {
+        if (cx == ox && cy == oy) {
+            return true;
+        }
+
+        if (board.isWallLocation(cx, cy)) {
+            return false;
+        }
+
+        switch (dir) {
+            case CanonDirection::UP:
+                cx = (cx - 1 + rows) % rows;
+                break;
+            case CanonDirection::DOWN:
+                cx = (cx + 1) % rows;
+                break;
+            case CanonDirection::LEFT:
+                cy = (cy - 1 + cols) % cols;
+                break;
+            case CanonDirection::RIGHT:
+                cy = (cy + 1) % cols;
+                break;
+            case CanonDirection::UP_RIGHT:
+                cx = (cx - 1 + rows) % rows;
+                cy = (cy + 1) % cols;
+                break;
+            case CanonDirection::UP_LEFT:
+                cx = (cx - 1 + rows) % rows;
+                cy = (cy - 1 + cols) % cols;
+                break;
+            case CanonDirection::DOWN_RIGHT:
+                cx = (cx + 1) % rows;
+                cy = (cy + 1) % cols;
+                break;
+            case CanonDirection::DOWN_LEFT:
+                cx = (cx + 1) % rows;
+                cy = (cy - 1 + cols) % cols;
+                break;
+        }
+    }
+    return false; 
 }

@@ -1,8 +1,35 @@
+Testing approch - 
+We tested the game in "end-to-end" approch, meaning each test is game, with two players and a board, 
+the test is running the game and check that the output is what should happen according to the rules.
+This method allowed us to test multiple aspects and features of the game and check functuallity all together.
+Since we didn't designed the project for unit testing, we struggled to check each functuallity alone so end-to-end tests were very usefull.
+
+The tests starts with very simple cases and evolve into more complex games, to do soWe created some players that are not reasonable,
+for example "RotatingPlayer" only stays in place and rotating, "SimplePlayer" only moves forward and "SecondPlayer" only shoot.
+
+At first, we decided to build the game part by part and run tests after each part, as soon as possible.
+We started by creating a game with no shell at all and only forward movement,
+after that we immidetly checked movement of tank, collision of them with all objects and the simple game flow.
+After that we handled backward movement and rotating.
+Inputs 1,2,3 allowed us to ensure that this very basic functuallity works fine and continue safly to handle shells.
+
+Then it was time to hanle shooting and shell movement,
+when we finished that we created Inputs 4,5,6 because we didn't have the complex players yet but we needed to make sure what we wrote works.
+
+These tests allowed us to continue working on the players, 
+after creating the defensive and offensive players we used Inputs 7,8,9,10 to ensure they work properly and to check the game complitly with all features.
+
+
+
 Input 2 - both players are moving forward towards each other, should collide and game finish with tie
 Input 3 - both players are moving forward, 1 should get to the border and jump to the other side, 2 will go over the mine and explode, 1 wins
 Input 4 - both players are shooting at each other, shell should always collide, players continue to shoot until they run out of shells and game finish with tie. make sure players wait 4 turns before shooting again
 Input 5 - player 1 shoot and player 2 do nothing, shell should hit player 2, player 1 wins
 Input 6 - player 1 move forward and hitting the wall, player 2 shoot, wall should be destoried after 2 hits and player 1 should move until shell hits him
 Input 7 - player 2 is offensive and player 1 just rotating, player 2 should move until it can shoot from digonal and win 
+Input 9 - player 2 is offensive and player 1 is defensive. tank 2 should shoot towards 1, shell will wrap around and hit him. player2 wins.
+Input 10 - player 2 is offensive and player 1 is defensive. Long game until player2 manages to shoot on player 1 and win.
+
+Games that are going to run forever (should run alone and stopped manually)
 Input 1 - both players stays in place (just rotating), game should run forever
 Input 8 - player1 is defensive player2 is offensive. player2 fails to shoot at 1 and game runs forever.

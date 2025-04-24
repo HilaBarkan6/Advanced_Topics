@@ -204,7 +204,7 @@ void GameManager::runGame(){
 
             // check collision should check if a tank wants to move to a new shell location or to a new next shell location
             std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
-            deleteShells();
+            deleteCollidedShells();
 
             // Appling action
             applyAction(tank1, action1, can_move.first, new_tank1_Location, output_file);
@@ -213,7 +213,7 @@ void GameManager::runGame(){
         //Odd turn - only Shells move
         else{
             MoveShells(false, output_file);
-            deleteShells();
+            deleteCollidedShells();
         }
         
         // Check if all shells were shooted and should start counting for finish.
@@ -701,7 +701,7 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const Tank& tank_to_
 }
 
 // Called in every game iteration to delete collided flying shells
-void GameManager::deleteShells(){
+void GameManager::deleteCollidedShells(){
     // Used ChatGpt to create and work with set. prompt was "How to create set of pointers of shells, how to add and remove from it"
     for(Shell * shell : shells_to_delete){
         if(shell->getTankID() == 1){

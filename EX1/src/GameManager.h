@@ -69,7 +69,7 @@ class GameManager
         
         // Used to delete collided shells every iteration
         std::set<Shell *> shells_to_delete;
-        void deleteShells();
+        void deleteCollidedShells();
 
     public:
         GameManager(std::unique_ptr<Player> player1, std::unique_ptr<Player> player2, const std::string& pathInputFile, const std::string& pathOutputFile);

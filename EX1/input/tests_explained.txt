@@ -4,10 +4,10 @@ the test is running the game and check that the output is what should happen acc
 This method allowed us to test multiple aspects and features of the game and check functuallity all together.
 Since we didn't designed the project for unit testing, we struggled to check each functuallity alone so end-to-end tests were very usefull.
 
-The tests starts with very simple cases and evolve into more complex games, to do soWe created some players that are not reasonable,
+The tests starts with very simple cases and evolve into more complex games, to do so we created some players that are not reasonable,
 for example "RotatingPlayer" only stays in place and rotating, "SimplePlayer" only moves forward and "SecondPlayer" only shoot.
 
-At first, we decided to build the game part by part and run tests after each part, as soon as possible.
+We decided to build the game part by part and run tests after each part, as soon as possible.
 We started by creating a game with no shell at all and only forward movement,
 after that we immidetly checked movement of tank, collision of them with all objects and the simple game flow.
 After that we handled backward movement and rotating.
@@ -19,7 +19,9 @@ when we finished that we created Inputs 4,5,6 because we didn't have the complex
 These tests allowed us to continue working on the players, 
 after creating the defensive and offensive players we used Inputs 7,8,9,10 to ensure they work properly and to check the game complitly with all features.
 
+In the file test.cpp there is a code that create a game from each input and run it.
 
+Explaination for each test input:
 
 Input 2 - both players are moving forward towards each other, should collide and game finish with tie
 Input 3 - both players are moving forward, 1 should get to the border and jump to the other side, 2 will go over the mine and explode, 1 wins

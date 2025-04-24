@@ -11,7 +11,7 @@
 int main() {
     try {
         
-        // Game 2
+        // //Game 2
         // std::unique_ptr<Player> p2_1(new SimplePlayer());
         // std::unique_ptr<Player> p2_2(new SimplePlayer());
         // std::string input2 = "C:/Projects/Advanced_Topics/EX1/input/input_2.txt";
@@ -67,21 +67,29 @@ int main() {
         // GameManager gm8(std::move(p8_1), std::move(p8_2), input8, output8);
         // gm8.runGame();
 
-        // Game 9
-        std::unique_ptr<Player> p9_1(new DefensivePlayer());
-        std::unique_ptr<Player> p9_2(new OffensivePlayer());
-        std::string input9 = "C:/Projects/Advanced_Topics/EX1/input/input_9.txt";
-        std::string output9 = "output/output_input_9.txt";
-        GameManager gm9(std::move(p9_1), std::move(p9_2), input9, output9);
-        gm9.runGame();
+        // // Game 9
+        // std::unique_ptr<Player> p9_1(new DefensivePlayer());
+        // std::unique_ptr<Player> p9_2(new OffensivePlayer());
+        // std::string input9 = "C:/Projects/Advanced_Topics/EX1/input/input_9.txt";
+        // std::string output9 = "output/output_input_9.txt";
+        // GameManager gm9(std::move(p9_1), std::move(p9_2), input9, output9);
+        // gm9.runGame();
 
-        // Game 10
+        // // Game 10
         // std::unique_ptr<Player> p10_1(new DefensivePlayer());
         // std::unique_ptr<Player> p10_2(new OffensivePlayer());
         // std::string input10 = "C:/Projects/Advanced_Topics/EX1/input/input_10.txt";
         // std::string output10 = "output/output_input_10.txt";
         // GameManager gm10(std::move(p10_1), std::move(p10_2), input10, output10);
         // gm10.runGame();
+
+        // Game 11
+        std::unique_ptr<Player> p11_1(new DefensivePlayer());
+        std::unique_ptr<Player> p11_2(new OffensivePlayer());
+        std::string input11 = "C:/Projects/Advanced_Topics/EX1/input/input_11.txt";
+        std::string output11 = "output/output_input_11.txt";
+        GameManager gm11(std::move(p11_1), std::move(p11_2), input11, output11);
+        gm11.runGame();
 
          // Game 1
         //  std::unique_ptr<Player> p1_1(new RotatingPlayer());

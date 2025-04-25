@@ -1,6 +1,4 @@
 #include "src/GameManager.h"
-#include "src/SimplePlayer.h"
-#include "src/SecondPlayer.h"
 #include "src/DefensivePlayer.h"
 #include "src/OffensivePlayer.h"
 #include <iostream>

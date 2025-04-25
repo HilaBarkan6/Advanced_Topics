@@ -16,10 +16,12 @@ Turn is 5
 Odd turn - only flying shells move.
 Turn is 6
 Tank 1 is waiting for backward
+Tank 2 is doing nothing this turn
 Turn is 7
 Odd turn - only flying shells move.
 Turn is 8
 Tank 1 is waiting for backward
+Tank 2 is doing nothing this turn
 Turn is 9
 Odd turn - only flying shells move.
 Turn is 10

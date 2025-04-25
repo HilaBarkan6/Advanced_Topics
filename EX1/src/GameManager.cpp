@@ -501,6 +501,12 @@ void GameManager::applyAction(Tank& tank_to_apply, Player::Action action, bool c
     }
     int id = tank_to_apply.getId();
 
+    // Might happen only in very specific edge case, we asked Amir about this in the moodle forum and he approved.
+    if(action == Player::Action::NOTHING){
+        output_file << "Tank " << id <<  " is doing nothing this turn" << std::endl;
+        std::cout << "Tank " << id <<  " is doing nothing this turn" << std::endl;
+    }
+
     if (action != Player::Action::BACKWARD){
         /* Check if player requested forward while waiting for backward movement, if so, cancel backward waiting.
          * Backward info is: first - counter since requesting backward, 

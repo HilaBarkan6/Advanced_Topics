@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <cmath>
+#include <climits>
 
 int Player::shellIsComming(const Board& board, const Tank& my_tank, const Tank& op_tank, int x_to_check, int y_to_check) const{
     int x = x_to_check;

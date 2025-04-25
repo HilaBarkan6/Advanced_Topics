@@ -1,407 +1,752 @@
+Turn is 0
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 1
+Odd turn - only flying shells move.
+Turn is 2
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 3
+Odd turn - only flying shells move.
+Turn is 4
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 5
+Odd turn - only flying shells move.
+Turn is 6
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 7
+Odd turn - only flying shells move.
+Turn is 8
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 9
+Odd turn - only flying shells move.
+Turn is 10
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 11
+Odd turn - only flying shells move.
+Turn is 12
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 13
+Odd turn - only flying shells move.
+Turn is 14
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 15
+Odd turn - only flying shells move.
+Turn is 16
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 17
+Odd turn - only flying shells move.
+Turn is 18
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 19
+Odd turn - only flying shells move.
+Turn is 20
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 21
+Odd turn - only flying shells move.
+Turn is 22
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 23
+Odd turn - only flying shells move.
+Turn is 24
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 25
+Odd turn - only flying shells move.
+Turn is 26
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 27
+Odd turn - only flying shells move.
+Turn is 28
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 29
+Odd turn - only flying shells move.
+Turn is 30
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 31
+Odd turn - only flying shells move.
+Turn is 32
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 33
+Odd turn - only flying shells move.
+Turn is 34
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 35
+Odd turn - only flying shells move.
+Turn is 36
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 37
+Odd turn - only flying shells move.
+Turn is 38
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 39
+Odd turn - only flying shells move.
+Turn is 40
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 41
+Odd turn - only flying shells move.
+Turn is 42
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 43
+Odd turn - only flying shells move.
+Turn is 44
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 45
+Odd turn - only flying shells move.
+Turn is 46
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 47
+Odd turn - only flying shells move.
+Turn is 48
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 49
+Odd turn - only flying shells move.
+Turn is 50
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 51
+Odd turn - only flying shells move.
+Turn is 52
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 53
+Odd turn - only flying shells move.
+Turn is 54
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 55
+Odd turn - only flying shells move.
+Turn is 56
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 57
+Odd turn - only flying shells move.
+Turn is 58
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 59
+Odd turn - only flying shells move.
+Turn is 60
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 61
+Odd turn - only flying shells move.
+Turn is 62
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 63
+Odd turn - only flying shells move.
+Turn is 64
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 65
+Odd turn - only flying shells move.
+Turn is 66
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 67
+Odd turn - only flying shells move.
+Turn is 68
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 69
+Odd turn - only flying shells move.
+Turn is 70
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 71
+Odd turn - only flying shells move.
+Turn is 72
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 73
+Odd turn - only flying shells move.
+Turn is 74
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 75
+Odd turn - only flying shells move.
+Turn is 76
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 77
+Odd turn - only flying shells move.
+Turn is 78
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 79
+Odd turn - only flying shells move.
+Turn is 80
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 81
+Odd turn - only flying shells move.
+Turn is 82
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 83
+Odd turn - only flying shells move.
+Turn is 84
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 85
+Odd turn - only flying shells move.
+Turn is 86
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 87
+Odd turn - only flying shells move.
+Turn is 88
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 89
+Odd turn - only flying shells move.
+Turn is 90
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 91
+Odd turn - only flying shells move.
+Turn is 92
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 93
+Odd turn - only flying shells move.
+Turn is 94
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 95
+Odd turn - only flying shells move.
+Turn is 96
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 97
+Odd turn - only flying shells move.
+Turn is 98
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 99
+Odd turn - only flying shells move.
+Turn is 100
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 101
+Odd turn - only flying shells move.
+Turn is 102
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 103
+Odd turn - only flying shells move.
+Turn is 104
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 105
+Odd turn - only flying shells move.
+Turn is 106
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 107
+Odd turn - only flying shells move.
+Turn is 108
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 109
+Odd turn - only flying shells move.
+Turn is 110
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 111
+Odd turn - only flying shells move.
+Turn is 112
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 113
+Odd turn - only flying shells move.
+Turn is 114
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 115
+Odd turn - only flying shells move.
+Turn is 116
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 117
+Odd turn - only flying shells move.
+Turn is 118
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 119
+Odd turn - only flying shells move.
+Turn is 120
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 121
+Odd turn - only flying shells move.
+Turn is 122
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 123
+Odd turn - only flying shells move.
+Turn is 124
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 125
+Odd turn - only flying shells move.
+Turn is 126
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 127
+Odd turn - only flying shells move.
+Turn is 128
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 129
+Odd turn - only flying shells move.
+Turn is 130
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 131
+Odd turn - only flying shells move.
+Turn is 132
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 133
+Odd turn - only flying shells move.
+Turn is 134
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 135
+Odd turn - only flying shells move.
+Turn is 136
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 137
+Odd turn - only flying shells move.
+Turn is 138
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 139
+Odd turn - only flying shells move.
+Turn is 140
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
-shells collided at location [1, 2]
+Turn is 141
+Odd turn - only flying shells move.
+Turn is 142
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
+Turn is 143
+Odd turn - only flying shells move.
+Turn is 144
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
+Turn is 145
+Odd turn - only flying shells move.
+Turn is 146
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
+Turn is 147
+Odd turn - only flying shells move.
+Turn is 148
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
+Turn is 149
+Odd turn - only flying shells move.
+Turn is 150
 Tank 1 shoot shell, created in location [1, 4]
 Tank 2 shoot shell, created in location [1, 1]
 Both tanks have no more shells, counting 40 turns to finish
 counter is 1
+Turn is 151
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 2
-shells collided at location [1, 2]
+Turn is 152
+shells are colliding at location [1, 2]
 Tank 1 is not ready to shoot, needs to wait 3 more turns
 Tank 2 is not ready to shoot, needs to wait 3 more turns
 Both tanks have no more shells, counting 40 turns to finish
 counter is 3
+Turn is 153
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 4
+Turn is 154
 Tank 1 is not ready to shoot, needs to wait 2 more turns
 Tank 2 is not ready to shoot, needs to wait 2 more turns
 Both tanks have no more shells, counting 40 turns to finish
 counter is 5
+Turn is 155
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 6
+Turn is 156
 Tank 1 is not ready to shoot, needs to wait 1 more turns
 Tank 2 is not ready to shoot, needs to wait 1 more turns
 Both tanks have no more shells, counting 40 turns to finish
 counter is 7
+Turn is 157
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 8
+Turn is 158
 Tank 1 is not ready to shoot, needs to wait 0 more turns
 Tank 2 is not ready to shoot, needs to wait 0 more turns
 Both tanks have no more shells, counting 40 turns to finish
 counter is 9
+Turn is 159
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 10
+Turn is 160
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 11
+Turn is 161
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 12
+Turn is 162
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 13
+Turn is 163
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 14
+Turn is 164
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 15
+Turn is 165
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 16
+Turn is 166
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 17
+Turn is 167
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 18
+Turn is 168
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 19
+Turn is 169
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 20
+Turn is 170
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 21
+Turn is 171
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 22
+Turn is 172
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 23
+Turn is 173
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 24
+Turn is 174
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 25
+Turn is 175
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 26
+Turn is 176
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 27
+Turn is 177
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 28
+Turn is 178
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 29
+Turn is 179
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 30
+Turn is 180
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 31
+Turn is 181
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 32
+Turn is 182
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 33
+Turn is 183
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 34
+Turn is 184
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 35
+Turn is 185
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 36
+Turn is 186
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 37
+Turn is 187
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 38
+Turn is 188
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 39
+Turn is 189
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 40
+Turn is 190
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 41
+Turn is 191
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 42
+Turn is 192
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 43
+Turn is 193
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 44
+Turn is 194
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 45
+Turn is 195
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 46
+Turn is 196
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 47
+Turn is 197
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 48
+Turn is 198
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 49
+Turn is 199
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 50
+Turn is 200
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 51
+Turn is 201
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 52
+Turn is 202
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 53
+Turn is 203
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 54
+Turn is 204
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 55
+Turn is 205
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 56
+Turn is 206
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 57
+Turn is 207
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 58
+Turn is 208
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 59
+Turn is 209
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 60
+Turn is 210
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 61
+Turn is 211
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 62
+Turn is 212
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 63
+Turn is 213
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 64
+Turn is 214
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 65
+Turn is 215
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 66
+Turn is 216
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 67
+Turn is 217
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 68
+Turn is 218
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 69
+Turn is 219
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 70
+Turn is 220
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 71
+Turn is 221
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 72
+Turn is 222
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 73
+Turn is 223
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 74
+Turn is 224
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 75
+Turn is 225
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 76
+Turn is 226
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 77
+Turn is 227
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 78
+Turn is 228
 Tank 1 has no more shells to shoot
 Tank 2 has no more shells to shoot
 Both tanks have no more shells, counting 40 turns to finish
 counter is 79
+Turn is 229
+Odd turn - only flying shells move.
 Both tanks have no more shells, counting 40 turns to finish
 counter is 80
 Game over - no more shells

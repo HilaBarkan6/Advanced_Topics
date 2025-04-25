@@ -1,6 +1,0 @@
-Tank1moved to [1, 4]
-Tank2moved to [1, 1]
-Tank1moved to [1, 3]
-Tank2moved to [1, 2]
-Tank 1 and Tank 2 collided!
-Tie - both tanks exploded

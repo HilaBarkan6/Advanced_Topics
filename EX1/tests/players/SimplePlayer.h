@@ -1,6 +1,6 @@
 #ifndef SIMPLE_PLAYER_H
 #define SIMPLE_PLAYER_H
-#include "Player.h"
+#include "../../src/Player.h"
 
 class SimplePlayer : public Player {
     public:

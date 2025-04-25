@@ -1,6 +1,6 @@
 #ifndef ROTATING_PLAYER_H
 #define ROTATING_PLAYER_H
-#include "Player.h"
+#include "../../src/Player.h"
 
 class RotatingPlayer : public Player {
     public:

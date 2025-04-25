@@ -1,6 +1,6 @@
 #ifndef SECOND_PLAYER_H
 #define SECOND_PLAYER_H
-#include "Player.h"
+#include "../../src/Player.h"
 
 class SecondPlayer : public Player {
     public:

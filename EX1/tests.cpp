@@ -84,12 +84,20 @@ int main() {
         // gm10.runGame();
 
         // Game 11
-        std::unique_ptr<Player> p11_1(new DefensivePlayer());
-        std::unique_ptr<Player> p11_2(new OffensivePlayer());
-        std::string input11 = "C:/Projects/Advanced_Topics/EX1/input/input_11.txt";
-        std::string output11 = "output/output_input_11.txt";
-        GameManager gm11(std::move(p11_1), std::move(p11_2), input11, output11);
-        gm11.runGame();
+        // std::unique_ptr<Player> p11_1(new DefensivePlayer());
+        // std::unique_ptr<Player> p11_2(new OffensivePlayer());
+        // std::string input11 = "C:/Projects/Advanced_Topics/EX1/input/input_11.txt";
+        // std::string output11 = "output/output_input_11.txt";
+        // GameManager gm11(std::move(p11_1), std::move(p11_2), input11, output11);
+        // gm11.runGame();
+
+        // Game 12
+        std::unique_ptr<Player> p12_1(new DefensivePlayer());
+        std::unique_ptr<Player> p12_2(new OffensivePlayer());
+        std::string input12 = "input/input_12.txt";
+        std::string output12 = "output/output_input_12.txt";
+        GameManager gm12(std::move(p12_1), std::move(p12_2), input12, output12);
+        gm12.runGame();
 
          // Game 1
         //  std::unique_ptr<Player> p1_1(new RotatingPlayer());

@@ -1,8 +1,21 @@
 #include "GameManager.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <unordered_map>
+
+
+// Overload operator<< for ActionRequest
+std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
+    switch (action) {
+        case ActionRequest::MoveForward: os << "MoveForward"; break;
+        case ActionRequest::MoveBackward: os << "MoveBackward"; break;
+        case ActionRequest::RotateLeft90: os << "RotateLeft90"; break;
+        case ActionRequest::RotateRight45: os << "RotateRight45"; break;
+        case ActionRequest::RotateRight90: os << "RotateRight90"; break;
+        case ActionRequest::RotateLeft45: os << "RotateLeft45"; break;
+        case ActionRequest::Shoot: os << "Shoot"; break;
+        case ActionRequest::DoNothing: os << "DoNothing"; break;
+        default: os << "UnknownAction"; break;
+    }
+    return os;
+}
 
 
 // Overload operator<< for CanonDirection
@@ -24,10 +37,6 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
 GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory) 
     : player_factory(std::move(player_factory)),
       tank_algorithm_factory(std::move(tank_algorithm_factory)),
-      player1_backwards_info(0, false, false), 
-      player2_backwards_info(0, false, false),
-      player1_last_shooting(-1), 
-      player2_last_shooting(-1),
       turn_counter(0), 
       no_more_shells(false), 
       counter_no_shells(0)
@@ -149,12 +158,14 @@ void GameManager::readBoard(const std::string& path_input_file) {
                     break;
                 case '1':
                     // Add a new tank for player 1
-                    player1_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, num_shells, tank_algorithm_factory->create(1, player1_tanks.size()));
+                    all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, num_shells, tank_algorithm_factory->create(1, player1_alive_tanks));
+                    player1_alive_tanks ++;
                     board.setGameObjectAt(row, col, std::make_unique<Empty>());
                     break;
                 case '2':
                     // Add a new tank for player 2
-                    player2_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, num_shells ,tank_algorithm_factory->create(2, player2_tanks.size()));
+                    all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, num_shells ,tank_algorithm_factory->create(2, player2_alive_tanks));
+                    player2_alive_tanks ++;
                     board.setGameObjectAt(row, col, std::make_unique<Empty>());
                     break;
                 default:
@@ -179,10 +190,10 @@ void GameManager::readBoard(const std::string& path_input_file) {
 
     file.close();
 
-    if (player1_tanks.empty()) {
+    if (player1_alive_tanks == 0) {
         throw std::runtime_error("No tanks for player 1.");
     }
-    if (player2_tanks.empty()) {
+    if (player2_alive_tanks == 0) {
         throw std::runtime_error("No tanks for player 2.");
     }
 
@@ -202,10 +213,16 @@ void GameManager::readBoard(const std::string& path_input_file) {
     }
 }
 
-void GameManager::runGame(){
+void GameManager::run(){
     //create players
     this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
     this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
+
+    // initialize dicts
+    for(int i=0; i<all_tanks.size(); i++){
+        tank_last_shooting[i] = -1;
+        all_tanks_backwards_info[i] = std::make_tuple(0, false, false);
+    }
 
     // create and open output file
     std::ofstream output_file;
@@ -215,6 +232,10 @@ void GameManager::runGame(){
         return;
     }
 
+    // Only for live tanks
+    std::unordered_map<int,ActionRequest> wanted_actions;
+    std::unordered_map<int, std::pair<int, int>> new_wanted_locations;
+
     // Main loop
     while (!isGameOver(output_file)) {
         std::cout << "Turn is "<< turn_counter << std::endl;
@@ -222,66 +243,94 @@ void GameManager::runGame(){
         // Even turn - both players and shells should move
         if(turn_counter%2 == 0){
             MoveShells(true, output_file);
+            
+            // Request action from all live tanks using their algorithms
+            for(int i = 0; i<all_tanks.size(); i++){
+                if(all_tanks[i].getAlive()){
+                    wanted_actions[i] =  all_tanks[i].getTankAlgorithm().getAction();
+                    new_wanted_locations[i] = getNewLocation(all_tanks[i], wanted_actions[i]);
+                }
+            }
 
-            // Request action from both players, get the new locations they will cause, check if possible to aplly, if so then apply.
-            Player::Action action1 = player1->getAction(board, tank1, tank2, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
-            std::pair<int, int> new_tank1_Location = getNewLocation(tank1, action1);
-
-            Player::Action action2 = player2->getAction(board, tank2, tank1, (player1_last_shooting == -1 || turn_counter- player1_last_shooting > 8));
-            std::pair<int, int> new_tank2_Location = getNewLocation(tank2, action2);
 
             // check collision should check if a tank wants to move to a new shell location or to a new next shell location
-            std::pair<bool, bool> can_move = checkCollisions(new_tank1_Location, new_tank2_Location, output_file);
+            std::unordered_map<int,bool> can_move = checkCollisions(new_wanted_locations, output_file);
             deleteCollidedShells();
 
-            // Appling action
-            applyAction(tank1, action1, can_move.first, new_tank1_Location, output_file);
-            applyAction(tank2 ,action2, can_move.second, new_tank2_Location, output_file);
+            // Applying actions
+            for(int i = 0; i<all_tanks.size(); i++){
+                //check tank index not in can_move, tank was already dead in begining of this turn so there is nothing to do
+                if(can_move.find(i) == can_move.end()){
+                    output_file << "killed";
+                }
+                else{
+                    applyAction(i, wanted_actions[i], can_move[i], new_wanted_locations[i], new_wanted_locations, output_file);
+                }
+                if (i!=all_tanks.size()-1){
+                    output_file << ", ";
+                }
+            }   
+            // To delete shells that were created exactly on a tank, so on creation they explode the tank and themselves.
+            deleteCollidedShells();
+
+
         }
         //Odd turn - only Shells move
         else{
             std::cout << "Odd turn - only flying shells move."<< std::endl;
-            output_file << "Odd turn - only flying shells move." <<  std::endl;
             MoveShells(false, output_file);
             deleteCollidedShells();
         }
         
         // Check if all shells were shooted and should start counting for finish.
-        if(tank1.getUnusedShellsCount()==0 && tank2.getUnusedShellsCount()==0){
+        if(shellFinished()){
             no_more_shells = true;
             counter_no_shells++;
-            std::cout << "Both tanks have no more shells, counting 40 turns to finish"<< std::endl;
-            output_file<< "Both tanks have no more shells, counting 40 turns to finish"<<  std::endl;
+            std::cout << "Both players have no more shells, counting 40 turns to finish"<< std::endl;
             std::cout << "counter is "<< counter_no_shells << std::endl;
-            output_file << "counter is "<< counter_no_shells << std::endl;
         }
         turn_counter++;
     }
 }
 
+// Check if both players finished their shells for all tanks
+bool GameManager::shellFinished(){
+    for(int i=0; i<all_tanks.size(); i++){
+        if(all_tanks[i].getUnusedShellsCount() > 0){
+            return false;
+        }
+    }
+    return true;
+}
+
 bool GameManager::isGameOver(std::ofstream& output_file) {
     // Check if both players finished their shells and 40 turns passed
-    if (tank1.getAlive() && tank2.getAlive()) {
+    if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
         if(no_more_shells && counter_no_shells>=80){
             output_file << "Game over - no more shells" << std::endl;
             std::cout << "Game over - no more shells" << std::endl;
             return true;
         }
+        if(turn_counter >= max_steps*2){
+            output_file << "Game over - max steps reached" << std::endl;
+            std::cout << "Game over - max steps reached" << std::endl;
+            return true;
+        }
         return false; 
     }
     // Both players are dead
-    if (!tank1.getAlive() && !tank2.getAlive()) {
-        output_file << "Tie - both tanks exploded" << std::endl;
-        std::cout << "Tie - both tanks exploded" << std::endl;
+    if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
+        output_file << "Tie - both players tanks exploded" << std::endl;
+        std::cout << "Tie - both players tanks exploded" << std::endl;
         return true;
     }
     // Only player1 dead
-    else if (!tank1.getAlive()) {
+    else if (player1_alive_tanks == 0) {
         output_file << "Player 2 wins!" << std::endl;
         std::cout << "Player 2 wins!" << std::endl;
         return true;
     // Only player 2 dead
-    } else if (!tank2.getAlive()) {
+    } else if (player2_alive_tanks == 0) {
         output_file << "Player 1 wins!" << std::endl;
         std::cout << "Player 1 wins!" << std::endl;
         return true;
@@ -291,20 +340,13 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
 }
 
 void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
-    const std::vector<Shell *>& flying_shells1 = tank1.getFlyingShells();
-    const std::vector<Shell *>& flying_shells2 = tank2.getFlyingShells();
+
     // Map betwenn location and the shells that will arrive to this new location
     // Used ChatGpt to learn to work with dictonaries, prompt was - "How to create a dict in c++ to map between pair to list of pointers?"
     std::unordered_map<std::pair<int, int>, std::vector<Shell*>, pair_hash> shell_locations_map;
 
-    for (size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
-        Shell * shell;
-        if (i<flying_shells1.size()){
-            shell = flying_shells1[i];
-        }
-        else{
-            shell = flying_shells2[i-flying_shells1.size()];
-        }
+    for (size_t i = 0; i<flying_shells.size(); i++){
+        Shell* shell = &flying_shells[i];
         // If shell is in a location that is a new location for another shell - collision
         std::pair <int, int> shell_cur_location = shell->getLocation(); 
         if (shell_locations_map.find(shell_cur_location) != shell_locations_map.end()){
@@ -322,9 +364,8 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
             Wall* wall = dynamic_cast<Wall*>(board.getGameObjectAt(x, y));
             wall->reduceLife();
             if(wall->isDestroyed()){
-                board.setGameObjectAt(x, y, new Empty());
+                board.setGameObjectAt(x, y, std::make_unique<Empty>());
                 std::cout << "Wall at ["<< x << ", "<< y << "] destroyed" << std::endl;
-                output_file << "Wall at ["<< x << ", "<< y << "] destroyed" << std::endl;
                 delete wall;
             }
             //remove shell from flying_shells1
@@ -341,30 +382,22 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
     // On odd turns only shells move, so should check if they are hitting a tank, 
     //on even turn, tank can also move so there is more complex check in checkCollisions.
     if(!is_even_turn){
-        int tank1_hits_counter = 0;
-        int tank2_hits_counter = 0;
         for (auto& [key, vec] : shell_locations_map){
-            if (key.first == tank1.getLocationX() && key.second == tank1.getLocationY())
-            {
-                tank1_hits_counter++;
-
-            }
-            if (key.first == tank2.getLocationX() && key.second == tank2.getLocationY())
-            {
-                tank2_hits_counter++;
+            
+            for (int i = 0; i< all_tanks.size(); i++){
+                if (key.first == all_tanks[i].getLocationX() && key.second == all_tanks[i].getLocationY()){
+                    if(all_tanks[i].getId() == 1){
+                        player1_alive_tanks--;
+                    }
+                    else{
+                        player2_alive_tanks--;
+                    }
+                    all_tanks[i].setAlive();
+                }
             }
             
         }  
-        if (tank1_hits_counter>0){
-            tank1.setAlive();
-            std::cout << tank1_hits_counter << " shells hit tank 1 at location [" << tank1.getLocationX() << ", " << tank1.getLocationY() <<"]"  << std::endl;
-            output_file << tank1_hits_counter << " shells hit tank 1 at location [" << tank1.getLocationX() << ", " << tank1.getLocationY() <<"]" << std::endl;
-        }
-        if(tank2_hits_counter>0){
-            tank2.setAlive();
-            std::cout << tank2_hits_counter << " shells hit tank 2 at location [" << tank2.getLocationX() << ", " << tank2.getLocationY() <<"]" << std::endl;
-            output_file << tank2_hits_counter << " shells hit tank 2 at location [" << tank2.getLocationX() << ", " << tank2.getLocationY() <<"]" << std::endl;
-        }
+        
     }
     // If multiple shells arrive to the same location - collision between all of them
     // Used ChatGpt to iterate over the dictonary - prompt was "How to iterate over the dict?"
@@ -440,282 +473,210 @@ std::pair<int, int> GameManager::getNewLocation(const Tank& tank_to_move, Action
     return std::make_pair(x_location, y_location);
 }
 
-std::pair<bool,bool> GameManager::checkCollisions(std::pair<int,int> tank1_location, std::pair<int,int> tank2_location, std::ofstream& output_file){
-    bool tank1_can_move = true;
-    bool tank2_can_move = true;
-    // With wall
-    if(board.isWallLocation(tank1_location.first, tank1_location.second)){
-        std::cout << "Bad move, Tank 1 hit a wall!" << std::endl;
-        output_file << "Bad move, Tank 1 hit a wall!" << std::endl;
-        tank1_can_move = false; 
-    }
-    if(board.isWallLocation(tank2_location.first, tank2_location.second)){
-        std::cout << "Bad move, Tank 2 hit a wall!" << std::endl;
-        output_file << "Bad move, Tank 2 hit a wall!" << std::endl;
-        tank2_can_move = false;
-    }
-    // With mine
-    if(board.isMineLocation(tank1_location.first, tank1_location.second)){
-        std::cout << "Bad move, Tank 1 hit a mine!" << std::endl;
-        output_file << "Bad move, Tank 1 hit a mine!" << std::endl;
-        tank1_can_move = false;
-        tank1.setAlive();
-    }
-    if(board.isMineLocation(tank2_location.first, tank2_location.second)){
-        std::cout << "Bad move, Tank 2 hit a mine!" << std::endl;
-        output_file << "Bad move, Tank 2 hit a mine!" << std::endl;  
-        tank2_can_move = false;
-        tank2.setAlive();
-    }
-    // With each other
-    if((tank1_location.first == tank2_location.first && tank1_location.second == tank2_location.second) || 
-        (tank1_location.first == tank2.getLocationX() && tank1_location.second == tank2.getLocationY() &&
-        tank2_location.first == tank1.getLocationX() && tank2_location.second == tank1.getLocationY())){
-        std::cout << "Bad move, Tank 1 and Tank 2 collided!" << std::endl;
-        output_file << "Bad move, Tank 1 and Tank 2 collided!" << std::endl;
-        tank1_can_move = false;
-        tank2_can_move = false;
-        tank1.setAlive();
-        tank2.setAlive();
-    }
-    // With shell
-    const std::vector<Shell *>& flying_shells1 = tank1.getFlyingShells();
-    const std::vector<Shell *>& flying_shells2 = tank2.getFlyingShells();
-    int tank1_hits_counter = 0;
-    int tank2_hits_counter = 0;
-    for(size_t i = 0; i<flying_shells1.size()+flying_shells2.size(); i++){
-        Shell * shell;
-        if (i<flying_shells1.size()){
-            shell = flying_shells1[i];
+std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations, std::ofstream& output_file){
+    std::unordered_map<int,bool> can_tank_move;
+
+    // Map betwenn location and the tanks that will arrive to this new location
+    // Used ChatGpt to learn to work with dictonaries, prompt was - "How to create a dict in c++ to map between pair to list of pointers?"
+    std::unordered_map<std::pair<int, int>, std::vector<Tank*>, pair_hash> tank_locations_map;
+
+    for(auto& [tank_index, new_location] : new_wanted_locations){
+
+        std::pair<int, int> cur_location = std::make_pair(all_tanks[tank_index].getLocationX(), all_tanks[tank_index].getLocationY());
+        Tank* tank = &all_tanks[tank_index];
+
+        can_tank_move[tank_index] = true;
+
+        tank_locations_map[cur_location].push_back(tank);
+        tank_locations_map[new_location].push_back(tank);
+
+        // With wall
+        if(board.isWallLocation(new_location.first, new_location.second)){
+            std::cout << "Bad move, Tank " << tank_index << " hit a wall!" << std::endl;
+            output_file << "Bad move, Tank " << tank_index << " hit a wall!" << std::endl;
+            can_tank_move[tank_index] = false;
         }
-        else{
-            shell = flying_shells2[i-flying_shells1.size()];
+        // With mine
+        if(board.isMineLocation(new_location.first, new_location.second)){
+            std::cout << "Bad move, Tank " << tank_index << " hit a mine!" << std::endl;
+            output_file << "Bad move, Tank " << tank_index << " hit a mine!" << std::endl;
+            can_tank_move[tank_index] = false;
+            all_tanks[tank_index].setAlive();
+            // TODO - delete mine so other tanks in the future will not hit it
         }
-        /* Since shells flies twice as fast as tank, in every tank move we check collision with the shell current location and also shell prev location
-         * Example for a tank turn:
-         * Shell moves from [0,0] to [0,2]
-         * Tank moves from [1,1] to [0,1]
-         * new shell location after this move should be [0,2], but there is a collision in [1,1], so check for also prev location to identify it. */
-        if (shell->getLocation() == tank1_location || shell->getPrevLocation() == tank1_location){
-            shells_to_delete.insert(shell);
-            tank1_hits_counter++;
-        }
-        if (shell->getLocation() == tank2_location || shell->getPrevLocation() == tank2_location){ 
-            shells_to_delete.insert(shell);
-            tank2_hits_counter++;
-        }
+        for(size_t j = 0; j<flying_shells.size(); j++){
+            Shell* shell = &flying_shells[j];
+
+            /* Since shells flies twice as fast as tank, in every tank move we check collision with the shell current location and also shell prev location
+            * Example for a tank turn:
+            * Shell moves from [0,0] to [0,2]
+            * Tank moves from [1,1] to [0,1]
+            * new shell location after this move should be [0,2], but there is a collision in [1,1], so check for also prev location to identify it. */
+            if(shell->getLocation() == new_location || shell->getPrevLocation() == new_location){
+                std::cout << "Bad move, Tank " << tank_index << " hit a shell!" << std::endl;
+                output_file << "Bad move, Tank " << tank_index << " hit a shell!" << std::endl;
+                can_tank_move[tank_index] = false;
+                shells_to_delete.insert(shell);
+                all_tanks[tank_index].setAlive();
+            }
+        }   
+
     }
-    if (tank1_hits_counter > 0){
-        tank1_can_move = false;
-        tank1.setAlive();
-        std::cout << tank1_hits_counter << " shells hit tank 1 at location [" << tank1_location.first << ", " << tank1_location.second <<"]"  << std::endl;
-        output_file << tank1_hits_counter << " shells hit tank at location [" << tank1_location.first << ", " << tank1_location.second <<"]"  << std::endl;
-    }
-    if(tank2_hits_counter > 0){
-        tank2_can_move = false;
-        tank2.setAlive();
-        std::cout << tank2_hits_counter << " shells hit tank 2 at location [" << tank2_location.first << ", " << tank2_location.second <<"]" << std::endl;
-        output_file << tank2_hits_counter << " shells hit tank 2 at location [" << tank2_location.first << ", " << tank2_location.second <<"]"  << std::endl;
+    // If multiple shells arrive to the same location - collision between all of them
+    // Used ChatGpt to iterate over the dictonary - prompt was "How to iterate over the dict?"
+    for(auto& [key, vec] : tank_locations_map){
+        if (vec.size() > 1)
+        {
+            for(Tank * tank: vec){
+                tanks_to_kill.insert(tank);
+            }
+        }  
     }
 
-    return std::make_pair(tank1_can_move, tank2_can_move);
+    // iterate over can_tank_move and check if the tank is in the tanks_to_kill set
+    for(auto& [tank_index, can_move] : can_tank_move){
+        if(tanks_to_kill.find(&all_tanks[tank_index]) != tanks_to_kill.end()){
+            can_tank_move[tank_index] = false;
+            all_tanks[tank_index].setAlive();
+            std::cout << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
+            output_file << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
+        }
+    }
+    tanks_to_kill.clear();
+   
+    return can_tank_move;
 }
 
-void GameManager::applyAction(Tank& tank_to_apply, ActionRequest action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file) {
-    if(!tank_to_apply.getAlive()){
+void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
+
+    if(!all_tanks[tank_index].getAlive()){
+        output_file << action << " (killed)";
         return;
     }
-    int id = tank_to_apply.getId();
 
-    // Might happen only in very specific edge case, we asked Amir about this in the moodle forum and he approved.
-    if(action == ActionRequest::DoNothing){
-        output_file << "Tank " << id <<  " is doing nothing this turn" << std::endl;
-        std::cout << "Tank " << id <<  " is doing nothing this turn" << std::endl;
-    }
-
-    if (action != ActionRequest::MoveBackward){
+    if (action != ActionRequest::MoveBackward && std::get<2>(all_tanks_backwards_info[tank_index])){
         /* Check if player requested forward while waiting for backward movement, if so, cancel backward waiting.
          * Backward info is: first - counter since requesting backward, 
          * second - if last action preformed is backward movement,
          * third - if player is waiting for backward move. */
-        if(id == 1 && std::get<2>(player1_backwards_info) ){
-            if (action == ActionRequest::MoveForward ){
-                std::get<2>(player1_backwards_info) = false;
-                std::get<0>(player1_backwards_info) = 0;
-                output_file << "Tank 1 cancelled backward by moving forward" << std::endl;
-                std::cout << "Tank 1 cancelled backward by moving forward" << std::endl;
+        
+        if (action == ActionRequest::MoveForward ){
+            std::get<2>(all_tanks_backwards_info[tank_index]) = false;
+            std::get<0>(all_tanks_backwards_info[tank_index]) = 0;
+            output_file << "Tank 1 cancelled backward by moving forward" << std::endl;
+            std::cout << "Tank 1 cancelled backward by moving forward" << std::endl;
+        }
+        else{
+            std::get<0>(all_tanks_backwards_info[tank_index]) += 1;
+            if (std::get<0>(all_tanks_backwards_info[tank_index]) > 2){
+                std::get<0>(all_tanks_backwards_info[tank_index]) = 0;
+                std::get<1>(all_tanks_backwards_info[tank_index]) = false;
+                std::get<2>(all_tanks_backwards_info[tank_index]) = false;   
+                output_file << "Backwards waiting over for tank 1" << std::endl;
+                std::cout << "Backwards waiting over for tank 1" << std::endl;
             }
             else{
-                std::get<0>(player1_backwards_info) += 1;
-                if (std::get<0>(player1_backwards_info) > 2){
-                    std::get<0>(player1_backwards_info) = 0;
-                    std::get<1>(player1_backwards_info) = false;
-                    std::get<2>(player1_backwards_info) = false;   
-                    output_file << "Backwards waiting over for tank 1" << std::endl;
-                    std::cout << "Backwards waiting over for tank 1" << std::endl;
-                }
-                else{
-                    output_file << "Bad move, action is ignored for tank 1, still waiting to move backwards" << std::endl;
-                    std::cout << "Bad, move, action is ignored for tank 1, still waiting to move backwards" << std::endl;
-                }
+                output_file << "Bad move, action is ignored for tank 1, still waiting to move backwards" << std::endl;
+                std::cout << "Bad, move, action is ignored for tank 1, still waiting to move backwards" << std::endl;
             }
-            return;
         }
-        else if(id == 2 && std::get<2>(player2_backwards_info) ){
-            if (action == ActionRequest::MoveForward ){
-                std::get<2>(player2_backwards_info) = false;
-                std::get<0>(player2_backwards_info) = 0;
-                output_file << "Tank 2 cancelled backward by moving forward" << std::endl;
-                std::cout << "Tank 2 cancelled backward by moving forward" << std::endl;
-            }
-            else{
-                std::get<0>(player2_backwards_info) += 1;
-                if (std::get<0>(player2_backwards_info) > 2){
-                    std::get<0>(player2_backwards_info) = 0;
-                    std::get<1>(player2_backwards_info) = false;
-                    std::get<2>(player2_backwards_info) = false;   
-                    output_file << "Backwards waiting over for tank 2" << std::endl;
-                    std::cout << "Backwards waiting over for tank 2" << std::endl;
-                }
-                else{
-                    output_file << "Bad move, action is ignored for tank 2, still waiting to move backwards" << std::endl;
-                    std::cout << "Bad move, action is ignored for tank 2, still waiting to move backwards" << std::endl;
-                }
-            }
-            return;
-        }
+       
+    }
+    else if(action == ActionRequest::GetBattleInfo){
+        //TODO - implement
+        output_file << "GetBattleInfo action is not implemented yet" << std::endl;
     }
 
-    if (action == ActionRequest::MoveForward) {
+    else if (action == ActionRequest::MoveForward) {
         if (can_move) {
-            tank_to_apply.setLocation(new_location.first, new_location.second);
-            output_file << "Tank " << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-            std::cout << "Tank " << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl; 
+            all_tanks[tank_index].setLocation(new_location.first, new_location.second);
         }
     } 
 
     else if (action == ActionRequest::MoveBackward ) {
-        if(canMoveBackward(id)) {
+        if(canMoveBackward(tank_index)) {
             if (can_move) {
-                tank_to_apply.setLocation(new_location.first, new_location.second);
-                output_file << "Tank " << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-                std::cout << "Tank " << id << " moved to [" << new_location.first << ", " << new_location.second << "]" << std::endl;
-                if (id == 1) {
-                    std::get<0>(player1_backwards_info) = 0;
-                    std::get<1>(player1_backwards_info) = true;
-                    std::get<2>(player1_backwards_info) = false;
-                } else {
-                    std::get<0>(player2_backwards_info) = 0;
-                    std::get<1>(player2_backwards_info) = true;
-                    std::get<2>(player2_backwards_info) = false;
-                }
+                all_tanks[tank_index].setLocation(new_location.first, new_location.second);
+                std::get<0>(all_tanks_backwards_info[tank_index]) = 0;
+                std::get<1>(all_tanks_backwards_info[tank_index]) = true;
+                std::get<2>(all_tanks_backwards_info[tank_index]) = false;   
             } 
         }
         else{
             // wait
-            output_file << "Tank " << id << " is waiting for backward" << std::endl;
-            std::cout << "Tank " << id << " is waiting for backward"  << std::endl;
-            if (id == 1) {
-                std::get<2>(player1_backwards_info) = true;
-                std::get<0>(player1_backwards_info) += 1;
-            } else {
-                std::get<2>(player2_backwards_info) = true;
-                std::get<0>(player2_backwards_info) += 1;
-            }
+            std::get<2>(all_tanks_backwards_info[tank_index]) = true;
+            std::get<0>(all_tanks_backwards_info[tank_index]) += 1;
+            
         }
         
     } else if (action == ActionRequest::RotateLeft90) {
         // Rotate left logic
-        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), -2));
-        std::cout << "Tank " << id << " rotated 1/4 left to " << tank_to_apply.getCanonDirection() << std::endl;
-        output_file << "Tank " << id << " rotated 1/4 left to " << tank_to_apply.getCanonDirection() << std::endl;
+        all_tanks[tank_index].setCanonDirection(rotate(all_tanks[tank_index].getCanonDirection(), -2));
+        
 
     } else if (action == ActionRequest::RotateRight45) {
         // Rotate right logic
-        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), 1));
-        std::cout << "Tank " << id << " rotated 1/8 right to " << tank_to_apply.getCanonDirection()<< std::endl;
-        output_file << "Tank " << id << " rotated 1/8 right to " << tank_to_apply.getCanonDirection()<< std::endl;
+        all_tanks[tank_index].setCanonDirection(rotate(all_tanks[tank_index].getCanonDirection(), 1));
+        
     } else if (action == ActionRequest::RotateRight90) {
         // Rotate right logic
-        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), 2));
-        std::cout << "Tank " << id << " rotated 1/4 right to " << tank_to_apply.getCanonDirection()<< std::endl;
-        output_file << "Tank " << id << " rotated 1/4 right to " << tank_to_apply.getCanonDirection()<< std::endl;
+        all_tanks[tank_index].setCanonDirection(rotate(all_tanks[tank_index].getCanonDirection(), 2));
+        
     } else if (action == ActionRequest::RotateLeft45) {
         // Rotate left logic
-        tank_to_apply.setCanonDirection(rotate(tank_to_apply.getCanonDirection(), -1));
-        std::cout << "Tank " << id << " rotated 1/8 left to " << tank_to_apply.getCanonDirection() << std::endl;
-        output_file << "Tank " << id << " rotated 1/8 left to " << tank_to_apply.getCanonDirection() << std::endl;
+        all_tanks[tank_index].setCanonDirection(rotate(all_tanks[tank_index].getCanonDirection(), -1));
 
 
     } else if (action == ActionRequest::Shoot) {
         // Shoot logic
-        int last = -1;
-        if (id == 1){
-            last = player1_last_shooting;
-        }
-        else{
-            last = player2_last_shooting;
-        }
+        int last = tank_last_shooting[tank_index];
         // Check if allowed to shoot
         // Since turn counter moves twice as fast as tanks, check for 8 game iterations is equivalent to 4 tank turns.
-        if(last == -1 || turn_counter- last > 8 ){ 
-            if(tank_to_apply.getUnusedShellsCount() > 0){
-                std::pair<int, int> new_shell_location = getShellLocationOnCreation(tank_to_apply);
-                Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
-                updateShellNextLocation(*shell_to_shoot);
-                tank_to_apply.addFlyingShell(shell_to_shoot);
-                tank_to_apply.setUnusedShellsCount(tank_to_apply.getUnusedShellsCount() - 1);
-                std::cout << "Tank " << id << " shoot shell, created in location [" << new_shell_location.first << ", " << new_shell_location.second <<"]" << std::endl;
-                output_file << "Tank " << id << " shoot shell, created in location [" << new_shell_location.first << ", " << new_shell_location.second <<"]"  << std::endl;
-                if (id == 1) {
-                    player1_last_shooting = turn_counter;
-                    //if tank 2 is on the same location as the shell creation location. tank 2 is dead
-                    if(tank2.getLocationX() == new_shell_location.first && tank2.getLocationY() == new_shell_location.second){
-                        std::cout << "Shell was created on tank 2!"<< std::endl;
-                        output_file << "Shell was created on tank 2!" << std::endl;
-                        tank2.setAlive();
-                    }
-                } else {
-                    player2_last_shooting = turn_counter;
-                    if(tank1.getLocationX() == new_shell_location.first && tank1.getLocationY() == new_shell_location.second){
-                        std::cout << "Shell was created on tank 1!"<< std::endl;
-                        output_file << "Shell was created on tank 1!" << std::endl;
-                        tank1.setAlive();
+        if(last == -1 || turn_counter - last > 8 ){ 
+            if(all_tanks[tank_index].getUnusedShellsCount() > 0){
+                std::pair<int, int> new_shell_location = getShellLocationOnCreation(all_tanks[tank_index]);
+                //Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
+
+                flying_shells.emplace_back(new_shell_location, all_tanks[tank_index].getCanonDirection(), tank_index);
+                updateShellNextLocation(flying_shells.back());
+
+                all_tanks[tank_index].setUnusedShellsCount(all_tanks[tank_index].getUnusedShellsCount() - 1);
+                
+                // Check if the new shell was created in some tank's new location
+                for(auto& [tank_index, new_location] : new_wanted_locations){
+                    if (new_shell_location.first == new_location.first && new_shell_location.second == new_location.second){
+                        all_tanks[tank_index].setAlive();
+                        if(all_tanks[tank_index].getId() == 1){
+                            player1_alive_tanks--;
+                        }
+                        else{
+                            player2_alive_tanks--;
+                        }
+                        // Shell will be deleted next time the function deleteCollidedShells will get called
+                        shells_to_delete.insert(&flying_shells.back());
                     }
                 }
             }
             else{
-                std::cout << "Tank " << id << " has no more shells to shoot"  << std::endl;
-                output_file << "Tank " << id << " has no more shells to shoot"  << std::endl;
+                std::cout << "Tank " << tank_index << " has no more shells to shoot"  << std::endl;
             }
         }
         else{
-            std::cout << "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - (turn_counter - last))/2 << " more turns"<< std::endl;
-            output_file<< "Tank " << id << " is not ready to shoot, needs to wait "  << (8 - (turn_counter - last))/2 << " more turns"<< std::endl;
+            std::cout << "Tank " << tank_index << " is not ready to shoot, needs to wait "  << (8 - (turn_counter - last))/2 << " more turns"<< std::endl;
         }
     }
 
     // if last action wasn't backward set boolean to false
     if (action != ActionRequest::MoveBackward) {
-        if (id == 1) {
-            std::get<1>(player1_backwards_info) = false;
-        } else {
-            std::get<1>(player2_backwards_info) = false;
-        }
+        std::get<1>(all_tanks_backwards_info[tank_index]) = false;
     }
+    output_file << action;
 }
 
-bool GameManager::canMoveBackward(int player_id) const{
-    bool last_action_backward = false;
-    int counter = 0;
-    if(player_id == 1){
-        last_action_backward = std::get<1>(player1_backwards_info);
-        counter = std::get<0>(player1_backwards_info);
-    }
-    else{
-        last_action_backward = std::get<1>(player2_backwards_info);
-        counter = std::get<0>(player2_backwards_info);
-    }
+bool GameManager::canMoveBackward(int tank_index) const{
+    bool last_action_backward = std::get<1>(all_tanks_backwards_info.at(tank_index));
+    int counter = std::get<0>(all_tanks_backwards_info.at(tank_index));
+    
     if (last_action_backward || counter == 2) { 
         return true; // Tank can move backward
     } 
@@ -760,12 +721,7 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const Tank& tank_to_
 void GameManager::deleteCollidedShells(){
     // Used ChatGpt to create and work with set. prompt was "How to create set of pointers of shells, how to add and remove from it"
     for(Shell * shell : shells_to_delete){
-        if(shell->getTankID() == 1){
-           tank1.deleteShell(shell);
-        }
-        else{
-            tank2.deleteShell(shell);
-        }    
+        flying_shells.erase(std::remove_if(flying_shells.begin(), flying_shells.end(), [shell](const Shell& s) { return &s == shell; }), flying_shells.end());   
     }
     shells_to_delete.clear();
 }

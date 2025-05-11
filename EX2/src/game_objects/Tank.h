@@ -15,16 +15,14 @@ class Tank : public GameObject
         int location_y;
         CanonDirection canon_direction;
         int unused_shells_count;
-        // currently flying shells shooted by this tank
-        // TODO - should be unique ptr to shell
-        std::vector<Shell *> flying_shells;
+
         std::unique_ptr<TankAlgorithm> tank_algorithm;
 
     public:
         Tank(int x, int y, CanonDirection direction, int id, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
         Tank(){};
         Tank (const Tank&) = delete;
-        ~Tank();
+        ~Tank(){};
 
         int getId() const;
 
@@ -40,11 +38,6 @@ class Tank : public GameObject
         
         int getUnusedShellsCount() const;
         void setUnusedShellsCount(int count) ;
-
-        // TODO - should work with unique ptr
-        const std::vector<Shell *>& getFlyingShells() const;
-        void addFlyingShell(Shell * shell);
-        void deleteShell(Shell * shell);
 
         TankAlgorithm& getTankAlgorithm() const;
 };

@@ -2,6 +2,7 @@
 #define GAME_MANAGER_H
 #include "Board.h"
 #include "common/Player.h"
+#include "common/ActionRequest.h"
 #include "game_objects/Empty.h"
 #include "game_objects/Wall.h"
 #include "game_objects/Mine.h"
@@ -15,6 +16,10 @@
 #include <unordered_map>
 #include <set>
 #include <memory>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <algorithm>
 
 struct pair_hash {
     template <class T1, class T2>
@@ -32,22 +37,25 @@ class GameManager
         std::unique_ptr<Player> player1;
         std::unique_ptr<Player> player2;
  
-        /* Used to check if player can move backward according to the rules
+        /* Used to check if tank can move backward according to the rules. maps tank index to its relevant tuple.
          * first - counter since requesting backward
          * second - if last action preformed is backward movement
          * third - if player is waiting for backward move.
          * Used ChatGpt to create and use the tuples. prompt was - "How to store 3 variable with different types in a data structure." */
-        std::tuple<int, bool, bool> player1_backwards_info;
-        std::tuple<int, bool, bool> player2_backwards_info;
+        std::unordered_map<int, std::tuple<int, bool, bool>> all_tanks_backwards_info;
+        
 
-        // Used to check if player can shoot according to the rules
-        int player1_last_shooting;
-        int player2_last_shooting;
+        // Used to check if player can shoot according to the rules. maps tank index to their last shooting turn.
+        std::unordered_map<int, int> tank_last_shooting;
 
-        // Tank tank1;
-        // Tank tank2;
-        std::vector<Tank> player1_tanks;
-        std::vector<Tank> player2_tanks;
+        // Both player tanks in the order they were "born"
+        std::vector<Tank> all_tanks;
+        int player1_alive_tanks;
+        int player2_alive_tanks;
+        
+
+        // Flying shells of all tanks
+        std::vector<Shell> flying_shells;
 
         Board board;
 
@@ -63,16 +71,22 @@ class GameManager
         // if no_more_shells is true, game will finish when this is 40
         int counter_no_shells;
 
+        bool shellFinished();
+
         bool isGameOver(std::ofstream& output_file);
         // Updates location for flying shells, is called every game iteration
         void MoveShells(bool is_even_turn, std::ofstream& output_file);
         void updateShellNextLocation(Shell &shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
-        std::pair<int, int> getNewLocation(const Tank& tank_to_move, Player::Action wanted_action);
+        std::pair<int, int> getNewLocation(const Tank& tank_to_move, ActionRequest wanted_action);
+
+        std::set<Tank *> tanks_to_kill;
+        
         // Given the tanks new wanted locations, checks collisions between all relevant objects.
-        std::pair<bool,bool> checkCollisions(std::pair<int,int> tank1_new_location, std::pair<int,int> tank2_new_location, std::ofstream& output_file);
-        void applyAction(Tank& tank_to_apply, Player::Action action, bool can_move, std::pair<int, int> new_location, std::ofstream& output_file);
-        bool canMoveBackward(int player_id) const;
+        std::unordered_map<int,bool> checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations, std::ofstream& output_file);
+        // TODO - adress new action of get battle info
+        void applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations ,std::ofstream& output_file);
+        bool canMoveBackward(int tank_index) const;
         CanonDirection rotate(CanonDirection cur_dir, int rotation);
         std::pair<int, int> getShellLocationOnCreation(const Tank& tank_to_shoot) const;
         
@@ -84,7 +98,7 @@ class GameManager
         GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
-        void runGame();
+        void run();
 };
 
 #endif

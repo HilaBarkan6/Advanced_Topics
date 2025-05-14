@@ -15,7 +15,6 @@
                 "main.cpp",
                 "src/*.cpp",
                 "src/game_objects/*.cpp",
-                "src/common/*.cpp",
                 "src/implementations/*.cpp",
                 "-o",
                 "main.exe"

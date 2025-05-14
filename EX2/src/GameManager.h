@@ -80,9 +80,11 @@ class GameManager
         bool shellFinished();
 
         bool isGameOver(std::ofstream& output_file);
+
+        std::vector<std::vector<char>> createSatelliteMatrix() const;
         // Updates location for flying shells, is called every game iteration
         void MoveShells(bool is_even_turn, std::ofstream& output_file);
-        void updateShellNextLocation(Shell &shell);
+        void updateShellNextLocation(Shell * shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
         std::pair<int, int> getNewLocation(const Tank& tank_to_move, ActionRequest wanted_action);
 

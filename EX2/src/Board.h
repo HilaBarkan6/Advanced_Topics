@@ -15,6 +15,11 @@ class Board{
         Board(int rows, int columns);
         Board(){};
         // ~Board();
+        // Board(const Board&) = delete;
+        // Board& operator=(const Board&) = delete;
+
+        Board(Board&&) = default;
+        Board& operator=(Board&&) = default;
 
         int getRows() const;
         int getColumns() const;

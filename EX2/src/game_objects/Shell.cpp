@@ -1,7 +1,7 @@
 #include "Shell.h"
 #include "Tank.h"
 
-Shell::Shell(std::pair<int,int> loc, CanonDirection dir, int id): GameObject(), location(loc), flying_direction(dir), tank_id(id) {};
+Shell::Shell(std::pair<int,int> loc, CanonDirection dir): GameObject(), location(loc), flying_direction(dir) {};
 
 std::pair<int,int> Shell::getLocation() const { return location; }
 
@@ -27,8 +27,8 @@ CanonDirection Shell::getFlyingDirection() const {
 
 void Shell::setFlyingDirection(CanonDirection direction) { flying_direction = direction; }
 
-int Shell::getTankID() const {
-    return tank_id;
-}
+// int Shell::getTankID() const {
+//     return tank_id;
+// }
 
 

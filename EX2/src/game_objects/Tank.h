@@ -29,7 +29,7 @@ class Tank : public GameObject
         int getPlayerId() const;
         int getTankIndex() const;
 
-        bool getAlive();
+        bool getAlive() const;
         void setAlive();
 
         int getLocationX() const;

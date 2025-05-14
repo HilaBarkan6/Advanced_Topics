@@ -40,8 +40,7 @@ GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::uni
       turn_counter(0), 
       no_more_shells(false), 
       counter_no_shells(0),
-      //TODO - we are worried that board is calling copy constractor, check it.
-      view(SatelliteViewImp(height, width, board, flying_shells, all_tanks)){}   
+      view(SatelliteViewImp(height, width)){}   
 
 
 void GameManager::readBoard(const std::string& path_input_file) {
@@ -156,13 +155,13 @@ void GameManager::readBoard(const std::string& path_input_file) {
                     break;
                 case '1':
                     // Add a new tank for player 1
-                    all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, tank_algorithm_factory->create(1, player1_alive_tanks));
+                    all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, std::move(tank_algorithm_factory->create(1, player1_alive_tanks)));
                     player1_alive_tanks ++;
                     board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 case '2':
                     // Add a new tank for player 2
-                    all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,tank_algorithm_factory->create(2, player2_alive_tanks));
+                    all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,std::move(tank_algorithm_factory->create(2, player2_alive_tanks)));
                     player2_alive_tanks ++;
                     board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
@@ -236,8 +235,8 @@ void GameManager::run(){
 
     // Main loop
     while (!isGameOver(output_file)) {
+        view.setSatelliteView(createSatelliteMatrix());
         std::cout << "Turn is "<< turn_counter << std::endl;
-        output_file << "Turn is "<< turn_counter <<  std::endl;
         // Even turn - both players and shells should move
         if(turn_counter%2 == 0){
             MoveShells(true, output_file);
@@ -290,6 +289,44 @@ void GameManager::run(){
         turn_counter++;
     }
 }
+
+std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const{
+    std::vector<std::vector<char>> satellite_matrix(height, std::vector<char>(width, ' '));
+    // Add Walls and Mines
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            if(board.isMineLocation(i, j)){
+                satellite_matrix[i][j] = '@';
+            }
+            else if(board.isWallLocation(i, j)){
+                satellite_matrix[i][j] = '#';
+            }
+            else{
+                satellite_matrix[i][j] = ' ';
+            }
+        }
+    }
+    // Add Tanks
+    for (size_t i = 0; i < all_tanks.size(); ++i) {
+        if (all_tanks[i].getAlive()) {
+            int x = all_tanks[i].getLocationX();
+            int y = all_tanks[i].getLocationY();
+            if (all_tanks[i].getPlayerId() == 1) {
+                satellite_matrix[x][y] = '1';
+            } else {
+                satellite_matrix[x][y] = '2';
+            }
+        }
+    }
+    // Add Shells
+    for (size_t i = 0; i < flying_shells.size(); ++i) {
+        int x = flying_shells[i].getLocation().first;
+        int y = flying_shells[i].getLocation().second;
+        satellite_matrix[x][y] = '*';
+    }
+    return satellite_matrix;
+}
+
 
 // Check if both players finished their shells for all tanks
 bool GameManager::shellFinished(){
@@ -373,7 +410,7 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
         // move
         shell->setPrevLocation(shell->getLocation());
         shell->setLocation(shell->getNextLocation());
-        updateShellNextLocation(*shell);
+        updateShellNextLocation(shell);
         shell_locations_map[shell->getLocation()].push_back(shell); // add shell to the map
     }
 
@@ -411,10 +448,10 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
     } 
 }
 
-void GameManager::updateShellNextLocation(Shell &shell){
+void GameManager::updateShellNextLocation(Shell* shell){
     int dx = 0;
     int dy = 0;
-    CanonDirection dir = shell.getFlyingDirection();
+    CanonDirection dir = shell->getFlyingDirection();
     // Calculate dx and dy according to the shell flying direction
     // Used ChatGpt to calculate deltas. prompt was "Given the CanonDirection of the shell calculate next location"
     switch(dir){
@@ -429,9 +466,9 @@ void GameManager::updateShellNextLocation(Shell &shell){
         default: break;
     }
     // If shell arriving to the board border, continue from the other size, board is circular
-    int x_location = (shell.getLocation().first + dx + height) % height;
-    int y_location = (shell.getLocation().second + dy + width) % width;
-    shell.setNextLocation(std::make_pair(x_location, y_location));
+    int x_location = (shell->getLocation().first + dx + height) % height;
+    int y_location = (shell->getLocation().second + dy + width) % width;
+    shell->setNextLocation(std::make_pair(x_location, y_location));
 }
 
 std::pair<int, int> GameManager::getNewLocation(const Tank& tank_to_move, ActionRequest wanted_action){
@@ -582,8 +619,7 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     }
     else if(action == ActionRequest::GetBattleInfo){
         int player_id = all_tanks[tank_index].getPlayerId();
-        view.setCalledPlayerId(player_id);
-        view.setCalledTankIndex(all_tanks[tank_index].getTankIndex());
+        view.setCalledLocation(std::make_pair(all_tanks[tank_index].getLocationX(), all_tanks[tank_index].getLocationY()));
         if(player_id == 1){
             player1->updateTankWithBattleInfo(all_tanks[tank_index].getTankAlgorithm(), view);
         }
@@ -643,8 +679,8 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
                 std::pair<int, int> new_shell_location = getShellLocationOnCreation(all_tanks[tank_index]);
                 //Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
 
-                flying_shells.emplace_back(new_shell_location, all_tanks[tank_index].getCanonDirection(), tank_index);
-                updateShellNextLocation(flying_shells.back());
+                flying_shells.emplace_back(new_shell_location, all_tanks[tank_index].getCanonDirection());
+                updateShellNextLocation(&flying_shells.back());
 
                 all_tanks[tank_index].setUnusedShellsCount(all_tanks[tank_index].getUnusedShellsCount() - 1);
                 

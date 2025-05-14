@@ -25,7 +25,7 @@ int Tank::getTankIndex() const {
     return tank_index;
 }
 
-bool Tank::getAlive(){
+bool Tank::getAlive() const {
     return alive;
 }
 

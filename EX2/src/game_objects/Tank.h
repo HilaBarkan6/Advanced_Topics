@@ -3,13 +3,15 @@
 #include "GameObject.h"
 #include "Shell.h"
 #include <vector>
+#include <memory>
 #include "../common/TankAlgorithm.h"
 
 
 class Tank : public GameObject
 {
     private:
-        int id;
+        int player_id;
+        int tank_index;
         bool alive;
         int location_x;
         int location_y;
@@ -19,12 +21,13 @@ class Tank : public GameObject
         std::unique_ptr<TankAlgorithm> tank_algorithm;
 
     public:
-        Tank(int x, int y, CanonDirection direction, int id, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
+        Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
         Tank(){};
-        Tank (const Tank&) = delete;
+        //Tank (const Tank&) = delete;
         ~Tank(){};
 
-        int getId() const;
+        int getPlayerId() const;
+        int getTankIndex() const;
 
         bool getAlive();
         void setAlive();

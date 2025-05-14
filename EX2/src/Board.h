@@ -22,7 +22,7 @@ class Board{
         bool isWallLocation(int x, int y) const;
         bool isMineLocation(int x, int y) const;
 
-        std::unique_ptr<GameObject> getGameObjectAt(int x, int y) const;
+        GameObject* getGameObjectAt(int x, int y) const;
         void setGameObjectAt(int x, int y, std::unique_ptr<GameObject> obj);     
 
     private:

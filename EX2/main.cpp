@@ -1,6 +1,6 @@
 #include "src/GameManager.h"
-#include "src/DefensivePlayer.h"
-#include "src/OffensivePlayer.h"
+#include "src/implementations/SimplePlayerFactory.h"
+#include "src/implementations/SimpleTankAlgorithmFactory.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -11,11 +11,11 @@ int main(int argc, char* argv[]){
         std::cerr << "Please provide the input file path as a command line argument." << std::endl;
         return 1;
     }
-    
     const std::string input_file = argv[1];
-    
     try{
-        GameManager m(std::move(player1), std::move(player2));
+        std::unique_ptr<PlayerFactory> player_factory(new SimplePlayerFactory());
+        std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory(new SimpleTankAlgorithmFactory());
+        GameManager m(std::move(player_factory), std::move(tank_algorithm_factory));
         m.readBoard(input_file);
         m.run();
     }

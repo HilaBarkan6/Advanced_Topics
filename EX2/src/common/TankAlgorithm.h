@@ -1,7 +1,8 @@
-#ifdef TANKALGORITHM_H
+#ifndef TANKALGORITHM_H
 #define TANKALGORITHM_H
 
 #include "ActionRequest.h"
+#include "BattleInfo.h"
 
 class TankAlgorithm {
     public:

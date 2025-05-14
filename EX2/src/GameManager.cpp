@@ -39,12 +39,10 @@ GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::uni
       tank_algorithm_factory(std::move(tank_algorithm_factory)),
       turn_counter(0), 
       no_more_shells(false), 
-      counter_no_shells(0)
-    {
-    // Initialize the game board and players
-    // read first two lines for height and width.
-    
-}
+      counter_no_shells(0),
+      //TODO - we are worried that board is calling copy constractor, check it.
+      view(SatelliteViewImp(height, width, board, flying_shells, all_tanks)){}   
+
 
 void GameManager::readBoard(const std::string& path_input_file) {
     size_t last_slash = path_input_file.find_last_of("/\\");
@@ -148,28 +146,28 @@ void GameManager::readBoard(const std::string& path_input_file) {
 
             switch (cell) {
                 case '#':
-                    board.setGameObjectAt(row, col, std::make_unique<Wall>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Wall>()));
                     break;
                 case '@':
-                    board.setGameObjectAt(row, col, std::make_unique<Mine>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Mine>()));
                     break;
                 case ' ':
-                    board.setGameObjectAt(row, col, std::make_unique<Empty>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 case '1':
                     // Add a new tank for player 1
-                    all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, num_shells, tank_algorithm_factory->create(1, player1_alive_tanks));
+                    all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, tank_algorithm_factory->create(1, player1_alive_tanks));
                     player1_alive_tanks ++;
-                    board.setGameObjectAt(row, col, std::make_unique<Empty>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 case '2':
                     // Add a new tank for player 2
-                    all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, num_shells ,tank_algorithm_factory->create(2, player2_alive_tanks));
+                    all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,tank_algorithm_factory->create(2, player2_alive_tanks));
                     player2_alive_tanks ++;
-                    board.setGameObjectAt(row, col, std::make_unique<Empty>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 default:
-                    board.setGameObjectAt(row, col, std::make_unique<Empty>());
+                    board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     has_errors = true;
                     error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
                     break;
@@ -219,7 +217,7 @@ void GameManager::run(){
     this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
 
     // initialize dicts
-    for(int i=0; i<all_tanks.size(); i++){
+    for(size_t i=0; i<all_tanks.size(); i++){
         tank_last_shooting[i] = -1;
         all_tanks_backwards_info[i] = std::make_tuple(0, false, false);
     }
@@ -245,7 +243,7 @@ void GameManager::run(){
             MoveShells(true, output_file);
             
             // Request action from all live tanks using their algorithms
-            for(int i = 0; i<all_tanks.size(); i++){
+            for(size_t i = 0; i<all_tanks.size(); i++){
                 if(all_tanks[i].getAlive()){
                     wanted_actions[i] =  all_tanks[i].getTankAlgorithm().getAction();
                     new_wanted_locations[i] = getNewLocation(all_tanks[i], wanted_actions[i]);
@@ -258,7 +256,7 @@ void GameManager::run(){
             deleteCollidedShells();
 
             // Applying actions
-            for(int i = 0; i<all_tanks.size(); i++){
+            for(size_t i = 0; i<all_tanks.size(); i++){
                 //check tank index not in can_move, tank was already dead in begining of this turn so there is nothing to do
                 if(can_move.find(i) == can_move.end()){
                     output_file << "killed";
@@ -295,7 +293,7 @@ void GameManager::run(){
 
 // Check if both players finished their shells for all tanks
 bool GameManager::shellFinished(){
-    for(int i=0; i<all_tanks.size(); i++){
+    for(size_t i=0; i<all_tanks.size(); i++){
         if(all_tanks[i].getUnusedShellsCount() > 0){
             return false;
         }
@@ -384,9 +382,9 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
     if(!is_even_turn){
         for (auto& [key, vec] : shell_locations_map){
             
-            for (int i = 0; i< all_tanks.size(); i++){
+            for (size_t i = 0; i< all_tanks.size(); i++){
                 if (key.first == all_tanks[i].getLocationX() && key.second == all_tanks[i].getLocationY()){
-                    if(all_tanks[i].getId() == 1){
+                    if(all_tanks[i].getPlayerId() == 1){
                         player1_alive_tanks--;
                     }
                     else{
@@ -455,7 +453,7 @@ std::pair<int, int> GameManager::getNewLocation(const Tank& tank_to_move, Action
             default: break;
         }
     }
-    else if (wanted_action == ActionRequest::MoveBackward && canMoveBackward(tank_to_move.getId())){
+    else if (wanted_action == ActionRequest::MoveBackward && canMoveBackward(tank_to_move.getPlayerId())){
         switch(dir){
             case CanonDirection::UP: dx = 1; dy = 0; break;
             case CanonDirection::DOWN: dx = -1; dy = 0; break;
@@ -583,8 +581,16 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
        
     }
     else if(action == ActionRequest::GetBattleInfo){
-        //TODO - implement
-        output_file << "GetBattleInfo action is not implemented yet" << std::endl;
+        int player_id = all_tanks[tank_index].getPlayerId();
+        view.setCalledPlayerId(player_id);
+        view.setCalledTankIndex(all_tanks[tank_index].getTankIndex());
+        if(player_id == 1){
+            player1->updateTankWithBattleInfo(all_tanks[tank_index].getTankAlgorithm(), view);
+        }
+        else{
+            player2->updateTankWithBattleInfo(all_tanks[tank_index].getTankAlgorithm(), view);
+        }
+
     }
 
     else if (action == ActionRequest::MoveForward) {
@@ -646,7 +652,7 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
                 for(auto& [tank_index, new_location] : new_wanted_locations){
                     if (new_shell_location.first == new_location.first && new_shell_location.second == new_location.second){
                         all_tanks[tank_index].setAlive();
-                        if(all_tanks[tank_index].getId() == 1){
+                        if(all_tanks[tank_index].getPlayerId() == 1){
                             player1_alive_tanks--;
                         }
                         else{

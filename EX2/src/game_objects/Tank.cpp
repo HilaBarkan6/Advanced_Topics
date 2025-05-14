@@ -5,9 +5,10 @@
 #include <memory>
 
 // TODO - what about the move?
-Tank::Tank(int x, int y, CanonDirection direction, int id, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm) : 
+Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm) : 
     GameObject(),
-    id(id), 
+    player_id(player_id),
+    tank_index(tank_index), 
     alive(true), 
     location_x(x), 
     location_y(y), 
@@ -15,15 +16,13 @@ Tank::Tank(int x, int y, CanonDirection direction, int id, int shells_count, std
     unused_shells_count(shells_count), 
     tank_algorithm(std::move(tank_algorithm)) {}
 
-Tank::~Tank() {
-    for (Shell* shell : flying_shells) {
-        delete shell; // Clean up the dynamically allocated Shell objects
-    }
-    flying_shells.clear(); // Clear the vector to avoid dangling pointers
+
+int Tank::getPlayerId() const {
+    return player_id;
 }
 
-int Tank::getId() const {
-    return id;
+int Tank::getTankIndex() const {
+    return tank_index;
 }
 
 bool Tank::getAlive(){
@@ -64,21 +63,11 @@ void Tank::setUnusedShellsCount(int count) {
     unused_shells_count = count;
 }
 
-const std::vector<Shell *>& Tank::getFlyingShells() const {
-    return flying_shells;
+TankAlgorithm& Tank::getTankAlgorithm() const {
+    return *tank_algorithm;
 }
 
-void::Tank::addFlyingShell(Shell * shell) {
-    flying_shells.push_back(shell);
-}
 
-void Tank::deleteShell(Shell * shell) {
-    auto it = std::find(flying_shells.begin(), flying_shells.end(), shell);
-    if (it != flying_shells.end()) {
-        flying_shells.erase(it);
-        delete shell;
-    }
-}
 
 
 

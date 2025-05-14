@@ -10,6 +10,8 @@
 #include "game_objects/Shell.h"
 #include "common/PlayerFactory.h"
 #include "common/TankAlgorithmFactory.h"
+#include "common/SatelliteView.h"
+#include "implementations/SatelliteViewImp.h"
 #include <vector>
 #include <string>
 #include <utility> 
@@ -70,6 +72,10 @@ class GameManager
         bool no_more_shells;
         // if no_more_shells is true, game will finish when this is 40
         int counter_no_shells;
+
+        // Satellite view is a single instance holding refrences to board, tanks and flying shells.
+        // This single object will pass to players when needed.
+        SatelliteViewImp view;
 
         bool shellFinished();
 

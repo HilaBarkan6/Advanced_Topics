@@ -51,7 +51,7 @@ class GameManager
         std::unordered_map<int, int> tank_last_shooting;
 
         // Both player tanks in the order they were "born"
-        std::vector<Tank> all_tanks;
+        std::vector<std::shared_ptr<Tank>> all_tanks;
         int player1_alive_tanks;
         int player2_alive_tanks;
         
@@ -86,21 +86,21 @@ class GameManager
         void MoveShells(bool is_even_turn, std::ofstream& output_file);
         void updateShellNextLocation(std::shared_ptr<Shell> & shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
-        std::pair<int, int> getNewLocation(const Tank& tank_to_move, ActionRequest wanted_action);
+        std::pair<int, int> getNewLocation(const std::shared_ptr<Tank>& tank_to_move, ActionRequest wanted_action);
 
-        std::set<Tank *> tanks_to_kill;
+        std::set<std::shared_ptr<Tank>> tanks_to_kill;
         
         // Given the tanks new wanted locations, checks collisions between all relevant objects.
-        std::unordered_map<int,bool> checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations, std::ofstream& output_file);
-        // TODO - adress new action of get battle info
+        std::unordered_map<int,bool> checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations);
         void applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations ,std::ofstream& output_file);
         bool canMoveBackward(int tank_index) const;
         CanonDirection rotate(CanonDirection cur_dir, int rotation);
-        std::pair<int, int> getShellLocationOnCreation(const Tank& tank_to_shoot) const;
+        std::pair<int, int> getShellLocationOnCreation(const std::shared_ptr<Tank>& tank_to_shoot) const;
         
         // Used to delete collided shells every iteration
         std::set<std::shared_ptr<Shell>> shells_to_delete;
         void deleteCollidedShells();
+        void killTank(std::shared_ptr<Tank>& tank_to_kill);
 
     public:
         GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);

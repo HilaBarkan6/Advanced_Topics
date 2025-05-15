@@ -24,32 +24,6 @@ class Tank : public GameObject
         Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
         Tank(){};
 
-        Tank(Tank&& other) noexcept
-            : GameObject(std::move(other)), 
-            player_id(other.player_id),
-            tank_index(other.tank_index),
-            alive(other.alive),
-            location_x(other.location_x),
-            location_y(other.location_y),
-            canon_direction(other.canon_direction),
-            unused_shells_count(other.unused_shells_count),
-            tank_algorithm(std::move(other.tank_algorithm)) {}
-
-        Tank& operator=(Tank&& other) noexcept {
-            if (this != &other) {
-                GameObject::operator=(std::move(other)); 
-                player_id = other.player_id;
-                tank_index = other.tank_index;
-                alive = other.alive;
-                location_x = other.location_x;
-                location_y = other.location_y;
-                canon_direction = other.canon_direction;
-                unused_shells_count = other.unused_shells_count;
-                tank_algorithm = std::move(other.tank_algorithm);
-            }
-            return *this;
-        }
-
         Tank (const Tank&) = delete;
         Tank& operator=(const Tank&) = delete;
         

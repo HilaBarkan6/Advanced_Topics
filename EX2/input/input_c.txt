@@ -1,8 +1,9 @@
-6
-8
-########    
-#2    1#
-########
-#@    ##
-@     ##
-@     ##
+3- player 1 shoots player 2 rotating
+MaxSteps = 50
+NumShells=10
+Rows = 4
+Cols =10
+#### ##### 
+#    2  1 
+2  @    1#
+##@@@@@###

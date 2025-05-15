@@ -1,11 +1,12 @@
 #include "SimplePlayer.h"
+#include "SatelliteViewImp.h"
 #include <iostream>
 #include <vector>
 #include <utility> // for std::pair
 
 void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     // create some battle info and pass it to the tank algorithm
-    // use satellite view function getObjectAt to get all objects on the board and update battleinfo according to that
+    // use satellite view function getObjectAt to get all objects on the board and update battleinfo according to that 
     std::vector<std::pair<int, int>> tanks1_locations;
     std::vector<std::pair<int, int>> tanks2_locations;
     std::pair<int, int> called_tank_location;

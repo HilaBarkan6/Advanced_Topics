@@ -6,7 +6,7 @@
         "type": "cppdbg",  // use "cppdbg" for WSL or MinGW GDB
         "request": "launch",
         "program": "${workspaceFolder}/main.exe",
-        "args": ["C:/Projects/Advanced_Topics/EX2/input/input_a.txt"],
+        "args": ["C:/Projects/Advanced_Topics/EX2/input/input_d.txt"],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
         "environment": [],

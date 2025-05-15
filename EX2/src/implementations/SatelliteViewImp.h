@@ -9,15 +9,14 @@ class SatelliteViewImp : public SatelliteView {
     // TODO - this class should only keep copies and not refrences to the real thing so it could reflect to players the state before this turn and not in the middle of it.
     public:
         SatelliteViewImp(size_t rows, size_t columns) 
-            : rows(rows), columns(columns), called_tank_location(std::make_pair(-1,-1)) {};
+            : rows(rows), columns(columns) {};
         char getObjectAt(size_t x, size_t y) const override;
-        void setCalledLocation(std::pair<int, int> location);
         void setSatelliteView(const std::vector<std::vector<char>>& view);
+        void setCharAtLocation(const std::pair<int, int>& location, const char&& char_to_put);
 
     private:
         size_t rows;
         size_t columns;
-        std::pair<int, int> called_tank_location;
         std::vector<std::vector<char>> satellite_view;
 
 };

@@ -1,19 +1,4 @@
-Turn is 0
-Tank 1 rotated 1/4 left to DOWN
-Tank 2 rotated 1/4 right to DOWN
-Turn is 1
-Odd turn - only flying shells move.
-Turn is 2
-Tank 1 is waiting for backward
-Tank 2 shoot shell, created in location [5, 3]
-Turn is 3
-Odd turn - only flying shells move.
-Turn is 4
-Bad move, action is ignored for tank 1, still waiting to move backwards
-Tank 2 is not ready to shoot, needs to wait 3 more turns
-Turn is 5
-Odd turn - only flying shells move.
-Turn is 6
-1 shells hit tank at location [2, 3]
-Tank 2 is not ready to shoot, needs to wait 2 more turns
-Player 2 wins!
+MoveForward, MoveForward
+MoveForward, MoveForward
+MoveForward (killed), MoveForward (killed)
+Tie - both players tanks exploded

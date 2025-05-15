@@ -57,7 +57,7 @@ class GameManager
         
 
         // Flying shells of all tanks
-        std::vector<Shell> flying_shells;
+        std::vector<std::shared_ptr<Shell>> flying_shells;
 
         Board board;
 
@@ -84,7 +84,7 @@ class GameManager
         std::vector<std::vector<char>> createSatelliteMatrix() const;
         // Updates location for flying shells, is called every game iteration
         void MoveShells(bool is_even_turn, std::ofstream& output_file);
-        void updateShellNextLocation(Shell * shell);
+        void updateShellNextLocation(std::shared_ptr<Shell> & shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
         std::pair<int, int> getNewLocation(const Tank& tank_to_move, ActionRequest wanted_action);
 
@@ -99,7 +99,7 @@ class GameManager
         std::pair<int, int> getShellLocationOnCreation(const Tank& tank_to_shoot) const;
         
         // Used to delete collided shells every iteration
-        std::set<Shell *> shells_to_delete;
+        std::set<std::shared_ptr<Shell>> shells_to_delete;
         void deleteCollidedShells();
 
     public:

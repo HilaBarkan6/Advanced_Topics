@@ -1,6 +1,11 @@
 #include "Board.h"
 
-Board::Board(int rows, int columns) : rows(rows), columns(columns){}
+Board::Board(int rows, int columns) : rows(rows), columns(columns){
+    board.resize(rows);
+    for (int i = 0; i < rows; ++i) {
+        board[i].resize(columns);
+    }
+}
 
 // Board::~Board() {
 //     for (int i = 0; i < rows; ++i) {

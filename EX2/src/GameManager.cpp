@@ -37,6 +37,8 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
 GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory) 
     : player_factory(std::move(player_factory)),
       tank_algorithm_factory(std::move(tank_algorithm_factory)),
+      player1_alive_tanks(0),
+      player2_alive_tanks(0),
       turn_counter(0), 
       no_more_shells(false), 
       counter_no_shells(0),
@@ -156,13 +158,13 @@ void GameManager::readBoard(const std::string& path_input_file) {
                 case '1':
                     // Add a new tank for player 1
                     all_tanks.emplace_back(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, std::move(tank_algorithm_factory->create(1, player1_alive_tanks)));
-                    player1_alive_tanks ++;
+                    player1_alive_tanks++;
                     board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 case '2':
                     // Add a new tank for player 2
                     all_tanks.emplace_back(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,std::move(tank_algorithm_factory->create(2, player2_alive_tanks)));
-                    player2_alive_tanks ++;
+                    player2_alive_tanks++;
                     board.setGameObjectAt(row, col, std::move(std::make_unique<Empty>()));
                     break;
                 default:
@@ -266,7 +268,8 @@ void GameManager::run(){
                 if (i!=all_tanks.size()-1){
                     output_file << ", ";
                 }
-            }   
+            }
+            output_file << std::endl;   
             // To delete shells that were created exactly on a tank, so on creation they explode the tank and themselves.
             deleteCollidedShells();
 
@@ -320,8 +323,8 @@ std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const{
     }
     // Add Shells
     for (size_t i = 0; i < flying_shells.size(); ++i) {
-        int x = flying_shells[i].getLocation().first;
-        int y = flying_shells[i].getLocation().second;
+        int x = flying_shells[i]->getLocation().first;
+        int y = flying_shells[i]->getLocation().second;
         satellite_matrix[x][y] = '*';
     }
     return satellite_matrix;
@@ -342,12 +345,12 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
     // Check if both players finished their shells and 40 turns passed
     if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
         if(no_more_shells && counter_no_shells>=80){
-            output_file << "Game over - no more shells" << std::endl;
+             output_file << "Tie, all tanks are out of shells and 40 turns passed, player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks"<< std::endl;
             std::cout << "Game over - no more shells" << std::endl;
             return true;
         }
         if(turn_counter >= max_steps*2){
-            output_file << "Game over - max steps reached" << std::endl;
+            output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks"<< std::endl;
             std::cout << "Game over - max steps reached" << std::endl;
             return true;
         }
@@ -355,18 +358,18 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
     }
     // Both players are dead
     if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
-        output_file << "Tie - both players tanks exploded" << std::endl;
-        std::cout << "Tie - both players tanks exploded" << std::endl;
+        output_file << "Tie, both players have zero tanks" << std::endl;
+        std::cout << "Tie, both players have zero tanks" << std::endl;
         return true;
     }
     // Only player1 dead
     else if (player1_alive_tanks == 0) {
-        output_file << "Player 2 wins!" << std::endl;
+        output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive" << std::endl;
         std::cout << "Player 2 wins!" << std::endl;
         return true;
     // Only player 2 dead
     } else if (player2_alive_tanks == 0) {
-        output_file << "Player 1 wins!" << std::endl;
+        output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive" << std::endl;
         std::cout << "Player 1 wins!" << std::endl;
         return true;
     }
@@ -378,10 +381,11 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
 
     // Map betwenn location and the shells that will arrive to this new location
     // Used ChatGpt to learn to work with dictonaries, prompt was - "How to create a dict in c++ to map between pair to list of pointers?"
-    std::unordered_map<std::pair<int, int>, std::vector<Shell*>, pair_hash> shell_locations_map;
+    std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash> shell_locations_map;
 
     for (size_t i = 0; i<flying_shells.size(); i++){
-        Shell* shell = &flying_shells[i];
+        //TODO - fix this, use shared ptr
+        std::shared_ptr<Shell> shell = flying_shells[i];
         // If shell is in a location that is a new location for another shell - collision
         std::pair <int, int> shell_cur_location = shell->getLocation(); 
         if (shell_locations_map.find(shell_cur_location) != shell_locations_map.end()){
@@ -401,7 +405,7 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
             if(wall->isDestroyed()){
                 board.setGameObjectAt(x, y, std::make_unique<Empty>());
                 std::cout << "Wall at ["<< x << ", "<< y << "] destroyed" << std::endl;
-                delete wall;
+                //delete wall;
             }
             //remove shell from flying_shells1
             shells_to_delete.insert(shell);
@@ -441,14 +445,14 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
         {
             std::cout << vec.size() << " shells collided at location [" << key.first <<", "<< key.second << "]" << std::endl;
             output_file << vec.size() << " shells collided at location [" << key.first <<", "<< key.second << "]" << std::endl;
-            for(Shell * shell: vec){
+            for(std::shared_ptr<Shell> shell: vec){
                 shells_to_delete.insert(shell);
             }
         }  
     } 
 }
 
-void GameManager::updateShellNextLocation(Shell* shell){
+void GameManager::updateShellNextLocation(std::shared_ptr<Shell> & shell){
     int dx = 0;
     int dy = 0;
     CanonDirection dir = shell->getFlyingDirection();
@@ -536,11 +540,22 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
             std::cout << "Bad move, Tank " << tank_index << " hit a mine!" << std::endl;
             output_file << "Bad move, Tank " << tank_index << " hit a mine!" << std::endl;
             can_tank_move[tank_index] = false;
-            all_tanks[tank_index].setAlive();
+            if (all_tanks[tank_index].getAlive()){
+                all_tanks[tank_index].setAlive();
+                if(all_tanks[tank_index].getPlayerId() == 1){
+                    player1_alive_tanks--;
+                }
+                else{
+                    player2_alive_tanks--;
+                }
+            }
+            
             // TODO - delete mine so other tanks in the future will not hit it
+            board.setGameObjectAt(new_location.first, new_location.second, std::make_unique<Empty>());
+            std::cout << "Mine at ["<< new_location.first << ", "<< new_location.second << "] destroyed" << std::endl;
         }
         for(size_t j = 0; j<flying_shells.size(); j++){
-            Shell* shell = &flying_shells[j];
+            std::shared_ptr<Shell> shell = flying_shells[j];
 
             /* Since shells flies twice as fast as tank, in every tank move we check collision with the shell current location and also shell prev location
             * Example for a tank turn:
@@ -552,7 +567,15 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
                 output_file << "Bad move, Tank " << tank_index << " hit a shell!" << std::endl;
                 can_tank_move[tank_index] = false;
                 shells_to_delete.insert(shell);
-                all_tanks[tank_index].setAlive();
+                if (all_tanks[tank_index].getAlive()){
+                    all_tanks[tank_index].setAlive();
+                    if(all_tanks[tank_index].getPlayerId() == 1){
+                        player1_alive_tanks--;
+                    }
+                    else{
+                        player2_alive_tanks--;
+                    }
+                }
             }
         }   
 
@@ -572,9 +595,17 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
     for(auto& [tank_index, can_move] : can_tank_move){
         if(tanks_to_kill.find(&all_tanks[tank_index]) != tanks_to_kill.end()){
             can_tank_move[tank_index] = false;
-            all_tanks[tank_index].setAlive();
+            if (all_tanks[tank_index].getAlive()){
+                all_tanks[tank_index].setAlive();
+                if(all_tanks[tank_index].getPlayerId() == 1){
+                    player1_alive_tanks--;
+                }
+                else{
+                    player2_alive_tanks--;
+                }
+            }
             std::cout << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
-            output_file << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
+            //output_file << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
         }
     }
     tanks_to_kill.clear();
@@ -679,8 +710,9 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
                 std::pair<int, int> new_shell_location = getShellLocationOnCreation(all_tanks[tank_index]);
                 //Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
 
-                flying_shells.emplace_back(new_shell_location, all_tanks[tank_index].getCanonDirection());
-                updateShellNextLocation(&flying_shells.back());
+                flying_shells.emplace_back(std::make_shared<Shell>(new_shell_location, all_tanks[tank_index].getCanonDirection()));
+                //TODO - use refernce and not pointer
+                updateShellNextLocation(flying_shells.back());
 
                 all_tanks[tank_index].setUnusedShellsCount(all_tanks[tank_index].getUnusedShellsCount() - 1);
                 
@@ -695,7 +727,7 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
                             player2_alive_tanks--;
                         }
                         // Shell will be deleted next time the function deleteCollidedShells will get called
-                        shells_to_delete.insert(&flying_shells.back());
+                        shells_to_delete.insert(flying_shells.back());
                     }
                 }
             }
@@ -762,8 +794,8 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const Tank& tank_to_
 // Called in every game iteration to delete collided flying shells
 void GameManager::deleteCollidedShells(){
     // Used ChatGpt to create and work with set. prompt was "How to create set of pointers of shells, how to add and remove from it"
-    for(Shell * shell : shells_to_delete){
-        flying_shells.erase(std::remove_if(flying_shells.begin(), flying_shells.end(), [shell](const Shell& s) { return &s == shell; }), flying_shells.end());   
+    for(const std::shared_ptr<Shell>& shell : shells_to_delete){
+        flying_shells.erase(std::remove_if(flying_shells.begin(), flying_shells.end(), [&shell](const std::shared_ptr<Shell>& s) { return s == shell; }), flying_shells.end());   
     }
     shells_to_delete.clear();
 }

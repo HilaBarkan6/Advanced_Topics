@@ -58,6 +58,10 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
     while(!q.empty()){
         QueueNode current = q.front();
         q.pop();
+        int current_depth = current.depth;
+        if(current_depth > 10){
+            break;
+        }
 
         int current_x = current.state.x;
         int current_y = current.state.y;
@@ -109,5 +113,5 @@ Player::Action OffensivePlayer::offensiveMove(const Board& board, const Tank& my
             }
         }  
     }
-    return Player::Action::BACKWARD;
+    return Player::Action::ROTATE_0125_LEFT;
 }

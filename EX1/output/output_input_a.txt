@@ -1,19 +1,1477 @@
 Turn is 0
 Tank 1 rotated 1/4 left to DOWN
-Tank 2 rotated 1/4 right to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
 Turn is 1
 Odd turn - only flying shells move.
 Turn is 2
-Tank 1 is waiting for backward
-Tank 2 shoot shell, created in location [5, 3]
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
 Turn is 3
 Odd turn - only flying shells move.
 Turn is 4
-Bad move, action is ignored for tank 1, still waiting to move backwards
-Tank 2 is not ready to shoot, needs to wait 3 more turns
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
 Turn is 5
 Odd turn - only flying shells move.
 Turn is 6
-1 shells hit tank at location [2, 3]
-Tank 2 is not ready to shoot, needs to wait 2 more turns
-Player 2 wins!
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 7
+Odd turn - only flying shells move.
+Turn is 8
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 9
+Odd turn - only flying shells move.
+Turn is 10
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 11
+Odd turn - only flying shells move.
+Turn is 12
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 13
+Odd turn - only flying shells move.
+Turn is 14
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 15
+Odd turn - only flying shells move.
+Turn is 16
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 17
+Odd turn - only flying shells move.
+Turn is 18
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 19
+Odd turn - only flying shells move.
+Turn is 20
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 21
+Odd turn - only flying shells move.
+Turn is 22
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 23
+Odd turn - only flying shells move.
+Turn is 24
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 25
+Odd turn - only flying shells move.
+Turn is 26
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 27
+Odd turn - only flying shells move.
+Turn is 28
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 29
+Odd turn - only flying shells move.
+Turn is 30
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 31
+Odd turn - only flying shells move.
+Turn is 32
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 33
+Odd turn - only flying shells move.
+Turn is 34
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 35
+Odd turn - only flying shells move.
+Turn is 36
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 37
+Odd turn - only flying shells move.
+Turn is 38
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 39
+Odd turn - only flying shells move.
+Turn is 40
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 41
+Odd turn - only flying shells move.
+Turn is 42
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 43
+Odd turn - only flying shells move.
+Turn is 44
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 45
+Odd turn - only flying shells move.
+Turn is 46
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 47
+Odd turn - only flying shells move.
+Turn is 48
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 49
+Odd turn - only flying shells move.
+Turn is 50
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 51
+Odd turn - only flying shells move.
+Turn is 52
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 53
+Odd turn - only flying shells move.
+Turn is 54
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 55
+Odd turn - only flying shells move.
+Turn is 56
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 57
+Odd turn - only flying shells move.
+Turn is 58
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 59
+Odd turn - only flying shells move.
+Turn is 60
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 61
+Odd turn - only flying shells move.
+Turn is 62
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 63
+Odd turn - only flying shells move.
+Turn is 64
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 65
+Odd turn - only flying shells move.
+Turn is 66
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 67
+Odd turn - only flying shells move.
+Turn is 68
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 69
+Odd turn - only flying shells move.
+Turn is 70
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 71
+Odd turn - only flying shells move.
+Turn is 72
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 73
+Odd turn - only flying shells move.
+Turn is 74
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 75
+Odd turn - only flying shells move.
+Turn is 76
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 77
+Odd turn - only flying shells move.
+Turn is 78
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 79
+Odd turn - only flying shells move.
+Turn is 80
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 81
+Odd turn - only flying shells move.
+Turn is 82
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 83
+Odd turn - only flying shells move.
+Turn is 84
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 85
+Odd turn - only flying shells move.
+Turn is 86
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 87
+Odd turn - only flying shells move.
+Turn is 88
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 89
+Odd turn - only flying shells move.
+Turn is 90
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 91
+Odd turn - only flying shells move.
+Turn is 92
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 93
+Odd turn - only flying shells move.
+Turn is 94
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 95
+Odd turn - only flying shells move.
+Turn is 96
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 97
+Odd turn - only flying shells move.
+Turn is 98
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 99
+Odd turn - only flying shells move.
+Turn is 100
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 101
+Odd turn - only flying shells move.
+Turn is 102
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 103
+Odd turn - only flying shells move.
+Turn is 104
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 105
+Odd turn - only flying shells move.
+Turn is 106
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 107
+Odd turn - only flying shells move.
+Turn is 108
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 109
+Odd turn - only flying shells move.
+Turn is 110
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 111
+Odd turn - only flying shells move.
+Turn is 112
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 113
+Odd turn - only flying shells move.
+Turn is 114
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 115
+Odd turn - only flying shells move.
+Turn is 116
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 117
+Odd turn - only flying shells move.
+Turn is 118
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 119
+Odd turn - only flying shells move.
+Turn is 120
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 121
+Odd turn - only flying shells move.
+Turn is 122
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 123
+Odd turn - only flying shells move.
+Turn is 124
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 125
+Odd turn - only flying shells move.
+Turn is 126
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 127
+Odd turn - only flying shells move.
+Turn is 128
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 129
+Odd turn - only flying shells move.
+Turn is 130
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 131
+Odd turn - only flying shells move.
+Turn is 132
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 133
+Odd turn - only flying shells move.
+Turn is 134
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 135
+Odd turn - only flying shells move.
+Turn is 136
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 137
+Odd turn - only flying shells move.
+Turn is 138
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 139
+Odd turn - only flying shells move.
+Turn is 140
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 141
+Odd turn - only flying shells move.
+Turn is 142
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 143
+Odd turn - only flying shells move.
+Turn is 144
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 145
+Odd turn - only flying shells move.
+Turn is 146
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 147
+Odd turn - only flying shells move.
+Turn is 148
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 149
+Odd turn - only flying shells move.
+Turn is 150
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 151
+Odd turn - only flying shells move.
+Turn is 152
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 153
+Odd turn - only flying shells move.
+Turn is 154
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 155
+Odd turn - only flying shells move.
+Turn is 156
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 157
+Odd turn - only flying shells move.
+Turn is 158
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 159
+Odd turn - only flying shells move.
+Turn is 160
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 161
+Odd turn - only flying shells move.
+Turn is 162
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 163
+Odd turn - only flying shells move.
+Turn is 164
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 165
+Odd turn - only flying shells move.
+Turn is 166
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 167
+Odd turn - only flying shells move.
+Turn is 168
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 169
+Odd turn - only flying shells move.
+Turn is 170
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 171
+Odd turn - only flying shells move.
+Turn is 172
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 173
+Odd turn - only flying shells move.
+Turn is 174
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 175
+Odd turn - only flying shells move.
+Turn is 176
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 177
+Odd turn - only flying shells move.
+Turn is 178
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 179
+Odd turn - only flying shells move.
+Turn is 180
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 181
+Odd turn - only flying shells move.
+Turn is 182
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 183
+Odd turn - only flying shells move.
+Turn is 184
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 185
+Odd turn - only flying shells move.
+Turn is 186
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 187
+Odd turn - only flying shells move.
+Turn is 188
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 189
+Odd turn - only flying shells move.
+Turn is 190
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 191
+Odd turn - only flying shells move.
+Turn is 192
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 193
+Odd turn - only flying shells move.
+Turn is 194
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 195
+Odd turn - only flying shells move.
+Turn is 196
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 197
+Odd turn - only flying shells move.
+Turn is 198
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 199
+Odd turn - only flying shells move.
+Turn is 200
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 201
+Odd turn - only flying shells move.
+Turn is 202
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 203
+Odd turn - only flying shells move.
+Turn is 204
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 205
+Odd turn - only flying shells move.
+Turn is 206
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 207
+Odd turn - only flying shells move.
+Turn is 208
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 209
+Odd turn - only flying shells move.
+Turn is 210
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 211
+Odd turn - only flying shells move.
+Turn is 212
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 213
+Odd turn - only flying shells move.
+Turn is 214
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 215
+Odd turn - only flying shells move.
+Turn is 216
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 217
+Odd turn - only flying shells move.
+Turn is 218
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 219
+Odd turn - only flying shells move.
+Turn is 220
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 221
+Odd turn - only flying shells move.
+Turn is 222
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 223
+Odd turn - only flying shells move.
+Turn is 224
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 225
+Odd turn - only flying shells move.
+Turn is 226
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 227
+Odd turn - only flying shells move.
+Turn is 228
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 229
+Odd turn - only flying shells move.
+Turn is 230
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 231
+Odd turn - only flying shells move.
+Turn is 232
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 233
+Odd turn - only flying shells move.
+Turn is 234
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 235
+Odd turn - only flying shells move.
+Turn is 236
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 237
+Odd turn - only flying shells move.
+Turn is 238
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 239
+Odd turn - only flying shells move.
+Turn is 240
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 241
+Odd turn - only flying shells move.
+Turn is 242
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 243
+Odd turn - only flying shells move.
+Turn is 244
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 245
+Odd turn - only flying shells move.
+Turn is 246
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 247
+Odd turn - only flying shells move.
+Turn is 248
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 249
+Odd turn - only flying shells move.
+Turn is 250
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 251
+Odd turn - only flying shells move.
+Turn is 252
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 253
+Odd turn - only flying shells move.
+Turn is 254
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 255
+Odd turn - only flying shells move.
+Turn is 256
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 257
+Odd turn - only flying shells move.
+Turn is 258
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 259
+Odd turn - only flying shells move.
+Turn is 260
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 261
+Odd turn - only flying shells move.
+Turn is 262
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 263
+Odd turn - only flying shells move.
+Turn is 264
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 265
+Odd turn - only flying shells move.
+Turn is 266
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 267
+Odd turn - only flying shells move.
+Turn is 268
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 269
+Odd turn - only flying shells move.
+Turn is 270
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 271
+Odd turn - only flying shells move.
+Turn is 272
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 273
+Odd turn - only flying shells move.
+Turn is 274
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 275
+Odd turn - only flying shells move.
+Turn is 276
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 277
+Odd turn - only flying shells move.
+Turn is 278
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 279
+Odd turn - only flying shells move.
+Turn is 280
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 281
+Odd turn - only flying shells move.
+Turn is 282
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 283
+Odd turn - only flying shells move.
+Turn is 284
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 285
+Odd turn - only flying shells move.
+Turn is 286
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 287
+Odd turn - only flying shells move.
+Turn is 288
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 289
+Odd turn - only flying shells move.
+Turn is 290
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 291
+Odd turn - only flying shells move.
+Turn is 292
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 293
+Odd turn - only flying shells move.
+Turn is 294
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 295
+Odd turn - only flying shells move.
+Turn is 296
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 297
+Odd turn - only flying shells move.
+Turn is 298
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 299
+Odd turn - only flying shells move.
+Turn is 300
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 301
+Odd turn - only flying shells move.
+Turn is 302
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 303
+Odd turn - only flying shells move.
+Turn is 304
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 305
+Odd turn - only flying shells move.
+Turn is 306
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 307
+Odd turn - only flying shells move.
+Turn is 308
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 309
+Odd turn - only flying shells move.
+Turn is 310
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 311
+Odd turn - only flying shells move.
+Turn is 312
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 313
+Odd turn - only flying shells move.
+Turn is 314
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 315
+Odd turn - only flying shells move.
+Turn is 316
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 317
+Odd turn - only flying shells move.
+Turn is 318
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 319
+Odd turn - only flying shells move.
+Turn is 320
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 321
+Odd turn - only flying shells move.
+Turn is 322
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 323
+Odd turn - only flying shells move.
+Turn is 324
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 325
+Odd turn - only flying shells move.
+Turn is 326
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 327
+Odd turn - only flying shells move.
+Turn is 328
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 329
+Odd turn - only flying shells move.
+Turn is 330
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 331
+Odd turn - only flying shells move.
+Turn is 332
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 333
+Odd turn - only flying shells move.
+Turn is 334
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 335
+Odd turn - only flying shells move.
+Turn is 336
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 337
+Odd turn - only flying shells move.
+Turn is 338
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 339
+Odd turn - only flying shells move.
+Turn is 340
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 341
+Odd turn - only flying shells move.
+Turn is 342
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 343
+Odd turn - only flying shells move.
+Turn is 344
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 345
+Odd turn - only flying shells move.
+Turn is 346
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 347
+Odd turn - only flying shells move.
+Turn is 348
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 349
+Odd turn - only flying shells move.
+Turn is 350
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 351
+Odd turn - only flying shells move.
+Turn is 352
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 353
+Odd turn - only flying shells move.
+Turn is 354
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 355
+Odd turn - only flying shells move.
+Turn is 356
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 357
+Odd turn - only flying shells move.
+Turn is 358
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 359
+Odd turn - only flying shells move.
+Turn is 360
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 361
+Odd turn - only flying shells move.
+Turn is 362
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 363
+Odd turn - only flying shells move.
+Turn is 364
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 365
+Odd turn - only flying shells move.
+Turn is 366
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 367
+Odd turn - only flying shells move.
+Turn is 368
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 369
+Odd turn - only flying shells move.
+Turn is 370
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 371
+Odd turn - only flying shells move.
+Turn is 372
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 373
+Odd turn - only flying shells move.
+Turn is 374
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 375
+Odd turn - only flying shells move.
+Turn is 376
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 377
+Odd turn - only flying shells move.
+Turn is 378
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 379
+Odd turn - only flying shells move.
+Turn is 380
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 381
+Odd turn - only flying shells move.
+Turn is 382
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 383
+Odd turn - only flying shells move.
+Turn is 384
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 385
+Odd turn - only flying shells move.
+Turn is 386
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 387
+Odd turn - only flying shells move.
+Turn is 388
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 389
+Odd turn - only flying shells move.
+Turn is 390
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 391
+Odd turn - only flying shells move.
+Turn is 392
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 393
+Odd turn - only flying shells move.
+Turn is 394
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 395
+Odd turn - only flying shells move.
+Turn is 396
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 397
+Odd turn - only flying shells move.
+Turn is 398
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 399
+Odd turn - only flying shells move.
+Turn is 400
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 401
+Odd turn - only flying shells move.
+Turn is 402
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 403
+Odd turn - only flying shells move.
+Turn is 404
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 405
+Odd turn - only flying shells move.
+Turn is 406
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 407
+Odd turn - only flying shells move.
+Turn is 408
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 409
+Odd turn - only flying shells move.
+Turn is 410
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 411
+Odd turn - only flying shells move.
+Turn is 412
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 413
+Odd turn - only flying shells move.
+Turn is 414
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 415
+Odd turn - only flying shells move.
+Turn is 416
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 417
+Odd turn - only flying shells move.
+Turn is 418
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 419
+Odd turn - only flying shells move.
+Turn is 420
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 421
+Odd turn - only flying shells move.
+Turn is 422
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 423
+Odd turn - only flying shells move.
+Turn is 424
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 425
+Odd turn - only flying shells move.
+Turn is 426
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 427
+Odd turn - only flying shells move.
+Turn is 428
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 429
+Odd turn - only flying shells move.
+Turn is 430
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 431
+Odd turn - only flying shells move.
+Turn is 432
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 433
+Odd turn - only flying shells move.
+Turn is 434
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 435
+Odd turn - only flying shells move.
+Turn is 436
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 437
+Odd turn - only flying shells move.
+Turn is 438
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 439
+Odd turn - only flying shells move.
+Turn is 440
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 441
+Odd turn - only flying shells move.
+Turn is 442
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 443
+Odd turn - only flying shells move.
+Turn is 444
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 445
+Odd turn - only flying shells move.
+Turn is 446
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 447
+Odd turn - only flying shells move.
+Turn is 448
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 449
+Odd turn - only flying shells move.
+Turn is 450
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 451
+Odd turn - only flying shells move.
+Turn is 452
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 453
+Odd turn - only flying shells move.
+Turn is 454
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 455
+Odd turn - only flying shells move.
+Turn is 456
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 457
+Odd turn - only flying shells move.
+Turn is 458
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 459
+Odd turn - only flying shells move.
+Turn is 460
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 461
+Odd turn - only flying shells move.
+Turn is 462
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 463
+Odd turn - only flying shells move.
+Turn is 464
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 465
+Odd turn - only flying shells move.
+Turn is 466
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 467
+Odd turn - only flying shells move.
+Turn is 468
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 469
+Odd turn - only flying shells move.
+Turn is 470
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 471
+Odd turn - only flying shells move.
+Turn is 472
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 473
+Odd turn - only flying shells move.
+Turn is 474
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 475
+Odd turn - only flying shells move.
+Turn is 476
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 477
+Odd turn - only flying shells move.
+Turn is 478
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 479
+Odd turn - only flying shells move.
+Turn is 480
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 481
+Odd turn - only flying shells move.
+Turn is 482
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 483
+Odd turn - only flying shells move.
+Turn is 484
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 485
+Odd turn - only flying shells move.
+Turn is 486
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 487
+Odd turn - only flying shells move.
+Turn is 488
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 489
+Odd turn - only flying shells move.
+Turn is 490
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 491
+Odd turn - only flying shells move.
+Turn is 492
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 493
+Odd turn - only flying shells move.
+Turn is 494
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 495
+Odd turn - only flying shells move.
+Turn is 496
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 497
+Odd turn - only flying shells move.
+Turn is 498
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 499
+Odd turn - only flying shells move.
+Turn is 500
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 501
+Odd turn - only flying shells move.
+Turn is 502
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 503
+Odd turn - only flying shells move.
+Turn is 504
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 505
+Odd turn - only flying shells move.
+Turn is 506
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 507
+Odd turn - only flying shells move.
+Turn is 508
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 509
+Odd turn - only flying shells move.
+Turn is 510
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 511
+Odd turn - only flying shells move.
+Turn is 512
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 513
+Odd turn - only flying shells move.
+Turn is 514
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 515
+Odd turn - only flying shells move.
+Turn is 516
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 517
+Odd turn - only flying shells move.
+Turn is 518
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 519
+Odd turn - only flying shells move.
+Turn is 520
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 521
+Odd turn - only flying shells move.
+Turn is 522
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 523
+Odd turn - only flying shells move.
+Turn is 524
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 525
+Odd turn - only flying shells move.
+Turn is 526
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 527
+Odd turn - only flying shells move.
+Turn is 528
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 529
+Odd turn - only flying shells move.
+Turn is 530
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 531
+Odd turn - only flying shells move.
+Turn is 532
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 533
+Odd turn - only flying shells move.
+Turn is 534
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 535
+Odd turn - only flying shells move.
+Turn is 536
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 537
+Odd turn - only flying shells move.
+Turn is 538
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 539
+Odd turn - only flying shells move.
+Turn is 540
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 541
+Odd turn - only flying shells move.
+Turn is 542
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 543
+Odd turn - only flying shells move.
+Turn is 544
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 545
+Odd turn - only flying shells move.
+Turn is 546
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 547
+Odd turn - only flying shells move.
+Turn is 548
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 549
+Odd turn - only flying shells move.
+Turn is 550
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 551
+Odd turn - only flying shells move.
+Turn is 552
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 553
+Odd turn - only flying shells move.
+Turn is 554
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 555
+Odd turn - only flying shells move.
+Turn is 556
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 557
+Odd turn - only flying shells move.
+Turn is 558
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 559
+Odd turn - only flying shells move.
+Turn is 560
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 561
+Odd turn - only flying shells move.
+Turn is 562
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 563
+Odd turn - only flying shells move.
+Turn is 564
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 565
+Odd turn - only flying shells move.
+Turn is 566
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 567
+Odd turn - only flying shells move.
+Turn is 568
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 569
+Odd turn - only flying shells move.
+Turn is 570
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 571
+Odd turn - only flying shells move.
+Turn is 572
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 573
+Odd turn - only flying shells move.
+Turn is 574
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to RIGHT
+Turn is 575
+Odd turn - only flying shells move.
+Turn is 576
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to UP_RIGHT
+Turn is 577
+Odd turn - only flying shells move.
+Turn is 578
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to UP
+Turn is 579
+Odd turn - only flying shells move.
+Turn is 580
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to UP_LEFT
+Turn is 581
+Odd turn - only flying shells move.
+Turn is 582
+Tank 1 rotated 1/4 left to LEFT
+Tank 2 rotated 1/8 left to LEFT
+Turn is 583
+Odd turn - only flying shells move.
+Turn is 584
+Tank 1 rotated 1/4 left to DOWN
+Tank 2 rotated 1/8 left to DOWN_LEFT
+Turn is 585
+Odd turn - only flying shells move.
+Turn is 586
+Tank 1 rotated 1/4 left to RIGHT
+Tank 2 rotated 1/8 left to DOWN
+Turn is 587
+Odd turn - only flying shells move.
+Turn is 588
+Tank 1 rotated 1/4 left to UP
+Tank 2 rotated 1/8 left to DOWN_RIGHT
+Turn is 589
+Odd turn - only flying shells move.
+Turn is 590
+Tank 1 rotated 1/4 left to LEFT

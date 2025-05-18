@@ -21,7 +21,9 @@ class Tank : public GameObject
     public:
         Tank(int x, int y, CanonDirection direction, int id);
         Tank(){};
-        Tank (const Tank&) = delete;
+        //Rule of three
+        Tank (const Tank&) = default;
+        Tank& operator=(const Tank&) = default;
         ~Tank();
 
         int getId() const;

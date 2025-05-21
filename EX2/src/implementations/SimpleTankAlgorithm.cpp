@@ -1,19 +1,21 @@
 #include "SimpleTankAlgorithm.h"
-#include "SimpleBattleInfo.h"
-#include <iostream>
+
 
 SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index) {
     current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
+    turn_counter = 0;
 }
 
 ActionRequest SimpleTankAlgorithm::getAction() {
+
     turn_counter++;
     if(turn_counter%3 == 1){
         return ActionRequest::GetBattleInfo;
     }
-
-    switch (actions_to_apply[0]) {
-    
+    ActionRequest cur_action = actions_to_apply[0];
+    // Rotate the canon direction based on the action
+    switch (cur_action) 
+    {
         case ActionRequest::RotateLeft45:
             current_canon_direction = rotate(current_canon_direction, -1);
             break;
@@ -30,36 +32,194 @@ ActionRequest SimpleTankAlgorithm::getAction() {
             current_canon_direction = rotate(current_canon_direction, 2);
             break;
 
-        default:
+        case ActionRequest::Shoot:
+            last_shoot_turn = turn_counter;
             break;
-        
+
+        default:
+            break;    
     }
-    return actions_to_apply[0];
+  
     actions_to_apply.erase(actions_to_apply.begin());  
+    return cur_action;
 } 
 
 //TODO - we decide for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
 void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info);
-    
-    std::cout << simple_info.getCalledTankLocation().first << " " << simple_info.getCalledTankLocation().second << std::endl;
-    std::cout << "SimpleTankAlgorithm: updateBattleInfo called" << std::endl;
 
-    // if there is a shell very close to us, we should try to run away avoiding walls and mines
     // find closest enemy tank
+    std::pair<int, int> my_location = simple_info.getCalledTankLocation();
+    std::vector<std::pair<int, int>> enemy_tanks = (player_id==1) ? simple_info.getTanks2Locations() : simple_info.getTanks1Locations();
+    std::pair<int, int> closest_enemy = getClosestEnemyTank(my_location, enemy_tanks);
+
     // calculate next 2 action to get to this enemy, avoid walls and mines and shooting our tanks
     // save those 2 steps in the actions vector
+    bfs(closest_enemy, simple_info);
+    
     
 }
 
-int SimpleTankAlgorithm::getPlayerId() {
-    return player_id;
-} 
+void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
+    visited.clear();
+    q = std::queue<QueueNode>();
+    actions_to_apply.clear();
 
-int SimpleTankAlgorithm::getTankIndex(){
-    return tank_index;
+    CanonDirection dir = current_canon_direction;
+    State start_state = {simple_info.getCalledTankLocation().first, simple_info.getCalledTankLocation().second, dir};
+    q.push(QueueNode{start_state, ActionRequest::DoNothing, ActionRequest::DoNothing, 0});
+    visited.insert(start_state);
+
+    while(!q.empty()){
+        QueueNode current = q.front();
+        q.pop();
+        int current_depth = current.depth;
+        if(current_depth > 10){
+            break;
+        }
+        int current_x = current.state.x;
+        int current_y = current.state.y;
+        CanonDirection current_dir = current.state.dir;
+        // Check for shooting opportunity
+        if(canShoot(simple_info.getHeight(), simple_info.getWidth(), simple_info.getCalledTankLocation(), enemy_location, current_dir, simple_info.getWallsLocations())){
+            ActionRequest first = ActionRequest::DoNothing;
+            ActionRequest second = ActionRequest::DoNothing;
+            if(current_depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)){
+                first = ActionRequest::Shoot;
+            }
+            else if(current_depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 3)){
+                second = ActionRequest::Shoot;
+            }
+            actions_to_apply.push_back(first);
+            actions_to_apply.push_back(second);
+            return;
+        }
+
+        // Move forward
+        int new_x = current_x;
+        int new_y = current_y;
+        switch(current_dir){
+            case CanonDirection::UP: new_x--; break;
+            case CanonDirection::DOWN: new_x++; break;
+            case CanonDirection::LEFT: new_y--; break;
+            case CanonDirection::RIGHT: new_y++; break;
+            case CanonDirection::UP_RIGHT: new_x--; new_y++; break;
+            case CanonDirection::UP_LEFT: new_x--; new_y--; break;
+            case CanonDirection::DOWN_LEFT: new_x++; new_y--; break;
+            case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
+            default: break;
+        }
+        new_x = (new_x + simple_info.getHeight()) % simple_info.getHeight();
+        new_y = (new_y + simple_info.getWidth()) % simple_info.getWidth();
+
+        
+        if(canMove(new_x, new_y, simple_info.getWallsLocations(), simple_info.getMinesLocations(), simple_info.getTanks1Locations(), simple_info.getTanks2Locations())){
+            State new_state = {new_x, new_y, current_dir};
+            if(visited.find(new_state) == visited.end()){
+                visited.insert(new_state);
+                ActionRequest act1 = current.depth == 0 ? ActionRequest::MoveForward : current.firstAction;
+                ActionRequest act2 = current.depth == 1 ? ActionRequest::MoveForward : current.secondAction;
+                q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+            }
+        }
+
+        // Rotation options
+        std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
+            {ActionRequest::RotateLeft45, CanonDirection((static_cast<int>(current_dir) + 8 - 1) % 8)},
+            {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current_dir) + 8 - 2) % 8)},
+            {ActionRequest::RotateRight45,CanonDirection((static_cast<int>(current_dir) + 1) % 8)},
+            {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current_dir) + 2) % 8)},
+        };
+
+        for(const auto& [rotation_act, new_dir] : rotations){
+            State new_state = {current_x, current_y, new_dir};
+            if(visited.find(new_state) == visited.end()){
+                visited.insert(new_state);
+                ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;
+                ActionRequest act2 = current.depth == 1 ? rotation_act : current.secondAction;
+                q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+            }
+        }  
+    }
+    // fallback if nothing was found
+    actions_to_apply.push_back(ActionRequest::RotateLeft45);
+    actions_to_apply.push_back(ActionRequest::RotateLeft45);
 }
+
+bool SimpleTankAlgorithm::canShoot(size_t height, size_t width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
+    return clearPathFromSrcToDst(height, width, my_location.first, my_location.second, enemy_location.first, enemy_location.second, my_direction, wall_locations);
+}
+
+bool SimpleTankAlgorithm::canMove(int new_x, int new_y,
+    const std::vector<std::pair<int, int>>& wall_locations, const std::vector<std::pair<int, int>>& mine_locations, 
+    const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const
+    {
+        // Used chatGpt to learn how to combine vectors, prompt was "How to combine 4 vectors in c++ in the most efficient way"
+        std::vector<std::pair<int, int>> bad_moves_locations;
+        bad_moves_locations.reserve(wall_locations.size() + mine_locations.size() + tanks1_locations.size() + tanks2_locations.size());
+        bad_moves_locations.insert(bad_moves_locations.end(), wall_locations.begin(), wall_locations.end());
+        bad_moves_locations.insert(bad_moves_locations.end(), mine_locations.begin(), mine_locations.end());    
+        bad_moves_locations.insert(bad_moves_locations.end(), tanks1_locations.begin(), tanks1_locations.end());
+        bad_moves_locations.insert(bad_moves_locations.end(), tanks2_locations.begin(), tanks2_locations.end());
+        for(const auto& bad : bad_moves_locations) {
+            if (new_x == bad.first && new_y == bad.second) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+bool SimpleTankAlgorithm::clearPathFromSrcToDst(size_t height, size_t width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const{
+    int cx = src_x;
+    int cy = src_y;
+    int ox = dst_x;
+    int oy = dst_y;
+ 
+    for (int steps = 0; steps < static_cast<int>(std::max(height, width)); ++steps) {
+        if (cx == ox && cy == oy) {
+            return true;
+        }
+        for (const auto& bad : bad_moves_locations) {
+            if (cx == bad.first && cy == bad.second) {
+                return false;
+            }
+        }
+
+        switch (dir) {
+            case CanonDirection::UP:
+                cx = (cx - 1 + height) % height;
+                break;
+            case CanonDirection::DOWN:
+                cx = (cx + 1) % height;
+                break;
+            case CanonDirection::LEFT:
+                cy = (cy - 1 + width) % width;
+                break;
+            case CanonDirection::RIGHT:
+                cy = (cy + 1) % width;
+                break;
+            case CanonDirection::UP_RIGHT:
+                cx = (cx - 1 + height) % height;
+                cy = (cy + 1) % width;
+                break;
+            case CanonDirection::UP_LEFT:
+                cx = (cx - 1 + height) % height;
+                cy = (cy - 1 + width) % width;
+                break;
+            case CanonDirection::DOWN_RIGHT:
+                cx = (cx + 1) % height;
+                cy = (cy + 1) % width;
+                break;
+            case CanonDirection::DOWN_LEFT:
+                cx = (cx + 1) % height;
+                cy = (cy - 1 + width) % width;
+                break;
+        }
+    }
+    return false; 
+}
+
 
 CanonDirection SimpleTankAlgorithm::rotate(CanonDirection cur_dir, int rotation) {
     // Used ChatGpt to cast the direction to number and preforme rotation as addition/substraction
@@ -70,4 +230,18 @@ CanonDirection SimpleTankAlgorithm::rotate(CanonDirection cur_dir, int rotation)
         new_dir -= 8; // Wrap around to the first direction
     }
     return static_cast<CanonDirection>(new_dir);
+}
+
+std::pair<int, int> SimpleTankAlgorithm::getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const{
+    // There shouldn't be a case were the return value is {-1,-1} because if the enemy doesn't have any live tanks the game will finish.
+    int min_dist = std::numeric_limits<int>::max();
+    std::pair<int, int> closest_enemy = {-1, -1};
+    for (const auto& enemy_loc : enemy_tanks) {
+        int dist = abs(my_location.first - enemy_loc.first) + abs(my_location.second - enemy_loc.second);
+        if (dist < min_dist) {
+            min_dist = dist;
+            closest_enemy = enemy_loc;
+        }
+    }
+    return closest_enemy;
 }

@@ -12,6 +12,7 @@ std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
         case ActionRequest::RotateLeft45: os << "RotateLeft45"; break;
         case ActionRequest::Shoot: os << "Shoot"; break;
         case ActionRequest::DoNothing: os << "DoNothing"; break;
+        case ActionRequest::GetBattleInfo: os << "GetBattleInfo"; break;
         default: os << "UnknownAction"; break;
     }
     return os;

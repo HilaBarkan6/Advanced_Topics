@@ -2,6 +2,12 @@
 #include <utility> // for std::pair
 #include <vector>
 
+int SimpleBattleInfo::getHeight() const {
+    return height;
+}
+int SimpleBattleInfo::getWidth() const {
+    return width;
+}
 const std::vector<std::pair<int, int>>& SimpleBattleInfo::getTanks1Locations() const {
     return tanks1_locations;
 }
@@ -19,6 +25,12 @@ const std::vector<std::pair<int, int>>& SimpleBattleInfo::getMinesLocations() co
 }
 const std::vector<std::pair<int, int>>& SimpleBattleInfo::getWallsLocations() const {
     return walls_locations;
+}
+void SimpleBattleInfo::setHeight(int height) {
+    height = height;
+}
+void SimpleBattleInfo::setWidth(int width) {
+    width = width;
 }
 void SimpleBattleInfo::setTanks1Locations(const std::vector<std::pair<int, int>>& tanks1) {
     tanks1_locations = tanks1;

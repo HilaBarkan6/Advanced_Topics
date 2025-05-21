@@ -41,6 +41,8 @@ void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView&
             }
         }
     }
+    battle_info.setHeight(height);
+    battle_info.setWidth(width);
     battle_info.setTanks1Locations(tanks1_locations);
     battle_info.setTanks2Locations(tanks2_locations);
     battle_info.setCalledTankLocation(called_tank_location);

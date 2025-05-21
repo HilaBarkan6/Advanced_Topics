@@ -1,0 +1,21 @@
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+UnknownAction, UnknownAction
+Tie, reached max steps = 20 , player 1 has 1 tanks, player 2 has 1 tanks

@@ -41,8 +41,8 @@ GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::uni
       player2_alive_tanks(0),
       turn_counter(0), 
       no_more_shells(false), 
-      counter_no_shells(0),
-      view(SatelliteViewImp(height, width)){}   
+      counter_no_shells(0)
+      {}   
 
 
 void GameManager::readBoard(const std::string& path_input_file) {
@@ -213,6 +213,9 @@ void GameManager::readBoard(const std::string& path_input_file) {
 }
 
 void GameManager::run(){
+    // Send height and width to the view
+    this->view.setRowsAndColumns(height, width);
+    
     //create players
     this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
     this->player2 = player_factory->create(2, width, height, max_steps, num_shells);

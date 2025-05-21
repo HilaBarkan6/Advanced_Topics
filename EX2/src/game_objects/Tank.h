@@ -24,11 +24,6 @@ class Tank : public GameObject
         Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
         Tank(){};
 
-        Tank (const Tank&) = delete;
-        Tank& operator=(const Tank&) = delete;
-        
-        ~Tank(){};
-
         int getPlayerId() const;
         int getTankIndex() const;
 

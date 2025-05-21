@@ -30,3 +30,14 @@ Notes -
     We assume board and players were designed to create a reasonable game that should be finished.
     If the game designed to not finish, we allow it. For example - if both players stays in place and just rotating, the game will run forever.
     Game can be finished only by the conditions described in the assignment.
+
+Whats Next-
+SimplePlayer - will send to its tanks SimpleBattleInfo - tanks will act offensive with no cordination.
+We need to implement a version on Offensive tank algorithm (similar to the BFS from EX1)
+
+SmartPlayer - will divide the board to areas for each tank and will sent each tank only the relevant battleinfo to it's area
+each tank will act offensive in their area.
+We need to implemet - the player, tank algoritm, maybe battle info but not sure
+
+Also need to update PlayerFactory and TankAlgorithmFactory to create the correct object for each player
+Algorithms should think about what to keep from battle info and how often to request a new battle info

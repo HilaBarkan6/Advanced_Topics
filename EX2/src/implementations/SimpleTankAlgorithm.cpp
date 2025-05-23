@@ -83,8 +83,8 @@ void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const S
         CanonDirection current_dir = current.state.dir;
         // Check for shooting opportunity
         if(canShoot(simple_info.getHeight(), simple_info.getWidth(), simple_info.getCalledTankLocation(), enemy_location, current_dir, simple_info.getWallsLocations())){
-            ActionRequest first = ActionRequest::DoNothing;
-            ActionRequest second = ActionRequest::DoNothing;
+            ActionRequest first = current.firstAction;
+            ActionRequest second = current.secondAction;
             if(current_depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)){
                 first = ActionRequest::Shoot;
             }
@@ -176,7 +176,8 @@ bool SimpleTankAlgorithm::clearPathFromSrcToDst(size_t height, size_t width, con
     int ox = dst_x;
     int oy = dst_y;
  
-    for (int steps = 0; steps < static_cast<int>(std::max(height, width)); ++steps) {
+    
+    for (size_t steps = 0; steps < std::max(height, width); ++steps) {
         if (cx == ox && cy == oy) {
             return true;
         }

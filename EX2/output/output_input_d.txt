@@ -1,3 +1,11 @@
-RotateLeft45, GetBattleInfo
-RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45
+RotateLeft45, GetBattleInfo, RotateLeft45
+RotateLeft45, RotateLeft45, RotateLeft45
+RotateLeft45, Shoot, RotateLeft45 (killed)
+RotateLeft45, GetBattleInfo, killed
+RotateLeft45, RotateRight45, killed
+RotateLeft45, DoNothing, killed
+RotateLeft45, GetBattleInfo, killed
+RotateLeft45, Shoot, killed
+RotateLeft45, DoNothing, killed
+RotateLeft45 (killed), GetBattleInfo, killed
+Player 1 won with 1 tanks still alive

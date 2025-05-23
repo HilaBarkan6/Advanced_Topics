@@ -5,8 +5,8 @@
 
 class SimpleBattleInfo : public BattleInfo {
     private:
-        int height;
-        int width;
+        size_t height;
+        size_t width;
         std::vector<std::pair<int, int>> tanks1_locations;
         std::vector<std::pair<int, int>> tanks2_locations;
         std::pair<int, int> called_tank_location;
@@ -15,9 +15,9 @@ class SimpleBattleInfo : public BattleInfo {
         std::vector<std::pair<int, int>> walls_locations;
 
     public:
-        SimpleBattleInfo() {};
-        int getHeight() const;
-        int getWidth() const;
+        SimpleBattleInfo(size_t height, size_t width): height(height), width(width) {};
+        size_t getHeight() const;
+        size_t getWidth() const;
         const std::vector<std::pair<int, int>>& getTanks1Locations() const;
         const std::vector<std::pair<int, int>>& getTanks2Locations() const;
         const std::pair<int, int>& getCalledTankLocation() const;
@@ -25,8 +25,8 @@ class SimpleBattleInfo : public BattleInfo {
         const std::vector<std::pair<int, int>>& getMinesLocations() const; 
         const std::vector<std::pair<int, int>>& getWallsLocations() const; 
 
-        void setHeight(int height);
-        void setWidth(int width);
+        void setHeight(size_t height);
+        void setWidth(size_t width);
         void setTanks1Locations(const std::vector<std::pair<int, int>>& tanks);
         void setTanks2Locations(const std::vector<std::pair<int, int>>& tanks);
         void setCalledTankLocation(const std::pair<int, int>& location);

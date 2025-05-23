@@ -14,8 +14,8 @@ void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView&
     std::vector<std::pair<int, int>> mines_locations;
     std::vector<std::pair<int, int>> walls_locations;
     // Iterate over the board using satellite_view and populate battle_info
-    for (int x = 0; x < height; ++x) {
-        for (int y = 0; y < width; ++y) {
+    for (size_t x = 0; x < height; ++x) {
+        for (size_t y = 0; y < width; ++y) {
             char object_sign = satellite_view.getObjectAt(x, y);
             switch(object_sign) {
                 case '1': // Tank1

@@ -7,18 +7,20 @@
 
 class SimplePlayer : public Player {
     public:
-        SimplePlayer(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells) : Player(player_index, x, y, max_steps, num_shells) {
-            width = x;
-            height = y;
+        SimplePlayer(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells)
+            : Player(player_index, x, y, max_steps, num_shells),
+              battle_info(x, y),
+              width(y),
+              height(x)
+        {
         }
         ~SimplePlayer() override = default;
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
     
     private:
         SimpleBattleInfo battle_info;
-        int width;
-        int height;
-
+        size_t width;
+        size_t height;
 };
 
 

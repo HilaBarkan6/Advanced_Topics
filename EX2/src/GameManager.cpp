@@ -218,8 +218,8 @@ void GameManager::run(){
     this->view.setRowsAndColumns(height, width);
     
     //create players
-    this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
-    this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
+    this->player1 = player_factory->create(1, height, width, max_steps, num_shells);
+    this->player2 = player_factory->create(2, height, width, max_steps, num_shells);
 
     // initialize dicts
     for(size_t i=0; i<all_tanks.size(); i++){

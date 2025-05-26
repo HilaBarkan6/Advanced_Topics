@@ -4,6 +4,8 @@
 SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index) {
     current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
     turn_counter = 0;
+    height = 0;
+    width = 0;
 }
 
 ActionRequest SimpleTankAlgorithm::getAction() {
@@ -49,16 +51,35 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info);
 
+    if(height == 0 && width == 0){
+        height = simple_info.getHeight();
+        width = simple_info.getWidth();
+    }
+
     // find closest enemy tank
     std::pair<int, int> my_location = simple_info.getCalledTankLocation();
     std::vector<std::pair<int, int>> enemy_tanks = (player_id==1) ? simple_info.getTanks2Locations() : simple_info.getTanks1Locations();
     std::pair<int, int> closest_enemy = getClosestEnemyTank(my_location, enemy_tanks);
 
-    // calculate next 2 action to get to this enemy, avoid walls and mines and shooting our tanks
-    // save those 2 steps in the actions vector
-    bfs(closest_enemy, simple_info);
-    
-    
+    //if closest enemy is not found, try to move using the function can_move and if not possible rotate
+    if(closest_enemy.first == -1 && closest_enemy.second == -1){
+        //check if can move forward
+        std::pair<int, int> next_location = getNextForwardLocation(my_location, current_canon_direction);
+        if(canMove(next_location.first, next_location.second, simple_info.getWallsLocations(), simple_info.getMinesLocations(), simple_info.getTanks1Locations(), simple_info.getTanks2Locations())){
+            actions_to_apply.push_back(ActionRequest::MoveForward);
+            actions_to_apply.push_back(ActionRequest::GetBattleInfo);
+        }
+        else{
+            actions_to_apply.push_back(ActionRequest::RotateRight45);
+            actions_to_apply.push_back(ActionRequest::GetBattleInfo);
+        }
+    }
+    else{
+        // calculate next 2 action to get to this enemy, avoid walls and mines and shooting our tanks
+        // save those 2 steps in the actions vector
+        bfs(closest_enemy, simple_info);
+    }
+   
 }
 
 void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
@@ -97,22 +118,9 @@ void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const S
         }
 
         // Move forward
-        int new_x = current_x;
-        int new_y = current_y;
-        switch(current_dir){
-            case CanonDirection::UP: new_x--; break;
-            case CanonDirection::DOWN: new_x++; break;
-            case CanonDirection::LEFT: new_y--; break;
-            case CanonDirection::RIGHT: new_y++; break;
-            case CanonDirection::UP_RIGHT: new_x--; new_y++; break;
-            case CanonDirection::UP_LEFT: new_x--; new_y--; break;
-            case CanonDirection::DOWN_LEFT: new_x++; new_y--; break;
-            case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
-            default: break;
-        }
-        new_x = (new_x + simple_info.getHeight()) % simple_info.getHeight();
-        new_y = (new_y + simple_info.getWidth()) % simple_info.getWidth();
-
+        std::pair<int, int> next_location = getNextForwardLocation({current_x, current_y}, current_dir);
+        int new_x = next_location.first;
+        int new_y = next_location.second;
         
         if(canMove(new_x, new_y, simple_info.getWallsLocations(), simple_info.getMinesLocations(), simple_info.getTanks1Locations(), simple_info.getTanks2Locations())){
             State new_state = {new_x, new_y, current_dir};
@@ -245,4 +253,24 @@ std::pair<int, int> SimpleTankAlgorithm::getClosestEnemyTank(const std::pair<int
         }
     }
     return closest_enemy;
+}
+
+std::pair<int, int> SimpleTankAlgorithm::getNextForwardLocation(const std::pair<int, int>& current_location, const CanonDirection& dir) const {
+    int new_x = current_location.first;
+    int new_y = current_location.second;
+
+    switch(dir){
+        case CanonDirection::UP: new_x--; break;
+        case CanonDirection::DOWN: new_x++; break;
+        case CanonDirection::LEFT: new_y--; break;
+        case CanonDirection::RIGHT: new_y++; break;
+        case CanonDirection::UP_RIGHT: new_x--; new_y++; break;
+        case CanonDirection::UP_LEFT: new_x--; new_y--; break;
+        case CanonDirection::DOWN_LEFT: new_x++; new_y--; break;
+        case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
+        default: break;
+    }
+    new_x = (new_x + height) % height;
+    new_y = (new_y + width) % width;
+    return std::make_pair(new_x, new_y);
 }

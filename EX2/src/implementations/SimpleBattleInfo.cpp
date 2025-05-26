@@ -26,27 +26,34 @@ const std::vector<std::pair<int, int>>& SimpleBattleInfo::getMinesLocations() co
 const std::vector<std::pair<int, int>>& SimpleBattleInfo::getWallsLocations() const {
     return walls_locations;
 }
-void SimpleBattleInfo::setHeight(size_t height) {
-    height = height;
+
+void SimpleBattleInfo::addTanks1Location(std::pair<int, int> tank1) {
+    tanks1_locations.push_back(std::move(tank1));
 }
-void SimpleBattleInfo::setWidth(size_t width) {
-    width = width;
+void SimpleBattleInfo::addTanks2Location(std::pair<int, int> tank2) {
+    tanks2_locations.push_back(std::move(tank2));
 }
-void SimpleBattleInfo::setTanks1Locations(const std::vector<std::pair<int, int>>& tanks1) {
-    tanks1_locations = tanks1;
+
+void SimpleBattleInfo::addCalledTankLocation(const std::pair<int, int> called_tank_location) {
+    this->called_tank_location = called_tank_location;
 }
-void SimpleBattleInfo::setTanks2Locations(const std::vector<std::pair<int, int>>& tanks2) {
-    tanks2_locations = tanks2;
+
+void SimpleBattleInfo::addShellLocation(std::pair<int, int> shell) {
+    shells_locations.push_back(std::move(shell));
 }
-void SimpleBattleInfo::setCalledTankLocation(const std::pair<int, int>& location) {
-    called_tank_location = location;
+
+void SimpleBattleInfo::addMineLocation(std::pair<int, int> mine) {
+    mines_locations.push_back(std::move(mine));
 }
-void SimpleBattleInfo::setShellsLocations(const std::vector<std::pair<int, int>>& shells) {
-    shells_locations = shells;
+void SimpleBattleInfo::addWallLocation(std::pair<int, int> wall) {
+    walls_locations.push_back(std::move(wall));
 }
-void SimpleBattleInfo::setMinesLocations(const std::vector<std::pair<int, int>>& mines) {
-    mines_locations = mines;
-}
-void SimpleBattleInfo::setWallsLocations(const std::vector<std::pair<int, int>>& walls) {
-    walls_locations = walls;
+
+void SimpleBattleInfo::clearInfo() {
+    tanks1_locations.clear();
+    tanks2_locations.clear();
+    called_tank_location = std::make_pair(-1, -1);
+    shells_locations.clear();
+    mines_locations.clear();
+    walls_locations.clear();
 }

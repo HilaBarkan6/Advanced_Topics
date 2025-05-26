@@ -37,6 +37,8 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         int player_id;
         int tank_index;
         int turn_counter;
+        int height;
+        int width;
         
 
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
@@ -53,6 +55,7 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         bool clearPathFromSrcToDst(size_t height, size_t width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>&  bad_moves_locations) const;
         bool canMove(int new_x, int new_y, const std::vector<std::pair<int, int>>& wall_locations, const std::vector<std::pair<int, int>>& mine_locations, const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const;
         void bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info);
+        std::pair<int,int> getNextForwardLocation(const std::pair<int, int>& current_location, const CanonDirection& dir) const;
         
     
     public:

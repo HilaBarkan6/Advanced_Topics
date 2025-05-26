@@ -25,14 +25,15 @@ class SimpleBattleInfo : public BattleInfo {
         const std::vector<std::pair<int, int>>& getMinesLocations() const; 
         const std::vector<std::pair<int, int>>& getWallsLocations() const; 
 
-        void setHeight(size_t height);
-        void setWidth(size_t width);
-        void setTanks1Locations(const std::vector<std::pair<int, int>>& tanks);
-        void setTanks2Locations(const std::vector<std::pair<int, int>>& tanks);
-        void setCalledTankLocation(const std::pair<int, int>& location);
-        void setShellsLocations(const std::vector<std::pair<int, int>>& shells);  
-        void setMinesLocations(const std::vector<std::pair<int, int>>& mines);
-        void setWallsLocations(const std::vector<std::pair<int, int>>& walls);
+        // TODO - ask roey what to do here
+        void addTanks1Location(std::pair<int, int> tank1);
+        void addTanks2Location(std::pair<int, int> tank2);
+        void addCalledTankLocation(const std::pair<int, int> called_tank_location);
+        void addShellLocation(std::pair<int, int> shell);  
+        void addMineLocation(std::pair<int, int> mine);
+        void addWallLocation(std::pair<int, int> wall);
+
+        void clearInfo();
 };
 
 #endif

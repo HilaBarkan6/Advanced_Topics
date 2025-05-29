@@ -48,7 +48,7 @@ ActionRequest SimpleTankAlgorithm::getAction() {
 
 //TODO - we decide for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
 void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
-    
+    actions_to_apply.clear();
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info);
 
     if(height == 0 && width == 0){
@@ -103,7 +103,7 @@ void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const S
         int current_y = current.state.y;
         CanonDirection current_dir = current.state.dir;
         // Check for shooting opportunity
-        if(canShoot(simple_info.getHeight(), simple_info.getWidth(), simple_info.getCalledTankLocation(), enemy_location, current_dir, simple_info.getWallsLocations())){
+        if(canShoot(simple_info.getHeight(), simple_info.getWidth(), std::make_pair(current_x, current_y), enemy_location, current_dir, simple_info.getWallsLocations())){
             ActionRequest first = current.firstAction;
             ActionRequest second = current.secondAction;
             if(current_depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)){

@@ -1,7 +1,7 @@
 4 - both players ask battle info
 MaxSteps = 30
 NumShells=10
-Rows = 4
+Rows = 5
 Cols =10
 #### ##### 
 # 2     1#

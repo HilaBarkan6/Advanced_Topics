@@ -41,3 +41,16 @@ We need to implemet - the player, tank algoritm, maybe battle info but not sure
 
 Also need to update PlayerFactory and TankAlgorithmFactory to create the correct object for each player
 Algorithms should think about what to keep from battle info and how often to request a new battle info
+
+Whats Next 2 -
+Tests on input file edge cases and errors
+If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now)
+If both of them don't have tanks at all so tie
+When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file
+Add a test when action is written with ignored and killed in the same turn
+Make sure no new and delete
+Clean the code - remove duplications, short function, rule of 5, all common mistakes, magic numbers
+Move read_board from GameManager to Board
+Logging for bonus and maybe configuration file
+Mabye more tests
+Check what going on in the forum

@@ -244,7 +244,7 @@ void GameManager::run(){
         // TODO - ask if that OK for game mangaer to use a spefific implamentation of satellite view
         view.setSatelliteView(createSatelliteMatrix());
         std::cout << "Turn is "<< turn_counter << std::endl;
-        std::cout<< "flying shells count is "<< flying_shells.size() << std::endl;  
+        //std::cout<< "flying shells count is "<< flying_shells.size() << std::endl;  
         // Even turn - both players and shells should move
         if(turn_counter%2 == 0){
             MoveShells(true, output_file);

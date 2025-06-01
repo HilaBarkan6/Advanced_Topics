@@ -13,9 +13,10 @@ int main(int argc, char* argv[]){
     }
     const std::string input_file = argv[1];
     try{
-        std::unique_ptr<PlayerFactory> player_factory(new SimplePlayerFactory());
-        std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory(new SimpleTankAlgorithmFactory());
-        GameManager m(std::move(player_factory), std::move(tank_algorithm_factory));
+        // std::unique_ptr<PlayerFactory> player_factory(new SimplePlayerFactory());
+        // std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory(new SimpleTankAlgorithmFactory());
+        //GameManager m(std::move(player_factory), std::move(tank_algorithm_factory));
+        GameManager m(std::move(std::make_unique<SimplePlayerFactory>()), std::move(std::make_unique<SimpleTankAlgorithmFactory>()));
         m.readBoard(input_file);
         m.run();
     }

@@ -567,7 +567,8 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
             * Shell moves from [0,0] to [0,2]
             * Tank moves from [1,1] to [0,1]
             * new shell location after this move should be [0,2], but there is a collision in [1,1], so check for also prev location to identify it. */
-            if(shell->getLocation() == new_location || shell->getPrevLocation() == new_location){
+            if((can_tank_move[tank_index] && (shell->getLocation() == new_location || shell->getPrevLocation() == new_location)) ||
+                (!can_tank_move[tank_index] && (shell->getLocation() == cur_location || shell->getPrevLocation() == cur_location))){
                 std::cout << "Bad move, Tank " << tank_index << " hit a shell!" << std::endl;
                 //output_file << "Bad move, Tank " << tank_index << " hit a shell!" << std::endl;
                 can_tank_move[tank_index] = false;
@@ -607,11 +608,6 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
 }
 
 void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
-
-    if(!all_tanks[tank_index]->getAlive()){
-        output_file << action << " (killed)";
-        return;
-    }
 
     bool is_ignored = false;
     if (action != ActionRequest::MoveBackward && std::get<2>(all_tanks_backwards_info[tank_index])){
@@ -662,11 +658,13 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
         if (can_move) {
             all_tanks[tank_index]->setLocation(new_location.first, new_location.second);
         }
-        else if(all_tanks[tank_index]->getAlive()){
-            // can't move but still alive, probably wall
+        // else if(all_tanks[tank_index]->getAlive()){
+        //     // can't move but still alive, probably wall
+        //     is_ignored = true;
+        // }
+        else{
             is_ignored = true;
         }
-        
     } 
 
     else if (action == ActionRequest::MoveBackward ) {
@@ -712,7 +710,6 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
         if(last == -1 || turn_counter - last > 8 ){ 
             if(all_tanks[tank_index]->getUnusedShellsCount() > 0){
                 std::pair<int, int> new_shell_location = getShellLocationOnCreation(all_tanks[tank_index]);
-                //Shell * shell_to_shoot = new Shell(new_shell_location, tank_to_apply.getCanonDirection(), id);
 
                 flying_shells.emplace_back(std::make_shared<Shell>(new_shell_location, all_tanks[tank_index]->getCanonDirection()));
                 //TODO - use refernce and not pointer
@@ -748,9 +745,15 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     if (action != ActionRequest::MoveBackward) {
         std::get<1>(all_tanks_backwards_info[tank_index]) = false;
     }
+
     output_file << action;
     if(is_ignored){
         output_file << " (ignored)";
+    }
+
+    if(!all_tanks[tank_index]->getAlive()){
+        output_file << " (killed)";
+        return;
     }
 }
 

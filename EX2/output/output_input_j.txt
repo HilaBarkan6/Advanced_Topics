@@ -1,0 +1,51 @@
+RotateRight90, GetBattleInfo
+RotateRight90, Shoot
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward, GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), MoveForward
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward, GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), MoveForward
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward, GetBattleInfo
+MoveForward (ignored), DoNothing
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), MoveForward
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), Shoot
+MoveForward (ignored), DoNothing
+MoveForward (ignored), GetBattleInfo
+MoveForward (ignored), DoNothing
+Tie, reached max steps = 50 , player 1 has 1 tanks, player 2 has 1 tanks

@@ -20,6 +20,7 @@ int main(int argc, char* argv[]){
         m.run();
     }
     catch (const std::exception& e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
         std::cerr << "Cannot recover from error, finishing game." << std::endl;
         return 1;
     }

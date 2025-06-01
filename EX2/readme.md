@@ -44,9 +44,9 @@ Algorithms should think about what to keep from battle info and how often to req
 
 Whats Next 2 -
 Tests on input file edge cases and errors
-If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now)
-If both of them don't have tanks at all so tie
-When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file
+If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now) - done
+If both of them don't have tanks at all so tie - done
+When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file - done
 Add a test when action is written with ignored and killed in the same turn
 Make sure no new and delete
 Clean the code - remove duplications, short function, rule of 5, all common mistakes, magic numbers

@@ -15,6 +15,7 @@ class RotatingTankAlgorithm : public TankAlgorithm {
     private:
         int player_id;
         int tank_index;
+        int turn_counter; // Counter to keep track of turns
 };
 
 

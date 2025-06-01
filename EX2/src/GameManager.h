@@ -70,7 +70,8 @@ class GameManager
         int turn_counter;
         // True when all player's shell were shooted.
         bool no_more_shells;
-        // if no_more_shells is true, game will finish when this is 40
+        const int max_turns_no_shells = 40; // Used to check if game is over when no more shells are available.
+        // if no_more_shells is true, game will finish when this is max_turns_no_shells.
         int counter_no_shells;
 
         // Satellite view is a single instance holding refrences to board, tanks and flying shells.

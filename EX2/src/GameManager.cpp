@@ -180,7 +180,7 @@ void GameManager::readBoard(const std::string& path_input_file) {
     }
 
     // Fill missing rows
-    for (; row < height; ++row) {
+    for (; row < height-1; ++row) {
         for (int col = 0; col < width; ++col) {
             board.setGameObjectAt(row, col, std::make_unique<Empty>());
         }
@@ -190,17 +190,19 @@ void GameManager::readBoard(const std::string& path_input_file) {
 
     file.close();
 
-    if (player1_alive_tanks == 0) {
-        throw std::runtime_error("No tanks for player 1.");
-    }
-    if (player2_alive_tanks == 0) {
-        throw std::runtime_error("No tanks for player 2.");
-    }
+    // if (player1_alive_tanks == 0) {
+    //     throw std::runtime_error("No tanks for player 1.");
+    // }
+    // if (player2_alive_tanks == 0) {
+    //     throw std::runtime_error("No tanks for player 2.");
+    // }
 
     if (missing_col) {
+        has_errors = true;
         error_log << "Some rows had missing columns, filled with spaces.\n";
     }
     if (extra_col) {
+        has_errors = true;
         error_log << "Some rows had too many columns, ignored extra characters.\n";
     }
 
@@ -350,8 +352,9 @@ bool GameManager::shellFinished(){
 bool GameManager::isGameOver(std::ofstream& output_file) {
     // Check if both players finished their shells and 40 turns passed
     if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
-        if(no_more_shells && counter_no_shells>=80){
-             output_file << "Tie, all tanks are out of shells and 40 turns passed, player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks"<< std::endl;
+        if(no_more_shells && counter_no_shells>=2*max_turns_no_shells){
+            
+            output_file << "Tie, both players have zero shells for "<< max_turns_no_shells << " steps" << std::endl;
             std::cout << "Game over - no more shells" << std::endl;
             return true;
         }

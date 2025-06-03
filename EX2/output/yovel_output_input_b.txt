@@ -1,9 +1,1 @@
-RotateLeft45, GetBattleInfo, RotateLeft45
-RotateLeft45, Shoot, RotateLeft45
-RotateLeft45 (killed), DoNothing, RotateLeft45
-killed, GetBattleInfo, RotateLeft45
-killed, RotateLeft45, RotateLeft45
-killed, RotateLeft90, RotateLeft45
-killed, GetBattleInfo, RotateLeft45
-killed, Shoot, RotateLeft45 (killed)
-Player 1 won with 1 tanks still alive
+Tie, both players have zero tanks

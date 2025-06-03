@@ -393,7 +393,6 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
     std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash> shell_locations_map;
 
     for (size_t i = 0; i<flying_shells.size(); i++){
-        //TODO - fix this, use shared ptr
         std::shared_ptr<Shell> shell = flying_shells[i];
         // If shell is in a location that is a new location for another shell - collision
         std::pair <int, int> shell_cur_location = shell->getLocation(); 
@@ -414,7 +413,6 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
             if(wall->isDestroyed()){
                 board.setGameObjectAt(x, y, std::make_unique<Empty>());
                 std::cout << "Wall at ["<< x << ", "<< y << "] destroyed" << std::endl;
-                //delete wall;
             }
             //remove shell from flying_shells1
             shells_to_delete.insert(shell);
@@ -430,8 +428,7 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
     // On odd turns only shells move, so should check if they are hitting a tank, 
     //on even turn, tank can also move so there is more complex check in checkCollisions.
     if(!is_even_turn){
-        for (auto& [key, vec] : shell_locations_map){
-            
+        for (auto& [key, vec] : shell_locations_map){   
             for (size_t i = 0; i< all_tanks.size(); i++){
                 if (key.first == all_tanks[i]->getLocationX() && key.second == all_tanks[i]->getLocationY()){
                     if(all_tanks[i]->getPlayerId() == 1){
@@ -442,10 +439,8 @@ void GameManager::MoveShells(bool is_even_turn, std::ofstream& output_file){
                     }
                     all_tanks[i]->setAlive();
                 }
-            }
-            
+            }  
         }  
-        
     }
     // If multiple shells arrive to the same location - collision between all of them
     // Used ChatGpt to iterate over the dictonary - prompt was "How to iterate over the dict?"
@@ -523,23 +518,18 @@ std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tan
 
 std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations){
     std::unordered_map<int,bool> can_tank_move;
-
     // Map betwenn location and the tanks that will arrive to this new location
     // Used ChatGpt to learn to work with dictonaries, prompt was - "How to create a dict in c++ to map between pair to list of pointers?"
     std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash> tank_locations_map;
 
     for(auto& [tank_index, new_location] : new_wanted_locations){
-
         std::pair<int, int> cur_location = std::make_pair(all_tanks[tank_index]->getLocationX(), all_tanks[tank_index]->getLocationY());
-        //Tank* tank = &all_tanks[tank_index];
-
         can_tank_move[tank_index] = true;
 
         tank_locations_map[cur_location].push_back(all_tanks[tank_index]);
         if(new_location!=cur_location){
             tank_locations_map[new_location].push_back(all_tanks[tank_index]);
         }
-
         // With wall
         if(board.isWallLocation(new_location.first, new_location.second)){
             std::cout << "Bad move, Tank " << tank_index << " hit a wall!" << std::endl;
@@ -555,7 +545,6 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
                 killTank(all_tanks[tank_index]);
             }
             
-            // TODO - delete mine so other tanks in the future will not hit it
             board.setGameObjectAt(new_location.first, new_location.second, std::make_unique<Empty>());
             std::cout << "Mine at ["<< new_location.first << ", "<< new_location.second << "] destroyed" << std::endl;
         }
@@ -599,11 +588,9 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
                 killTank(all_tanks[tank_index]);
             }
             std::cout << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
-            //output_file << "Bad move, Tank " << tank_index << " hit another tank!" << std::endl;
         }
     }
     tanks_to_kill.clear();
-   
     return can_tank_move;
 }
 

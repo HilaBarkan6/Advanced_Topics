@@ -18,7 +18,6 @@ class SatelliteViewImp : public SatelliteView {
         size_t rows;
         size_t columns;
         std::vector<std::vector<char>> satellite_view;
-
 };
 
 #endif

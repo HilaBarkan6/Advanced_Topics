@@ -4,6 +4,6 @@ TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index): player_id(pla
 int TankAlgorithmImp::getPlayerId() {
     return player_id;
 }
-int TankAlgorithmImp::getTankIndex(){
+int TankAlgorithmImp::getTankIndex() {
     return tank_index;
 }

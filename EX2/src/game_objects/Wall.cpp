@@ -5,5 +5,6 @@ void Wall::reduceLife() {
 }
 
 bool Wall::isDestroyed() const {
-    return lives <= 0;
+    constexpr int DESTRUCTION_LIFE_THRESHOLD = 0;
+    return lives <= DESTRUCTION_LIFE_THRESHOLD;
 }

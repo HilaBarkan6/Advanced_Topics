@@ -2,7 +2,7 @@
 
 char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
     if (x >= rows || y >= columns) {
-        return '&';
+        return '&'; // magic sign ?
     }
     return satellite_view[x][y];
       

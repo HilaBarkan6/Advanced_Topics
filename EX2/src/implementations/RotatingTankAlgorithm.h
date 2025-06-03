@@ -18,5 +18,4 @@ class RotatingTankAlgorithm : public TankAlgorithm {
         int turn_counter; // Counter to keep track of turns
 };
 
-
 #endif

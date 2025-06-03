@@ -15,10 +15,9 @@ class PlayerImp : public Player {
             : Player(player_index, x, y, max_steps, num_shells),
               battle_info(x, y),
               width(y),
-              height(x)
-        {
-        }
-        virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) =0;
+              height(x){}
+              
+        virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) = 0;
     
     protected:
         SimpleBattleInfo battle_info;

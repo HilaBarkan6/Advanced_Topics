@@ -44,13 +44,13 @@ Algorithms should think about what to keep from battle info and how often to req
 
 Whats Next 2 -
 Tests on input file edge cases and errors
-If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now) - done
-If both of them don't have tanks at all so tie - done
-When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file - done
+**If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now) - done**
+**If both of them don't have tanks at all so tie - done**
+**When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file - done**
 Add a test when action is written with ignored and killed in the same turn - done, test j, needed small change in rotateTankAlgorithm to cause the stuipd tank to move forward and get ignored.
-Make sure no new and delete - done, only place with "new" was in main.cpp so changed that to make_unique, not sure if std::move was needed there but this works
-Clean the code - remove duplications, short function, rule of 5, all common mistakes, magic numbers
-Move read_board from GameManager to Board
-Logging for bonus and maybe configuration file
+**Make sure no new and delete - done**, only place with "new" was in main.cpp so changed that to make_unique, not sure if std::move was needed there but this works
+Clean the code - **remove duplications - done**, **short function - done**, rule of 5, all common mistakes, **magic numbers - done (need to go over it again together)**
+**Move read_board from GameManager to Board - done**
+Logging for bonus and maybe **configuration file (In process)**
 Mabye more tests
 Check what going on in the forum

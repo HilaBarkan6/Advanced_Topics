@@ -57,13 +57,14 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         void bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info);
         std::pair<int,int> getNextForwardLocation(const std::pair<int, int>& current_location, const CanonDirection& dir) const;
         
-    
+        // Helper functions for BFS
+        bool tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location);
+        void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info);
+        void tryRotations(const QueueNode& current);
     public:
         SimpleTankAlgorithm(int player_id, int tank_index);
         ActionRequest getAction() override;
-        void updateBattleInfo(BattleInfo& info) override;
-    
+        void updateBattleInfo(BattleInfo& info) override; 
 };
-
 
 #endif

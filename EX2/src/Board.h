@@ -8,7 +8,9 @@
 #include <vector>
 #include <memory>
 
-class Board{
+class GameManager; // Forward declaration to avoid circular dependency
+
+class Board {
     
 
     public:
@@ -29,12 +31,20 @@ class Board{
 
         GameObject* getGameObjectAt(int x, int y) const;
         void setGameObjectAt(int x, int y, std::unique_ptr<GameObject> obj);     
+        void readBoard(const std::string& path_input_file, GameManager& m );  // Implementation of reading the board from a file
 
     private:
         int rows;
         int columns;
         //std::vector<std::vector<GameObject*>> board;
         std::vector<std::vector<std::unique_ptr<GameObject>>> board;
+
+        // Helper functions for readBoard
+        void skipMetadata(std::ifstream& file);
+        void processCell(char cell, int row, int col, GameManager& m, bool& has_errors, std::ostringstream& error_log);
+        int readBoardLines(std::ifstream& file, int height, int width, GameManager& m, bool& has_errors, std::ostringstream& error_log);
+        void fillMissingRows(int start_row, int height, int width, bool& has_errors, std::ostringstream& error_log);
+        void writeErrorLog(const std::ostringstream& error_log);
 };
 
 #endif

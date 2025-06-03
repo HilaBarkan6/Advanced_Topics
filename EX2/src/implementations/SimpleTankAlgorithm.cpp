@@ -9,11 +9,12 @@ SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index): player_
 }
 
 ActionRequest SimpleTankAlgorithm::getAction() {
-
     turn_counter++;
+    
     if(turn_counter%3 == 1){
         return ActionRequest::GetBattleInfo;
     }
+
     ActionRequest cur_action = actions_to_apply[0];
     // Rotate the canon direction based on the action
     switch (cur_action) 
@@ -82,6 +83,62 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
    
 }
 
+bool SimpleTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location) {
+    int x = current.state.x;
+    int y = current.state.y;
+    CanonDirection dir = current.state.dir;
+
+    if (canShoot(info.getHeight(), info.getWidth(), {x, y}, enemy_location, dir, info.getWallsLocations())) {
+        ActionRequest first = current.firstAction;
+        ActionRequest second = current.secondAction;
+
+        if (current.depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)) {
+            first = ActionRequest::Shoot;
+        }
+        else if (current.depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 3)) {
+            second = ActionRequest::Shoot;
+        }
+
+        actions_to_apply.push_back(first);
+        actions_to_apply.push_back(second);
+        return true;
+    }
+    return false;
+}
+
+void SimpleTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info) {
+    auto [x, y] = getNextForwardLocation({current.state.x, current.state.y}, current.state.dir);
+
+    if (canMove(x, y, info.getWallsLocations(), info.getMinesLocations(), info.getTanks1Locations(), info.getTanks2Locations())) {
+        State new_state = {x, y, current.state.dir};
+        if (visited.find(new_state) == visited.end()) {
+            visited.insert(new_state);
+            ActionRequest act1 = current.depth == 0 ? ActionRequest::MoveForward : current.firstAction;
+            ActionRequest act2 = current.depth == 1 ? ActionRequest::MoveForward : current.secondAction;
+            q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+        }
+    }
+}
+
+void SimpleTankAlgorithm::tryRotations(const QueueNode& current) {
+    static const std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
+        {ActionRequest::RotateLeft45,  CanonDirection((static_cast<int>(current.state.dir) + 8 - 1) % 8)},
+        {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current.state.dir) + 8 - 2) % 8)},
+        {ActionRequest::RotateRight45, CanonDirection((static_cast<int>(current.state.dir) + 1) % 8)},
+        {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current.state.dir) + 2) % 8)},
+    };
+
+    for (const auto& [rotation_act, new_dir] : rotations) {
+        State new_state = {current.state.x, current.state.y, new_dir};
+        if (visited.find(new_state) == visited.end()) {
+            visited.insert(new_state);
+            ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;
+            ActionRequest act2 = current.depth == 1 ? rotation_act : current.secondAction;
+            q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+        }
+    }
+}
+
 void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
     visited.clear();
     q = std::queue<QueueNode>();
@@ -95,65 +152,95 @@ void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const S
     while(!q.empty()){
         QueueNode current = q.front();
         q.pop();
-        int current_depth = current.depth;
-        if(current_depth > 10){
-            break;
-        }
-        int current_x = current.state.x;
-        int current_y = current.state.y;
-        CanonDirection current_dir = current.state.dir;
+        if(current.depth > 10) break;
+
         // Check for shooting opportunity
-        if(canShoot(simple_info.getHeight(), simple_info.getWidth(), std::make_pair(current_x, current_y), enemy_location, current_dir, simple_info.getWallsLocations())){
-            ActionRequest first = current.firstAction;
-            ActionRequest second = current.secondAction;
-            if(current_depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)){
-                first = ActionRequest::Shoot;
-            }
-            else if(current_depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 3)){
-                second = ActionRequest::Shoot;
-            }
-            actions_to_apply.push_back(first);
-            actions_to_apply.push_back(second);
-            return;
-        }
+        if (tryShoot(current, simple_info, enemy_location)) return;
 
         // Move forward
-        std::pair<int, int> next_location = getNextForwardLocation({current_x, current_y}, current_dir);
-        int new_x = next_location.first;
-        int new_y = next_location.second;
-        
-        if(canMove(new_x, new_y, simple_info.getWallsLocations(), simple_info.getMinesLocations(), simple_info.getTanks1Locations(), simple_info.getTanks2Locations())){
-            State new_state = {new_x, new_y, current_dir};
-            if(visited.find(new_state) == visited.end()){
-                visited.insert(new_state);
-                ActionRequest act1 = current.depth == 0 ? ActionRequest::MoveForward : current.firstAction;
-                ActionRequest act2 = current.depth == 1 ? ActionRequest::MoveForward : current.secondAction;
-                q.push(QueueNode{new_state, act1, act2, current.depth + 1});
-            }
-        }
+        tryMoveForward(current, simple_info);
 
         // Rotation options
-        std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
-            {ActionRequest::RotateLeft45, CanonDirection((static_cast<int>(current_dir) + 8 - 1) % 8)},
-            {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current_dir) + 8 - 2) % 8)},
-            {ActionRequest::RotateRight45,CanonDirection((static_cast<int>(current_dir) + 1) % 8)},
-            {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current_dir) + 2) % 8)},
-        };
-
-        for(const auto& [rotation_act, new_dir] : rotations){
-            State new_state = {current_x, current_y, new_dir};
-            if(visited.find(new_state) == visited.end()){
-                visited.insert(new_state);
-                ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;
-                ActionRequest act2 = current.depth == 1 ? rotation_act : current.secondAction;
-                q.push(QueueNode{new_state, act1, act2, current.depth + 1});
-            }
-        }  
+        tryRotations(current);
     }
+
     // fallback if nothing was found
     actions_to_apply.push_back(ActionRequest::RotateLeft45);
     actions_to_apply.push_back(ActionRequest::RotateLeft45);
 }
+
+// void SimpleTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
+//     visited.clear();
+//     q = std::queue<QueueNode>();
+//     actions_to_apply.clear();
+
+//     CanonDirection dir = current_canon_direction;
+//     State start_state = {simple_info.getCalledTankLocation().first, simple_info.getCalledTankLocation().second, dir};
+//     q.push(QueueNode{start_state, ActionRequest::DoNothing, ActionRequest::DoNothing, 0});
+//     visited.insert(start_state);
+
+//     while(!q.empty()){
+//         QueueNode current = q.front();
+//         q.pop();
+//         int current_depth = current.depth;
+//         if(current_depth > 10){
+//             break;
+//         }
+//         int current_x = current.state.x;
+//         int current_y = current.state.y;
+//         CanonDirection current_dir = current.state.dir;
+//         // Check for shooting opportunity
+//         if(canShoot(simple_info.getHeight(), simple_info.getWidth(), std::make_pair(current_x, current_y), enemy_location, current_dir, simple_info.getWallsLocations())){
+//             ActionRequest first = current.firstAction;
+//             ActionRequest second = current.secondAction;
+//             if(current_depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)){
+//                 first = ActionRequest::Shoot;
+//             }
+//             else if(current_depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 3)){
+//                 second = ActionRequest::Shoot;
+//             }
+//             actions_to_apply.push_back(first);
+//             actions_to_apply.push_back(second);
+//             return;
+//         }
+
+//         // Move forward
+//         std::pair<int, int> next_location = getNextForwardLocation({current_x, current_y}, current_dir);
+//         int new_x = next_location.first;
+//         int new_y = next_location.second;
+        
+//         if(canMove(new_x, new_y, simple_info.getWallsLocations(), simple_info.getMinesLocations(), simple_info.getTanks1Locations(), simple_info.getTanks2Locations())){
+//             State new_state = {new_x, new_y, current_dir};
+//             if(visited.find(new_state) == visited.end()){
+//                 visited.insert(new_state);
+//                 ActionRequest act1 = current.depth == 0 ? ActionRequest::MoveForward : current.firstAction;
+//                 ActionRequest act2 = current.depth == 1 ? ActionRequest::MoveForward : current.secondAction;
+//                 q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+//             }
+//         }
+
+//         // Rotation options
+//         std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
+//             {ActionRequest::RotateLeft45, CanonDirection((static_cast<int>(current_dir) + 8 - 1) % 8)},
+//             {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current_dir) + 8 - 2) % 8)},
+//             {ActionRequest::RotateRight45,CanonDirection((static_cast<int>(current_dir) + 1) % 8)},
+//             {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current_dir) + 2) % 8)},
+//         };
+
+//         for(const auto& [rotation_act, new_dir] : rotations){
+//             State new_state = {current_x, current_y, new_dir};
+//             if(visited.find(new_state) == visited.end()){
+//                 visited.insert(new_state);
+//                 ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;
+//                 ActionRequest act2 = current.depth == 1 ? rotation_act : current.secondAction;
+//                 q.push(QueueNode{new_state, act1, act2, current.depth + 1});
+//             }
+//         }  
+//     }
+//     // fallback if nothing was found
+//     actions_to_apply.push_back(ActionRequest::RotateLeft45);
+//     actions_to_apply.push_back(ActionRequest::RotateLeft45);
+// }
 
 bool SimpleTankAlgorithm::canShoot(size_t height, size_t width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
     return clearPathFromSrcToDst(height, width, my_location.first, my_location.second, enemy_location.first, enemy_location.second, my_direction, wall_locations);

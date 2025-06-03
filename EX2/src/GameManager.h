@@ -30,8 +30,7 @@ struct pair_hash {
     }
 };
 
-class GameManager
-{
+class GameManager {
     private:
         std::string path_output_file;
         std::unique_ptr<PlayerFactory> player_factory;
@@ -102,12 +101,43 @@ class GameManager
         std::set<std::shared_ptr<Shell>> shells_to_delete;
         void deleteCollidedShells();
         void killTank(std::shared_ptr<Tank>& tank_to_kill);
+        
+        void readGameParameters(std::ifstream& file);
+        int readIntValueFromLine(const std::string& line, const std::string& key);
+        void initializeGame(std::ofstream& output_file);
+        void handleEvenTurn(std::ofstream& output_file);
+        void handleOddTurn(std::ofstream& output_file);
+
+        // Helper functions for MoveShells
+        void moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map,std::ofstream& output_file);
+        void handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
+        void handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map,std::ofstream& output_file);
+
+        // Helper functions for checkCollisions
+        void addTankToLocationMap(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map,
+            int tank_index, const std::pair<int, int>& cur_location, const std::pair<int, int>& new_location);
+        void checkWallCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
+        void checkMineCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
+        void checkShellCollision(int tank_index, const std::pair<int,int>& cur_location, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
+        void resolveTankCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map);
+        void applyTankKillResults(std::unordered_map<int,bool>& can_tank_move);
+
+        // Helper functions for applyAction
+        bool handleBackwardWaiting(int tank_index, ActionRequest action);
+        void handleBattleInfo(int tank_index);
+        bool handleMoveForward(int tank_index, bool can_move, std::pair<int,int> new_location);
+        bool handleMoveBackward(int tank_index, bool can_move, std::pair<int,int> new_location);
+        void handleRotation(int tank_index, ActionRequest action);
+        bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations);
 
     public:
         GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();
+        int getHeight() const { return height; }
+        int getWidth() const { return width; }
+        void addTank(int row, int col, int player_id);
 };
 
 #endif

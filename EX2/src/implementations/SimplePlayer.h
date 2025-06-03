@@ -10,8 +10,6 @@ class SimplePlayer : public PlayerImp {
         {
         }
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
-    
 };
-
 
 #endif

@@ -7,8 +7,7 @@
 #include "../common/TankAlgorithm.h"
 
 
-class Tank : public GameObject
-{
+class Tank : public GameObject {
     private:
         int player_id;
         int tank_index;

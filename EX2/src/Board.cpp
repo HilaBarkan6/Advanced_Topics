@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "GameManager.h"
 
 Board::Board(int rows, int columns) : rows(rows), columns(columns){
     board.resize(rows);
@@ -50,3 +51,119 @@ void Board::setGameObjectAt(int x, int y, std::unique_ptr<GameObject> obj) {
     }
 }
 
+void Board::skipMetadata(std::ifstream& file) {
+    std::string line;
+    constexpr int NUM_METADATA_LINES = 5;  // Description + MaxSteps + NumShells + Rows + Cols
+
+    for (int i = 0; i < NUM_METADATA_LINES; ++i) {
+        std::getline(file, line);
+    }
+}
+
+void Board::processCell(char cell, int row, int col, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
+    switch (cell) {
+        case '#':
+            setGameObjectAt(row, col, std::make_unique<Wall>());
+            break;
+        case '@':
+            setGameObjectAt(row, col, std::make_unique<Mine>());
+            break;
+        case ' ':
+            setGameObjectAt(row, col, std::make_unique<Empty>());
+            break;
+        case '1':
+            m.addTank(row, col, 1);
+            setGameObjectAt(row, col, std::make_unique<Empty>());
+            break;
+        case '2':
+            m.addTank(row, col, 2);
+            setGameObjectAt(row, col, std::make_unique<Empty>());
+            break;
+        default:
+            setGameObjectAt(row, col, std::make_unique<Empty>());
+            has_errors = true;
+            error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
+            break;
+    }
+}
+
+int Board::readBoardLines(std::ifstream& file, int height, int width, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
+    std::string line;
+    int row = 0;
+    bool missing_col = false;
+    bool extra_col = false;
+
+    while (std::getline(file, line)) {
+        if (row >= height) {
+            has_errors = true;
+            error_log << "Too many rows, ignoring line " << row << ".\n";
+            continue;
+        }
+
+        int line_length = static_cast<int>(line.size());
+        if (line_length > width) {
+            extra_col = true;
+        }
+
+        for (int col = 0; col < width; ++col) {
+            char cell = (col < line_length) ? line[col] : ' ';
+            if (col >= line_length) {
+                missing_col = true;
+            }
+            processCell(cell, row, col, m, has_errors, error_log);
+        }
+        ++row;
+    }
+
+    if (missing_col) {
+        has_errors = true;
+        error_log << "Some rows had missing columns, filled with spaces.\n";
+    }
+    if (extra_col) {
+        has_errors = true;
+        error_log << "Some rows had too many columns, ignored extra characters.\n";
+    }
+
+    return row;
+}
+
+void Board::fillMissingRows(int start_row, int height, int width, bool& has_errors, std::ostringstream& error_log) {
+    for (int row = start_row; row < height; ++row) {
+        for (int col = 0; col < width; ++col) {
+            setGameObjectAt(row, col, std::make_unique<Empty>());
+        }
+        has_errors = true;
+        error_log << "Row " << row << " is missing, filled with spaces.\n";
+    }
+}
+
+void Board::writeErrorLog(const std::ostringstream& error_log) {
+    std::ofstream err_file("input_errors.txt");
+    if (err_file.is_open()) {
+        err_file << error_log.str();
+    }
+}
+
+void Board::readBoard(const std::string& path_input_file, GameManager& m) {
+    std::ifstream file(path_input_file);
+    if (!file.is_open()) {
+        throw std::runtime_error("Error opening board file: " + path_input_file);
+    }
+
+    skipMetadata(file);
+
+    std::ostringstream error_log;
+    bool has_errors = false;
+
+    int height = m.getHeight();
+    int width = m.getWidth();
+
+    int rows_read = readBoardLines(file, height, width, m, has_errors, error_log);
+    fillMissingRows(rows_read, height, width, has_errors, error_log);
+
+    file.close();
+
+    if (has_errors) {
+        writeErrorLog(error_log);
+    }
+}

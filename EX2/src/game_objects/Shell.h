@@ -6,7 +6,7 @@
 #include <utility> // for std::pair
 
 
-class Shell: public GameObject{
+class Shell: public GameObject {
     private:
         // locations of the shells are needed to check collision, since shells move faster than tanks.
         std::pair<int, int> location;

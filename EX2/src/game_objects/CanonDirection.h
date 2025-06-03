@@ -1,8 +1,7 @@
 #ifndef CANONDIRECTION_H
 #define CANONDIRECTION_H
 
-enum class CanonDirection
-{  
+enum class CanonDirection {  
     UP_LEFT,
     UP,
     UP_RIGHT,

@@ -17,5 +17,5 @@ void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView&
     
     // Update the tank algorithm with the populated battle info 
     tank.updateBattleInfo(battle_info);
-    std::cout << "call to updateTankWithBattleInfo "<< std::endl;
+    std::cout << "call to updateTankWithBattleInfo " << std::endl;
 }

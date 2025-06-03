@@ -26,10 +26,10 @@ std::pair<int, int> RadiusPlayer::getCalledTankLocation(const SatelliteView& sat
     // Iterate over the board to find the called tank location
     for (size_t x = 0; x < height; ++x) {
         for (size_t y = 0; y < width; ++y) {
-            if (satellite_view.getObjectAt(x, y) == '%') { 
+            if (satellite_view.getObjectAt(x, y) == '%') { // maigc sign ? 
                 return std::make_pair(x, y);
             }
         }
     }
-    return std::make_pair(-1, -1); 
+    return std::make_pair(-1, -1); // magic number ?
 }

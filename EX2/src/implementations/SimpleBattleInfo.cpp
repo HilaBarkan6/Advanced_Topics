@@ -52,7 +52,7 @@ void SimpleBattleInfo::addWallLocation(std::pair<int, int> wall) {
 void SimpleBattleInfo::clearInfo() {
     tanks1_locations.clear();
     tanks2_locations.clear();
-    called_tank_location = std::make_pair(-1, -1);
+    called_tank_location = std::make_pair(-1, -1); // magic number ?
     shells_locations.clear();
     mines_locations.clear();
     walls_locations.clear();

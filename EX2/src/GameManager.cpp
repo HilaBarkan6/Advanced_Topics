@@ -305,8 +305,9 @@ void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int,
         int x = shell->getNextLocation().first;
         int y = shell->getNextLocation().second;
 
+        // TODO - move logic to Board class to avoid pointers
         if (board.isWallLocation(x, y)) {
-            auto* wall = dynamic_cast<Wall*>(board.getGameObjectAt(x, y));
+            Wall* wall = dynamic_cast<Wall*>(board.getGameObjectAt(x, y));
             wall->reduceLife();
             if (wall->isDestroyed()) {
                 board.setGameObjectAt(x, y, std::make_unique<Empty>());
@@ -457,7 +458,7 @@ void GameManager::checkShellCollision(int tank_index, const std::pair<int,int>& 
         bool will_move = can_tank_move[tank_index];
         if ((will_move && (shell->getLocation() == new_location || shell->getPrevLocation() == new_location)) ||
             (!will_move && (shell->getLocation() == cur_location || shell->getPrevLocation() == cur_location))) {
-            logger.logInfo("Bad move, shell " + std::to_string(tank_index) + " hit a tank!");
+            logger.logInfo("Bad move, shell hit a tank "+ std::to_string(tank_index));
             can_tank_move[tank_index] = false;
             shells_to_delete.insert(shell);
             if (all_tanks[tank_index]->getAlive()) {
@@ -545,6 +546,7 @@ void GameManager::handleBattleInfo(int tank_index) {
     int player_id = all_tanks[tank_index]->getPlayerId();
     auto cur_location = std::make_pair(all_tanks[tank_index]->getLocationX(), all_tanks[tank_index]->getLocationY());
     view.setCharAtLocation(cur_location, called_tank_sign);
+    logger.logInfo("Tank " + std::to_string(tank_index) + " requested battle info");
     if (player_id == 1) {
         player1->updateTankWithBattleInfo(all_tanks[tank_index]->getTankAlgorithm(), view);
         view.setCharAtLocation(cur_location, tank1_sign);
@@ -670,6 +672,13 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     }
     else if (action == ActionRequest::Shoot){
         is_ignored = handleShooting(tank_index, new_wanted_locations);
+    }
+    else if (action == ActionRequest::DoNothing){
+        logger.logInfo("Tank " + std::to_string(tank_index) + " did nothing");
+    }
+    else {
+        logger.logError("Unknown action requested by tank " + std::to_string(tank_index));
+        throw std::runtime_error("Unknown action requested by tank " + std::to_string(tank_index));
     }
 
     // if last action wasn't backward set boolean to false

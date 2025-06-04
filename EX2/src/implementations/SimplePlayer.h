@@ -9,6 +9,7 @@ class SimplePlayer : public PlayerImp {
             : PlayerImp(config, player_index, x, y, max_steps, num_shells)           
         {
         }
+        virtual ~SimplePlayer() = default;
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
 };
 

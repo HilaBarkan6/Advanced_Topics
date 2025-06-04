@@ -11,9 +11,10 @@
 
 
 class PlayerImp : public Player {
-    public:
+    public:   
         explicit PlayerImp(const Config& config, int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells);
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) = 0;
+        virtual ~PlayerImp() = default;
     
     protected:
         SimpleBattleInfo battle_info;

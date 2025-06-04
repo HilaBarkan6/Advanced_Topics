@@ -9,6 +9,7 @@ class SimpleTankAlgorithmFactory : public TankAlgorithmFactory {
         int battle_info_request_period;
     
     public:
+        virtual ~SimpleTankAlgorithmFactory() = default;
         explicit SimpleTankAlgorithmFactory(const Config& config);
         virtual unique_ptr<TankAlgorithm> create(int player_index, int tank_index) const override;
 };

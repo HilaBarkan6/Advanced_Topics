@@ -28,7 +28,7 @@
 struct pair_hash {
     template <class T1, class T2>
     std::size_t operator()(const std::pair<T1, T2>& pair) const {
-        return std::hash<T1>()(pair.first) ^ (std::hash<T2>()(pair.second) << 1);
+        return std::hash<T1>()(pair.first) ^ (std::hash<T2>()(pair.second+10000) << 1);
     }
 };
 
@@ -161,7 +161,7 @@ class GameManager {
 
     public:
         explicit GameManager(const Config& config, std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
-        ~GameManager() = default;
+        virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();
         int getHeight() const { return height; }

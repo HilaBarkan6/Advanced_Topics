@@ -22,7 +22,7 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         
     struct StateHash {
         std::size_t operator()(const State& state) const {
-            return std::hash<int>()(state.x) ^ std::hash<int>()(state.y) ^ std::hash<int>()(static_cast<int>(state.dir));
+            return std::hash<int>()(state.x)<<1 ^ std::hash<int>()(state.y)<<2 ^ std::hash<int>()(static_cast<int>(state.dir));
         }
     };
 
@@ -64,8 +64,9 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         void tryRotations(const QueueNode& current);
     public:
         SimpleTankAlgorithm(int player_id, int tank_index,int battle_info_request_period);
-        ActionRequest getAction() override;
-        void updateBattleInfo(BattleInfo& info) override; 
+        virtual ActionRequest getAction() override;
+        virtual void updateBattleInfo(BattleInfo& info) override; 
+        virtual ~SimpleTankAlgorithm() override = default;
 };
 
 #endif

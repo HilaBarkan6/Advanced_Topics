@@ -1,7 +1,7 @@
 #include "SimpleTankAlgorithm.h"
 
 
-SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), battle_info_request_period(battle_info_request_period) {
+SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), battle_info_request_period(battle_info_request_period), last_shoot_turn(-1) {
     current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
     turn_counter = 0;
     height = 0;
@@ -43,7 +43,8 @@ ActionRequest SimpleTankAlgorithm::getAction() {
             break;    
     }
   
-    actions_to_apply.erase(actions_to_apply.begin());  
+    actions_to_apply.erase(actions_to_apply.begin());
+    //std::cout << "Smart Tank requested action: " << static_cast<int>(cur_action) << std::endl;  
     return cur_action;
 } 
 
@@ -90,7 +91,8 @@ bool SimpleTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleI
     if (canShoot(info.getHeight(), info.getWidth(), {x, y}, enemy_location, dir, info.getWallsLocations())) {
         ActionRequest first = current.firstAction;
         ActionRequest second = current.secondAction;
-
+        // std::cout << "can shoot! current depth is " << current.depth << std::endl;
+        // std::cout << "last shoot turn is " << last_shoot_turn << " and turn counter is " << turn_counter << std::endl;
         if (current.depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)) {
             first = ActionRequest::Shoot;
         }
@@ -100,6 +102,7 @@ bool SimpleTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleI
 
         actions_to_apply.push_back(first);
         actions_to_apply.push_back(second);
+        // std::cout << "can shoot! first is " << static_cast<int>(first) << " second is " << static_cast<int>(second) << std::endl;
         return true;
     }
     return false;

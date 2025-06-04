@@ -16,12 +16,6 @@ class Board {
     public:
         Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_sign, char tank2_sign, char mine_sign);
         Board(){};
-        // ~Board();
-        // Board(const Board&) = delete;
-        // Board& operator=(const Board&) = delete;
-
-        Board(Board&&) = default;
-        Board& operator=(Board&&) = default;
 
         int getRows() const;
         int getColumns() const;

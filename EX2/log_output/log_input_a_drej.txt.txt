@@ -1,0 +1,2 @@
+2025-06-04 20:08:17 [ERROR] Error opening file: C:/Projects/Advanced_Topics/EX2/input/input_a_drej.txt
+2025-06-04 20:08:17 [INFO] Tie, both players have zero tanks

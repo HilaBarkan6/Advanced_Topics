@@ -22,7 +22,13 @@ private:
     
 public:
     Logger(){};
-    ~Logger();
+    virtual ~Logger();
+    // delete copy constructor and assignment operator
+    Logger(const Logger&) = delete; 
+    Logger& operator=(const Logger&) = delete;
+    // delete move constructor and assignment operator
+    Logger(Logger&&) = delete;
+    Logger& operator=(Logger&&) = delete;
 
     void log(LogLevel level, const std::string& message);
     void logInfo(const std::string& message);

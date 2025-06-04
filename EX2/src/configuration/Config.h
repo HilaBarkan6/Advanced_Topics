@@ -17,8 +17,11 @@ private:
 public:
     static Config& getInstance();  // Returns the singleton instance of Config
 
+    ~Config() = default;  // Default destructor
     Config(const Config&) = delete; // Disable copy constructor
     Config& operator=(const Config&) = delete;  // Disable copy assignment operator
+    Config(Config&&) = delete; // Disable move constructor
+    Config& operator=(Config&&) = delete; // Disable move assignment operator
 
     bool loadFromFile(const std::string& filename); // Loads configuration from a file, returns true if successful
     std::string get(const std::string& key, const std::string& default_val = "") const; // Returns the string value for a given key, or default_val if not found

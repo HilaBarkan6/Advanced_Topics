@@ -6,9 +6,9 @@
 class RotatingTankAlgorithm : public TankAlgorithm {
     public:
         RotatingTankAlgorithm(int player_id, int tank_index);
-        ActionRequest getAction() override;
-        void updateBattleInfo(BattleInfo& info) override;
-        ~RotatingTankAlgorithm() override = default;
+        virtual ActionRequest getAction() override;
+        virtual void updateBattleInfo(BattleInfo& info) override;
+        virtual ~RotatingTankAlgorithm() override = default;
         int getPlayerId();
         int getTankIndex();
 

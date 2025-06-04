@@ -9,6 +9,7 @@ class RadiusPlayer : public PlayerImp {
             : PlayerImp(config, player_index, x, y, max_steps, num_shells),
               radius(radius) {}
 
+        virtual ~RadiusPlayer() = default;
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
     
     private:

@@ -7,10 +7,12 @@
 
 class SimplePlayerFactory : public PlayerFactory {
     public:
+        virtual ~SimplePlayerFactory() = default;
         explicit SimplePlayerFactory(const Config& config);
         virtual unique_ptr<Player> create(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells ) const override;
 
     private:
+        //TODO - need to think about this, what if the reference to config is not valid anymore?
         const Config& config;
         static constexpr int DEFAULT_RADIUS = 3;
         static constexpr const char* DEFAULT_PLAYER_TYPE = "simple";

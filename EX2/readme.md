@@ -65,3 +65,4 @@ according to lecture 8, the only place where we can make down cast is in BattleI
 update readme
 write a bonous file
 explain why we decided for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
+check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets

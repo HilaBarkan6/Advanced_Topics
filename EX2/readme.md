@@ -61,3 +61,4 @@ GTest for bonus
 Mabye more tests
 Check what going on in the forum
 We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class
+according to lecture 8, the only place where we can make down cast is in BattleInfo (unless there is something from our implementation)

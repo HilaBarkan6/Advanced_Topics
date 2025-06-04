@@ -1,7 +1,12 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -g
 
-SRC = main.cpp $(wildcard src/*.cpp) $(wildcard src/game_objects/*.cpp) $(wildcard src/implementations/*.cpp)
+SRC = main.cpp \
+      $(wildcard src/*.cpp) \
+      $(wildcard src/game_objects/*.cpp) \
+      $(wildcard src/implementations/*.cpp) \
+      $(wildcard src/Logger/*.cpp)
+
 SRC_NO_MAIN = $(filter-out main.cpp, $(SRC))
 TEST_SRC = test/tests.cpp
 

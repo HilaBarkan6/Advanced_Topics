@@ -19,4 +19,4 @@ unique_ptr<Player> SimplePlayerFactory::create(int player_index, size_t x, size_
 //     else {
 //         return std::make_unique<SimplePlayer>(player_index, x, y, max_steps, num_shells);
 //     }
-}
+//}

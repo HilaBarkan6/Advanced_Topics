@@ -54,3 +54,4 @@ Clean the code - **remove duplications - done**, **short function - done**, rule
 Logging for bonus and maybe **configuration file (In process)**
 Mabye more tests
 Check what going on in the forum
+We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class

@@ -53,12 +53,15 @@ Whats Next 2 -
 **remove duplications - done**
 **short function - done**
 **magic numbers - done (need to go over it again together)**
+**Logging for bonus - done**
 
 Clean the code - rule of 5, all common mistakes
 Tests on input file edge cases and errors
-Logging for bonus
 GTest for bonus
 Mabye more tests
 Check what going on in the forum
 We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class
 according to lecture 8, the only place where we can make down cast is in BattleInfo (unless there is something from our implementation)
+update readme
+write a bonous file
+explain why we decided for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  

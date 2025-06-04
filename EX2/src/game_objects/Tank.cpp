@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <memory>
 
-// TODO - what about the move?
 Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm) : 
     GameObject(),
     player_id(player_id),

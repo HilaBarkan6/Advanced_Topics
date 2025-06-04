@@ -47,7 +47,6 @@ ActionRequest SimpleTankAlgorithm::getAction() {
     return cur_action;
 } 
 
-//TODO - we decide for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
 void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     actions_to_apply.clear();
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info);

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LOGGER_H
+#define LOGGER_H
 
 #include <fstream>
 #include <string>
@@ -7,7 +8,6 @@
 #include <iomanip>
 
 enum class LogLevel {
-    DEBUG,
     INFO,
     WARNING,
     ERROR
@@ -16,18 +16,19 @@ enum class LogLevel {
 class Logger {
 private:
     std::ofstream log_file_;
-    LogLevel level_;
 
     std::string getTimestamp();
     std::string levelToString(LogLevel level);
     
 public:
-    Logger(const std::string& filename, LogLevel level = LogLevel::INFO);
+    Logger(){};
     ~Logger();
 
     void log(LogLevel level, const std::string& message);
     void logInfo(const std::string& message);
     void logError(const std::string& message);
     void logWarning(const std::string& message);
-    void logDebug(const std::string& message);
+    void setLogFile(const std::string& filename);
 };
+
+#endif

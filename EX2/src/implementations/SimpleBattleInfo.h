@@ -25,7 +25,6 @@ class SimpleBattleInfo : public BattleInfo {
         const std::vector<std::pair<int, int>>& getMinesLocations() const; 
         const std::vector<std::pair<int, int>>& getWallsLocations() const; 
 
-        // TODO - ask roey what to do here
         void addTanks1Location(std::pair<int, int> tank1);
         void addTanks2Location(std::pair<int, int> tank2);
         void addCalledTankLocation(const std::pair<int, int> called_tank_location);

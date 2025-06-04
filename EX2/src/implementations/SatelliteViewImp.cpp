@@ -16,7 +16,7 @@ void SatelliteViewImp::setSatelliteView(const std::vector<std::vector<char>>& vi
     satellite_view = view;
 }
 
-void SatelliteViewImp::setCharAtLocation(const std::pair<int, int>& location, const char&& char_to_put) {
+void SatelliteViewImp::setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put) {
     satellite_view[location.first][location.second] = char_to_put;
 }
 

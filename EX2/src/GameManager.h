@@ -13,6 +13,7 @@
 #include "common/SatelliteView.h"
 #include "implementations/SatelliteViewImp.h"
 #include "configuration/Config.h"
+#include "Logger/Logger.h"
 #include <vector>
 #include <string>
 #include <utility> 
@@ -33,7 +34,7 @@ struct pair_hash {
 
 class GameManager {
     private:
-        // Config parameters
+        // Config parameters, default values, can be changed in config file
         static constexpr const char OUT_OF_BOUNDS_SIGN = '&';
         static constexpr const char WALL_SIGN = '#';
         static constexpr const char TANK1_SIGN = '1';
@@ -42,7 +43,9 @@ class GameManager {
         static constexpr const char SHELL_SIGN = '*';
         static constexpr const char MINE_SIGN = '@';
         static constexpr const int MAX_TURNS_NO_SHELLS = 40;
-        static constexpr const int WALL_LIVES = 2; // Default value, can be changed in config file
+        static constexpr const int WALL_LIVES = 2; 
+        static constexpr const int BACKWARD_WAITING_TURNS = 2; 
+        static constexpr const int SHOOTING_WAITING_TURNS = 4; 
 
         const Config& config;
         char out_of_bounds_sign;
@@ -54,8 +57,13 @@ class GameManager {
         char mine_sign;
         int max_turns_no_shells; // Used to check if game is over when no more shells are available.
         int wall_lives;
+        int backward_wating_turns;
+        int shooting_waiting_turns;
+
+        Logger logger;
 
         std::string path_output_file;
+        std::string path_log_file;
         std::unique_ptr<PlayerFactory> player_factory;
         std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory;
         std::unique_ptr<Player> player1;
@@ -104,7 +112,7 @@ class GameManager {
 
         std::vector<std::vector<char>> createSatelliteMatrix() const;
         // Updates location for flying shells, is called every game iteration
-        void MoveShells(bool is_even_turn, std::ofstream& output_file);
+        void MoveShells(bool is_even_turn);
         void updateShellNextLocation(std::shared_ptr<Shell> & shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
         std::pair<int, int> getNewLocation(const std::shared_ptr<Tank>& tank_to_move, ActionRequest wanted_action);
@@ -127,12 +135,12 @@ class GameManager {
         int readIntValueFromLine(const std::string& line, const std::string& key);
         void initializeGame(std::ofstream& output_file);
         void handleEvenTurn(std::ofstream& output_file);
-        void handleOddTurn(std::ofstream& output_file);
+        void handleOddTurn();
 
         // Helper functions for MoveShells
-        void moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map,std::ofstream& output_file);
+        void moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
         void handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
-        void handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map,std::ofstream& output_file);
+        void handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
 
         // Helper functions for checkCollisions
         void addTankToLocationMap(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map,

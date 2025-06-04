@@ -14,7 +14,7 @@ class Board {
     
 
     public:
-        Board(int rows, int columns);
+        Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_sign, char tank2_sign, char mine_sign);
         Board(){};
         // ~Board();
         // Board(const Board&) = delete;
@@ -36,6 +36,11 @@ class Board {
     private:
         int rows;
         int columns;
+        int wall_lives; // Number of lives a wall has before it is destroyed
+        char wall_sign;
+        char tank1_sign;
+        char tank2_sign;
+        char mine_sign;
         //std::vector<std::vector<GameObject*>> board;
         std::vector<std::vector<std::unique_ptr<GameObject>>> board;
 

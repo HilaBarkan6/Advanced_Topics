@@ -5,10 +5,9 @@
 class Wall : public GameObject {
     private:
         int lives;
-        static constexpr int DEFAULT_LIVES = 2; // Consider to put in config file
 
     public:
-        Wall() : GameObject(), lives(DEFAULT_LIVES) {}
+        Wall(int lives) : GameObject(), lives(lives) {}
         void reduceLife();
         bool isDestroyed() const;   
 };

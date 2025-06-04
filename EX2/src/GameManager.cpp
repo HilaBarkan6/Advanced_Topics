@@ -35,14 +35,27 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory) 
-    : player_factory(std::move(player_factory)),
+GameManager::GameManager(const Config& config, std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory)
+    : config(config),
+      
+      out_of_bounds_sign(config.get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
+      wall_sign(config.get("wall_sign", std::string(1, WALL_SIGN))[0]),
+      tank1_sign(config.get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
+      tank2_sign(config.get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
+      called_tank_sign(config.get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
+      shell_sign(config.get("shell_sign", std::string(1, SHELL_SIGN))[0]),
+      mine_sign(config.get("mine_sign", std::string(1, MINE_SIGN))[0]),
+      max_turns_no_shells(config.getInt("max_turns_no_shells", MAX_TURNS_NO_SHELLS)),
+      wall_lives(config.getInt("wall_lives", WALL_LIVES)),
+      player_factory(std::move(player_factory)),
       tank_algorithm_factory(std::move(tank_algorithm_factory)),
       player1_alive_tanks(0),
       player2_alive_tanks(0),
-      turn_counter(0), 
-      no_more_shells(false), 
-      counter_no_shells(0) {}   
+      turn_counter(0),
+      no_more_shells(false),
+      view(config),
+      counter_no_shells(0) {}
+
 
 void GameManager::readBoard(const std::string& path_input_file){
     size_t last_slash = path_input_file.find_last_of("/\\");
@@ -57,7 +70,7 @@ void GameManager::readBoard(const std::string& path_input_file){
 
     readGameParameters(file); 
 
-    this->board = Board(height, width);
+    this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     std::cout << "GameManager initialized with board size: " << height << "x" << width << std::endl;
 
     board.readBoard(path_input_file, *this);
@@ -427,40 +440,73 @@ void GameManager::run() {
 //     }
 // }
 
-std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const{
+// std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const{
+//     std::vector<std::vector<char>> satellite_matrix(height, std::vector<char>(width, ' '));
+//     // Add Walls and Mines
+//     for (int i = 0; i < height; ++i) {
+//         for (int j = 0; j < width; ++j) {
+//             if(board.isMineLocation(i, j)){
+//                 satellite_matrix[i][j] = '@';
+//             }
+//             else if(board.isWallLocation(i, j)){
+//                 satellite_matrix[i][j] = '#';
+//             }
+//             else{
+//                 satellite_matrix[i][j] = ' ';
+//             }
+//         }
+//     }
+//     // Add Tanks
+//     for (size_t i = 0; i < all_tanks.size(); ++i) {
+//         if (all_tanks[i]->getAlive()) {
+//             int x = all_tanks[i]->getLocationX();
+//             int y = all_tanks[i]->getLocationY();
+//             if (all_tanks[i]->getPlayerId() == 1) {
+//                 satellite_matrix[x][y] = '1';
+//             } else {
+//                 satellite_matrix[x][y] = '2';
+//             }
+//         }
+//     }
+//     // Add Shells
+//     for (size_t i = 0; i < flying_shells.size(); ++i) {
+//         int x = flying_shells[i]->getLocation().first;
+//         int y = flying_shells[i]->getLocation().second;
+//         satellite_matrix[x][y] = '*';
+//     }
+//     return satellite_matrix;
+// }
+
+std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const {
     std::vector<std::vector<char>> satellite_matrix(height, std::vector<char>(width, ' '));
+
     // Add Walls and Mines
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            if(board.isMineLocation(i, j)){
-                satellite_matrix[i][j] = '@';
-            }
-            else if(board.isWallLocation(i, j)){
-                satellite_matrix[i][j] = '#';
-            }
-            else{
-                satellite_matrix[i][j] = ' ';
+            if (board.isMineLocation(i, j)) {
+                satellite_matrix[i][j] = mine_sign;
+            } else if (board.isWallLocation(i, j)) {
+                satellite_matrix[i][j] = wall_sign;
             }
         }
     }
+
     // Add Tanks
-    for (size_t i = 0; i < all_tanks.size(); ++i) {
-        if (all_tanks[i]->getAlive()) {
-            int x = all_tanks[i]->getLocationX();
-            int y = all_tanks[i]->getLocationY();
-            if (all_tanks[i]->getPlayerId() == 1) {
-                satellite_matrix[x][y] = '1';
-            } else {
-                satellite_matrix[x][y] = '2';
-            }
+    for (const auto& tank : all_tanks) {
+        if (tank->getAlive()) {
+            int x = tank->getLocationX();
+            int y = tank->getLocationY();
+            satellite_matrix[x][y] = (tank->getPlayerId() == 1) ? tank1_sign : tank2_sign;
         }
     }
+
     // Add Shells
-    for (size_t i = 0; i < flying_shells.size(); ++i) {
-        int x = flying_shells[i]->getLocation().first;
-        int y = flying_shells[i]->getLocation().second;
-        satellite_matrix[x][y] = '*';
+    for (const auto& shell : flying_shells) {
+        int x = shell->getLocation().first;
+        int y = shell->getLocation().second;
+        satellite_matrix[x][y] = shell_sign;
     }
+
     return satellite_matrix;
 }
 

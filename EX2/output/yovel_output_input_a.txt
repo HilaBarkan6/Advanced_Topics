@@ -8,44 +8,6 @@ RotateLeft45, GetBattleInfo
 RotateLeft45, MoveForward
 RotateLeft45, GetBattleInfo
 RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-RotateLeft45, DoNothing
-RotateLeft45, GetBattleInfo
-RotateLeft45, DoNothing
-Tie, reached max steps = 50 , player 1 has 1 tanks, player 2 has 1 tanks
+RotateLeft45, Shoot
+RotateLeft45 (killed), DoNothing
+Player 1 won with 1 tanks still alive

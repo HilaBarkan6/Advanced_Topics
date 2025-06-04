@@ -12,6 +12,7 @@
 #include "common/TankAlgorithmFactory.h"
 #include "common/SatelliteView.h"
 #include "implementations/SatelliteViewImp.h"
+#include "configuration/Config.h"
 #include <vector>
 #include <string>
 #include <utility> 
@@ -32,6 +33,28 @@ struct pair_hash {
 
 class GameManager {
     private:
+        // Config parameters
+        static constexpr const char OUT_OF_BOUNDS_SIGN = '&';
+        static constexpr const char WALL_SIGN = '#';
+        static constexpr const char TANK1_SIGN = '1';
+        static constexpr const char TANK2_SIGN = '2';
+        static constexpr const char CALLED_TANK_SIGN = '%';
+        static constexpr const char SHELL_SIGN = '*';
+        static constexpr const char MINE_SIGN = '@';
+        static constexpr const int MAX_TURNS_NO_SHELLS = 40;
+        static constexpr const int WALL_LIVES = 2; // Default value, can be changed in config file
+
+        const Config& config;
+        char out_of_bounds_sign;
+        char wall_sign;
+        char tank1_sign;
+        char tank2_sign;
+        char called_tank_sign;
+        char shell_sign;
+        char mine_sign;
+        int max_turns_no_shells; // Used to check if game is over when no more shells are available.
+        int wall_lives;
+
         std::string path_output_file;
         std::unique_ptr<PlayerFactory> player_factory;
         std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory;
@@ -67,15 +90,13 @@ class GameManager {
 
 
         int turn_counter;
-        // True when all player's shell were shooted.
-        bool no_more_shells;
-        const int max_turns_no_shells = 40; // Used to check if game is over when no more shells are available.
-        // if no_more_shells is true, game will finish when this is max_turns_no_shells.
-        int counter_no_shells;
-
+        bool no_more_shells; // Used to check if both players have no shells left.
+        
         // Satellite view is a single instance holding refrences to board, tanks and flying shells.
         // This single object will pass to players when needed.
+        // NOTE: 'view' must be declared after 'board', 'all_tanks', and 'flying_shells' to avoid -Werror=reorder.
         SatelliteViewImp view;
+        int counter_no_shells;
 
         bool shellFinished();
 
@@ -131,7 +152,7 @@ class GameManager {
         bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations);
 
     public:
-        GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
+        explicit GameManager(const Config& config, std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();

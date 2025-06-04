@@ -1,13 +1,15 @@
 #include "SatelliteViewImp.h"
 
+SatelliteViewImp::SatelliteViewImp(const Config& config)
+    : out_of_bounds_sign(config.get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]){}
+
 char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
     if (x >= rows || y >= columns) {
-        return '&'; // magic sign ?
+        return out_of_bounds_sign;
     }
     return satellite_view[x][y];
       
 }
-
 
 
 void SatelliteViewImp::setSatelliteView(const std::vector<std::vector<char>>& view) {

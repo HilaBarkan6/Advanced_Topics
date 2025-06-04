@@ -1,7 +1,7 @@
 #include "SimpleTankAlgorithm.h"
 
 
-SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index) {
+SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), battle_info_request_period(battle_info_request_period) {
     current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
     turn_counter = 0;
     height = 0;
@@ -11,7 +11,7 @@ SimpleTankAlgorithm::SimpleTankAlgorithm(int player_id, int tank_index): player_
 ActionRequest SimpleTankAlgorithm::getAction() {
     turn_counter++;
     
-    if(turn_counter%3 == 1){
+    if(turn_counter % battle_info_request_period == 1){
         return ActionRequest::GetBattleInfo;
     }
 

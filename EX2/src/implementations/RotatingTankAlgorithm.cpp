@@ -2,7 +2,7 @@
 #include "SimpleBattleInfo.h"
 #include <iostream>
 
-RotatingTankAlgorithm::RotatingTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), turn_counter(0)  {} // magic number 0 ? 
+RotatingTankAlgorithm::RotatingTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), turn_counter(0)  {}
 ActionRequest RotatingTankAlgorithm::getAction() {
     // TODO - This is relevant for input_j, on other tests just rotate
     // turn_counter++;

@@ -43,15 +43,21 @@ Also need to update PlayerFactory and TankAlgorithmFactory to create the correct
 Algorithms should think about what to keep from battle info and how often to request a new battle info
 
 Whats Next 2 -
-Tests on input file edge cases and errors
 **If one of the player doesn't have any tanks at all, he loses. make sure to do so instead of throwing error (this is the behevior now) - done**
 **If both of them don't have tanks at all so tie - done**
 **When Game ends - if both players are out of shells and 40 turns passed need to change the line we write to the output file - done**
-**Add a test when action is written with ignored and killed in the same turn - done**, test j, needed small change in rotateTankAlgorithm to cause the stuipd tank to move forward and get ignored.
-**Make sure no new and delete - done**, only place with "new" was in main.cpp so changed that to make_unique, not sure if std::move was needed there but this works
-Clean the code - **remove duplications - done**, **short function - done**, rule of 5, all common mistakes, **magic numbers - done (need to go over it again together)**
+**Add a test when action is written with ignored and killed in the same turn - done**
+**Make sure no new and delete - done**
 **Move read_board from GameManager to Board - done**
-Logging for bonus and maybe **configuration file (In process)**
+**configuration file - done**
+**remove duplications - done**
+**short function - done**
+**magic numbers - done (need to go over it again together)**
+
+Clean the code - rule of 5, all common mistakes
+Tests on input file edge cases and errors
+Logging for bonus
+GTest for bonus
 Mabye more tests
 Check what going on in the forum
 We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class

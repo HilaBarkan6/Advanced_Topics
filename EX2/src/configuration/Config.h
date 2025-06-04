@@ -18,7 +18,6 @@ public:
     static Config& getInstance();  // Returns the singleton instance of Config
 
     Config(const Config&) = delete; // Disable copy constructor
-    
     Config& operator=(const Config&) = delete;  // Disable copy assignment operator
 
     bool loadFromFile(const std::string& filename); // Loads configuration from a file, returns true if successful

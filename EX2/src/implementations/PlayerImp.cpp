@@ -1,26 +1,36 @@
 #include "PlayerImp.h"
 
+PlayerImp::PlayerImp(const Config& config, int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells)
+    : Player(player_index, x, y, max_steps, num_shells), battle_info(x, y), width(y), height(x),
+        out_of_bounds_sign(config.get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
+        wall_sign(config.get("wall_sign", std::string(1, WALL_SIGN))[0]),
+        tank1_sign(config.get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
+        tank2_sign(config.get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
+        called_tank_sign(config.get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
+        shell_sign(config.get("shell_sign", std::string(1, SHELL_SIGN))[0]),
+        mine_sign(config.get("mine_sign", std::string(1, MINE_SIGN))[0]) {}
+
+
+
 void PlayerImp::putLocationByChar(char object_sign, int x, int y) {
-    switch (object_sign) {
-        case '1': // Tank1
-            battle_info.addTanks1Location(std::make_pair(x, y));
-            break;
-        case '2': // Tank2
-            battle_info.addTanks2Location(std::make_pair(x, y));
-            break;
-        case '%': // Called tank
-            battle_info.addCalledTankLocation(std::make_pair(x, y));
-            break;
-        case '*': // Shell
-            battle_info.addShellLocation(std::make_pair(x, y));
-            break;
-        case '@': // Mine
-            battle_info.addMineLocation(std::make_pair(x, y));
-            break;
-        case '#': // Wall
-            battle_info.addWallLocation(std::make_pair(x, y));
-            break;
-        default:
-            break; // Ignore other objects
+    std::pair<int, int> location = {x, y};
+
+    if (object_sign == tank1_sign) {
+        battle_info.addTanks1Location(location);
+    } 
+    else if (object_sign == tank2_sign) {
+        battle_info.addTanks2Location(location);
+    } 
+    else if (object_sign == called_tank_sign) {
+        battle_info.addCalledTankLocation(location);
+    } 
+    else if (object_sign == shell_sign) {
+        battle_info.addShellLocation(location);
+    } 
+    else if (object_sign == mine_sign) {
+        battle_info.addMineLocation(location);
+    } 
+    else if (object_sign == wall_sign) {
+        battle_info.addWallLocation(location);
     }
 }

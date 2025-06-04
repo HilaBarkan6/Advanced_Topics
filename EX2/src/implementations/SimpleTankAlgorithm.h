@@ -39,6 +39,7 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         int turn_counter;
         int height;
         int width;
+        int battle_info_request_period;
         
 
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
@@ -62,7 +63,7 @@ class SimpleTankAlgorithm : public TankAlgorithm {
         void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info);
         void tryRotations(const QueueNode& current);
     public:
-        SimpleTankAlgorithm(int player_id, int tank_index);
+        SimpleTankAlgorithm(int player_id, int tank_index,int battle_info_request_period);
         ActionRequest getAction() override;
         void updateBattleInfo(BattleInfo& info) override; 
 };

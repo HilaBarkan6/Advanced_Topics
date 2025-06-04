@@ -1,7 +1,8 @@
 #include "Board.h"
 #include "GameManager.h"
 
-Board::Board(int rows, int columns) : rows(rows), columns(columns){
+Board::Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_sign, char tank2_sign, char mine_sign) : rows(rows), columns(columns), wall_lives(wall_lives),
+        wall_sign(wall_sign), tank1_sign(tank1_sign), tank2_sign(tank2_sign), mine_sign(mine_sign) {
     board.resize(rows);
     for (int i = 0; i < rows; ++i) {
         board[i].resize(columns);
@@ -61,31 +62,57 @@ void Board::skipMetadata(std::ifstream& file) {
 }
 
 void Board::processCell(char cell, int row, int col, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
-    switch (cell) {
-        case '#':
-            setGameObjectAt(row, col, std::make_unique<Wall>());
-            break;
-        case '@':
-            setGameObjectAt(row, col, std::make_unique<Mine>());
-            break;
-        case ' ':
-            setGameObjectAt(row, col, std::make_unique<Empty>());
-            break;
-        case '1':
-            m.addTank(row, col, 1);
-            setGameObjectAt(row, col, std::make_unique<Empty>());
-            break;
-        case '2':
-            m.addTank(row, col, 2);
-            setGameObjectAt(row, col, std::make_unique<Empty>());
-            break;
-        default:
-            setGameObjectAt(row, col, std::make_unique<Empty>());
-            has_errors = true;
-            error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
-            break;
+    if (cell == wall_sign) {
+        setGameObjectAt(row, col, std::make_unique<Wall>(wall_lives));
+    } 
+    else if (cell == mine_sign) {
+        setGameObjectAt(row, col, std::make_unique<Mine>());
+    } 
+    else if (cell ==tank1_sign) {
+        m.addTank(row, col, 1);
+        setGameObjectAt(row, col, std::make_unique<Empty>());
+    } 
+    else if (cell == tank2_sign) {
+        m.addTank(row, col, 2);
+        setGameObjectAt(row, col, std::make_unique<Empty>());
+    }
+     else if (cell == ' ') {
+        setGameObjectAt(row, col, std::make_unique<Empty>());
+    }
+    else {
+        setGameObjectAt(row, col, std::make_unique<Empty>());
+        has_errors = true;
+        error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
     }
 }
+
+
+// void Board::processCell(char cell, int row, int col, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
+//     switch (cell) {
+//         case '#':
+//             setGameObjectAt(row, col, std::make_unique<Wall>());
+//             break;
+//         case '@':
+//             setGameObjectAt(row, col, std::make_unique<Mine>());
+//             break;
+//         case ' ':
+//             setGameObjectAt(row, col, std::make_unique<Empty>());
+//             break;
+//         case '1':
+//             m.addTank(row, col, 1);
+//             setGameObjectAt(row, col, std::make_unique<Empty>());
+//             break;
+//         case '2':
+//             m.addTank(row, col, 2);
+//             setGameObjectAt(row, col, std::make_unique<Empty>());
+//             break;
+//         default:
+//             setGameObjectAt(row, col, std::make_unique<Empty>());
+//             has_errors = true;
+//             error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
+//             break;
+//     }
+// }
 
 int Board::readBoardLines(std::ifstream& file, int height, int width, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
     std::string line;

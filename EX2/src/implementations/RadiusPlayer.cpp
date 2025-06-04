@@ -31,5 +31,5 @@ std::pair<int, int> RadiusPlayer::getCalledTankLocation(const SatelliteView& sat
             }
         }
     }
-    return std::make_pair(-1, -1); // magic number ?
+    return std::make_pair(-1, -1); // default value if not found
 }

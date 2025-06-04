@@ -1,6 +1,7 @@
 #include "src/GameManager.h"
 #include "src/implementations/SimplePlayerFactory.h"
 #include "src/implementations/SimpleTankAlgorithmFactory.h"
+#include "src/configuration/Config.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -13,10 +14,17 @@ int main(int argc, char* argv[]){
     }
     const std::string input_file = argv[1];
     try{
+
+        // Load configuration
+        Config& config = Config::getInstance();
+        if (!config.loadFromFile("src/configuration\\config.txt")) {
+            std::cerr << "Warning: Could not load config.txt, using default values." << std::endl;
+        }
+
         // std::unique_ptr<PlayerFactory> player_factory(new SimplePlayerFactory());
         // std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory(new SimpleTankAlgorithmFactory());
         //GameManager m(std::move(player_factory), std::move(tank_algorithm_factory));
-        GameManager m(std::move(std::make_unique<SimplePlayerFactory>()), std::move(std::make_unique<SimpleTankAlgorithmFactory>()));
+        GameManager m(config, std::make_unique<SimplePlayerFactory>(config), std::make_unique<SimpleTankAlgorithmFactory>(config));
         m.readBoard(input_file);
         m.run();
     }

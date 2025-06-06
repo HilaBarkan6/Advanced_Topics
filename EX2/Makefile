@@ -5,7 +5,8 @@ SRC = main.cpp \
       $(wildcard src/*.cpp) \
       $(wildcard src/game_objects/*.cpp) \
       $(wildcard src/implementations/*.cpp) \
-      $(wildcard src/Logger/*.cpp)
+      $(wildcard src/Logger/*.cpp) \
+      $(wildcard src/configuration/*.cpp) 
 
 SRC_NO_MAIN = $(filter-out main.cpp, $(SRC))
 TEST_SRC = test/tests.cpp

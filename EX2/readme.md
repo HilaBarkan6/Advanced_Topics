@@ -54,10 +54,11 @@ Whats Next 2 -
 **short function - done**
 **magic numbers - done (need to go over it again together)**
 **Logging for bonus - done**
+**Clean the code - rule of 5 - done**
+**GTest for bonus - done**
 
-Clean the code - rule of 5, all common mistakes
+all common mistakes
 Tests on input file edge cases and errors
-GTest for bonus
 Mabye more tests
 Check what going on in the forum
 We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class
@@ -66,3 +67,4 @@ update readme
 write a bonous file
 explain why we decided for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
 check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets
+make sure it works on nova server

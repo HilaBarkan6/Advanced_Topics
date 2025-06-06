@@ -1,0 +1,204 @@
+2025-06-06 10:44:54 [INFO] GameManager initialized with board size: 4x10
+2025-06-06 10:44:54 [INFO] Board successfully built
+2025-06-06 10:44:54 [INFO] Game initialized with 1 player 1 tanks and 1 player 2 tanks.
+2025-06-06 10:44:54 [INFO] Turn is 0
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 1
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 2
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 3
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 4
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 5
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 6
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 7
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 8
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 9
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 10
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 11
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 12
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 13
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 14
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 15
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 16
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 17
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 18
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 19
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 20
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 21
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 22
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 23
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 24
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 25
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 26
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 27
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 28
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 29
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 30
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 31
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 32
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 33
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 34
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 35
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 36
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 37
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 38
+2025-06-06 10:44:54 [INFO] Tank 0 asked to rotate to RotateLeft45 and is now rotating to DOWN
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Turn is 39
+2025-06-06 10:44:54 [INFO] Tank 0 requested battle info
+2025-06-06 10:44:54 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Both players have no more shells, counting 40 turns to finish
+2025-06-06 10:44:54 [INFO] Tie, both players have zero shells for 40 steps

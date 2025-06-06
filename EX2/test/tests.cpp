@@ -2,41 +2,60 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
+#include <cctype>
 
 #ifdef _WIN32
-#include <cstdio>
+#include <cstdlib>
 #else
-#include <stdio.h>
+#include <cstdlib>
 #endif
 
-// Helper function to run the game and capture output
+// Structure to hold the file paths for one test case
+struct GameTestParam {
+    std::string input_file;
+    std::string expected_output_file;
+};
+
+// Helper function to run the game and read the actual output from the generated file
 std::string runGameAndCaptureOutput(const std::string& input_file) {
+    // Extract just the filename from the full input path
+    std::string base_name = input_file.substr(input_file.find_last_of("/\\") + 1);
+
+    // Construct corresponding output file path
+    std::string output_file = "output/output_" + base_name;
+
 #ifdef _WIN32
-    //const std::string command = "main.exe " + input_file;  
-    const std::string command = "C:\\Users\\yovel\\Desktop\\Advanced\\Advanced_Topics\\EX2\\main.exe" + input_file;
-    FILE* pipe = _popen(command.c_str(), "r");
+    // Windows: run the game executable with the input file
+    const std::string command = "C:\\Users\\yovel\\Desktop\\Advanced\\Advanced_Topics\\EX2\\main.exe " + input_file + " > nul 2>&1";;
+    int exit_code = system(command.c_str());
 #else
-    const std::string command = "./main.exe " + input_file; 
-    FILE* pipe = popen(command.c_str(), "r");
+    // Linux/Mac: run the executable normally
+    const std::string command = "./main.exe " + input_file + " > nul 2>&1";;
+    int exit_code = system(command.c_str());
 #endif
 
-    if (!pipe) return "ERROR";
-    char buffer[128];
-    std::string result;
-    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
-        result += buffer;
+    
+    if (exit_code != 0) {
+        return "ERROR";
     }
 
-#ifdef _WIN32
-    _pclose(pipe);
-#else
-    pclose(pipe);
-#endif
+    std::ifstream file(output_file);
+    if (!file.is_open()) {
+        return "ERROR";
+    }
 
-    return result;
+    std::string line, last_non_empty_line;
+    while (std::getline(file, line)) {
+        if (!line.empty()) {
+            last_non_empty_line = line;
+        }
+    }
+
+    return last_non_empty_line;
 }
 
-// Helper function to read expected output from file
+// Helper function to read the expected output file
 std::string readExpectedOutput(const std::string& expected_file) {
     std::ifstream file(expected_file);
     std::stringstream ss;
@@ -44,11 +63,10 @@ std::string readExpectedOutput(const std::string& expected_file) {
     return ss.str();
 }
 
-// Helper to get last non-empty line from a string
+// Helper to extract the last non-empty line from a string
 std::string getLastNonEmptyLine(const std::string& text) {
     std::istringstream iss(text);
-    std::string line;
-    std::string lastLine;
+    std::string line, lastLine;
     while (std::getline(iss, line)) {
         if (!line.empty()) {
             lastLine = line;
@@ -57,28 +75,44 @@ std::string getLastNonEmptyLine(const std::string& text) {
     return lastLine;
 }
 
-// Test cases for inputs A to J
-TEST(TankGameTests, InputA) {
-    std::string actual = runGameAndCaptureOutput("inputs/input_a.txt");
-    std::string expected = readExpectedOutput("expected_output/expected_output_input_a.txt");
+// Define the test fixture for parameterized tests
+class GameTests : public ::testing::TestWithParam<GameTestParam> {};
 
-    std::string actualLastLine = getLastNonEmptyLine(actual);
-    std::string expectedLastLine = getLastNonEmptyLine(expected);
+TEST_P(GameTests, CompareLastLine) {
+    GameTestParam param = GetParam();
 
-    EXPECT_EQ(actualLastLine, expectedLastLine);
+    std::string actual = runGameAndCaptureOutput(param.input_file);
+    std::string expected_full = readExpectedOutput(param.expected_output_file);
+    std::string expected = getLastNonEmptyLine(expected_full);
+
+    // Compare the actual and expected last lines
+    EXPECT_EQ(actual, expected);
 }
 
-TEST(TankGameTests, InputB) {
-    std::string actual = runGameAndCaptureOutput("inputs/input_b.txt");
-    std::string expected = readExpectedOutput("expected_output/expected_output_input_b.txt");
-
-    std::string actualLastLine = getLastNonEmptyLine(actual);
-    std::string expectedLastLine = getLastNonEmptyLine(expected);
-
-    EXPECT_EQ(actualLastLine, expectedLastLine);
+// Helper function to generate all test file pairs from input_a.txt to input_j.txt
+std::vector<GameTestParam> generateTestCases() {
+    std::vector<GameTestParam> tests;
+    for (char c = 'a'; c <= 'i'; ++c) {
+        if (c == 'f') continue; 
+        std::string letter(1, c);
+        tests.push_back({
+            "input/input_" + letter + ".txt",
+            "expected_output/expected_output_input_" + letter + ".txt"
+        });
+    }
+    return tests;
 }
+
+// Instantiate all test cases from the list generated
+INSTANTIATE_TEST_CASE_P(
+    AllInputs,             
+    GameTests,         
+    ::testing::ValuesIn(generateTestCases()) 
+);
+
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
+    ::testing::GTEST_FLAG(color) = "yes";  
     return RUN_ALL_TESTS();
 }

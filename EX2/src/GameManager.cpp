@@ -62,7 +62,7 @@ GameManager::GameManager(const Config& config, std::unique_ptr<PlayerFactory> pl
 void GameManager::readBoard(const std::string& path_input_file){
     size_t last_slash = path_input_file.find_last_of("/\\");
     const std::string input_file_name = (last_slash == std::string::npos) ? path_input_file : path_input_file.substr(last_slash + 1);
-    path_output_file = "output/yovel_output_" + input_file_name;
+    path_output_file = "output/output_" + input_file_name;
     path_log_file = "log_output/log_" + input_file_name + ".txt";
 
     logger.setLogFile(path_log_file);
@@ -260,12 +260,12 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
     if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
         if(no_more_shells && counter_no_shells>=2*max_turns_no_shells){
             
-            output_file << "Tie, both players have zero shells for "<< max_turns_no_shells << " steps" << std::endl;
+            output_file << "Tie, both players have zero shells for "<< max_turns_no_shells << " steps";
             logger.logInfo("Tie, both players have zero shells for " + std::to_string(max_turns_no_shells) + " steps");
             return true;
         }
         if(turn_counter >= max_steps*2){
-            output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks"<< std::endl;
+            output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks";
             logger.logInfo("Tie, reached max steps = " + std::to_string(max_steps) + " , player 1 has " + std::to_string(player1_alive_tanks) + " tanks, player 2 has " + std::to_string(player2_alive_tanks) + " tanks");
             return true;
         }
@@ -273,18 +273,18 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
     }
     // Both players are dead
     if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
-        output_file << "Tie, both players have zero tanks" << std::endl;
+        output_file << "Tie, both players have zero tanks";
         logger.logInfo("Tie, both players have zero tanks");
         return true;
     }
     // Only player1 dead
     else if (player1_alive_tanks == 0) {
-        output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive" << std::endl;
+        output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive";
         logger.logInfo("Player 2 won with " + std::to_string(player2_alive_tanks) + " tanks still alive");
         return true;
     // Only player 2 dead
     } else if (player2_alive_tanks == 0) {
-        output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive" << std::endl;
+        output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive";
         logger.logInfo("Player 1 won with " + std::to_string(player1_alive_tanks) + " tanks still alive");
         return true;
     }

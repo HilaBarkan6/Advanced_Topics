@@ -36,7 +36,7 @@ public:
     void logInfo(const std::string& message); // Used for general information messages
     void logError(const std::string& message); // Used for error messages that may require attention
     void logWarning(const std::string& message); // Used for warning messages that are not critical but should be noted
-    void setLogFile(const std::string& filename); // Sets the log file to write logs
+    void setLogFile(const std::string& filename);
 };
 
 #endif

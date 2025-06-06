@@ -62,8 +62,8 @@ Whats Next 2 -
 **check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets - done**
 **Tests on input file edge cases and errors - done**
 **Mabye more tests - done**
+**write a bonous file - done**
 
 Check what going on in the forum - each one of us
 update readme - Hila
-write a bonous file - Yovel
 make sure it works on nova server - Yovel

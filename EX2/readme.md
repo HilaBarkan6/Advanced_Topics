@@ -60,9 +60,9 @@ Whats Next 2 -
 **We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class - done**
 **according to lecture 8, the only place where we can make down cast is in BattleInfo unless there is something from our implementation - done**
 **check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets - done**
+**Tests on input file edge cases and errors - done**
+**Mabye more tests - done**
 
-Tests on input file edge cases and errors
-Mabye more tests
 Check what going on in the forum - each one of us
 update readme - Hila
 write a bonous file - Yovel

@@ -94,12 +94,12 @@ TEST_P(GameTests, CompareLastLine) {
 // Helper function to generate all test file pairs from input_a.txt to input_j.txt
 std::vector<GameTestParam> generateTestCases() {
     std::vector<GameTestParam> tests;
-    for (char c = 'a'; c <= 'i'; ++c) {
-        if (c == 'f') continue; 
+    for (char c = 'a'; c <= 'l'; ++c) {
+        if (c == 'f' || c == 'j') continue; 
         std::string letter(1, c);
         tests.push_back({
-            "input/input_" + letter + ".txt",
-            "expected_output/expected_output_input_" + letter + ".txt"
+            "test/input_tests/input_" + letter + ".txt",
+            "test/expected_output/expected_output_input_" + letter + ".txt"
         });
     }
     return tests;

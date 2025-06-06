@@ -1,0 +1,1 @@
+Tie, reached max steps = 20 , player 1 has 3 tanks, player 2 has 1 tanks

@@ -1,2 +1,0 @@
-2025-06-04 20:12:19 [ERROR] Error opening file: c:\Projects\Advanced_Topics\EX2\input\input_ass.txt
-2025-06-04 20:12:19 [INFO] Tie, both players have zero tanks

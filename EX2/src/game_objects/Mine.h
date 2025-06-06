@@ -2,9 +2,7 @@
 #define MINE_H
 #include "GameObject.h"
 
-class Mine : public GameObject {
-    
+class Mine : public GameObject {    
 };
-
 
 #endif

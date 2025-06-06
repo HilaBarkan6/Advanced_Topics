@@ -1,6 +1,5 @@
 #include "SimplePlayerFactory.h"
 
-
 SimplePlayerFactory::SimplePlayerFactory()
     : player_type(Config::getInstance().get("player_type", DEFAULT_PLAYER_TYPE)),
       radius_value(Config::getInstance().getInt("radius_value", DEFAULT_RADIUS)) {}

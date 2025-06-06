@@ -26,9 +26,3 @@ CanonDirection Shell::getFlyingDirection() const {
 }
 
 void Shell::setFlyingDirection(CanonDirection direction) { flying_direction = direction; }
-
-// int Shell::getTankID() const {
-//     return tank_id;
-// }
-
-

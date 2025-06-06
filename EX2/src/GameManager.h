@@ -79,13 +79,17 @@ class GameManager {
         // Used to check if player can shoot according to the rules. maps tank index to their last shooting turn.
         std::unordered_map<int, int> tank_last_shooting;
 
-        // Both player tanks in the order they were "born"
+        /* Both player tanks in the order they were "born"
+        *   We used shared_ptr because when tanks are colliding we keep track of them in a set to delete them together.
+        */
         std::vector<std::shared_ptr<Tank>> all_tanks;
         int player1_alive_tanks;
         int player2_alive_tanks;
         
 
-        // Flying shells of all tanks
+        /* Flying shells of all tanks
+        *  We used shared_ptr because when shells are colliding we keep track of them in a set to delete them together.
+        */
         std::vector<std::shared_ptr<Shell>> flying_shells;
 
         Board board;
@@ -101,7 +105,6 @@ class GameManager {
         
         // Satellite view is a single instance holding refrences to board, tanks and flying shells.
         // This single object will pass to players when needed.
-        // NOTE: 'view' must be declared after 'board', 'all_tanks', and 'flying_shells' to avoid -Werror=reorder.
         SatelliteViewImp view;
         int counter_no_shells;
 
@@ -159,12 +162,10 @@ class GameManager {
         bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations);
 
     public:
-        explicit GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
+        GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();
-        int getHeight() const { return height; }
-        int getWidth() const { return width; }
         void addTank(int row, int col, int player_id);
 };
 

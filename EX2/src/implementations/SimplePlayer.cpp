@@ -1,8 +1,4 @@
 #include "SimplePlayer.h"
-#include "SatelliteViewImp.h"
-#include <iostream>
-#include <vector>
-#include <utility> // for std::pair
 
 void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     battle_info.clearInfo();
@@ -17,5 +13,4 @@ void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView&
     
     // Update the tank algorithm with the populated battle info 
     tank.updateBattleInfo(battle_info);
-    std::cout << "call to updateTankWithBattleInfo " << std::endl;
 }

@@ -1,7 +1,5 @@
 #include "RadiusPlayer.h"
 
-
-
 void::RadiusPlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     // create some battle info and pass it to the tank algorithm
     // use satellite view function getObjectAt to get all objects on the board and update battleinfo according to that 
@@ -25,7 +23,7 @@ std::pair<int, int> RadiusPlayer::getCalledTankLocation(const SatelliteView& sat
     // Iterate over the board to find the called tank location
     for (size_t x = 0; x < height; ++x) {
         for (size_t y = 0; y < width; ++y) {
-            if (satellite_view.getObjectAt(x, y) == '%') { // maigc sign ? 
+            if (satellite_view.getObjectAt(x, y) == called_tank_sign) { 
                 return std::make_pair(x, y);
             }
         }

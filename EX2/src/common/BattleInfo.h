@@ -6,5 +6,4 @@ class BattleInfo {
         virtual ~BattleInfo() {}
     };
 
-    
 #endif

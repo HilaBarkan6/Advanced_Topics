@@ -1,7 +1,6 @@
 #include "Board.h"
 #include "GameManager.h"
 
-
 Board::Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_sign, char tank2_sign, char mine_sign) : rows(rows), columns(columns), wall_lives(wall_lives),
         wall_sign(wall_sign), tank1_sign(tank1_sign), tank2_sign(tank2_sign), mine_sign(mine_sign) {
     board.resize(rows);
@@ -9,14 +8,6 @@ Board::Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_s
         board[i].resize(columns);
     }
 }
-
-// Board::~Board() {
-//     for (int i = 0; i < rows; ++i) {
-//         for (int j = 0; j < columns; ++j) {
-//             delete board[i][j]; // Clean up dynamically allocated GameObjects
-//         }
-//     }
-// }
 
 int Board::getRows() const {
     return rows;
@@ -38,13 +29,6 @@ bool Board::isMineLocation(int x, int y) const {
         return dynamic_cast<Mine*>(board[x][y].get()) != nullptr;
     }
     return false;
-}
-
-GameObject* Board::getGameObjectAt(int x, int y) const {
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
-        return board[x][y].get();
-    }
-    return nullptr;
 }
 
 void Board::setGameObjectAt(int x, int y, std::unique_ptr<GameObject> obj) {
@@ -86,34 +70,6 @@ void Board::processCell(char cell, int row, int col, GameManager& m, bool& has_e
         error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
     }
 }
-
-
-// void Board::processCell(char cell, int row, int col, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
-//     switch (cell) {
-//         case '#':
-//             setGameObjectAt(row, col, std::make_unique<Wall>());
-//             break;
-//         case '@':
-//             setGameObjectAt(row, col, std::make_unique<Mine>());
-//             break;
-//         case ' ':
-//             setGameObjectAt(row, col, std::make_unique<Empty>());
-//             break;
-//         case '1':
-//             m.addTank(row, col, 1);
-//             setGameObjectAt(row, col, std::make_unique<Empty>());
-//             break;
-//         case '2':
-//             m.addTank(row, col, 2);
-//             setGameObjectAt(row, col, std::make_unique<Empty>());
-//             break;
-//         default:
-//             setGameObjectAt(row, col, std::make_unique<Empty>());
-//             has_errors = true;
-//             error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
-//             break;
-//     }
-// }
 
 int Board::readBoardLines(std::ifstream& file, int height, int width, GameManager& m, bool& has_errors, std::ostringstream& error_log) {
     std::string line;
@@ -183,8 +139,8 @@ void Board::readBoard(const std::string& path_input_file, GameManager& m) {
     std::ostringstream error_log;
     bool has_errors = false;
 
-    int height = m.getHeight();
-    int width = m.getWidth();
+    int height = rows;
+    int width = columns;
 
     int rows_read = readBoardLines(file, height, width, m, has_errors, error_log);
     fillMissingRows(rows_read, height, width, has_errors, error_log);
@@ -194,4 +150,16 @@ void Board::readBoard(const std::string& path_input_file, GameManager& m) {
     if (has_errors) {
         writeErrorLog(error_log);
     }
+}
+
+void Board::reduceWallLives(int x, int y){
+    Wall* wall = dynamic_cast<Wall*>(board[x][y].get());
+    if (wall) {
+        wall->reduceLife();
+    }
+}
+
+bool Board::wallIsDestroyed(int x, int y) const {
+    Wall* wall = dynamic_cast<Wall*>(board[x][y].get());
+    return wall && wall->isDestroyed();
 }

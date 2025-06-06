@@ -7,6 +7,8 @@
 #include <iostream>
 #include <iomanip>
 
+ /* We used ChatGpt to learn how to work with Logger*/
+ 
 enum class LogLevel {
     INFO,
     WARNING,
@@ -31,10 +33,10 @@ public:
     Logger& operator=(Logger&&) = delete;
 
     void log(LogLevel level, const std::string& message);
-    void logInfo(const std::string& message);
-    void logError(const std::string& message);
-    void logWarning(const std::string& message);
-    void setLogFile(const std::string& filename);
+    void logInfo(const std::string& message); // Used for general information messages
+    void logError(const std::string& message); // Used for error messages that may require attention
+    void logWarning(const std::string& message); // Used for warning messages that are not critical but should be noted
+    void setLogFile(const std::string& filename); // Sets the log file to write logs
 };
 
 #endif

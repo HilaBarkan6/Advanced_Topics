@@ -2,6 +2,9 @@
 #define SIMPLE_TANK_ALGORITHM_FACTORY_H   
 #include "../common/TankAlgorithmFactory.h"
 #include "../configuration/Config.h"
+#include "BFSTankAlgorithm.h"
+#include "RotatingTankAlgorithm.h"
+#include <iostream>
 
 class SimpleTankAlgorithmFactory : public TankAlgorithmFactory {
     private:

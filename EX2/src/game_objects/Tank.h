@@ -1,11 +1,11 @@
 #ifndef TANK_H
 #define TANK_H
 #include "GameObject.h"
+#include "../common/TankAlgorithm.h"
 #include "Shell.h"
 #include <vector>
 #include <memory>
-#include "../common/TankAlgorithm.h"
-
+#include <algorithm>
 
 class Tank : public GameObject {
     private:

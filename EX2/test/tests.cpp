@@ -11,6 +11,8 @@
 #include <cstdlib>
 #endif
 
+/* We used ChatGPT to learn how work with GTest*/
+
 // Structure to hold the file paths for one test case
 struct GameTestParam {
     std::string input_file;
@@ -27,11 +29,11 @@ std::string runGameAndCaptureOutput(const std::string& input_file) {
 
 #ifdef _WIN32
     // Windows: run the game executable with the input file
-    const std::string command = "C:\\Users\\yovel\\Desktop\\Advanced\\Advanced_Topics\\EX2\\main.exe " + input_file + " > nul 2>&1";;
+    const std::string command = "tank_game.exe " + input_file + " > nul 2>&1"; // Redirect output to null
     int exit_code = system(command.c_str());
 #else
     // Linux/Mac: run the executable normally
-    const std::string command = "./main.exe " + input_file + " > nul 2>&1";;
+    const std::string command = "./tank_game.exe " + input_file + " > nul 2>&1"; // Redirect output to null
     int exit_code = system(command.c_str());
 #endif
 

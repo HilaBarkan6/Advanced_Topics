@@ -10,8 +10,6 @@ PlayerImp::PlayerImp(int player_index, size_t x, size_t y, size_t max_steps, siz
         shell_sign(Config::getInstance().get("shell_sign", std::string(1, SHELL_SIGN))[0]),
         mine_sign(Config::getInstance().get("mine_sign", std::string(1, MINE_SIGN))[0]) {}
 
-
-
 void PlayerImp::putLocationByChar(char object_sign, int x, int y) {
     std::pair<int, int> location = {x, y};
 

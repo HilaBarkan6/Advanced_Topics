@@ -1,8 +1,4 @@
 #include "Tank.h"
-#include "Shell.h"
-#include <vector>
-#include <algorithm>
-#include <memory>
 
 Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm) : 
     GameObject(),
@@ -65,11 +61,3 @@ void Tank::setUnusedShellsCount(int count) {
 TankAlgorithm& Tank::getTankAlgorithm() const {
     return *tank_algorithm;
 }
-
-
-
-
-
-
-
-

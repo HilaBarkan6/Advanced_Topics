@@ -1,6 +1,5 @@
 #include "GameManager.h"
 
-
 // Overload operator<< for ActionRequest
 std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
     switch (action) {
@@ -69,7 +68,6 @@ void GameManager::readBoard(const std::string& path_input_file){
 
     std::ifstream file(path_input_file);
     if (!file.is_open()) {
-        //std::cerr << "Error opening file: " << path_input_file << std::endl;
         logger.logError("Error opening file: " + path_input_file);
         return;
     }
@@ -77,7 +75,6 @@ void GameManager::readBoard(const std::string& path_input_file){
     readGameParameters(file); 
 
     this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
-    //std::cout << "GameManager initialized with board size: " << height << "x" << width << std::endl;
     logger.logInfo("GameManager initialized with board size: " + std::to_string(height) + "x" + std::to_string(width));
 
     board.readBoard(path_input_file, *this);
@@ -304,11 +301,9 @@ void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int,
         int x = shell->getNextLocation().first;
         int y = shell->getNextLocation().second;
 
-        // TODO - move logic to Board class to avoid pointers
         if (board.isWallLocation(x, y)) {
-            Wall* wall = dynamic_cast<Wall*>(board.getGameObjectAt(x, y));
-            wall->reduceLife();
-            if (wall->isDestroyed()) {
+            board.reduceWallLives(x, y);
+            if (board.wallIsDestroyed(x, y)) {
                 board.setGameObjectAt(x, y, std::make_unique<Empty>());
                 logger.logInfo("Wall at [" + std::to_string(x) + ", " + std::to_string(y) + "] destroyed");
             }

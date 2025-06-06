@@ -1,19 +1,11 @@
 #include "Logger.h"
 
-
 Logger::~Logger() {
     if (log_file_.is_open()) {
         log_file_.close();
     }
 }
 
-// void Logger::log(LogLevel level, const std::string& message) {
-
-//     if (log_file_.is_open()) {
-//         log_file_ << getTimestamp() << " [" << levelToString(level) << "] " << message << std::endl;
-//         log_file_.flush();
-//     }
-// }
 void Logger::log(LogLevel level, const std::string& message) {
 
     std::string levelStr = levelToString(level);

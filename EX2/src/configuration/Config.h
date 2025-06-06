@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 
+ /* We used ChatGpt to learn how to work with configuraiton file*/
+
 class Config {
 private:
     std::unordered_map<std::string, std::string> settings; // Stores key-value pairs from the configuration file

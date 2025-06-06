@@ -11,7 +11,6 @@ char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
       
 }
 
-
 void SatelliteViewImp::setSatelliteView(const std::vector<std::vector<char>>& view) {
     satellite_view = view;
 }

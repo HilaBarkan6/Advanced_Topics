@@ -57,13 +57,13 @@ Whats Next 2 -
 **Clean the code - rule of 5 - done**
 **GTest for bonus - done**
 **all common mistakes - done**
+**We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class - done**
+**according to lecture 8, the only place where we can make down cast is in BattleInfo unless there is something from our implementation - done**
+**check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets - done**
+
 Tests on input file edge cases and errors
 Mabye more tests
-Check what going on in the forum
-We need to make sure that in every case of polymorphism, we declare a virtual destructor in the base class
-according to lecture 8, the only place where we can make down cast is in BattleInfo (unless there is something from our implementation)
-update readme
-write a bonous file
-explain why we decided for now that the bfs logic is in this function and that getAction is very simple, we should think and maybe ask if thats a good idea.  
-check if we made const in order to protect smart pointers value and if we did, check if the const is inside the <> brackets
-make sure it works on nova server
+Check what going on in the forum - each one of us
+update readme - Hila
+write a bonous file - Yovel
+make sure it works on nova server - Yovel

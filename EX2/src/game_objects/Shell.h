@@ -15,10 +15,8 @@ class Shell: public GameObject {
 
         // shells flying direction, same as the tank's canon when shooted.
         CanonDirection flying_direction;
-        //const int tank_id;
 
     public:
-        //Shell(std::pair<int, int> loc, CanonDirection dir, int tank_id);
         Shell(std::pair<int, int> loc, CanonDirection dir);
 
         std::pair<int, int> getLocation() const;

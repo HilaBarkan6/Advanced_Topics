@@ -94,7 +94,6 @@ Implementatins -
     Both players share some common functionality, so they inherit from the PlayerImp class.
 
     TankAlgorithm - We implemented two tank algorithms:
-
         BFSTankAlgorithm: Every three turns, it requests battle info, then uses it to locate the nearest enemy and runs a BFS algorithm to determine the best next two moves to shoot at that enemy. It then executes these moves in the next two turns before requesting info again.
 
         RotatingTankAlgorithm: A simple algorithm used mainly for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.

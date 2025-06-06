@@ -1,4 +1,4 @@
-2025-06-06 10:44:54 [INFO] GameManager initialized with board size: 4x10
-2025-06-06 10:44:54 [INFO] Board successfully built
-2025-06-06 10:44:54 [INFO] Game initialized with 0 player 1 tanks and 0 player 2 tanks.
-2025-06-06 10:44:54 [INFO] Tie, both players have zero tanks
+2025-06-06 11:02:13 [INFO] GameManager initialized with board size: 4x10
+2025-06-06 11:02:13 [INFO] Board successfully built
+2025-06-06 11:02:13 [INFO] Game initialized with 0 player 1 tanks and 0 player 2 tanks.
+2025-06-06 11:02:13 [INFO] Tie, both players have zero tanks

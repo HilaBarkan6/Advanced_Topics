@@ -12,7 +12,7 @@
 
 class PlayerImp : public Player {
     public:   
-        explicit PlayerImp(const Config& config, int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells);
+        explicit PlayerImp(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells);
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) = 0;
         virtual ~PlayerImp() = default;
     
@@ -39,6 +39,5 @@ class PlayerImp : public Player {
         char shell_sign;
         char mine_sign;
 };
-
 
 #endif

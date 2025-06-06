@@ -10,7 +10,7 @@ class SimpleTankAlgorithmFactory : public TankAlgorithmFactory {
     
     public:
         virtual ~SimpleTankAlgorithmFactory() = default;
-        explicit SimpleTankAlgorithmFactory(const Config& config);
+        SimpleTankAlgorithmFactory();
         virtual unique_ptr<TankAlgorithm> create(int player_index, int tank_index) const override;
 };
 

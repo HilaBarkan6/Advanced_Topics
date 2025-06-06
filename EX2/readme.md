@@ -56,8 +56,7 @@ Whats Next 2 -
 **Logging for bonus - done**
 **Clean the code - rule of 5 - done**
 **GTest for bonus - done**
-
-all common mistakes
+**all common mistakes - done**
 Tests on input file edge cases and errors
 Mabye more tests
 Check what going on in the forum

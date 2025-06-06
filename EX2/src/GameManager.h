@@ -47,7 +47,6 @@ class GameManager {
         static constexpr const int BACKWARD_WAITING_TURNS = 2; 
         static constexpr const int SHOOTING_WAITING_TURNS = 4; 
 
-        const Config& config;
         char out_of_bounds_sign;
         char wall_sign;
         char tank1_sign;
@@ -160,7 +159,7 @@ class GameManager {
         bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations);
 
     public:
-        explicit GameManager(const Config& config, std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
+        explicit GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();

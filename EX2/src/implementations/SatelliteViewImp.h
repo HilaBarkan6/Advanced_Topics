@@ -8,7 +8,7 @@
 
 class SatelliteViewImp : public SatelliteView {
     public:
-        explicit SatelliteViewImp(const Config& config);
+        explicit SatelliteViewImp();
         char getObjectAt(size_t x, size_t y) const override;
         void setSatelliteView(const std::vector<std::vector<char>>& view);
         void setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put);

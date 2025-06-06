@@ -16,15 +16,12 @@ int main(int argc, char* argv[]){
     try{
 
         // Load configuration
-        Config& config = Config::getInstance();
-        if (!config.loadFromFile("src/configuration\\config.txt")) {
+        if (!Config::getInstance().loadFromFile("src/configuration/config.txt")) {
             std::cerr << "Warning: Could not load config.txt, using default values." << std::endl;
         }
-
-        // std::unique_ptr<PlayerFactory> player_factory(new SimplePlayerFactory());
-        // std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory(new SimpleTankAlgorithmFactory());
-        //GameManager m(std::move(player_factory), std::move(tank_algorithm_factory));
-        GameManager m(config, std::make_unique<SimplePlayerFactory>(config), std::make_unique<SimpleTankAlgorithmFactory>(config));
+        
+        // Initialize GameManager with factories
+        GameManager m(std::make_unique<SimplePlayerFactory>(), std::make_unique<SimpleTankAlgorithmFactory>());
         m.readBoard(input_file);
         m.run();
     }

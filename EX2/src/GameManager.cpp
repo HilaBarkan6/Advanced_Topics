@@ -35,27 +35,26 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(const Config& config, std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory)
-    : config(config),
-      
-      out_of_bounds_sign(config.get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
-      wall_sign(config.get("wall_sign", std::string(1, WALL_SIGN))[0]),
-      tank1_sign(config.get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
-      tank2_sign(config.get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
-      called_tank_sign(config.get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
-      shell_sign(config.get("shell_sign", std::string(1, SHELL_SIGN))[0]),
-      mine_sign(config.get("mine_sign", std::string(1, MINE_SIGN))[0]),
-      max_turns_no_shells(config.getInt("max_turns_no_shells", MAX_TURNS_NO_SHELLS)),
-      wall_lives(config.getInt("wall_lives", WALL_LIVES)),
-      backward_wating_turns(config.getInt("backward_waiting_turns", BACKWARD_WAITING_TURNS)),
-      shooting_waiting_turns(config.getInt("shooting_waiting_turns", SHOOTING_WAITING_TURNS)),
+GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory)
+    : 
+      out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
+      wall_sign(Config::getInstance().get("wall_sign", std::string(1, WALL_SIGN))[0]),
+      tank1_sign(Config::getInstance().get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
+      tank2_sign(Config::getInstance().get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
+      called_tank_sign(Config::getInstance().get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
+      shell_sign(Config::getInstance().get("shell_sign", std::string(1, SHELL_SIGN))[0]),
+      mine_sign(Config::getInstance().get("mine_sign", std::string(1, MINE_SIGN))[0]),
+      max_turns_no_shells(Config::getInstance().getInt("max_turns_no_shells", MAX_TURNS_NO_SHELLS)),
+      wall_lives(Config::getInstance().getInt("wall_lives", WALL_LIVES)),
+      backward_wating_turns(Config::getInstance().getInt("backward_waiting_turns", BACKWARD_WAITING_TURNS)),
+      shooting_waiting_turns(Config::getInstance().getInt("shooting_waiting_turns", SHOOTING_WAITING_TURNS)),
       player_factory(std::move(player_factory)),
       tank_algorithm_factory(std::move(tank_algorithm_factory)),
       player1_alive_tanks(0),
       player2_alive_tanks(0),
       turn_counter(0),
       no_more_shells(false),
-      view(config),
+      view(),
       counter_no_shells(0) {}
 
 

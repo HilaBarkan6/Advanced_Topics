@@ -1,14 +1,14 @@
 #include "PlayerImp.h"
 
-PlayerImp::PlayerImp(const Config& config, int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells)
+PlayerImp::PlayerImp(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells)
     : Player(player_index, x, y, max_steps, num_shells), battle_info(x, y), width(y), height(x),
-        out_of_bounds_sign(config.get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
-        wall_sign(config.get("wall_sign", std::string(1, WALL_SIGN))[0]),
-        tank1_sign(config.get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
-        tank2_sign(config.get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
-        called_tank_sign(config.get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
-        shell_sign(config.get("shell_sign", std::string(1, SHELL_SIGN))[0]),
-        mine_sign(config.get("mine_sign", std::string(1, MINE_SIGN))[0]) {}
+        out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
+        wall_sign(Config::getInstance().get("wall_sign", std::string(1, WALL_SIGN))[0]),
+        tank1_sign(Config::getInstance().get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
+        tank2_sign(Config::getInstance().get("tank2_sign", std::string(1, TANK2_SIGN))[0]),
+        called_tank_sign(Config::getInstance().get("called_tank_sign", std::string(1, CALLED_TANK_SIGN))[0]),
+        shell_sign(Config::getInstance().get("shell_sign", std::string(1, SHELL_SIGN))[0]),
+        mine_sign(Config::getInstance().get("mine_sign", std::string(1, MINE_SIGN))[0]) {}
 
 
 

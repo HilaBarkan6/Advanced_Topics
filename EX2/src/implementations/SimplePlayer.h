@@ -1,10 +1,7 @@
 #ifndef SIMPLE_PLAYER_H
 #define SIMPLE_PLAYER_H
 #include "PlayerImp.h"
-#include "SatelliteViewImp.h"
-#include <iostream>
-#include <vector>
-#include <utility> // for std::pair
+
 
 class SimplePlayer : public PlayerImp {
     public:

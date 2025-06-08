@@ -155,6 +155,15 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
     for (size_t i = 0; i < all_tanks.size(); i++) {
         if (all_tanks[i]->getAlive()) {
             wanted_actions[i] = all_tanks[i]->getTankAlgorithm().getAction();
+            if(std::get<0>(all_tanks_backwards_info[i]) == backward_wating_turns+1 &&
+            std::get<2>(all_tanks_backwards_info[i]) &&
+            wanted_actions[i] != ActionRequest::MoveForward &&
+            wanted_actions[i] != ActionRequest::GetBattleInfo) {
+                /* If the tank is waiting for backward move and it the 3rd turn and the action was not forward or get battle info,
+                 its time to move so we ignore what the tank asked because the actual action is backward.
+                 for more info about this behavior see readme */
+                wanted_actions[i] = ActionRequest::MoveBackward;
+            }
             new_wanted_locations[i] = getNewLocation(all_tanks[i], wanted_actions[i]);
         }
     }
@@ -515,7 +524,7 @@ bool GameManager::handleBackwardWaiting(int tank_index, ActionRequest action) {
         if (action == ActionRequest::MoveForward) {
             std::get<2>(all_tanks_backwards_info[tank_index]) = false;
             std::get<0>(all_tanks_backwards_info[tank_index]) = 0;
-            logger.logInfo("Tank " + std::to_string(tank_index) + " cancelled backward by moving forward");
+            logger.logInfo("Backwards waiting for tank " + std::to_string(tank_index) + " cancelled by forward action");
             return false; 
         }
         else {
@@ -525,6 +534,7 @@ bool GameManager::handleBackwardWaiting(int tank_index, ActionRequest action) {
                 std::get<1>(all_tanks_backwards_info[tank_index]) = false;
                 std::get<2>(all_tanks_backwards_info[tank_index]) = false;
                 logger.logInfo("Backwards waiting over for tank " + std::to_string(tank_index));
+                // Should always move backward
                 return false;
             }
             else {
@@ -647,8 +657,15 @@ bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, s
 void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
 
     bool is_ignored = false;
+    // If the tank was in backward wating state and the counter is 2, this is the 3rd tunr and it should move backward.
+    // In this case the actual action and new location will be for backward movement (handled in handleEvenTurn function)
+    if(std::get<0>(all_tanks_backwards_info[tank_index]) == backward_wating_turns && std::get<2>(all_tanks_backwards_info[tank_index])){
+        if(action!=ActionRequest::MoveForward && action!=ActionRequest::GetBattleInfo){
+            is_ignored = handleMoveBackward(tank_index, can_move, new_location); 
+        }
+    }
 
-    if(handleBackwardWaiting(tank_index, action)){
+    else if(handleBackwardWaiting(tank_index, action)){
         is_ignored = true;
     }
     else if (action == ActionRequest::GetBattleInfo){

@@ -173,7 +173,7 @@ void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const Simp
     actions_to_apply.push_back(ActionRequest::RotateLeft45);
 }
 
-bool BFSTankAlgorithm::canShoot(size_t height, size_t width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
+bool BFSTankAlgorithm::canShoot(int height, int width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
     return clearPathFromSrcToDst(height, width, my_location.first, my_location.second, enemy_location.first, enemy_location.second, my_direction, wall_locations);
 }
 
@@ -196,14 +196,14 @@ bool BFSTankAlgorithm::canMove(int new_x, int new_y,
         return true;
     }
 
-bool BFSTankAlgorithm::clearPathFromSrcToDst(size_t height, size_t width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const{
+bool BFSTankAlgorithm::clearPathFromSrcToDst(int height, int width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const{
     int cx = src_x;
     int cy = src_y;
     int ox = dst_x;
     int oy = dst_y;
  
     
-    for (size_t steps = 0; steps < std::max(height, width); ++steps) {
+    for (int steps = 0; steps < std::max(height, width); ++steps) {
         if (cx == ox && cy == oy) {
             return true;
         }

@@ -690,19 +690,11 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     }
 
     // if last action wasn't backward set boolean to false
-    if (action != ActionRequest::MoveBackward) {
-        std::get<1>(all_tanks_backwards_info[tank_index]) = false;
-    }
+    if (action != ActionRequest::MoveBackward) std::get<1>(all_tanks_backwards_info[tank_index]) = false;
 
     output_file << action;
-    if(is_ignored){
-        output_file << " (ignored)";
-    }
-
-    if(!all_tanks[tank_index]->getAlive()){
-        output_file << " (killed)";
-        return;
-    }
+    if(is_ignored) output_file << " (ignored)";
+    if(!all_tanks[tank_index]->getAlive()) output_file << " (killed)";
 }
 
 bool GameManager::canMoveBackward(int tank_index) const{

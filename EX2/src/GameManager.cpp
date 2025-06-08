@@ -159,7 +159,7 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
             std::get<2>(all_tanks_backwards_info[i]) &&
             wanted_actions[i] != ActionRequest::MoveForward &&
             wanted_actions[i] != ActionRequest::GetBattleInfo) {
-                /* If the tank is waiting for backward move and it the 3rd turn and the action was not forward or get battle info,
+                /* If the tank is waiting for backward move and it is the 3rd turn, and the action was not forward or get battle info,
                  its time to move so we ignore what the tank asked because the actual action is backward.
                  for more info about this behavior see readme */
                 wanted_actions[i] = ActionRequest::MoveBackward;
@@ -616,16 +616,15 @@ void GameManager::handleRotation(int tank_index, ActionRequest action) {
 bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations) {
     int last = tank_last_shooting[tank_index];
     
-    // Check if allowed to shoot
-    // Since turn counter moves twice as fast as tanks, check for 8 game iterations is equivalent to 4 tank turns and therefore we multiply by 2.
+    /* Check if allowed to shoot
+    *  Since turn counter moves twice as fast as tanks, check for 8 game iterations is equivalent to 4 tank turns and therefore we multiply by 2.
+    */
     if(last == -1 || turn_counter - last > shooting_waiting_turns * 2 ) { 
         if(all_tanks[tank_index]->getUnusedShellsCount() > 0){
             auto new_shell_location = getShellLocationOnCreation(all_tanks[tank_index]);
-
             flying_shells.emplace_back(std::make_shared<Shell>(new_shell_location, all_tanks[tank_index]->getCanonDirection()));
             logger.logInfo("Tank " + std::to_string(tank_index) + " shot a shell at [" + std::to_string(new_shell_location.first) + ", " + std::to_string(new_shell_location.second) + "]");
             updateShellNextLocation(flying_shells.back());
-
             all_tanks[tank_index]->setUnusedShellsCount(all_tanks[tank_index]->getUnusedShellsCount() - 1);
 
             // Check if the new shell was created in some tank's new location
@@ -655,16 +654,14 @@ bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, s
 }
 
 void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
-
     bool is_ignored = false;
-    // If the tank was in backward wating state and the counter is 2, this is the 3rd tunr and it should move backward.
-    // In this case the actual action and new location will be for backward movement (handled in handleEvenTurn function)
+    /* If the tank was in 'backward wating state' and the counter (from the request) is 2, then the current turn is the 3rd tunr and it should move backward.
+       In this case the actual action and new location will be for backward movement (handled in handleEvenTurn function)*/
     if(std::get<0>(all_tanks_backwards_info[tank_index]) == backward_wating_turns && std::get<2>(all_tanks_backwards_info[tank_index])){
         if(action!=ActionRequest::MoveForward && action!=ActionRequest::GetBattleInfo){
             is_ignored = handleMoveBackward(tank_index, can_move, new_location); 
         }
     }
-
     else if(handleBackwardWaiting(tank_index, action)){
         is_ignored = true;
     }

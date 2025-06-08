@@ -67,6 +67,7 @@ Whats Next 2 -
 Check what going on in the forum - each one of us
 update readme - Hila
 make sure it works on nova server - Yovel
+need to add descreption about the backward logic
 
 _______________________
 NEW README

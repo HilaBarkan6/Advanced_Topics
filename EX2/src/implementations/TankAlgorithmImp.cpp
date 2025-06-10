@@ -2,8 +2,8 @@
 #include <limits>
 #include <cstdlib>
 
-TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), 
-                turn_counter(0),  height(0), width(0), battle_info_request_period(battle_info_request_period), last_shoot_turn(-1) {
+TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns): player_id(player_id), tank_index(tank_index), 
+                turn_counter(0),  height(0), width(0), battle_info_request_period(battle_info_request_period),shooting_waiting_turns(shooting_waiting_turns), last_shoot_turn(-1) {
 
         current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
 }
@@ -36,7 +36,6 @@ bool TankAlgorithmImp::clearPathFromSrcToDst(int height, int width, const int sr
     int cy = src_y;
     int ox = dst_x;
     int oy = dst_y;
- 
     
     for (int steps = 0; steps < std::max(height, width); ++steps) {
         if (cx == ox && cy == oy) {
@@ -115,6 +114,34 @@ std::pair<int, int> TankAlgorithmImp::getNextForwardLocation(const std::pair<int
     new_x = (new_x + height) % height;
     new_y = (new_y + width) % width;
     return std::make_pair(new_x, new_y);
+}
+
+void TankAlgorithmImp::updateLocalState(ActionRequest action) {
+    switch (action) 
+    {
+        case ActionRequest::RotateLeft45:
+            current_canon_direction = rotate(current_canon_direction, -1);
+            break;
+        
+        case ActionRequest::RotateRight45:
+            current_canon_direction = rotate(current_canon_direction, 1);
+            break;
+
+        case ActionRequest::RotateLeft90:   
+            current_canon_direction = rotate(current_canon_direction, -2);
+            break;
+
+        case ActionRequest::RotateRight90:      
+            current_canon_direction = rotate(current_canon_direction, 2);
+            break;
+
+        case ActionRequest::Shoot:
+            last_shoot_turn = turn_counter;
+            break;
+
+        default:
+            break;    
+    }
 }
 
 CanonDirection TankAlgorithmImp::rotate(CanonDirection cur_dir, int rotation) {

@@ -9,10 +9,12 @@
 
 class SimpleTankAlgorithmFactory : public TankAlgorithmFactory {
     private:
-        static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD_BFS = 3; // Default period for requesting battle info, can be configured in congig.txt
+        static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD_BFS = 3; // Default period for requesting battle info, can be configured in config.txt
         static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD_SIMPLE = 2;
+         static constexpr int DEFAULT_SHOOTING_WAITING_TURNS = 4; 
         int battle_info_request_period_bfs;
         int battle_info_request_period_simple;
+        int shooting_waiting_turns;
     
     public:
         virtual ~SimpleTankAlgorithmFactory() = default;

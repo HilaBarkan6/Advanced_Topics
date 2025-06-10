@@ -8,32 +8,7 @@ ActionRequest SimpleTankAlgorithm::getAction() {
     }
 
     ActionRequest cur_action = action_to_apply;
-    // Rotate the canon direction based on the action
-    switch (cur_action) 
-    {
-        case ActionRequest::RotateLeft45:
-            current_canon_direction = rotate(current_canon_direction, -1);
-            break;
-        
-        case ActionRequest::RotateRight45:
-            current_canon_direction = rotate(current_canon_direction, 1);
-            break;
-
-        case ActionRequest::RotateLeft90:   
-            current_canon_direction = rotate(current_canon_direction, -2);
-            break;
-
-        case ActionRequest::RotateRight90:      
-            current_canon_direction = rotate(current_canon_direction, 2);
-            break;
-
-        case ActionRequest::Shoot:
-            last_shoot_turn = turn_counter;
-            break;
-
-        default:
-            break;    
-    }
+    updateLocalState(cur_action);
     return cur_action;
 }
 
@@ -62,7 +37,7 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     }
     // If there is an enemy tank, we will try to shoot it.
     else{
-        if (canShoot(height, width, my_location, closest_enemy, current_canon_direction, simple_info.getWallsLocations()) && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)) {
+        if (canShoot(height, width, my_location, closest_enemy, current_canon_direction, simple_info.getWallsLocations()) && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= shooting_waiting_turns)) {
             action_to_apply = ActionRequest::Shoot;
         }
         else {
@@ -75,6 +50,4 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
             }
         }
     }
-
-   
 }

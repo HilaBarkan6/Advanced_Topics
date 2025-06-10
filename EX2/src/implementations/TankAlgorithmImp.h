@@ -3,6 +3,8 @@
 
 #include "../common/TankAlgorithm.h"
 #include "../game_objects/CanonDirection.h"
+#include "SimpleBattleInfo.h"
+
 #include <utility>
 #include <vector>
 #include <limits>
@@ -17,6 +19,7 @@ class TankAlgorithmImp : public TankAlgorithm {
         int height;
         int width;
         int battle_info_request_period;
+        int shooting_waiting_turns;
 
         CanonDirection current_canon_direction;
         int last_shoot_turn;
@@ -26,11 +29,14 @@ class TankAlgorithmImp : public TankAlgorithm {
         bool clearPathFromSrcToDst(int height, int width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>&  bad_moves_locations) const;
         bool canMove(int new_x, int new_y, const std::vector<std::pair<int, int>>& wall_locations, const std::vector<std::pair<int, int>>& mine_locations, const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const;
         std::pair<int,int> getNextForwardLocation(const std::pair<int, int>& current_location, const CanonDirection& dir) const;
+
+        // If the action was rotate we update the current cannon direction. If the action was shoot we update the last shooting turn. On other actions no need to update anything.
+        void updateLocalState(ActionRequest action);
         CanonDirection rotate(CanonDirection cur_dir, int rotation);
 
 
     public:
-        TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period);
+        TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns);
 
         virtual ActionRequest getAction() = 0;
         virtual void updateBattleInfo(BattleInfo& info) = 0;

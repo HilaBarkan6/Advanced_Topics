@@ -1,4 +1,5 @@
-player_type=radius
+player_1_type=radius
+player_2_type=simple
 radius_value=3
 wall_lives=2
 max_turns_no_shells=40

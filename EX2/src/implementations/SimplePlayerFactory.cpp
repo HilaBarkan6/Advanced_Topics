@@ -1,12 +1,13 @@
 #include "SimplePlayerFactory.h"
 
 SimplePlayerFactory::SimplePlayerFactory()
-    : player_type(Config::getInstance().get("player_type", DEFAULT_PLAYER_TYPE)),
+    : player_1_type(Config::getInstance().get("player_1_type", DEFAULT_PLAYER_1_TYPE)),
+      player_2_type(Config::getInstance().get("player_2_type", DEFAULT_PLAYER_2_TYPE)),   
       radius_value(Config::getInstance().getInt("radius_value", DEFAULT_RADIUS)) {}
 
 
 std::unique_ptr<Player> SimplePlayerFactory::create(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells) const {
-    if (player_type == "radius") {
+    if ((player_index == 1 && player_1_type == "radius") || (player_index == 2 && player_2_type == "radius")) {
         std::cout << "Creating RadiusPlayer with radius value: " << radius_value << std::endl;
         return std::make_unique<RadiusPlayer>(player_index, x, y, max_steps, num_shells, radius_value);
     } 

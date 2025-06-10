@@ -1,11 +1,6 @@
 #include "BFSTankAlgorithm.h"
 
 
-BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), 
-                turn_counter(0),  height(0), width(0), battle_info_request_period(battle_info_request_period), last_shoot_turn(-1) {
-    current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
-}
-
 ActionRequest BFSTankAlgorithm::getAction() {
     turn_counter++;
     
@@ -15,33 +10,7 @@ ActionRequest BFSTankAlgorithm::getAction() {
     }
 
     ActionRequest cur_action = actions_to_apply[0];
-    // Rotate the canon direction based on the action
-    switch (cur_action) 
-    {
-        case ActionRequest::RotateLeft45:
-            current_canon_direction = rotate(current_canon_direction, -1);
-            break;
-        
-        case ActionRequest::RotateRight45:
-            current_canon_direction = rotate(current_canon_direction, 1);
-            break;
-
-        case ActionRequest::RotateLeft90:   
-            current_canon_direction = rotate(current_canon_direction, -2);
-            break;
-
-        case ActionRequest::RotateRight90:      
-            current_canon_direction = rotate(current_canon_direction, 2);
-            break;
-
-        case ActionRequest::Shoot:
-            last_shoot_turn = turn_counter;
-            break;
-
-        default:
-            break;    
-    }
-  
+    updateLocalState(cur_action);
     actions_to_apply.erase(actions_to_apply.begin());
     return cur_action;
 } 
@@ -93,10 +62,10 @@ bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo
         ActionRequest first = current.firstAction;
         ActionRequest second = current.secondAction;
 
-        if (current.depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 4)) {
+        if (current.depth == 0 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= shooting_waiting_turns)) {
             first = ActionRequest::Shoot;
         }
-        else if (current.depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= 3)) {
+        else if (current.depth == 1 && (last_shoot_turn == -1 || turn_counter - last_shoot_turn >= shooting_waiting_turns-1)) {
             second = ActionRequest::Shoot;
         }
 
@@ -171,121 +140,3 @@ void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const Simp
     actions_to_apply.push_back(ActionRequest::RotateLeft45);
 }
 
-bool BFSTankAlgorithm::canShoot(int height, int width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
-    return clearPathFromSrcToDst(height, width, my_location.first, my_location.second, enemy_location.first, enemy_location.second, my_direction, wall_locations);
-}
-
-bool BFSTankAlgorithm::canMove(int new_x, int new_y,
-    const std::vector<std::pair<int, int>>& wall_locations, const std::vector<std::pair<int, int>>& mine_locations, 
-    const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const
-    {
-        // Used chatGpt to learn how to combine vectors, prompt was "How to combine 4 vectors in c++ in the most efficient way"
-        std::vector<std::pair<int, int>> bad_moves_locations;
-        bad_moves_locations.reserve(wall_locations.size() + mine_locations.size() + tanks1_locations.size() + tanks2_locations.size());
-        bad_moves_locations.insert(bad_moves_locations.end(), wall_locations.begin(), wall_locations.end());
-        bad_moves_locations.insert(bad_moves_locations.end(), mine_locations.begin(), mine_locations.end());    
-        bad_moves_locations.insert(bad_moves_locations.end(), tanks1_locations.begin(), tanks1_locations.end());
-        bad_moves_locations.insert(bad_moves_locations.end(), tanks2_locations.begin(), tanks2_locations.end());
-        for(const auto& bad : bad_moves_locations) {
-            if (new_x == bad.first && new_y == bad.second) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-bool BFSTankAlgorithm::clearPathFromSrcToDst(int height, int width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const{
-    int cx = src_x;
-    int cy = src_y;
-    int ox = dst_x;
-    int oy = dst_y;
- 
-    
-    for (int steps = 0; steps < std::max(height, width); ++steps) {
-        if (cx == ox && cy == oy) {
-            return true;
-        }
-        for (const auto& bad : bad_moves_locations) {
-            if (cx == bad.first && cy == bad.second) {
-                return false;
-            }
-        }
-
-        switch (dir) {
-            case CanonDirection::UP:
-                cx = (cx - 1 + height) % height;
-                break;
-            case CanonDirection::DOWN:
-                cx = (cx + 1) % height;
-                break;
-            case CanonDirection::LEFT:
-                cy = (cy - 1 + width) % width;
-                break;
-            case CanonDirection::RIGHT:
-                cy = (cy + 1) % width;
-                break;
-            case CanonDirection::UP_RIGHT:
-                cx = (cx - 1 + height) % height;
-                cy = (cy + 1) % width;
-                break;
-            case CanonDirection::UP_LEFT:
-                cx = (cx - 1 + height) % height;
-                cy = (cy - 1 + width) % width;
-                break;
-            case CanonDirection::DOWN_RIGHT:
-                cx = (cx + 1) % height;
-                cy = (cy + 1) % width;
-                break;
-            case CanonDirection::DOWN_LEFT:
-                cx = (cx + 1) % height;
-                cy = (cy - 1 + width) % width;
-                break;
-        }
-    }
-    return false; 
-}
-
-CanonDirection BFSTankAlgorithm::rotate(CanonDirection cur_dir, int rotation) {
-    // Used ChatGpt to cast the direction to number and preforme rotation as addition/substraction
-    int new_dir = static_cast<int>(cur_dir) + rotation;
-    if (new_dir < 0) {
-        new_dir += 8; // Wrap around to the last direction
-    } else if (new_dir >= 8) {
-        new_dir -= 8; // Wrap around to the first direction
-    }
-    return static_cast<CanonDirection>(new_dir);
-}
-
-std::pair<int, int> BFSTankAlgorithm::getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const{
-    // There shouldn't be a case were the return value is {-1,-1} because if the enemy doesn't have any live tanks the game will finish.
-    int min_dist = std::numeric_limits<int>::max();
-    std::pair<int, int> closest_enemy = {-1, -1};
-    for (const auto& enemy_loc : enemy_tanks) {
-        int dist = abs(my_location.first - enemy_loc.first) + abs(my_location.second - enemy_loc.second);
-        if (dist < min_dist) {
-            min_dist = dist;
-            closest_enemy = enemy_loc;
-        }
-    }
-    return closest_enemy;
-}
-
-std::pair<int, int> BFSTankAlgorithm::getNextForwardLocation(const std::pair<int, int>& current_location, const CanonDirection& dir) const {
-    int new_x = current_location.first;
-    int new_y = current_location.second;
-
-    switch(dir){
-        case CanonDirection::UP: new_x--; break;
-        case CanonDirection::DOWN: new_x++; break;
-        case CanonDirection::LEFT: new_y--; break;
-        case CanonDirection::RIGHT: new_y++; break;
-        case CanonDirection::UP_RIGHT: new_x--; new_y++; break;
-        case CanonDirection::UP_LEFT: new_x--; new_y--; break;
-        case CanonDirection::DOWN_LEFT: new_x++; new_y--; break;
-        case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
-        default: break;
-    }
-    new_x = (new_x + height) % height;
-    new_y = (new_y + width) % width;
-    return std::make_pair(new_x, new_y);
-}

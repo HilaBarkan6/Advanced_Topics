@@ -8,9 +8,11 @@
 class SimplePlayerFactory : public PlayerFactory {
     private:
         static constexpr int DEFAULT_RADIUS = 3;
-        static constexpr const char* DEFAULT_PLAYER_TYPE = "simple";
+        static constexpr const char* DEFAULT_PLAYER_1_TYPE = "radius";
+        static constexpr const char* DEFAULT_PLAYER_2_TYPE = "simple";
 
-        std::string player_type;
+        std::string player_1_type;
+        std::string player_2_type;
         int radius_value;
 
     public:

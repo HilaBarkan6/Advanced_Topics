@@ -4,10 +4,7 @@
 #include "TankAlgorithmImp.h"
 #include "../common/ActionRequest.h"
 
-
-
 class SimpleTankAlgorithm : public TankAlgorithmImp {
-
     private:
         ActionRequest action_to_apply;
 
@@ -19,6 +16,5 @@ class SimpleTankAlgorithm : public TankAlgorithmImp {
         virtual void updateBattleInfo(BattleInfo& info) override;
         virtual ~SimpleTankAlgorithm() override = default;
 };
-
 
 #endif

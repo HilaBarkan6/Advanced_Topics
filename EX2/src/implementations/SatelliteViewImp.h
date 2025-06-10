@@ -8,7 +8,7 @@
 
 class SatelliteViewImp : public SatelliteView {
     private:
-        static constexpr const char OUT_OF_BOUNDS_SIGN = '&';
+        static constexpr const char OUT_OF_BOUNDS_SIGN = '&'; 
 
         size_t rows;
         size_t columns;
@@ -19,8 +19,8 @@ class SatelliteViewImp : public SatelliteView {
         SatelliteViewImp();
         char getObjectAt(size_t x, size_t y) const override;
         void setSatelliteView(const std::vector<std::vector<char>>& view);
-        void setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put);
-        void setRowsAndColumns(size_t rows, size_t columns);
+        void setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put); // Sets a character at the specified location in the satellite view
+        void setRowsAndColumns(size_t rows, size_t columns); 
 };
 
 #endif

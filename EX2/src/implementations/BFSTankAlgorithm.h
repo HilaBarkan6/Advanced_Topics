@@ -46,7 +46,7 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         // Helper functions for BFS
         bool tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location);
         void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info);
-        void tryRotations(const QueueNode& current);
+        void tryRotations(const QueueNode& current); // 
 
     public:
         BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns)

@@ -1,22 +1,14 @@
-Check what going on in the forum - each one of us
-update readme - Hila
-make sure it works on nova server - Yovel
-need to add descreption about the backward logic
-
-_______________________
-NEW README
-_______________________
 
 This is our version for EX2 of the tank game of "Advanced Topics in Programming" course.
 Yovel Hatan - 209399021
 Hila Barkan - 208239152
 
-Overview - 
+**Overview -**
     In this project, we implemented the required classes and adapted the game to support multiple tanks for each player.
     Additionally, we added some bonus features: logging, configuration, and tests.
     The main code is located in the /src directory. For bonus features, see the file bonus.txt.
 
-Implementatins - 
+**Implementatins -**
     SatelliteView - We implemented SimpleSatelliteView, which maintains a matrix of characters received from the GameManager and uses it to implement the getObjectAt function.
 
     BattleInfo - We implemented SimpleBattleInfo, which stores location vectors for: walls, mines, shells, tanks of player 1, tanks of player 2, and the position of the calling tank (i.e., the tank requesting the battle info).
@@ -39,17 +31,17 @@ Implementatins -
         SimpleTankAlgorithmFactory: Creates a BFSTankAlgorithm for player 1 and a RotatingTankAlgorithm for player 2.
         SimplePlayerFactory: Creates a player instance based on the type specified in the configuration file. If no type is specified, the default is SimplePlayer.
 
-How to Run - 
+**How to Run -**
     The GameManager should receive the two factories via its constructor.
     In main.cpp, we create them using make_unique.
     To use different factories, simply modify line 24 in main.cpp—and that's it!
 
-Input and Output examples -
+**Input and Output examples -**
     We provide three input and output files in the /input and /output directories.
     See bonus.txt for additional test inputs.
 
 
-Building Instructions
+**Building Instructions**
     To compile the project, make sure you have a C++20-compatible compiler (e.g., g++) and the GoogleTest library installed.
     - Build the main game executable:
         make
@@ -64,7 +56,7 @@ Building Instructions
 
 
 
-Notes:
+**Notes:**
     - For SatelliteView, when calling getObjectAt(x,y), we assume x represents row and y represents the column.
     - For backward movement:
                         - We consider the current turn in which we call backward as a turn we wait.

@@ -103,8 +103,8 @@ class GameManager {
         int turn_counter;
         bool no_more_shells; // Used to check if both players have no shells left.
         
-        // Satellite view is a single instance holding refrences to board, tanks and flying shells.
-        // This single object will pass to players when needed.
+        /* Satellite view is a single instance holding refrences to board, tanks and flying shells.
+        *  This single object will pass to players when needed. */
         SatelliteViewImp view;
         int counter_no_shells;
 
@@ -133,40 +133,40 @@ class GameManager {
         void deleteCollidedShells();
         void killTank(std::shared_ptr<Tank>& tank_to_kill);
         
-        void readGameParameters(std::ifstream& file);
-        int readIntValueFromLine(const std::string& line, const std::string& key);
-        void initializeGame(std::ofstream& output_file);
-        void handleEvenTurn(std::ofstream& output_file);
-        void handleOddTurn();
+        void readGameParameters(std::ifstream& file); 
+        int readIntValueFromLine(const std::string& line, const std::string& key); 
+        void initializeGame(std::ofstream& output_file); 
+        void handleEvenTurn(std::ofstream& output_file); 
+        void handleOddTurn(); // Handles the odd turn, which is the turn where tanks are moving and shooting.
 
         // Helper functions for MoveShells
-        void moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
-        void handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
-        void handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map);
+        void moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map); // Moves the shells and handles collisions between shells and tanks.
+        void handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map); // Handles the collisions between shells and tanks, checks if a shell hit a tank and updates the tank's state accordingly.
+        void handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map); // Handles the collisions between shells, checks if multiple shells collided at the same location and updates the state accordingly.
 
         // Helper functions for checkCollisions
         void addTankToLocationMap(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map,
-            int tank_index, const std::pair<int, int>& cur_location, const std::pair<int, int>& new_location);
-        void checkWallCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
+            int tank_index, const std::pair<int, int>& cur_location, const std::pair<int, int>& new_location); // Adds a tank to the location map, which maps locations to tanks that are currently at those locations.
+        void checkWallCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move); 
         void checkMineCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
-        void checkShellCollision(int tank_index, const std::pair<int,int>& cur_location, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move);
+        void checkShellCollision(int tank_index, const std::pair<int,int>& cur_location, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move); 
         void resolveTankCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map);
-        void applyTankKillResults(std::unordered_map<int,bool>& can_tank_move);
+        void applyTankKillResults(std::unordered_map<int,bool>& can_tank_move); 
 
         // Helper functions for applyAction
-        bool handleBackwardWaiting(int tank_index, ActionRequest action);
-        void handleBattleInfo(int tank_index);
-        bool handleMoveForward(int tank_index, bool can_move, std::pair<int,int> new_location);
-        bool handleMoveBackward(int tank_index, bool can_move, std::pair<int,int> new_location);
-        void handleRotation(int tank_index, ActionRequest action);
-        bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations);
+        bool handleBackwardWaiting(int tank_index, ActionRequest action); // Checks if tank is waiting for backward move, and if so, handles it.
+        void handleBattleInfo(int tank_index); // Handles the battle info request for the tank.
+        bool handleMoveForward(int tank_index, bool can_move, std::pair<int,int> new_location); // Handles the move forward action for the tank.
+        bool handleMoveBackward(int tank_index, bool can_move, std::pair<int,int> new_location); // Handles the move backward action for the tank.
+        void handleRotation(int tank_index, ActionRequest action); // Handles the rotation action for the tank.
+        bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations); // Handles the shooting action for the tank, checks if the tank can shoot and updates the shell locations.
 
     public:
         GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
         virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         void run();
-        void addTank(int row, int col, int player_id);
+        void addTank(int row, int col, int player_id); // Adds a tank to the game board at the specified location - used in Board class to add tanks when reading the board from a file.
 };
 
 #endif

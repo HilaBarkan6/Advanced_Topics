@@ -7,15 +7,17 @@ class SimpleBattleInfo : public BattleInfo {
     private:
         size_t height;
         size_t width;
-        std::vector<std::pair<int, int>> tanks1_locations;
-        std::vector<std::pair<int, int>> tanks2_locations;
-        std::pair<int, int> called_tank_location;
+        std::vector<std::pair<int, int>> tanks1_locations; // Locations of player 1 tanks
+        std::vector<std::pair<int, int>> tanks2_locations; // Locations of player 2 tanks
+        std::pair<int, int> called_tank_location; 
         std::vector<std::pair<int, int>> shells_locations;
         std::vector<std::pair<int, int>> mines_locations;
         std::vector<std::pair<int, int>> walls_locations;
 
     public:
         SimpleBattleInfo(size_t height, size_t width): height(height), width(width) {};
+
+        // Getters
         size_t getHeight() const;
         size_t getWidth() const;
         const std::vector<std::pair<int, int>>& getTanks1Locations() const;

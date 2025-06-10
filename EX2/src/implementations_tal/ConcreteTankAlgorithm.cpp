@@ -1,9 +1,9 @@
-#include "implementations/ConcreteTankAlgorithm.h"
+#include "ConcreteTankAlgorithm.h"
 #include <queue>
 #include <limits>
 #include <optional>
-#include "definitions.h"
-#include "utils/MapUtils.h"
+#include "../utils/definitions.h"
+#include "../utils/MapUtils.h"
 using namespace MapUtils;
 // Helper function to determine rotation action
 ActionRequest ConcreteTankAlgorithm::rotateToward(Direction current, Direction target) {

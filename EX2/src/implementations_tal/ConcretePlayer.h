@@ -1,15 +1,15 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef CONCRETEPLAYER_H
+#define CONCRETEPLAYER_H
 
-#include "common/Player.h"
-#include "common/TankAlgorithm.h"
-#include "common/SatelliteView.h"
-#include "common/BattleInfo.h"
-#include "utils/Direction.h"
-#include "utils/DirectionUtils.h"
-#include "utils/Position.h"
+#include "../common/Player.h"
+#include "../common/SatelliteView.h"
+#include "../common/TankAlgorithm.h"
+#include "../common/BattleInfo.h"
+#include "../utils/Direction.h"
+#include "../utils/DirectionUtils.h"
+#include "../utils/Position.h"
 #include "ConcreteBattleInfo.h"
-#include "utils/MapUtils.h"
+#include "../utils/MapUtils.h"
 #include <memory>
 #include <vector>
 #include <unordered_map>
@@ -52,4 +52,4 @@ public:
     void analyzeBoard(int tankId, SatelliteView& view);
 };
 
-#endif // PLAYER_H 
+#endif // CONCRETEPLAYER_H 

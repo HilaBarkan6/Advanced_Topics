@@ -1,22 +1,18 @@
 #ifndef CONCRETE_TANK_ALGORITHM_H
 #define CONCRETE_TANK_ALGORITHM_H
 
-#include "common/TankAlgorithm.h"
-#include "common/ActionRequest.h"
-#include "common/BattleInfo.h"
+#include "../common/TankAlgorithm.h"
+#include "../common/ActionRequest.h"
+#include "../common/BattleInfo.h"
 #include "ConcreteBattleInfo.h"
-#include "game/GameBoard.h"
-#include "objects/Tank.h"
-#include "objects/Shell.h"
-#include "algorithms/Algorithm.h"
-#include "definitions.h"
+#include "../utils/definitions.h"
 #include <vector>
 #include <unordered_set>
 #include <string>
 #include <optional>
-#include "Direction.h"
-#include "definitions.h"
-#include "utils/MapUtils.h"
+#include "../utils/Direction.h"
+#include "../utils/definitions.h"
+#include "../utils/MapUtils.h"
 
 class ConcreteTankAlgorithm : public TankAlgorithm {
 private:

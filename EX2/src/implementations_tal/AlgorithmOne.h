@@ -6,6 +6,7 @@
 #define ASGN2_ALGORITHMONE_H
 
 #include "ConcreteTankAlgorithm.h"
+
 class AlgorithmOne : public ConcreteTankAlgorithm{
 public:
     AlgorithmOne(int player_index, int tank_index) : ConcreteTankAlgorithm(player_index, tank_index){};

@@ -1,10 +1,10 @@
 #ifndef CONCRETE_BATTLE_INFO_H
 #define CONCRETE_BATTLE_INFO_H
 
-#include "common/BattleInfo.h"
-#include "game/GameBoard.h"
-#include "utils/Direction.h"
-#include "common/SatelliteView.h"
+#include "../common/BattleInfo.h"
+#include "../utils/Direction.h"
+#include "../common/SatelliteView.h"
+#include "../utils/Position.h"
 #include <utility>
 #include <vector>
 #include <map>

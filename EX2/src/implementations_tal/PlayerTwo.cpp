@@ -1,4 +1,4 @@
-#include "implementations/PlayerTwo.h"
+#include "PlayerTwo.h"
 #include <iostream>
 #include <queue>
 #include <unordered_set>

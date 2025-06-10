@@ -1,5 +1,5 @@
-#include "implementations/ConcreteBattleInfo.h"
-#include "common/SatelliteView.h"
+#include "ConcreteBattleInfo.h"
+#include "../common/SatelliteView.h"
 
 ConcreteBattleInfo::ConcreteBattleInfo(PlayerUpdates updates) 
     : playerUpdates(updates) {

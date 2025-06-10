@@ -1,4 +1,4 @@
-#include "implementations/PlayerOne.h"
+#include "PlayerOne.h"
 
 void PlayerOne::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     // player updates

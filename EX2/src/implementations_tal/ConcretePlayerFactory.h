@@ -1,11 +1,12 @@
 #ifndef PLAYER_FACTORY_H
 #define PLAYER_FACTORY_H
 
-#include "common/PlayerFactory.h"
+#include "../common/PlayerFactory.h"
 #include "ConcretePlayer.h"
 #include "PlayerOne.h"
 #include "PlayerTwo.h"
 #include <stdexcept>
+#include <memory>
 
 class ConcretePlayerFactory : public PlayerFactory {
 public:

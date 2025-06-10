@@ -9,7 +9,7 @@
 #include "Direction.h"
 #include "Position.h"
 #include "definitions.h"
-#include "utils/DirectionUtils.h"
+#include "DirectionUtils.h"
 #include <vector>
 
 

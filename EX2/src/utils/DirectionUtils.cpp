@@ -1,4 +1,4 @@
-#include "utils/DirectionUtils.h"
+#include "DirectionUtils.h"
 #include "definitions.h"
 namespace DirectionUtils {
 

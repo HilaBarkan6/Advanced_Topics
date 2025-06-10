@@ -1,4 +1,4 @@
-#include "implementations/AlgorithmOne.h"
+#include "AlgorithmOne.h"
 
 ActionRequest AlgorithmOne::getAction() {
     tankState.roundCounter++;

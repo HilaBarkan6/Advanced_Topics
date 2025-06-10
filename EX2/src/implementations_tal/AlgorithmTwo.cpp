@@ -1,4 +1,4 @@
-#include "implementations/AlgorithmTwo.h"
+#include "AlgorithmTwo.h"
 using namespace MapUtils;
 void AlgorithmTwo::updateBattleInfo(BattleInfo& info) {
     // First call base class implementation to update all the standard fields

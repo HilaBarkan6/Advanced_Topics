@@ -1,6 +1,6 @@
 #include <queue>
 #include <unordered_set>
-#include "utils/MapUtils.h"
+#include "MapUtils.h"
 #include "definitions.h"
 #include <limits>
 

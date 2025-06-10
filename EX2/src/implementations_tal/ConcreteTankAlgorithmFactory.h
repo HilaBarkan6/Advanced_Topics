@@ -1,10 +1,10 @@
 #ifndef TANK_ALGORITHM_FACTORY_H
 #define TANK_ALGORITHM_FACTORY_H
 
-#include "common/TankAlgorithmFactory.h"
+#include "../common/TankAlgorithmFactory.h"
 #include "AlgorithmOne.h"
 #include "AlgorithmTwo.h"
-#include "utils/Direction.h"
+#include "../utils/Direction.h"
 #include <stdexcept>
 
 class ConcreteTankAlgorithmFactory : public TankAlgorithmFactory {

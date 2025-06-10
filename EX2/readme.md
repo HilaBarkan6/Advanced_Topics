@@ -25,11 +25,13 @@ Hila Barkan - 208239152
 
         SimpleTankAlgorithm : Every second turn, it requests batlle info, then it uses it to locate the nearest enemy. If it has a clear shooting line it shoots at the enemy, if not, if moving forward is a good idea (meaning no wall, mines, etc) it moves forward and if not then it rotates so maybe next time moving will be possible.
 
-        RotatingTankAlgorithm: A simple algorithm used mainly for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.
+        RotatingTankAlgorithm: A simple algorithm used only for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.
 
     Factories - 
-        SimpleTankAlgorithmFactory: Creates a BFSTankAlgorithm for player 1 and a RotatingTankAlgorithm for player 2.
-        SimplePlayerFactory: Creates a player instance based on the type specified in the configuration file. If no type is specified, the default is SimplePlayer.
+        SimpleTankAlgorithmFactory: Creates a BFSTankAlgorithm for player 1 and a SimpleTankAlgorithm for player 2.
+        SimplePlayerFactory: Creates a player instance based on the type specified in the configuration file. 
+                             The current configuration is RadiusPlayer for player1 and SimplePlayer for player2.
+                             This setup creates intresting games, since player1 tank's are smart and use BFS, but they only see data within a small radius, and player2 tank's have a much simpler algorithm, but they see the whole board.
 
 **How to Run -**
     The GameManager should receive the two factories via its constructor.
@@ -55,7 +57,6 @@ Hila Barkan - 208239152
         make clean
 
 **Notes:**
-    - For SatelliteView, when calling getObjectAt(x,y), we assume x represents row and y represents the column.
     - For backward movement:
                         - We consider the current turn in which we call backward as a turn we wait.
                           For example, if tank requests backward in turn 1, it can move in turn 3 (because turns 1 and 2 are used for waiting).

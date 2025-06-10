@@ -1,4 +1,3 @@
-
 This is our version for EX2 of the tank game of "Advanced Topics in Programming" course.
 Yovel Hatan - 209399021
 Hila Barkan - 208239152
@@ -26,6 +25,8 @@ Hila Barkan - 208239152
         SimpleTankAlgorithm : Every second turn, it requests batlle info, then it uses it to locate the nearest enemy. If it has a clear shooting line it shoots at the enemy, if not, if moving forward is a good idea (meaning no wall, mines, etc) it moves forward and if not then it rotates so maybe next time moving will be possible.
 
         RotatingTankAlgorithm: A simple algorithm used only for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.
+    
+    BFSTankAlgorithm and SimpleTankAlgorithm share some common functionality, so they inherit from the TankAlgorithmImp class.
 
     Factories - 
         SimpleTankAlgorithmFactory: Creates a BFSTankAlgorithm for player 1 and a SimpleTankAlgorithm for player 2.

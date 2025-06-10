@@ -1,11 +1,9 @@
 #include "BFSTankAlgorithm.h"
 
 
-BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), battle_info_request_period(battle_info_request_period), last_shoot_turn(-1) {
+BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period): player_id(player_id), tank_index(tank_index), 
+                turn_counter(0),  height(0), width(0), battle_info_request_period(battle_info_request_period), last_shoot_turn(-1) {
     current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
-    turn_counter = 0;
-    height = 0;
-    width = 0;
 }
 
 ActionRequest BFSTankAlgorithm::getAction() {

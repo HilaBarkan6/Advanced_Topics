@@ -117,7 +117,7 @@ class GameManager {
         void MoveShells(bool is_even_turn);
         void updateShellNextLocation(std::shared_ptr<Shell> & shell);
         // Given the players wanted action, returns the tank's new location if it will be applied.
-        std::pair<int, int> getNewLocation(const std::shared_ptr<Tank>& tank_to_move, ActionRequest wanted_action);
+        std::pair<int, int> getNewLocation(const std::shared_ptr<Tank>& tank_to_move, int tank_index, ActionRequest wanted_action);
 
         std::set<std::shared_ptr<Tank>> tanks_to_kill;
         

@@ -131,8 +131,8 @@ int GameManager::readIntValueFromLine(const std::string& line, const std::string
 
 void GameManager::initializeGame(std::ofstream& output_file) {
     this->view.setRowsAndColumns(height, width);
-    this->player1 = player_factory->create(1, height, width, max_steps, num_shells);
-    this->player2 = player_factory->create(2, height, width, max_steps, num_shells);
+    this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
+    this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
 
     for(size_t i = 0; i < all_tanks.size(); i++){
         tank_last_shooting[i] = -1;
@@ -164,7 +164,7 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
                  for more info about this behavior see readme */
                 wanted_actions[i] = ActionRequest::MoveBackward;
             }
-            new_wanted_locations[i] = getNewLocation(all_tanks[i], wanted_actions[i]);
+            new_wanted_locations[i] = getNewLocation(all_tanks[i], i, wanted_actions[i]);
         }
     }
 
@@ -390,7 +390,7 @@ void GameManager::updateShellNextLocation(std::shared_ptr<Shell> & shell){
     shell->setNextLocation(std::make_pair(x_location, y_location));
 }
 
-std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tank_to_move, ActionRequest wanted_action){
+std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tank_to_move, int tank_index, ActionRequest wanted_action){
     int dx = 0;
     int dy = 0;
     CanonDirection dir = tank_to_move->getCanonDirection();
@@ -409,7 +409,7 @@ std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tan
             default: break;
         }
     }
-    else if (wanted_action == ActionRequest::MoveBackward && canMoveBackward(tank_to_move->getTankIndex())){
+    else if (wanted_action == ActionRequest::MoveBackward && canMoveBackward(tank_index)){
         switch(dir){
             case CanonDirection::UP: dx = 1; dy = 0; break;
             case CanonDirection::DOWN: dx = -1; dy = 0; break;
@@ -655,13 +655,7 @@ bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, s
 
 void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
     bool is_ignored = false;
-    /* If the tank was in 'backward wating state' and the counter (from the request) is 2, then the current turn is the 3rd tunr and it should move backward.
-       In this case the actual action and new location will be for backward movement (handled in handleEvenTurn function)*/
-    // if(std::get<0>(all_tanks_backwards_info[tank_index]) == backward_wating_turns && std::get<2>(all_tanks_backwards_info[tank_index])){
-    //     if(action!=ActionRequest::MoveForward && action!=ActionRequest::GetBattleInfo){
-    //         is_ignored = handleMoveBackward(tank_index, can_move, new_location); 
-    //     }
-    // }
+
     if(handleBackwardWaiting(tank_index, action)){
         is_ignored = true;
     }
@@ -763,12 +757,12 @@ void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill){
 void GameManager::addTank(int row, int col, int player_id){
     
     if (player_id == 1) {
-        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks + player1_alive_tanks, num_shells, std::move(tank_algorithm_factory->create(1, player1_alive_tanks))));
+        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, std::move(tank_algorithm_factory->create(1, player1_alive_tanks))));
         player1_alive_tanks++;
     } 
     
     else if (player_id == 2) {
-        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::RIGHT, 2, player1_alive_tanks + player2_alive_tanks, num_shells ,std::move(tank_algorithm_factory->create(2, player2_alive_tanks))));
+        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,std::move(tank_algorithm_factory->create(2, player2_alive_tanks))));
         player2_alive_tanks++;
     }
 }

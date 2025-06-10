@@ -46,6 +46,22 @@ Input and Output examples -
     We provide three input and output files in the /input and /output directories.
     See bonus.txt for additional test inputs.
 
+
+Building Instructions
+    To compile the project, make sure you have a C++20-compatible compiler (e.g., g++) and the GoogleTest library installed.
+    - Build the main game executable:
+        make
+        This will produce the main executable: tank_game.exe
+    - Build and run the tests:
+        make test
+        ./test_runner.exe
+    - Build the main game executable and the test executable:
+        make all
+    - Clean build files:
+        make clean
+
+
+
 Notes:
     - For SatelliteView, when calling getObjectAt(x,y), we assume x represents row and y represents the column.
     - For backward movement:

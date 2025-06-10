@@ -5,13 +5,13 @@
 RotatingTankAlgorithm::RotatingTankAlgorithm(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), turn_counter(0)  {}
 ActionRequest RotatingTankAlgorithm::getAction() {
     turn_counter++;
-    if (turn_counter == 1) {
-        return ActionRequest::MoveBackward;
-    }
+    // if (turn_counter == 1) {
+    //     return ActionRequest::MoveBackward;
+    // }
 
-    if (turn_counter == 3) {
-        return ActionRequest::GetBattleInfo;
-    }
+    // if (turn_counter == 3) {
+    //     return ActionRequest::GetBattleInfo;
+    // }
     return ActionRequest::RotateLeft45;
 }       
 void RotatingTankAlgorithm::updateBattleInfo(BattleInfo& info) {

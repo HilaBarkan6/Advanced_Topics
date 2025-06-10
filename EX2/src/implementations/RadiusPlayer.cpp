@@ -10,7 +10,7 @@ void::RadiusPlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView&
         for(int c = called_tank_location.second - radius; c <= called_tank_location.second + radius; ++c) {
             int r_wrap_around = (r + height) % height;
             int c_wrap_around = (c + width) % width;
-            char object_sign = satellite_view.getObjectAt(r_wrap_around, c_wrap_around);
+            char object_sign = satellite_view.getObjectAt(c_wrap_around, r_wrap_around);
             putLocationByChar(object_sign, r_wrap_around, c_wrap_around);
         }
     }
@@ -23,7 +23,7 @@ std::pair<int, int> RadiusPlayer::getCalledTankLocation(const SatelliteView& sat
     // Iterate over the board to find the called tank location
     for (size_t x = 0; x < height; ++x) {
         for (size_t y = 0; y < width; ++y) {
-            if (satellite_view.getObjectAt(x, y) == called_tank_sign) { 
+            if (satellite_view.getObjectAt(y, x) == called_tank_sign) { 
                 return std::make_pair(x, y);
             }
         }

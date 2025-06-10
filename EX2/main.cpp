@@ -1,8 +1,8 @@
 #include "src/GameManager.h"
 #include "src/implementations_tal/ConcreteTankAlgorithmFactory.h"
 #include "src/implementations_tal/ConcretePlayerFactory.h"
-//#include "src/implementations/SimpleTankAlgorithmFactory.h"
-//#include "src/implementations/SimplePlayerFactory.h"
+// #include "src/implementations/SimpleTankAlgorithmFactory.h"
+// #include "src/implementations/SimplePlayerFactory.h"
 #include "src/configuration/Config.h"
 #include <iostream>
 #include <memory>

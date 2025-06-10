@@ -92,15 +92,15 @@ void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBatt
 }
 
 void BFSTankAlgorithm::tryRotations(const QueueNode& current) {
-    static const std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
-        {ActionRequest::RotateLeft45,  CanonDirection((static_cast<int>(current.state.dir) - 1) % 8)},
-        {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current.state.dir) - 2) % 8)},
-        {ActionRequest::RotateRight45, CanonDirection((static_cast<int>(current.state.dir) + 1) % 8)},
-        {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current.state.dir) + 2) % 8)},
+    static const std::vector<std::pair<ActionRequest, int>> rotations = {
+        {ActionRequest::RotateLeft45,  -1},
+        {ActionRequest::RotateLeft90,  -2},
+        {ActionRequest::RotateRight45, 1},
+        {ActionRequest::RotateRight90, 2},
     };
 
     for (const auto& [rotation_act, new_dir] : rotations) {
-        State new_state = {current.state.x, current.state.y, new_dir};
+        State new_state = {current.state.x, current.state.y, rotate(current.state.dir, new_dir)};
         if (visited.find(new_state) == visited.end()) {
             visited.insert(new_state);
             ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;

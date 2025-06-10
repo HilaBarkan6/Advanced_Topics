@@ -1,6 +1,6 @@
-2025-06-10 16:05:30 [INFO] GameManager initialized with board size: 5x10
-2025-06-10 16:05:30 [INFO] Board successfully built
-2025-06-10 16:05:30 [INFO] Game initialized with 1 player 1 tanks and 1 player 2 tanks.
-2025-06-10 16:05:30 [INFO] Turn is 0
-2025-06-10 16:05:30 [INFO] Tank 0 requested battle info
-2025-06-10 16:05:30 [INFO] Tank 1 requested battle info
+2025-06-10 16:24:07 [INFO] GameManager initialized with board size: 5x10
+2025-06-10 16:24:07 [INFO] Board successfully built
+2025-06-10 16:24:07 [INFO] Game initialized with 1 player 1 tanks and 1 player 2 tanks.
+2025-06-10 16:24:07 [INFO] Turn is 0
+2025-06-10 16:24:07 [INFO] Tank 0 requested battle info
+2025-06-10 16:24:07 [INFO] Tank 1 requested battle info

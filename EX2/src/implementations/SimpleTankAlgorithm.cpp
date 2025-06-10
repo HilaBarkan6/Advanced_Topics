@@ -32,7 +32,7 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
             action_to_apply = ActionRequest::MoveForward;
         }
         else{
-            action_to_apply = ActionRequest::RotateRight45;
+            action_to_apply = ActionRequest::RotateRight90;
         }
     }
     // If there is an enemy tank, we will try to shoot it.
@@ -46,7 +46,7 @@ void SimpleTankAlgorithm::updateBattleInfo(BattleInfo& info) {
                 action_to_apply = ActionRequest::MoveForward;
             }
             else{
-                action_to_apply = ActionRequest::RotateRight45;
+                action_to_apply = ActionRequest::RotateRight90;
             }
         }
     }

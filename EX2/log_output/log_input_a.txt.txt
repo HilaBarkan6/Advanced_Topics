@@ -1,53 +1,6 @@
-2025-06-10 14:58:45 [INFO] GameManager initialized with board size: 5x10
-2025-06-10 14:58:45 [INFO] Board successfully built
-2025-06-10 14:58:45 [INFO] Game initialized with 1 player 1 tanks and 1 player 2 tanks.
-2025-06-10 14:58:45 [INFO] Turn is 0
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Turn is 1
-2025-06-10 14:58:45 [INFO] Tank 0 asked to rotate to RotateRight45 and is now rotating to DOWN_RIGHT
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
-2025-06-10 14:58:45 [INFO] Turn is 2
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
-2025-06-10 14:58:45 [INFO] Turn is 3
-2025-06-10 14:58:45 [INFO] Tank 0 asked to rotate to RotateRight45 and is now rotating to DOWN
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Turn is 4
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_RIGHT
-2025-06-10 14:58:45 [INFO] Turn is 5
-2025-06-10 14:58:45 [INFO] Tank 0 moved forward to [2, 3]
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to RIGHT
-2025-06-10 14:58:45 [INFO] Turn is 6
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Turn is 7
-2025-06-10 14:58:45 [INFO] Tank 0 moved forward to [3, 3]
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_RIGHT
-2025-06-10 14:58:45 [INFO] Turn is 8
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP
-2025-06-10 14:58:45 [INFO] Turn is 9
-2025-06-10 14:58:45 [INFO] Tank 0 asked to rotate to RotateRight45 and is now rotating to DOWN_LEFT
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Turn is 10
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to UP_LEFT
-2025-06-10 14:58:45 [INFO] Turn is 11
-2025-06-10 14:58:45 [INFO] Tank 0 asked to rotate to RotateRight45 and is now rotating to LEFT
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to LEFT
-2025-06-10 14:58:45 [INFO] Turn is 12
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Turn is 13
-2025-06-10 14:58:45 [INFO] Tank 0 asked to rotate to RotateRight45 and is now rotating to UP_LEFT
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
-2025-06-10 14:58:45 [INFO] Turn is 14
-2025-06-10 14:58:45 [INFO] Tank 0 requested battle info
-2025-06-10 14:58:45 [INFO] Tank 1 asked to rotate to RotateLeft45 and is now rotating to DOWN
-2025-06-10 14:58:45 [INFO] Turn is 15
-2025-06-10 14:58:45 [INFO] Tank 0 shot a shell at [2, 2]
-2025-06-10 14:58:45 [INFO] New shell just hitted tank 1
-2025-06-10 14:58:45 [INFO] Tank 1 requested battle info
-2025-06-10 14:58:45 [INFO] Player 2 won with 1 tanks still alive
+2025-06-10 15:24:13 [INFO] GameManager initialized with board size: 5x10
+2025-06-10 15:24:13 [INFO] Board successfully built
+2025-06-10 15:24:13 [INFO] Game initialized with 1 player 1 tanks and 1 player 2 tanks.
+2025-06-10 15:24:13 [INFO] Turn is 0
+2025-06-10 15:24:13 [INFO] Tank 0 requested battle info
+2025-06-10 15:24:44 [INFO] Tank 1 requested battle info

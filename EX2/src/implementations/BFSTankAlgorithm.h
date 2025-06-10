@@ -35,8 +35,8 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         std::unordered_set<State, StateHash> visited;
         std::queue<QueueNode> q;
 
-        CanonDirection current_canon_direction;
-        int last_shoot_turn;
+        // CanonDirection current_canon_direction;
+        // int last_shoot_turn;
 
         std::vector<ActionRequest> actions_to_apply;
         //std::pair<int, int> getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const;

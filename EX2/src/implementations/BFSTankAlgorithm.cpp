@@ -93,8 +93,8 @@ void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBatt
 
 void BFSTankAlgorithm::tryRotations(const QueueNode& current) {
     static const std::vector<std::pair<ActionRequest, CanonDirection>> rotations = {
-        {ActionRequest::RotateLeft45,  CanonDirection((static_cast<int>(current.state.dir) + 8 - 1) % 8)},
-        {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current.state.dir) + 8 - 2) % 8)},
+        {ActionRequest::RotateLeft45,  CanonDirection((static_cast<int>(current.state.dir) - 1) % 8)},
+        {ActionRequest::RotateLeft90,  CanonDirection((static_cast<int>(current.state.dir) - 2) % 8)},
         {ActionRequest::RotateRight45, CanonDirection((static_cast<int>(current.state.dir) + 1) % 8)},
         {ActionRequest::RotateRight90, CanonDirection((static_cast<int>(current.state.dir) + 2) % 8)},
     };

@@ -12,5 +12,6 @@ tank1_sign=1
 tank2_sign=2
 battle_info_request_period_bfs=3
 battle_info_request_period_simple=2
+bfs_max_depth=10
 backward_wating_turns=2
 shooting_waiting_turns=4

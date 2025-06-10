@@ -2,6 +2,7 @@
 #define BFSTANKALGORITHM_H
 #include "TankAlgorithmImp.h"
 #include "../common/ActionRequest.h"
+#include "../configuration/Config.h"
 #include <iostream>
 #include <queue>
 #include <unordered_set>
@@ -30,7 +31,9 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
     };
     
     private:
+        static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
 
+        int bfs_max_depth;
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
         std::unordered_set<State, StateHash> visited;
         std::queue<QueueNode> q;
@@ -49,8 +52,7 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         void tryRotations(const QueueNode& current); // 
 
     public:
-        BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns)
-                : TankAlgorithmImp(player_id, tank_index, battle_info_request_period, shooting_waiting_turns) {}
+        BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns);
         virtual ActionRequest getAction() override;
         virtual void updateBattleInfo(BattleInfo& info) override; 
         virtual ~BFSTankAlgorithm() override = default;

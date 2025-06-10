@@ -54,8 +54,6 @@ Hila Barkan - 208239152
     - Clean build files:
         make clean
 
-
-
 **Notes:**
     - For SatelliteView, when calling getObjectAt(x,y), we assume x represents row and y represents the column.
     - For backward movement:

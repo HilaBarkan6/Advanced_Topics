@@ -95,7 +95,7 @@ TEST_P(GameTests, CompareLastLine) {
 std::vector<GameTestParam> generateTestCases() {
     std::vector<GameTestParam> tests;
     for (char c = 'a'; c <= 'l'; ++c) {
-        if (c == 'f' || c == 'j') continue; 
+        if (c == 'f') continue; // test 'f' should result in "ERROR", 'j' is not used
         std::string letter(1, c);
         tests.push_back({
             "test/input_tests/input_" + letter + ".txt",

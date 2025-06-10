@@ -1,9 +1,9 @@
-4 - both players ask battle info
+4 - Player 2 won with 1 tanks still alive
 MaxSteps = 30
 NumShells=10
 Rows = 5
 Cols =10
 #### ##### 
-# 2     1#
-#  @   2 @
+#2      1#
+#  @   2#@
 ##@@@@@###

@@ -1,5 +1,7 @@
 #include "BFSTankAlgorithm.h"
 
+BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns)
+        : TankAlgorithmImp(player_id, tank_index, battle_info_request_period, shooting_waiting_turns), bfs_max_depth(Config::getInstance().getInt("bfs_max_depth", BFS_MAX_DEPTH)) {}
 
 ActionRequest BFSTankAlgorithm::getAction() {
     turn_counter++;
@@ -123,7 +125,7 @@ void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const Simp
     while(!q.empty()){
         QueueNode current = q.front();
         q.pop();
-        if(current.depth > 10) break;
+        if(current.depth > bfs_max_depth) break;
 
         // Check for shooting opportunity
         if (tryShoot(current, simple_info, enemy_location)) return;

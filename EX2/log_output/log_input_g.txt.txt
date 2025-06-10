@@ -1,4 +1,4 @@
-2025-06-10 11:33:43 [INFO] GameManager initialized with board size: 4x10
-2025-06-10 11:33:43 [INFO] Board successfully built
-2025-06-10 11:33:43 [INFO] Game initialized with 1 player 1 tanks and 0 player 2 tanks.
-2025-06-10 11:33:43 [INFO] Player 1 won with 1 tanks still alive
+2025-06-10 17:26:41 [INFO] GameManager initialized with board size: 4x10
+2025-06-10 17:26:41 [INFO] Board successfully built
+2025-06-10 17:26:41 [INFO] Game initialized with 1 player 1 tanks and 0 player 2 tanks.
+2025-06-10 17:26:41 [INFO] Player 1 won with 1 tanks still alive

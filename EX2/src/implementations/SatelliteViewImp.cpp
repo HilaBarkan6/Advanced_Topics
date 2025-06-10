@@ -4,7 +4,7 @@ SatelliteViewImp::SatelliteViewImp()
     : out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]){}
 
 char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
-    if (x >= columns || x < 0|| y >= rows || y < 0) {
+    if (x >= columns || y >= rows) {
         return out_of_bounds_sign;
     }
     return satellite_view[y][x];

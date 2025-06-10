@@ -31,6 +31,8 @@ Implementatins -
     TankAlgorithm - We implemented two tank algorithms:
         BFSTankAlgorithm: Every three turns, it requests battle info, then uses it to locate the nearest enemy and runs a BFS algorithm to determine the best next two moves to shoot at that enemy. It then executes these moves in the next two turns before requesting info again.
 
+        SimpleTankAlgorithm : Every second turn, it requests batlle info, then it uses it to locate the nearest enemy. If it has a clear shooting line it shoots at the enemy, if not, if moving forward is a good idea (meaning no wall, mines, etc) it moves forward and if not then it rotates so maybe next time moving will be possible.
+
         RotatingTankAlgorithm: A simple algorithm used mainly for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.
 
     Factories - 

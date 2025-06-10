@@ -1,8 +1,8 @@
 #include "src/GameManager.h"
-#include "src/implementations_tal/ConcreteTankAlgorithmFactory.h"
-#include "src/implementations_tal/ConcretePlayerFactory.h"
-// #include "src/implementations/SimpleTankAlgorithmFactory.h"
-// #include "src/implementations/SimplePlayerFactory.h"
+// #include "src/implementations_tal/ConcreteTankAlgorithmFactory.h"
+// #include "src/implementations_tal/ConcretePlayerFactory.h"
+#include "src/implementations/SimpleTankAlgorithmFactory.h"
+#include "src/implementations/SimplePlayerFactory.h"
 #include "src/configuration/Config.h"
 #include <iostream>
 #include <memory>
@@ -23,8 +23,8 @@ int main(int argc, char* argv[]){
         }
         
         // Initialize GameManager with factories
-        //GameManager m(std::make_unique<SimplePlayerFactory>(), std::make_unique<SimpleTankAlgorithmFactory>());
-        GameManager m(std::make_unique<ConcretePlayerFactory>(), std::make_unique<ConcreteTankAlgorithmFactory>());
+        GameManager m(std::make_unique<SimplePlayerFactory>(), std::make_unique<SimpleTankAlgorithmFactory>());
+        //GameManager m(std::make_unique<ConcretePlayerFactory>(), std::make_unique<ConcreteTankAlgorithmFactory>());
         m.readBoard(input_file);
         m.run();
     }

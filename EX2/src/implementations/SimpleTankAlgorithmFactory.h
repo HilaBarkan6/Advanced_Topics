@@ -3,13 +3,16 @@
 #include "../common/TankAlgorithmFactory.h"
 #include "../configuration/Config.h"
 #include "BFSTankAlgorithm.h"
+#include "SimpleTankAlgorithm.h"
 #include "RotatingTankAlgorithm.h"
 #include <iostream>
 
 class SimpleTankAlgorithmFactory : public TankAlgorithmFactory {
     private:
-        static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD = 3; // Default period for requesting battle info, can be configured in congig.txt
-        int battle_info_request_period;
+        static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD_BFS = 3; // Default period for requesting battle info, can be configured in congig.txt
+        static constexpr int DEFAULT_BATTLE_INFO_REQUEST_PERIOD_SIMPLE = 2;
+        int battle_info_request_period_bfs;
+        int battle_info_request_period_simple;
     
     public:
         virtual ~SimpleTankAlgorithmFactory() = default;

@@ -1,89 +1,89 @@
-2025-06-10 18:07:56 [INFO] GameManager initialized with board size: 7x10
-2025-06-10 18:07:56 [INFO] Board successfully built
-2025-06-10 18:07:56 [INFO] Game initialized with 3 player 1 tanks and 2 player 2 tanks.
-2025-06-10 18:07:56 [INFO] Turn is 0
-2025-06-10 18:07:56 [INFO] Tank 0 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 1 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 4 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 1
-2025-06-10 18:07:56 [INFO] Tank 0 shot a shell at [1, 4]
-2025-06-10 18:07:56 [INFO] Tank 1 shot a shell at [1, 5]
-2025-06-10 18:07:56 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
-2025-06-10 18:07:56 [INFO] Tank 3 shot a shell at [5, 2]
-2025-06-10 18:07:56 [INFO] Tank 4 moved forward to [5, 6]
-2025-06-10 18:07:56 [INFO] shells are colliding at location [1, 5]
-2025-06-10 18:07:56 [INFO] Turn is 2
-2025-06-10 18:07:56 [INFO] Tank 0 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 1 did nothing
-2025-06-10 18:07:56 [INFO] Tank 2 moved forward to [2, 7]
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 4 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 3
-2025-06-10 18:07:56 [INFO] Bad move, shell hit a tank 4
-2025-06-10 18:07:56 [INFO] Tank 0 moved forward to [1, 4]
-2025-06-10 18:07:56 [INFO] Tank 1 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 2]
-2025-06-10 18:07:56 [INFO] Tank 4 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 4
-2025-06-10 18:07:56 [INFO] Tank 0 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 1 did nothing
-2025-06-10 18:07:56 [INFO] Tank 2 moved forward to [3, 6]
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 5
-2025-06-10 18:07:56 [INFO] Tank 0 moved forward to [1, 5]
-2025-06-10 18:07:56 [INFO] Tank 1 did nothing
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 3]
-2025-06-10 18:07:56 [INFO] Turn is 6
-2025-06-10 18:07:56 [INFO] Tank 0 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 1 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 7
-2025-06-10 18:07:56 [INFO] Tank 0 shot a shell at [1, 6]
-2025-06-10 18:07:56 [INFO] New shell just hitted tank 1
-2025-06-10 18:07:56 [INFO] Tank 1 shot a shell at [1, 5]
-2025-06-10 18:07:56 [INFO] New shell just hitted tank 0
-2025-06-10 18:07:56 [INFO] Tank 2 moved forward to [4, 5]
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 4]
-2025-06-10 18:07:56 [INFO] Turn is 8
-2025-06-10 18:07:56 [INFO] Tank 2 asked to rotate to RotateRight45 and is now rotating to LEFT
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 9
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 5]
-2025-06-10 18:07:56 [INFO] Turn is 10
-2025-06-10 18:07:56 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 11
-2025-06-10 18:07:56 [INFO] Tank 2 shot a shell at [5, 4]
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 6]
-2025-06-10 18:07:56 [INFO] Turn is 12
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 13
-2025-06-10 18:07:56 [INFO] Tank 2 asked to rotate to RotateLeft90 and is now rotating to DOWN_RIGHT
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 7]
-2025-06-10 18:07:56 [INFO] Turn is 14
-2025-06-10 18:07:56 [INFO] Tank 2 did nothing
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 15
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 moved forward to [5, 8]
-2025-06-10 18:07:56 [INFO] Turn is 16
-2025-06-10 18:07:56 [INFO] Tank 2 moved forward to [5, 6]
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 17
-2025-06-10 18:07:56 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to RIGHT
-2025-06-10 18:07:56 [INFO] Tank 3 asked to rotate to RotateRight90 and is now rotating to DOWN
-2025-06-10 18:07:56 [INFO] Turn is 18
-2025-06-10 18:07:56 [INFO] Tank 2 requested battle info
-2025-06-10 18:07:56 [INFO] Tank 3 requested battle info
-2025-06-10 18:07:56 [INFO] Turn is 19
-2025-06-10 18:07:56 [INFO] Tank 2 shot a shell at [5, 7]
-2025-06-10 18:07:56 [INFO] Tank 3 asked to rotate to RotateRight90 and is now rotating to LEFT
-2025-06-10 18:07:56 [INFO] Player 2 tank3 at [5, 8] hit by shell
-2025-06-10 18:07:56 [INFO] Player 1 won with 1 tanks still alive
+2025-06-11 13:31:28 [INFO] GameManager initialized with board size: 7x10
+2025-06-11 13:31:28 [INFO] Board successfully built
+2025-06-11 13:31:28 [INFO] Game initialized with 3 player 1 tanks and 2 player 2 tanks.
+2025-06-11 13:31:28 [INFO] Turn is 0
+2025-06-11 13:31:28 [INFO] Tank 0 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 1 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 4 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 1
+2025-06-11 13:31:28 [INFO] Tank 0 shot a shell at [1, 4]
+2025-06-11 13:31:28 [INFO] Tank 1 shot a shell at [1, 5]
+2025-06-11 13:31:28 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-11 13:31:28 [INFO] Tank 3 shot a shell at [5, 2]
+2025-06-11 13:31:28 [INFO] Tank 4 moved forward to [5, 6]
+2025-06-11 13:31:28 [INFO] shells are colliding at location [1, 5]
+2025-06-11 13:31:28 [INFO] Turn is 2
+2025-06-11 13:31:28 [INFO] Tank 0 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 1 did nothing
+2025-06-11 13:31:28 [INFO] Tank 2 moved forward to [2, 7]
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 4 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 3
+2025-06-11 13:31:28 [INFO] Bad move, shell hit a tank 4
+2025-06-11 13:31:28 [INFO] Tank 0 moved forward to [1, 4]
+2025-06-11 13:31:28 [INFO] Tank 1 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 2]
+2025-06-11 13:31:28 [INFO] Tank 4 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 4
+2025-06-11 13:31:28 [INFO] Tank 0 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 1 did nothing
+2025-06-11 13:31:28 [INFO] Tank 2 moved forward to [3, 6]
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 5
+2025-06-11 13:31:28 [INFO] Tank 0 moved forward to [1, 5]
+2025-06-11 13:31:28 [INFO] Tank 1 did nothing
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 3]
+2025-06-11 13:31:28 [INFO] Turn is 6
+2025-06-11 13:31:28 [INFO] Tank 0 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 1 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 7
+2025-06-11 13:31:28 [INFO] Tank 0 shot a shell at [1, 6]
+2025-06-11 13:31:28 [INFO] New shell just hitted tank 1
+2025-06-11 13:31:28 [INFO] Tank 1 shot a shell at [1, 5]
+2025-06-11 13:31:28 [INFO] New shell just hitted tank 0
+2025-06-11 13:31:28 [INFO] Tank 2 moved forward to [4, 5]
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 4]
+2025-06-11 13:31:28 [INFO] Turn is 8
+2025-06-11 13:31:28 [INFO] Tank 2 asked to rotate to RotateRight45 and is now rotating to LEFT
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 9
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 5]
+2025-06-11 13:31:28 [INFO] Turn is 10
+2025-06-11 13:31:28 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to DOWN_LEFT
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 11
+2025-06-11 13:31:28 [INFO] Tank 2 shot a shell at [5, 4]
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 6]
+2025-06-11 13:31:28 [INFO] Turn is 12
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 13
+2025-06-11 13:31:28 [INFO] Tank 2 asked to rotate to RotateLeft90 and is now rotating to DOWN_RIGHT
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 7]
+2025-06-11 13:31:28 [INFO] Turn is 14
+2025-06-11 13:31:28 [INFO] Tank 2 did nothing
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 15
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 moved forward to [5, 8]
+2025-06-11 13:31:28 [INFO] Turn is 16
+2025-06-11 13:31:28 [INFO] Tank 2 moved forward to [5, 6]
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 17
+2025-06-11 13:31:28 [INFO] Tank 2 asked to rotate to RotateLeft45 and is now rotating to RIGHT
+2025-06-11 13:31:28 [INFO] Tank 3 asked to rotate to RotateRight90 and is now rotating to DOWN
+2025-06-11 13:31:28 [INFO] Turn is 18
+2025-06-11 13:31:28 [INFO] Tank 2 requested battle info
+2025-06-11 13:31:28 [INFO] Tank 3 requested battle info
+2025-06-11 13:31:28 [INFO] Turn is 19
+2025-06-11 13:31:28 [INFO] Tank 2 shot a shell at [5, 7]
+2025-06-11 13:31:28 [INFO] Tank 3 asked to rotate to RotateRight90 and is now rotating to LEFT
+2025-06-11 13:31:28 [INFO] Player 2 tank3 at [5, 8] hit by shell
+2025-06-11 13:31:28 [INFO] Player 1 won with 1 tanks still alive

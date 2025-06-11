@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -g
+CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic
 
 SRC = main.cpp \
       $(wildcard src/*.cpp) \

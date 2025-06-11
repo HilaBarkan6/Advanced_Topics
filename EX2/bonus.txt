@@ -57,3 +57,18 @@ Bonus Requests:
 
         The code is located in:
         test/tests.cpp
+
+        External Library Usage – GoogleTest (GTest)
+        GoogleTest is a popular C++ testing framework developed by Google. It is not part of the C++ standard library, so we are providing this explanation as required by the assignment instructions.
+
+        Purpose:
+                We used GTest to implement a structured and automated testing suite for the game logic. This allows validating correctness across multiple input/output scenarios.
+
+        Integration:
+                - GTest is only used in the test code (test/tests.cpp).
+                - It is not linked or used in the main game executable (tank_game.exe).
+                - The tests are compiled into a separate binary (test_runner.exe) using make test.
+
+        Building & Running:
+                - Assumes GTest is pre-installed on the system (as per assignment instructions for bonus features).
+                - If needed, users can install GTest via package manager (e.g., apt install libgtest-dev) or build it from source.

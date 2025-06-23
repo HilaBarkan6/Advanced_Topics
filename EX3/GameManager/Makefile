@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -fPIC
 SRC = $(wildcard src/*.cpp) $(wildcard ../UserCommon/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
-TARGET = GameManager_<your_ids>.so
+TARGET = GameManager_209399021_208239152.so
 
 INCLUDES = -I../Common -I../UserCommon
 

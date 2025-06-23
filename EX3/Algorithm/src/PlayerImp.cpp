@@ -1,7 +1,7 @@
 #include "PlayerImp.h"
 
 PlayerImp::PlayerImp(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells)
-    : Player(player_index, x, y, max_steps, num_shells), battle_info(y, x), width(x), height(y),
+    : battle_info(y, x), width(x), height(y),
         out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
         wall_sign(Config::getInstance().get("wall_sign", std::string(1, WALL_SIGN))[0]),
         tank1_sign(Config::getInstance().get("tank1_sign", std::string(1, TANK1_SIGN))[0]),

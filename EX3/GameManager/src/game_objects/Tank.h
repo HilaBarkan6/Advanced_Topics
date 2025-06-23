@@ -1,7 +1,7 @@
 #ifndef TANK_H
 #define TANK_H
 #include "GameObject.h"
-#include "../common/TankAlgorithm.h"
+#include "../../../common/TankAlgorithm.h"
 #include "Shell.h"
 #include <vector>
 #include <memory>
@@ -20,7 +20,7 @@ class Tank : public GameObject {
         std::unique_ptr<TankAlgorithm> tank_algorithm;
 
     public:
-        Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm);
+        Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count);
         Tank(){};
 
         int getPlayerId() const;
@@ -40,6 +40,7 @@ class Tank : public GameObject {
         void setUnusedShellsCount(int count) ;
 
         TankAlgorithm& getTankAlgorithm() const;
+        void setTankAlgorithm(std::unique_ptr<TankAlgorithm> algorithm);
 };
 
 #endif

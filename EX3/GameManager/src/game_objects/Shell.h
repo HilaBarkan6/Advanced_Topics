@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 #include "GameObject.h"
-#include "CanonDirection.h"
+#include "../../../UserCommon/CanonDirection.h"
 #include <vector>
 #include <utility> // for std::pair
 

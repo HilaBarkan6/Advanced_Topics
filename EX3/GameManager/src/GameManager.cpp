@@ -34,8 +34,7 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory)
-    : 
+GameManager::GameManager(): 
       out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
       wall_sign(Config::getInstance().get("wall_sign", std::string(1, WALL_SIGN))[0]),
       tank1_sign(Config::getInstance().get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
@@ -47,8 +46,6 @@ GameManager::GameManager(std::unique_ptr<PlayerFactory> player_factory, std::uni
       wall_lives(Config::getInstance().getInt("wall_lives", WALL_LIVES)),
       backward_wating_turns(Config::getInstance().getInt("backward_waiting_turns", BACKWARD_WAITING_TURNS)),
       shooting_waiting_turns(Config::getInstance().getInt("shooting_waiting_turns", SHOOTING_WAITING_TURNS)),
-      player_factory(std::move(player_factory)),
-      tank_algorithm_factory(std::move(tank_algorithm_factory)),
       player1_alive_tanks(0),
       player2_alive_tanks(0),
       turn_counter(0),
@@ -131,8 +128,9 @@ int GameManager::readIntValueFromLine(const std::string& line, const std::string
 
 void GameManager::initializeGame(std::ofstream& output_file) {
     this->view.setRowsAndColumns(height, width);
-    this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
-    this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
+    //TODO - we receive the players in run function so we save them there
+    // this->player1 = player_factory->create(1, width, height, max_steps, num_shells);
+    // this->player2 = player_factory->create(2, width, height, max_steps, num_shells);
 
     for(size_t i = 0; i < all_tanks.size(); i++){
         tank_last_shooting[i] = -1;
@@ -191,7 +189,28 @@ void GameManager::handleOddTurn() {
     deleteCollidedShells();
 }
 
-void GameManager::run() {
+GameResult GameManager::run(size_t map_width, size_t map_height,
+                        SatelliteView& map,
+                        size_t max_steps, size_t num_shells,
+                        Player& player1, Player& player2,
+                        TankAlgorithmFactory player1_tank_algo_factory,
+                        TankAlgorithmFactory player2_tank_algo_factory) 
+    {
+    //TODO - fix this, not sure how to take the players from the parameters and keep them locally in game manager as unique_ptrs
+    // this->player1 = player1;
+    // this->player2 = player2;
+    int player1_tanks = 0;
+    int player2_tanks = 0;
+    for(size_t i = 0; i < all_tanks.size(); i++){
+        if(all_tanks[i]->getPlayerId() == 1){
+            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory.create(1, player1_tanks));
+            player1_tanks++;
+        }
+        else{
+            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory.create(2, player2_tanks));
+            player2_tanks++;
+        }
+    }
     std::ofstream output_file;
     initializeGame(output_file);
     if (!output_file.is_open()) return;
@@ -757,12 +776,12 @@ void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill){
 void GameManager::addTank(int row, int col, int player_id){
     
     if (player_id == 1) {
-        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells, std::move(tank_algorithm_factory->create(1, player1_alive_tanks))));
+        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells));
         player1_alive_tanks++;
     } 
     
     else if (player_id == 2) {
-        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells ,std::move(tank_algorithm_factory->create(2, player2_alive_tanks))));
+        all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::RIGHT, 2, player2_alive_tanks, num_shells));
         player2_alive_tanks++;
     }
 }

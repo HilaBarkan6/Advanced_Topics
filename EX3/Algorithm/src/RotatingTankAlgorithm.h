@@ -1,7 +1,7 @@
 #ifndef ROTATINGTANKALGORITHM_H
 #define ROTATINGTANKALGORITHM_H
-#include "../common/TankAlgorithm.h"
-#include "../common/ActionRequest.h"
+#include "../../common/TankAlgorithm.h"
+#include "../../common/ActionRequest.h"
 
 class RotatingTankAlgorithm : public TankAlgorithm {
     private:

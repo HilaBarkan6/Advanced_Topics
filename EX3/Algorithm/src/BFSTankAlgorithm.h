@@ -1,8 +1,8 @@
 #ifndef BFSTANKALGORITHM_H
 #define BFSTANKALGORITHM_H
 #include "TankAlgorithmImp.h"
-#include "../common/ActionRequest.h"
-#include "..UserCommon/configuration/Config.h"
+#include "../../common/ActionRequest.h"
+#include "../UserCommon/configuration/Config.h"
 #include <iostream>
 #include <queue>
 #include <unordered_set>

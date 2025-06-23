@@ -2,7 +2,7 @@
 #define SIMPLETANKALGORITHM_H
 
 #include "TankAlgorithmImp.h"
-#include "../common/ActionRequest.h"
+#include "../../common/ActionRequest.h"
 
 class SimpleTankAlgorithm : public TankAlgorithmImp {
     private:

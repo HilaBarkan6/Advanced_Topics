@@ -1,8 +1,8 @@
 #ifndef TANKALGORITHMIMP
 #define TANKALGORITHMIMP
 
-#include "../common/TankAlgorithm.h"
-#include "../game_objects/CanonDirection.h"
+#include "../../common/TankAlgorithm.h"
+#include "../../UserCommon/CanonDirection.h"
 #include "SimpleBattleInfo.h"
 
 #include <utility>

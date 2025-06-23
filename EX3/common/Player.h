@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include "TankAlgorithm.h"
 #include "SatelliteView.h"
 

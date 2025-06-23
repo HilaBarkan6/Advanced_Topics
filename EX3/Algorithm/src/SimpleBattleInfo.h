@@ -1,6 +1,6 @@
 #ifndef SIMPLEBATTLEINFO_H
 #define SIMPLEBATTLEINFO_H
-#include "../common/BattleInfo.h"
+#include "../../common/BattleInfo.h"
 #include <vector>
 
 class SimpleBattleInfo : public BattleInfo {

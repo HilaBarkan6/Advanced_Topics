@@ -1,19 +1,21 @@
 #ifndef GAME_MANAGER_H
 #define GAME_MANAGER_H
 #include "Board.h"
-#include "common/Player.h"
-#include "common/ActionRequest.h"
+#include "../../common/Player.h"
+#include "../../common/ActionRequest.h"
+#include "../../common/AbstractGameManager.h"
 #include "game_objects/Empty.h"
 #include "game_objects/Wall.h"
 #include "game_objects/Mine.h"
 #include "game_objects/Tank.h"
 #include "game_objects/Shell.h"
-#include "common/PlayerFactory.h"
-#include "common/TankAlgorithmFactory.h"
-#include "common/SatelliteView.h"
-#include "implementations/SatelliteViewImp.h"
-#include "configuration/Config.h"
-#include "Logger/Logger.h"
+
+#include "../../common/SatelliteView.h"
+#include "SatelliteViewImp.h"
+
+#include "../../UserCommon/configuration/Config.h"
+#include "../../UserCommon/Logger/Logger.h"
+
 #include <vector>
 #include <string>
 #include <utility> 
@@ -32,7 +34,7 @@ struct pair_hash {
     }
 };
 
-class GameManager {
+class GameManager: public AbstractGameManager {
     private:
         // Config parameters, default values, can be changed in config file
         static constexpr const char OUT_OF_BOUNDS_SIGN = '&';
@@ -162,10 +164,15 @@ class GameManager {
         bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations); // Handles the shooting action for the tank, checks if the tank can shoot and updates the shell locations.
 
     public:
-        GameManager(std::unique_ptr<PlayerFactory> player_factory, std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory);
+        GameManager();
         virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
-        void run();
+        GameResult run(size_t map_width, size_t map_height,
+                SatelliteView& map, // <= assume it is a snapshot, NOT updated
+                size_t max_steps, size_t num_shells,
+                Player& player1, Player& player2,
+                TankAlgorithmFactory player1_tank_algo_factory,
+                TankAlgorithmFactory player2_tank_algo_factory) override;
         void addTank(int row, int col, int player_id); // Adds a tank to the game board at the specified location - used in Board class to add tanks when reading the board from a file.
 };
 

@@ -1,6 +1,6 @@
 #include "Tank.h"
 
-Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count, std::unique_ptr<TankAlgorithm> tank_algorithm) : 
+Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count) : 
     GameObject(),
     player_id(player_id),
     tank_index(tank_index), 
@@ -8,8 +8,7 @@ Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index
     location_x(x), 
     location_y(y), 
     canon_direction(direction), 
-    unused_shells_count(shells_count), 
-    tank_algorithm(std::move(tank_algorithm)) {}
+    unused_shells_count(shells_count) {}
 
 
 int Tank::getPlayerId() const {
@@ -60,4 +59,8 @@ void Tank::setUnusedShellsCount(int count) {
 
 TankAlgorithm& Tank::getTankAlgorithm() const {
     return *tank_algorithm;
+}
+
+void Tank::setTankAlgorithm(std::unique_ptr<TankAlgorithm> algorithm) {
+    tank_algorithm = std::move(algorithm);
 }

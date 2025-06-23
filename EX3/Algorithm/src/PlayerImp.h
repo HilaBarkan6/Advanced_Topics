@@ -1,8 +1,8 @@
 #ifndef PLAYERIMP_H
 #define PLAYERIMP_H
-#include "../common/Player.h"
-#include "../common/SatelliteView.h"
-#include "../common/TankAlgorithm.h"
+#include "../../common/Player.h"
+#include "../../common/SatelliteView.h"
+#include "../../common/TankAlgorithm.h"
 #include "SimpleBattleInfo.h"
 #include <iostream>
 #include <vector>

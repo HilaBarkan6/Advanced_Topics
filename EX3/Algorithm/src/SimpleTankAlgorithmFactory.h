@@ -1,7 +1,7 @@
 #ifndef SIMPLE_TANK_ALGORITHM_FACTORY_H
 #define SIMPLE_TANK_ALGORITHM_FACTORY_H   
 #include "../common/TankAlgorithmFactory.h"
-#include "../configuration/Config.h"
+#include "../UserCommon/configuration/Config.h"
 #include "BFSTankAlgorithm.h"
 #include "SimpleTankAlgorithm.h"
 #include "RotatingTankAlgorithm.h"

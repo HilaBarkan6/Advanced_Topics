@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <utility> // for std::pair
-#include "../configuration/Config.h"
+#include "../UserCommon/configuration/Config.h"
 
 
 class PlayerImp : public Player {

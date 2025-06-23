@@ -203,11 +203,11 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
     int player2_tanks = 0;
     for(size_t i = 0; i < all_tanks.size(); i++){
         if(all_tanks[i]->getPlayerId() == 1){
-            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory.create(1, player1_tanks));
+            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory(1, player1_tanks));
             player1_tanks++;
         }
         else{
-            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory.create(2, player2_tanks));
+            all_tanks[i]->setTankAlgorithm(player1_tank_algo_factory(2, player2_tanks));
             player2_tanks++;
         }
     }

@@ -1,0 +1,44 @@
+2025-06-11 13:39:13 [INFO] GameManager initialized with board size: 4x10
+2025-06-11 13:39:13 [INFO] Board successfully built
+2025-06-11 13:39:13 [INFO] Game initialized with 2 player 1 tanks and 2 player 2 tanks.
+2025-06-11 13:39:13 [INFO] Turn is 0
+2025-06-11 13:39:13 [INFO] Tank 0 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 1 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 2 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 3 requested battle info
+2025-06-11 13:39:13 [INFO] Turn is 1
+2025-06-11 13:39:13 [INFO] Tank 0 shot a shell at [1, 6]
+2025-06-11 13:39:13 [INFO] Tank 1 shot a shell at [1, 7]
+2025-06-11 13:39:13 [INFO] Tank 2 shot a shell at [2, 1]
+2025-06-11 13:39:13 [INFO] Tank 3 moved forward to [2, 7]
+2025-06-11 13:39:13 [INFO] shells are colliding at location [1, 7]
+2025-06-11 13:39:13 [INFO] Turn is 2
+2025-06-11 13:39:13 [INFO] Tank 0 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 1 did nothing
+2025-06-11 13:39:13 [INFO] Tank 2 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 3 moved forward to [2, 6]
+2025-06-11 13:39:13 [INFO] Turn is 3
+2025-06-11 13:39:13 [INFO] Tank 0 moved forward to [1, 6]
+2025-06-11 13:39:13 [INFO] Tank 1 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 2 moved forward to [2, 1]
+2025-06-11 13:39:13 [INFO] Tank 3 requested battle info
+2025-06-11 13:39:13 [INFO] Player 1 tank3 at [2, 6] hit by shell
+2025-06-11 13:39:13 [INFO] Turn is 4
+2025-06-11 13:39:13 [INFO] Tank 0 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 1 did nothing
+2025-06-11 13:39:13 [INFO] Tank 2 requested battle info
+2025-06-11 13:39:13 [INFO] Turn is 5
+2025-06-11 13:39:13 [INFO] Tank 0 moved forward to [1, 7]
+2025-06-11 13:39:13 [INFO] Tank 1 did nothing
+2025-06-11 13:39:13 [INFO] Tank 2 moved forward to [2, 2]
+2025-06-11 13:39:13 [INFO] Turn is 6
+2025-06-11 13:39:13 [INFO] Tank 0 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 1 requested battle info
+2025-06-11 13:39:13 [INFO] Tank 2 requested battle info
+2025-06-11 13:39:13 [INFO] Turn is 7
+2025-06-11 13:39:13 [INFO] Tank 0 shot a shell at [1, 8]
+2025-06-11 13:39:13 [INFO] New shell just hitted tank 1
+2025-06-11 13:39:13 [INFO] Tank 1 shot a shell at [1, 7]
+2025-06-11 13:39:13 [INFO] New shell just hitted tank 0
+2025-06-11 13:39:13 [INFO] Tank 2 asked to rotate to RotateRight90 and is now rotating to DOWN
+2025-06-11 13:39:13 [INFO] Player 2 won with 1 tanks still alive

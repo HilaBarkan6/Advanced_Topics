@@ -1,0 +1,12 @@
+10 - Player 1 won with 1 tanks still alive
+MaxSteps = 20
+NumShells=10
+Rows = 7
+Cols =10
+#### ##### 
+#@@ @###1#
+#@@@@@@@@@
+#@@@@@@@@#
+#@    #@@@
+#    2   @
+##@@@@@###

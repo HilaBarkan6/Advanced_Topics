@@ -1,0 +1,21 @@
+GetBattleInfo, GetBattleInfo, GetBattleInfo, GetBattleInfo, GetBattleInfo
+Shoot, Shoot, RotateLeft45, Shoot, MoveForward
+GetBattleInfo, DoNothing, MoveForward, GetBattleInfo, GetBattleInfo
+MoveForward, GetBattleInfo, GetBattleInfo, MoveForward, GetBattleInfo (killed)
+GetBattleInfo, DoNothing, MoveForward, GetBattleInfo, killed
+MoveForward, DoNothing, GetBattleInfo, MoveForward, killed
+GetBattleInfo, GetBattleInfo, GetBattleInfo, GetBattleInfo, killed
+Shoot, Shoot (killed), MoveForward, MoveForward, killed
+killed, killed, RotateRight45, GetBattleInfo, killed
+killed, killed, GetBattleInfo, MoveForward, killed
+killed, killed, RotateLeft45, GetBattleInfo, killed
+killed, killed, Shoot, MoveForward, killed
+killed, killed, GetBattleInfo, GetBattleInfo, killed
+killed, killed, RotateLeft90, MoveForward, killed
+killed, killed, DoNothing, GetBattleInfo, killed
+killed, killed, GetBattleInfo, MoveForward, killed
+killed, killed, MoveForward, GetBattleInfo, killed
+killed, killed, RotateLeft45, RotateRight90, killed
+killed, killed, GetBattleInfo, GetBattleInfo, killed
+killed, killed, Shoot, RotateRight90, killed
+Player 1 won with 1 tanks still alive

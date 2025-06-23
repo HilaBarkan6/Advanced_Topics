@@ -1,0 +1,31 @@
+GetBattleInfo, GetBattleInfo, GetBattleInfo, GetBattleInfo, GetBattleInfo
+MoveForward, RotateRight90, RotateRight90, RotateRight90, RotateRight90
+GetBattleInfo, GetBattleInfo, MoveForward, Shoot, Shoot
+RotateRight90, killed, GetBattleInfo, GetBattleInfo, GetBattleInfo
+GetBattleInfo, killed, RotateLeft90, MoveForward, MoveForward
+MoveForward, killed, Shoot, RotateRight45, GetBattleInfo
+GetBattleInfo, killed, GetBattleInfo, GetBattleInfo, GetBattleInfo
+MoveForward, killed, MoveForward, RotateRight45, MoveForward
+GetBattleInfo, killed, MoveForward (ignored) (killed), Shoot, GetBattleInfo
+RotateRight90, killed, killed, GetBattleInfo, GetBattleInfo
+GetBattleInfo, killed, killed, RotateRight45, RotateRight45
+MoveForward, killed, killed, DoNothing, GetBattleInfo
+GetBattleInfo, killed, killed, GetBattleInfo, GetBattleInfo
+MoveForward, killed, killed, RotateRight45, RotateRight45
+GetBattleInfo, killed, killed, Shoot, GetBattleInfo
+RotateRight90, killed, killed, GetBattleInfo, GetBattleInfo
+GetBattleInfo, killed, killed, RotateRight45, RotateRight45
+MoveForward, killed, killed, DoNothing, RotateRight90
+GetBattleInfo, killed, killed, GetBattleInfo, GetBattleInfo
+MoveForward, killed, killed, RotateRight45, MoveForward
+GetBattleInfo, killed, killed, Shoot, RotateRight45
+RotateRight90, killed, killed, GetBattleInfo, GetBattleInfo
+GetBattleInfo, killed, killed, RotateRight45, MoveForward
+MoveForward, killed, killed, DoNothing, GetBattleInfo
+GetBattleInfo, killed, killed, GetBattleInfo, GetBattleInfo
+MoveForward, killed, killed, RotateRight45, RotateRight45
+GetBattleInfo, killed, killed, Shoot, GetBattleInfo
+MoveForward, killed, killed, GetBattleInfo, GetBattleInfo
+GetBattleInfo, killed, killed, RotateRight45 (killed), MoveForward
+MoveForward (ignored) (killed), killed, killed, killed, RotateLeft45 (killed)
+Tie, both players have zero tanks

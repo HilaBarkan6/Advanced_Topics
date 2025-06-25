@@ -3,6 +3,7 @@
 
 #include "CommandLineParser.h"
 #include "BoardReader.h"
+#include "AlgorithmRegistrar.h"
 #include "../../common/GameResult.h"
 #include <string>
 #include <vector>

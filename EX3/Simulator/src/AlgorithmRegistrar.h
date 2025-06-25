@@ -37,11 +37,20 @@ class AlgorithmRegistrar {
         bool hasTankAlgorithmFactory() const {
             return tankAlgorithmFactory != nullptr;
         }
+        TankAlgorithmFactory getTankAlgorithmFactory() const {
+            return tankAlgorithmFactory;
+        }
     };
     std::vector<AlgorithmAndPlayerFactories> algorithms;
     static AlgorithmRegistrar registrar;
+
 public:
     static AlgorithmRegistrar& getAlgorithmRegistrar();
+
+    const std::vector<AlgorithmAndPlayerFactories>& getAlgorithms() const {
+        return algorithms;
+    }
+
     void createAlgorithmFactoryEntry(const std::string& name) {
         algorithms.emplace_back(name);
     }

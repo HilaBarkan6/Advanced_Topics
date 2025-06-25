@@ -23,6 +23,12 @@ void CompetitionRunner::run() {
     std::vector<void*> algo_handles = loadAllAlgorithmHandles(algorithm_paths, score_table);
     runAllGames(maps, algorithm_paths, score_table);
     writeResults(score_table);
+    // TODO - think if this should be here or in the destructor
+    for (void* handle : algo_handles) {
+        if(handle){
+            dlclose(handle);
+        } // Clean up loaded algorithm handles
+    }
 }
 
 std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
@@ -30,15 +36,33 @@ std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
     std::map<std::string, int>& score_table) {
 
     std::vector<void*> handles;
+    auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+
     for (const auto& path : algorithm_paths) {
-        void* handle = dlopen(path.c_str(), RTLD_LAZY);
+        std::string name = fs::path(path).stem().string(); // Get filename without extension
+
+        void* handle = dlopen(path.c_str(), RTLD_LAZY); // Load .so file dynamically
         if (!handle) {
             std::cerr << "Failed to load algorithm: " << path << "\n";
             continue;
         }
-        handles.push_back(handle);
-        score_table[fs::path(path).filename().string()] = 0;
+
+        registrar.createAlgorithmFactoryEntry(name); // Start registration for this algorithm
+
+        try {
+            registrar.validateLastRegistration(); // Check if both Player and TankAlgorithm are registered
+            handles.push_back(handle);            // Store the handle for later cleanup
+            score_table[name] = 0;                // Initialize score entry for this algorithm
+        } catch (const AlgorithmRegistrar::BadRegistrationException& e) {
+            std::cerr << "Bad registration in: " << name << "\n";
+            registrar.removeLast();              // Remove failed registration entry
+            dlclose(handle);                     // Close the library handle
+        }
     }
+
+    if (score_table.size() < 2)
+        throw std::runtime_error("At least two valid algorithms are required.");
+
     return handles;
 }
 
@@ -46,49 +70,78 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
                                     const std::vector<std::string>& algorithm_paths,
                                     std::map<std::string, int>& score_table) {
 
-    auto algo_factories = getAllTankAlgorithmFactories();
-    auto player_factories = getAllPlayerFactories();
-    auto gm_factories = getAllGameManagerFactories();
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
-    if (algo_factories.size() < 2 || player_factories.size() < 2 || gm_factories.empty()) {
-        std::cerr << "Missing factories for GameManager or Algorithms.\n";
+    // Check that at least two algorithms are registered
+    if (algo_registrar.count() < 2) {
+        std::cerr << "Error: Not enough algorithms registered.\n";
+        return;
+    }
+    // Check that at least one GameManager is registered
+    if (gm_registrar.count() < 1) {
+        std::cerr << "Error: No GameManager registered.\n";
         return;
     }
 
+    // Loop over all maps
     for (size_t k = 0; k < maps.size(); ++k) {
-        auto pairs = generatePairs(k, algorithm_paths.size());
+        // Generate competing algorithm pairs for this map index
+        auto pairs = generatePairs(k, algo_registrar.count());
+
+        // Run games for each algorithm pair and each GameManager
         for (const auto& [i, j] : pairs) {
-            runSingleGameAndScore(maps[k], i, j, gm_factories, player_factories, algo_factories, algorithm_paths, score_table);
+            runSingleGameAndScore(
+                maps[k],        // Current map
+                i, j,           // Algorithm indices
+                score_table,
+                algorithm_paths     // Score tracking
+            );
+        
         }
     }
 }
 
 void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j,
-    const std::vector<GameManagerFactory>& gm_factories,
-    const std::vector<PlayerFactory>& player_factories,
-    const std::vector<TankAlgorithmFactory>& algo_factories,
-    const std::vector<std::string>& algo_paths,
-    std::map<std::string, int>& score_table) {
+    std::map<std::string, int>& score_table,
+    const std::vector<std::string>& algo_paths) {
 
-    auto gm = gm_factories[0](args.verbose);
-    auto p1 = player_factories[0](1, map.width, map.height, map.max_steps, map.num_shells);
-    auto p2 = player_factories[1](2, map.width, map.height, map.max_steps, map.num_shells);
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
-    GameResult r = gm->run(
-        map.width, map.height, map.board,
+    const auto& algorithms = algo_registrar.getAlgorithms();
+    // Create players using player factories from the algorithms registrar
+    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+
+    // Get tank algorithm factories for each algorithm
+    auto tank_algo_factory1 = algorithms[i].getTankAlgorithmFactory();
+    auto tank_algo_factory2 = algorithms[j].getTankAlgorithmFactory();
+
+    auto game_manager = gm_registrar.begin()->create(args.verbose); // Create GameManager instance
+
+    // Run the game with the single GameManager instance provided
+    // TODO - currently the board is matrix of chars but is should be satellite view.
+    GameResult result = game_manager.run(
+        map.width, map.height,
+        map.board,
         map.max_steps, map.num_shells,
         *p1, *p2,
-        algo_factories[i], algo_factories[j]
+        tank_algo_factory1,
+        tank_algo_factory2
     );
 
+    // Extract algorithm file names for score bookkeeping
     auto a1_name = fs::path(algo_paths[i]).filename().string();
     auto a2_name = fs::path(algo_paths[j]).filename().string();
 
-    if (r.winner == 1)
+    // Update scores based on the game result
+    if (result.winner == 1) {
         score_table[a1_name] += 3;
-    else if (r.winner == 2)
+    } else if (result.winner == 2) {
         score_table[a2_name] += 3;
-    else {
+    } else {
+        // Draw case: both get 1 point
         score_table[a1_name] += 1;
         score_table[a2_name] += 1;
     }

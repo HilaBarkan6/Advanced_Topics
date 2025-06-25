@@ -3,6 +3,8 @@
 
 #include "BoardReader.h"
 #include "CommandLineParser.h"
+#include "AlgorithmRegistrar.h"
+#include "GameManagerRegistrar.h"
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../common/GameManagerRegistration.h"
 #include "../../common/PlayerRegistration.h"
@@ -44,12 +46,9 @@ class CompetitionRunner {
                         std::map<std::string, int>& score_table);
 
         // Runs a single game between two algorithms on a given map
-        void runSingleGameAndScore(const GameInput& map, int i, int j,
-            const std::vector<GameManagerFactory>& gm_factories,
-            const std::vector<PlayerFactory>& player_factories,
-            const std::vector<TankAlgorithmFactory>& algo_factories,
-            const std::vector<std::string>& algo_paths,
-            std::map<std::string, int>& score_table);
+        void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j,
+            std::map<std::string, int>& score_table,
+            const std::vector<std::string>& algo_paths);
 
         // Generates (i, j) algorithm index pairs for competition logic
         std::vector<std::pair<int, int>> generatePairs(int k, int N);

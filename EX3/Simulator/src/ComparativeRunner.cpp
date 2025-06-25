@@ -22,12 +22,20 @@ GameInput ComparativeRunner::tryReadMap(const std::string& path) {
 }
 
 std::vector<void*> ComparativeRunner::tryLoadAlgorithms(const std::string& a1, const std::string& a2) {
+    auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    std::vector<std::string> names = {fs::path(a1).stem().string(), fs::path(a2).stem().string()};
     std::vector<void*> handles;
+
     for (const auto& path : {a1, a2}) {
+        registrar.createAlgorithmFactoryEntry(fs::path(path).stem().string());
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
-        if (!handle)
-            throw std::runtime_error("Failed to load algorithm .so: " + path);
+        if (!handle) throw std::runtime_error("Failed to load algorithm .so: " + path);
         handles.push_back(handle);
+        try {
+            registrar.validateLastRegistration();
+        } catch (...) {
+            registrar.removeLast();
+        }
     }
     return handles;
 }
@@ -46,58 +54,51 @@ std::vector<std::string> ComparativeRunner::findGameManagers(const std::string& 
 std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     const std::vector<std::string>& gm_paths, const GameInput& input) {
 
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+
     std::map<std::string, std::set<std::string>> result_map;
 
-    // Load all TankAlgorithm factories once
-    auto algo_factories = getAllTankAlgorithmFactories();
-
-    // Load all Player factories once
-    auto player_factories = getAllPlayerFactories();
-
-    // Check if we have at least two algorithms
-    if (algo_factories.size() < 2) {
-        std::cerr << "Not enough algorithm factories loaded (need at least 2)\n";
-        return result_map;
-    }
-
-    // Check if we have at least two players
-    if (player_factories.size() < 2) {
-        std::cerr << "Not enough player factories loaded (need at least 2)\n";
+    if (algo_registrar.count() < 2) {
+        std::cerr << "Not enough algorithms registered (need 2).\n";
         return result_map;
     }
 
     for (const auto& path : gm_paths) {
-        // Open the GameManager shared library
+        gm_registrar.createEntry(path);
+
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
         if (!handle) {
             std::cerr << "Failed to load GameManager: " << path << "\n";
             continue;
         }
 
-        // Retrieve all GameManager factories from the loaded library
-        auto gm_factories = getAllGameManagerFactories();
-        if (gm_factories.empty()) {
-            std::cerr << "No factory found in " << path << "\n";
+        try {
+            gm_registrar.validateLast();
+        } catch (...) {
+            gm_registrar.removeLast();
             continue;
         }
 
-        // Create a GameManager instance (verbose flag passed as argument)
-        auto gm = gm_factories[0](args.verbose);
+        const auto& gm_factory = *gm_registrar.begin();
+        auto gm = gm_factory.create(args.verbose);
 
-        // Create two Player instances using the player factories
-        // player_index = 0 or 1, position x=0,y=0 (can be updated as needed)
-        auto player1 = player_factories[0](1, input.width, input.height, input.max_steps, input.num_shells);
-        auto player2 = player_factories[1](2, input.width, input.height, input.max_steps, input.num_shells);
+        const auto& a1 = algo_registrar.getAlgorithms()[0]; // index 0
+        const auto& a2 = algo_registrar.getAlgorithms()[1]; // index 1
 
-        // Run the game with the loaded GameManager, players and algorithms
+        auto player1 = a1.createPlayer(1, input.width, input.height, input.max_steps, input.num_shells);
+        auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
+
+        auto tank_factory1 = a1.getTankAlgorithmFactory();
+        auto tank_factory2 = a2.getTankAlgorithmFactory();
+
         GameResult result = gm->run(
             input.width, input.height, input.board,
             input.max_steps, input.num_shells,
             *player1, *player2,
-            algo_factories[0], algo_factories[1]
+            tank_factory1, tank_factory2
         );
 
-        // Format the result to a string key and accumulate GameManager names with identical results
         std::string key = formatResult(result);
         result_map[key].insert(fs::path(path).filename().string());
     }

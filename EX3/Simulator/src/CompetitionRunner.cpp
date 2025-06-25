@@ -122,11 +122,11 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
 
     // Run the game with the single GameManager instance provided
     // TODO - currently the board is matrix of chars but is should be satellite view.
-    GameResult result = game_manager.run(
+    GameResult result = game_manager->run(
         map.width, map.height,
         map.board,
         map.max_steps, map.num_shells,
-        p1, p2,
+        *p1, *p2,
         tank_algo_factory1,
         tank_algo_factory2
     );

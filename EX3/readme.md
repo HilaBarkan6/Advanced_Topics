@@ -65,3 +65,13 @@ Hila Barkan - 208239152
                           MoveForward or GetBattleInfo, the backward movement will not be applied and the the one of such actions will be apllied. Otherwise the action will be ignored and the  backward movement will  be applied (As disccused in the forum). 
                           For example: tank asks for backward in turn 1, and in turn 3 asks for rotate action, the rotation will not be applied since in turn 3 the backward movement will be applied.
                           Another example: tank asks for backward in turn 1 and in turn 3 asks for forward movement, the movement will be applied in turn 3 and the backword movement won't.
+
+
+What to do next time - 
+Simulator runners should send the game manager satellite view and not matrix of chars
+Game manager factory should return a real game manager and not abstract
+Our game manager should implement the abstract game manager properly - this changes tanks and board creation
+game manager and algorithm should use the macro to load themselves to the regitrars
+Make sure output files are written to the correct place
+decide what to do with the logger
+Make our algorithms good

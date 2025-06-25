@@ -4,6 +4,7 @@
 #include "CommandLineParser.h"
 #include "BoardReader.h"
 #include "AlgorithmRegistrar.h"
+#include "GameManagerRegistrar.h"
 #include "../../common/GameResult.h"
 #include <string>
 #include <vector>

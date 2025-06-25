@@ -1,8 +1,4 @@
 #include "Simulator.h"
-#include "ComparativeRunner.h"
-#include "CompetitionRunner.h"
-#include <iostream>
-#include <memory>
 
 Simulator::Simulator(const ParsedArguments& args) : args(args) {}
 

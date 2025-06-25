@@ -126,7 +126,7 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
         map.width, map.height,
         map.board,
         map.max_steps, map.num_shells,
-        *p1, *p2,
+        p1, p2,
         tank_algo_factory1,
         tank_algo_factory2
     );

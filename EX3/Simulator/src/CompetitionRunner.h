@@ -1,0 +1,71 @@
+#ifndef COMPETITION_RUNNER_H
+#define COMPETITION_RUNNER_H
+
+#include "BoardReader.h"
+#include "CommandLineParser.h"
+#include "../../common/TankAlgorithmRegistration.h"
+#include "../../common/GameManagerRegistration.h"
+#include "../../common/PlayerRegistration.h"
+#include <string>
+#include <vector>
+#include <map>
+#include <memory>
+#include <utility>
+
+#include <filesystem>
+#include <fstream>
+#ifdef __unix__
+#include <dlfcn.h>
+#endif
+#include <iostream>
+#include <sstream>
+#include <ctime>
+#include <algorithm>
+
+class CompetitionRunner {
+
+    private:
+        ParsedArguments args;
+
+        // Loads all valid .map files from the game_maps_folder
+        std::vector<GameInput> loadAllMaps();
+
+        // Loads all .so files from algorithms_folder
+        std::vector<std::string> findAlgorithmPaths();
+
+        // Opens .so files and adds each algorithm to the score table
+        std::vector<void*> loadAllAlgorithmHandles(
+            const std::vector<std::string>& algorithm_paths,
+            std::map<std::string, int>& score_table);
+
+        // Executes all games and fills score table
+        void runAllGames(const std::vector<GameInput>& maps,
+                        const std::vector<std::string>& algorithm_paths,
+                        std::map<std::string, int>& score_table);
+
+        // Runs a single game between two algorithms on a given map
+        void runSingleGameAndScore(const GameInput& map, int i, int j,
+            const std::vector<GameManagerFactory>& gm_factories,
+            const std::vector<PlayerFactory>& player_factories,
+            const std::vector<TankAlgorithmFactory>& algo_factories,
+            const std::vector<std::string>& algo_paths,
+            std::map<std::string, int>& score_table);
+
+        // Generates (i, j) algorithm index pairs for competition logic
+        std::vector<std::pair<int, int>> generatePairs(int k, int N);
+
+        // Writes the final scores to a timestamped result file
+        void writeResults(const std::map<std::string, int>& score_table);
+
+        // Fallback: print results to stdout if file output fails
+        void printResultsToStdout(const std::map<std::string, int>& score_table);
+
+        // Sorts algorithms by total score descending
+        std::vector<std::pair<std::string, int>> sortScores(const std::map<std::string, int>& scores);
+
+    public:
+        explicit CompetitionRunner(const ParsedArguments& args);
+        void run();
+};
+
+#endif // COMPETITION_RUNNER_H

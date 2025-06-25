@@ -1,0 +1,151 @@
+#include "ComparativeRunner.h"
+
+namespace fs = std::filesystem;
+
+ComparativeRunner::ComparativeRunner(const ParsedArguments& args) : args(args) {}
+
+void ComparativeRunner::run() {
+    GameInput input = tryReadMap(args.game_map);
+    auto algo_handles = tryLoadAlgorithms(args.algorithm1, args.algorithm2);
+    auto gm_paths = findGameManagers(args.game_managers_folder);
+    auto result_map = runAllGames(gm_paths, input);
+
+    writeResults(result_map, input);
+}
+
+GameInput ComparativeRunner::tryReadMap(const std::string& path) {
+    try {
+        return readBoard(path);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Error reading map file: " + std::string(e.what()));
+    }
+}
+
+std::vector<void*> ComparativeRunner::tryLoadAlgorithms(const std::string& a1, const std::string& a2) {
+    std::vector<void*> handles;
+    for (const auto& path : {a1, a2}) {
+        void* handle = dlopen(path.c_str(), RTLD_LAZY);
+        if (!handle)
+            throw std::runtime_error("Failed to load algorithm .so: " + path);
+        handles.push_back(handle);
+    }
+    return handles;
+}
+
+std::vector<std::string> ComparativeRunner::findGameManagers(const std::string& folder) {
+    std::vector<std::string> files;
+    for (const auto& entry : fs::directory_iterator(folder)) {
+        if (entry.path().extension() == ".so")
+            files.push_back(entry.path().string());
+    }
+    if (files.empty())
+        throw std::runtime_error("No GameManager .so files found in: " + folder);
+    return files;
+}
+
+std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
+    const std::vector<std::string>& gm_paths, const GameInput& input) {
+
+    std::map<std::string, std::set<std::string>> result_map;
+
+    // Load all TankAlgorithm factories once
+    auto algo_factories = getAllTankAlgorithmFactories();
+
+    // Load all Player factories once
+    auto player_factories = getAllPlayerFactories();
+
+    // Check if we have at least two algorithms
+    if (algo_factories.size() < 2) {
+        std::cerr << "Not enough algorithm factories loaded (need at least 2)\n";
+        return result_map;
+    }
+
+    // Check if we have at least two players
+    if (player_factories.size() < 2) {
+        std::cerr << "Not enough player factories loaded (need at least 2)\n";
+        return result_map;
+    }
+
+    for (const auto& path : gm_paths) {
+        // Open the GameManager shared library
+        void* handle = dlopen(path.c_str(), RTLD_LAZY);
+        if (!handle) {
+            std::cerr << "Failed to load GameManager: " << path << "\n";
+            continue;
+        }
+
+        // Retrieve all GameManager factories from the loaded library
+        auto gm_factories = getAllGameManagerFactories();
+        if (gm_factories.empty()) {
+            std::cerr << "No factory found in " << path << "\n";
+            continue;
+        }
+
+        // Create a GameManager instance (verbose flag passed as argument)
+        auto gm = gm_factories[0](args.verbose);
+
+        // Create two Player instances using the player factories
+        // player_index = 0 or 1, position x=0,y=0 (can be updated as needed)
+        auto player1 = player_factories[0](1, input.width, input.height, input.max_steps, input.num_shells);
+        auto player2 = player_factories[1](2, input.width, input.height, input.max_steps, input.num_shells);
+
+        // Run the game with the loaded GameManager, players and algorithms
+        GameResult result = gm->run(
+            input.width, input.height, input.board,
+            input.max_steps, input.num_shells,
+            *player1, *player2,
+            algo_factories[0], algo_factories[1]
+        );
+
+        // Format the result to a string key and accumulate GameManager names with identical results
+        std::string key = formatResult(result);
+        result_map[key].insert(fs::path(path).filename().string());
+    }
+
+    return result_map;
+}
+
+void ComparativeRunner::writeResults(
+    const std::map<std::string, std::set<std::string>>& result_map, const GameInput& input) {
+
+    std::ostringstream filename;
+    filename << args.game_managers_folder << "/comparative_results_" << std::time(nullptr) << ".txt";
+    std::ofstream out(filename.str());
+
+    if (!out.is_open()) {
+        std::cerr << "Failed to open result file. Outputting to screen:\n";
+        for (const auto& [res, gms] : result_map)
+            std::cout << join(gms) << "\n" << res << "\n\n";
+        return;
+    }
+
+    out << "game_map=" << args.game_map << "\n";
+    out << "algorithm1=" << args.algorithm1 << "\n";
+    out << "algorithm2=" << args.algorithm2 << "\n\n";
+
+    for (const auto& [res, gms] : result_map) {
+        out << join(gms) << "\n" << res << "\n\n";
+    }
+
+    std::cout << "Results written to " << filename.str() << "\n";
+}
+
+std::string ComparativeRunner::formatResult(const GameResult& r) {
+    std::ostringstream ss;
+    ss << "Winner=" << r.winner << " Reason=" << r.reason << "\n";
+    ss << "Remaining tanks: ";
+    for (size_t i = 0; i < r.remaining_tanks.size(); ++i) {
+        if (i > 0) ss << ",";
+        ss << r.remaining_tanks[i];
+    }
+    return ss.str();
+}
+
+std::string ComparativeRunner::join(const std::set<std::string>& items) {
+    std::ostringstream ss;
+    for (auto it = items.begin(); it != items.end(); ++it) {
+        if (it != items.begin()) ss << ",";
+        ss << *it;
+    }
+    return ss.str();
+}

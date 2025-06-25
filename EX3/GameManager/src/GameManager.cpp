@@ -54,77 +54,7 @@ GameManager::GameManager():
       counter_no_shells(0) {}
 
 
-void GameManager::readBoard(const std::string& path_input_file){
-    size_t last_slash = path_input_file.find_last_of("/\\");
-    const std::string input_file_name = (last_slash == std::string::npos) ? path_input_file : path_input_file.substr(last_slash + 1);
-    path_output_file = "output/output_" + input_file_name;
-    path_log_file = "log_output/log_" + input_file_name + ".txt";
 
-    logger.setLogFile(path_log_file);
-
-
-    std::ifstream file(path_input_file);
-    if (!file.is_open()) {
-        logger.logError("Error opening file: " + path_input_file);
-        return;
-    }
-
-    readGameParameters(file); 
-
-    this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
-    logger.logInfo("GameManager initialized with board size: " + std::to_string(height) + "x" + std::to_string(width));
-
-    board.readBoard(path_input_file, *this);
-
-    logger.logInfo("Board successfully built");
-    logger.logInfo("Game initialized with " + std::to_string(player1_alive_tanks) + " player 1 tanks and " + std::to_string(player2_alive_tanks) + " player 2 tanks.");
-}
-
-void GameManager::readGameParameters(std::ifstream& file) {
-    std::string line;
-
-    // Line 1 - Description (ignored)
-    std::getline(file, line);
-
-    if (!std::getline(file, line)) {
-        logger.logError("Missing MaxSteps line.");
-        throw std::runtime_error("Missing MaxSteps line.");
-    }
-
-    this->max_steps = readIntValueFromLine(line, "MaxSteps");
-
-    if (!std::getline(file, line)) {
-        logger.logError("Missing NumShells line.");
-        throw std::runtime_error("Missing NumShells line.");
-    }
-    this->num_shells = readIntValueFromLine(line, "NumShells");
-
-    if (!std::getline(file, line)) {
-        logger.logError("Missing Rows line.");
-        throw std::runtime_error("Missing Rows line.");
-    }
-    this->height = readIntValueFromLine(line, "Rows");
-
-    if (!std::getline(file, line)) {
-        logger.logError("Missing Cols line.");
-        throw std::runtime_error("Missing Cols line.");
-    }
-    this->width = readIntValueFromLine(line, "Cols");
-}
-
-int GameManager::readIntValueFromLine(const std::string& line, const std::string& key) {
-    size_t pos = line.find("=");
-    if (pos == std::string::npos) {
-        logger.logError("Invalid " + key + " line: " + line);
-        throw std::runtime_error("Invalid " + key + " line.");
-    }
-    try {
-        return std::stoi(line.substr(pos + 1));
-    } catch (...) {
-        logger.logError("Invalid " + key + " value.");
-        throw std::runtime_error("Invalid " + key + " value.");
-    }
-}
 
 void GameManager::initializeGame(std::ofstream& output_file) {
     this->view.setRowsAndColumns(height, width);

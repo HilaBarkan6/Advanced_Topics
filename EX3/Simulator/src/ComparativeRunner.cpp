@@ -97,9 +97,11 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         view.setRowsAndColumns(input.height, input.width);
 
         GameResult result = gm->run(
-            input.width, input.height, view,
+            input.width, input.height,
+            view,
+            "hello_map", // Placeholder for map name
             input.max_steps, input.num_shells,
-            *player1, *player2,
+            *player1, a1.name(), *player2, a2.name(),
             tank_factory1, tank_factory2
         );
 

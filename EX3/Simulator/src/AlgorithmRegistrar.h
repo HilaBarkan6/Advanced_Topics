@@ -24,7 +24,8 @@ class AlgorithmRegistrar {
             assert(playerFactory == nullptr);
             playerFactory = std::move(factory);
         }
-        const std::string& name() const { return so_name; }
+        //const std::string& name() const { return so_name; }
+        std::string& name() { return so_name; }
         std::unique_ptr<Player> createPlayer(int player_index, size_t x, size_t y, size_t max_steps, size_t num_shells) const {
             return playerFactory(player_index, x, y, max_steps, num_shells);
         }

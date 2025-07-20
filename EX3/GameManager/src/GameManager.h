@@ -11,7 +11,7 @@
 #include "game_objects/Shell.h"
 
 #include "../../common/SatelliteView.h"
-#include "SatelliteViewImp.h"
+#include "../../UserCommon/SatelliteViewImp.h"
 
 #include "../../UserCommon/configuration/Config.h"
 #include "../../UserCommon/Logger/Logger.h"
@@ -168,11 +168,13 @@ class GameManager: public AbstractGameManager {
         virtual ~GameManager() = default;
         void readBoard(const std::string& pathInputFile);
         GameResult run(size_t map_width, size_t map_height,
-                SatelliteView& map, // <= assume it is a snapshot, NOT updated
+                const SatelliteView& map, // <= assume it is a snapshot, NOT updated
+                string map_name,
                 size_t max_steps, size_t num_shells,
-                Player& player1, Player& player2,
+                Player& player1, string name1, Player& player2, string name2,
                 TankAlgorithmFactory player1_tank_algo_factory,
                 TankAlgorithmFactory player2_tank_algo_factory) override;
+
         void addTank(int row, int col, int player_id); // Adds a tank to the game board at the specified location - used in Board class to add tanks when reading the board from a file.
 };
 

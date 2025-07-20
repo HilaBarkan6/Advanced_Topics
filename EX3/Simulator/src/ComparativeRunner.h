@@ -12,6 +12,7 @@
 #include <set>
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../common/GameManagerRegistration.h"
+#include "../../UserCommon/SatelliteViewImp.h"
 
 #include <filesystem>
 #ifdef __unix__

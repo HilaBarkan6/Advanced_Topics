@@ -92,8 +92,12 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         auto tank_factory1 = a1.getTankAlgorithmFactory();
         auto tank_factory2 = a2.getTankAlgorithmFactory();
 
+        SatelliteViewImp view;
+        view.setSatelliteView(input.board);
+        view.setRowsAndColumns(input.height, input.width);
+
         GameResult result = gm->run(
-            input.width, input.height, input.board,
+            input.width, input.height, view,
             input.max_steps, input.num_shells,
             *player1, *player2,
             tank_factory1, tank_factory2

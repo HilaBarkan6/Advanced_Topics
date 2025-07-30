@@ -8,6 +8,7 @@
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../common/GameManagerRegistration.h"
 #include "../../common/PlayerRegistration.h"
+#include "../../UserCommon/SatelliteViewImp.h"
 #include <string>
 #include <vector>
 #include <map>

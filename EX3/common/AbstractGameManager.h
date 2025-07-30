@@ -24,7 +24,7 @@ public:
 
 };
 
-using GameManagerFactory = std::function<std::unique_ptr<AbstractGameManager>()>;
+using GameManagerFactory = std::function<std::unique_ptr<AbstractGameManager>(bool verbose)>;
 
 
 #endif

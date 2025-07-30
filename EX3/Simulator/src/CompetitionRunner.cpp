@@ -122,14 +122,22 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
 
     // Run the game with the single GameManager instance provided
     // TODO - currently the board is matrix of chars but is should be satellite view.
+
+    SatelliteViewImp view;
+    view.setSatelliteView(map.board);
+    view.setRowsAndColumns(map.height, map.width);
+
     GameResult result = game_manager->run(
         map.width, map.height,
-        map.board,
+        view,
+        "hello_map", // Placeholder for map name
         map.max_steps, map.num_shells,
-        *p1, *p2,
+        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
         tank_algo_factory1,
         tank_algo_factory2
     );
+
+    
 
     // Extract algorithm file names for score bookkeeping
     auto a1_name = fs::path(algo_paths[i]).filename().string();

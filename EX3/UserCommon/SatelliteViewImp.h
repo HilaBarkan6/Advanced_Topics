@@ -17,6 +17,16 @@ class SatelliteViewImp : public SatelliteView {
 
     public:
         SatelliteViewImp();
+
+        // Constructor to initialize from a base-class SatelliteView
+        SatelliteViewImp(const SatelliteView& original);
+
+        // Rule of 5
+        ~SatelliteViewImp() override = default;
+        SatelliteViewImp& operator=(const SatelliteViewImp& other) = delete;
+        SatelliteViewImp(SatelliteViewImp&& other) = delete;
+        SatelliteViewImp& operator=(SatelliteViewImp&& other) = delete;
+
         char getObjectAt(size_t x, size_t y) const override;
         void setSatelliteView(const std::vector<std::vector<char>>& view);
         void setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put); // Sets a character at the specified location in the satellite view

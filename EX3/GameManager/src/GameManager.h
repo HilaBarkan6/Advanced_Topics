@@ -4,6 +4,7 @@
 #include "../../common/Player.h"
 #include "../../common/ActionRequest.h"
 #include "../../common/AbstractGameManager.h"
+#include "../../common/GameResult.h"
 #include "game_objects/Empty.h"
 #include "game_objects/Wall.h"
 #include "game_objects/Mine.h"
@@ -26,6 +27,8 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <filesystem>
+
 
 struct pair_hash {
     template <class T1, class T2>
@@ -64,11 +67,15 @@ class GameManager: public AbstractGameManager {
         Logger logger;
 
         std::string path_output_file;
+        bool should_verbose;
         std::string path_log_file;
-        std::unique_ptr<PlayerFactory> player_factory;
-        std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory;
-        std::unique_ptr<Player> player1;
-        std::unique_ptr<Player> player2;
+        // std::unique_ptr<PlayerFactory> player_factory;
+        // std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory;
+        // std::unique_ptr<Player> player1;
+        // std::unique_ptr<Player> player2;
+        Player* player1;
+        Player* player2;
+        
  
         /* Used to check if tank can move backward according to the rules. maps tank index to its relevant tuple.
          * first - counter since requesting backward
@@ -107,12 +114,14 @@ class GameManager: public AbstractGameManager {
         
         /* Satellite view is a single instance holding refrences to board, tanks and flying shells.
         *  This single object will pass to players when needed. */
-        SatelliteViewImp view;
+        std::unique_ptr<SatelliteViewImp> view;
         int counter_no_shells;
+        GameResult game_result;
 
         bool shellFinished();
 
         bool isGameOver(std::ofstream& output_file);
+        void FillGameResult();
 
         std::vector<std::vector<char>> createSatelliteMatrix() const;
         // Updates location for flying shells, is called every game iteration
@@ -135,9 +144,10 @@ class GameManager: public AbstractGameManager {
         void deleteCollidedShells();
         void killTank(std::shared_ptr<Tank>& tank_to_kill);
         
-        void readGameParameters(std::ifstream& file); 
-        int readIntValueFromLine(const std::string& line, const std::string& key); 
+        // void readGameParameters(std::ifstream& file); 
+        // int readIntValueFromLine(const std::string& line, const std::string& key); 
         void initializeGame(std::ofstream& output_file); 
+        void createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory, TankAlgorithmFactory player2_tank_algo_factory); // Creates the board and tanks from the given map.
         void handleEvenTurn(std::ofstream& output_file); 
         void handleOddTurn(); // Handles the odd turn, which is the turn where tanks are moving and shooting.
 
@@ -164,9 +174,9 @@ class GameManager: public AbstractGameManager {
         bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations); // Handles the shooting action for the tank, checks if the tank can shoot and updates the shell locations.
 
     public:
-        GameManager();
+        GameManager(bool verbose);
         virtual ~GameManager() = default;
-        void readBoard(const std::string& pathInputFile);
+        //void readBoard(const std::string& pathInputFile);
         GameResult run(size_t map_width, size_t map_height,
                 const SatelliteView& map, // <= assume it is a snapshot, NOT updated
                 string map_name,

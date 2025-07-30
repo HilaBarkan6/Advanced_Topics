@@ -170,6 +170,8 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
     //TODO - fix this, not sure how to take the players from the parameters and keep them locally in game manager as unique_ptrs
     this->player1 = &player1;
     this->player2 = &player2;
+    this->max_steps = max_steps;
+    this->num_shells = num_shells;
 
     std::string filename = map_name + "_" + name1 + "_" + name2 + ".txt";
     std::filesystem::create_directories("results");
@@ -179,11 +181,10 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
 
     std::ofstream output_file;
     initializeGame(output_file);
-    if (!output_file.is_open()) return;
 
     view->setRowsAndColumns(map_height, map_width);
     createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory);
-
+    
     while (!isGameOver(output_file)) {
         view->setSatelliteView(createSatelliteMatrix());
         
@@ -253,7 +254,7 @@ void GameManager::FillGameResult(){
     game_result.rounds = turn_counter / 2;
     game_result.remaining_tanks.push_back(player1_alive_tanks);
     game_result.remaining_tanks.push_back(player2_alive_tanks);
-    game_result.gameState = std::make_unique<SatelliteViewImp>(view);
+    game_result.gameState = std::move(view);
 }
 
 bool GameManager::isGameOver(std::ofstream& output_file) {

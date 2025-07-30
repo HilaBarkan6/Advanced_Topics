@@ -65,13 +65,15 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     }
 
     for (const auto& path : gm_paths) {
-        gm_registrar.createEntry(path);
-
+    
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
         if (!handle) {
+            // CR: Consider throwing here as there is no need to continue running
             std::cerr << "Failed to load GameManager: " << path << "\n";
             continue;
         }
+
+        gm_registrar.createEntry(path);
 
         try {
             gm_registrar.validateLast();

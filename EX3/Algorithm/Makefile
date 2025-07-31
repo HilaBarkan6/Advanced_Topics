@@ -3,14 +3,13 @@ CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -fPIC
 
 SRC = $(wildcard src/*.cpp) \
       $(wildcard ../UserCommon/*.cpp) \
-      ../Simulator/src/TankAlgorithmRegistration.cpp \
-      ../Simulator/src/AlgorithmRegistrar.cpp
+
       
 OBJ = $(SRC:.cpp=.o)
 
 TARGET = Algorithm_209399021_208239152.so
 
-INCLUDES = -I../Common -I../UserCommon -I../Simulator/src
+INCLUDES = -I../Common -I../UserCommon
 
 ifeq ($(OS),Windows_NT)
     RM = del /Q

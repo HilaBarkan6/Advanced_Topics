@@ -2,6 +2,7 @@
 #define RADIUS_PLAYER_H
 #include "PlayerImp.h"
 
+namespace Algorithm_209399021_208239152 {
 
 class RadiusPlayer : public PlayerImp {
     private:
@@ -15,5 +16,7 @@ class RadiusPlayer : public PlayerImp {
         virtual ~RadiusPlayer() = default;
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
 };
+
+}
 
 #endif

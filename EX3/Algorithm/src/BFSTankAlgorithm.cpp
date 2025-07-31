@@ -1,6 +1,6 @@
 #include "BFSTankAlgorithm.h"
 using namespace Algorithm_209399021_208239152;
-REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
+//REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
 
 BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index)
         : TankAlgorithmImp(player_id, tank_index), 

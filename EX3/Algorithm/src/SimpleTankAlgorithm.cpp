@@ -1,4 +1,6 @@
 #include "SimpleTankAlgorithm.h"
+using namespace Algorithm_209399021_208239152;
+REGISTER_TANK_ALGORITHM(SimpleTankAlgorithm);
 
 ActionRequest SimpleTankAlgorithm::getAction() {
     turn_counter++;  

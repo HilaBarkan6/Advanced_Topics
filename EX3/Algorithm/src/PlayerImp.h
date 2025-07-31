@@ -3,12 +3,14 @@
 #include "../../common/Player.h"
 #include "../../common/SatelliteView.h"
 #include "../../common/TankAlgorithm.h"
-#include "../../common/PlayerRegistration.h"
+//#include "../../common/PlayerRegistration.h"
 #include "SimpleBattleInfo.h"
 #include <iostream>
 #include <vector>
 #include <utility> // for std::pair
 #include "../UserCommon/configuration/Config.h"
+
+namespace Algorithm_209399021_208239152 {
 
 
 class PlayerImp : public Player {
@@ -43,5 +45,7 @@ class PlayerImp : public Player {
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) = 0;
         virtual ~PlayerImp() = default;
 };
+
+}
 
 #endif

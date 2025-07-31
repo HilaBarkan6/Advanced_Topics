@@ -1,4 +1,5 @@
 #include "PlayerImp.h"
+using namespace Algorithm_209399021_208239152;
 
 PlayerImp::PlayerImp(int , size_t x, size_t y, size_t , size_t )
     : battle_info(y, x), width(x), height(y),

@@ -3,7 +3,8 @@
 
 #include "TankAlgorithmImp.h"
 #include "../../common/ActionRequest.h"
-using namespace Algorithm_209399021_208239152;
+
+namespace Algorithm_209399021_208239152{
 
 class SimpleTankAlgorithm : public TankAlgorithmImp {
     private:
@@ -17,5 +18,7 @@ class SimpleTankAlgorithm : public TankAlgorithmImp {
         virtual void updateBattleInfo(BattleInfo& info) override;
         virtual ~SimpleTankAlgorithm() override = default;
 };
+
+}
 
 #endif

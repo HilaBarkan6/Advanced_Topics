@@ -1,8 +1,10 @@
 #ifndef SIMPLE_PLAYER_H
 #define SIMPLE_PLAYER_H
 #include "PlayerImp.h"
+#include "../../common/PlayerRegistration.h"
 
 namespace Algorithm_209399021_208239152 {
+
 
 class SimplePlayer : public PlayerImp {
     public:

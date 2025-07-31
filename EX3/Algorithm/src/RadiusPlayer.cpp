@@ -1,4 +1,5 @@
 #include "RadiusPlayer.h"
+using namespace Algorithm_209399021_208239152;
 
 void::RadiusPlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     // create some battle info and pass it to the tank algorithm

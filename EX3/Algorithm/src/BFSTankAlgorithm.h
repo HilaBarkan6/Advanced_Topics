@@ -7,6 +7,8 @@
 #include <queue>
 #include <unordered_set>
 
+namespace Algorithm_209399021_208239152 {
+
 class BFSTankAlgorithm : public TankAlgorithmImp {
     struct State{
         int x, y;
@@ -31,7 +33,7 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
     };
     
     private:
-        static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
+        //static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
 
         int bfs_max_depth;
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
@@ -49,10 +51,12 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         void tryRotations(const QueueNode& current); // 
 
     public:
-        BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns);
+        BFSTankAlgorithm(int player_id, int tank_index);
         virtual ActionRequest getAction() override;
         virtual void updateBattleInfo(BattleInfo& info) override; 
         virtual ~BFSTankAlgorithm() override = default;
 };
+
+}
 
 #endif

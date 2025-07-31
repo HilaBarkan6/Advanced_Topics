@@ -11,8 +11,7 @@ GameInput readBoard(const std::string& path_input_file){
 
     std::ifstream file(path_input_file);
     if (!file.is_open()) {
-        //logger.logError("Error opening file: " + path_input_file);
-        return;
+        throw std::runtime_error("Error opening file: " + path_input_file);
     }
 
     GameInput game_input;
@@ -20,6 +19,9 @@ GameInput readBoard(const std::string& path_input_file){
 
     // this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     // logger.logInfo("GameManager initialized with board size: " + std::to_string(height) + "x" + std::to_string(width));
+    game_input.board.resize(game_input.height);             // total rows
+    for (auto& row : game_input.board)
+        row.resize(game_input.width);  
 
     readBoardData(path_input_file, game_input);
 

@@ -47,8 +47,8 @@ class CompetitionRunner {
                         std::map<std::string, int>& score_table);
 
         // Runs a single game between two algorithms on a given map
-        void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j,
-            std::map<std::string, int>& score_table,
+        void runSingleGameAndScore(const GameInput& map, int i, int j, 
+            std::map<std::string, int>& score_table, 
             const std::vector<std::string>& algo_paths);
 
         // Generates (i, j) algorithm index pairs for competition logic

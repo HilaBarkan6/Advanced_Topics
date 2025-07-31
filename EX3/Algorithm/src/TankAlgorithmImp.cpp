@@ -1,9 +1,13 @@
 #include "TankAlgorithmImp.h"
 #include <limits>
 #include <cstdlib>
+using namespace Algorithm_209399021_208239152;
 
-TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns): player_id(player_id), tank_index(tank_index), 
-                turn_counter(0),  height(0), width(0), battle_info_request_period(battle_info_request_period),shooting_waiting_turns(shooting_waiting_turns), last_shoot_turn(-1) {
+TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), 
+                turn_counter(0),  height(0), width(0),
+                 battle_info_request_period(3),
+                 shooting_waiting_turns(4), 
+                 last_shoot_turn(-1) {
 
         current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
 }

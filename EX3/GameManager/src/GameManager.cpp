@@ -1,5 +1,8 @@
 #include "GameManager.h"
 
+using namespace GameManager_209399021_208239152;
+REGISTER_GAME_MANAGER(GameManager);
+
 // Overload operator<< for ActionRequest
 std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
     switch (action) {

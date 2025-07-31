@@ -2,6 +2,7 @@
 #define GAME_RESULT_H
 
 #include <vector>
+#include "SatelliteView.h"
 
 struct GameResult {
 	int winner; // 0 = tie

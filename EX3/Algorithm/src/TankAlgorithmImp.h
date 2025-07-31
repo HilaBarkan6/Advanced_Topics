@@ -3,6 +3,9 @@
 
 #include "../../common/TankAlgorithm.h"
 #include "../../UserCommon/CanonDirection.h"
+#include "../../common/TankAlgorithmRegistration.h"
+#include "../../UserCommon/configuration/Config.h"
+
 #include "SimpleBattleInfo.h"
 
 #include <utility>
@@ -10,6 +13,7 @@
 #include <limits>
 #include <cstdlib>
 
+namespace Algorithm_209399021_208239152 {
 
 class TankAlgorithmImp : public TankAlgorithm {
     protected:
@@ -41,11 +45,13 @@ class TankAlgorithmImp : public TankAlgorithm {
 
 
     public:
-        TankAlgorithmImp(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns);
+        TankAlgorithmImp(int player_id, int tank_index);
 
         virtual ActionRequest getAction() = 0;
         virtual void updateBattleInfo(BattleInfo& info) = 0;
         virtual ~TankAlgorithmImp() override = default;
 };
+
+}
 
 #endif

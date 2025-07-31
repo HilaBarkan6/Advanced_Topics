@@ -3,6 +3,7 @@
 #include "../../common/Player.h"
 #include "../../common/SatelliteView.h"
 #include "../../common/TankAlgorithm.h"
+#include "../../common/PlayerRegistration.h"
 #include "SimpleBattleInfo.h"
 #include <iostream>
 #include <vector>

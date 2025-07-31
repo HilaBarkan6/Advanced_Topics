@@ -5,6 +5,7 @@
 #include "../../common/ActionRequest.h"
 #include "../../common/AbstractGameManager.h"
 #include "../../common/GameResult.h"
+#include "../../common/GameManagerRegistration.h"
 #include "game_objects/Empty.h"
 #include "game_objects/Wall.h"
 #include "game_objects/Mine.h"
@@ -29,6 +30,7 @@
 #include <algorithm>
 #include <filesystem>
 
+namespace GameManager_209399021_208239152{
 
 struct pair_hash {
     template <class T1, class T2>
@@ -187,5 +189,7 @@ class GameManager: public AbstractGameManager {
 
         void addTank(int row, int col, int player_id); // Adds a tank to the game board at the specified location - used in Board class to add tanks when reading the board from a file.
 };
+
+}
 
 #endif

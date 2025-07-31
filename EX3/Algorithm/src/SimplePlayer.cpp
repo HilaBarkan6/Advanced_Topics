@@ -1,4 +1,6 @@
 #include "SimplePlayer.h"
+using namespace Algorithm_209399021_208239152;
+REGISTER_PLAYER(SimplePlayer);
 
 void::SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
     battle_info.clearInfo();

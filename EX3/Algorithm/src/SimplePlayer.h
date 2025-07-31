@@ -2,6 +2,7 @@
 #define SIMPLE_PLAYER_H
 #include "PlayerImp.h"
 
+namespace Algorithm_209399021_208239152 {
 
 class SimplePlayer : public PlayerImp {
     public:
@@ -10,5 +11,7 @@ class SimplePlayer : public PlayerImp {
         virtual ~SimplePlayer() = default;
         virtual void updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) override;
 };
+
+}
 
 #endif

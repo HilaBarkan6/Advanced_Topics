@@ -29,7 +29,11 @@ std::vector<void*> ComparativeRunner::tryLoadAlgorithms(const std::string& a1, c
     for (const auto& path : {a1, a2}) {
         registrar.createAlgorithmFactoryEntry(fs::path(path).stem().string());
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
-        if (!handle) throw std::runtime_error("Failed to load algorithm .so: " + path);
+        if (!handle){
+            const char* error_msg = dlerror();  // capture dlopen error
+            std::cerr << "dlopen failed: " << (error_msg ? error_msg : "Unknown error") << std::endl;
+            throw std::runtime_error("Failed to load algorithm .so: " + path);
+        }
         handles.push_back(handle);
         try {
             registrar.validateLastRegistration();
@@ -115,7 +119,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 }
 
 void ComparativeRunner::writeResults(
-    const std::map<std::string, std::set<std::string>>& result_map, const GameInput& input) {
+    const std::map<std::string, std::set<std::string>>& result_map, const GameInput& ) {
 
     std::ostringstream filename;
     filename << args.game_managers_folder << "/comparative_results_" << std::time(nullptr) << ".txt";

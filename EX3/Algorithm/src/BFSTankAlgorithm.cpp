@@ -1,7 +1,10 @@
 #include "BFSTankAlgorithm.h"
+using namespace Algorithm_209399021_208239152;
+REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
 
-BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns)
-        : TankAlgorithmImp(player_id, tank_index, battle_info_request_period, shooting_waiting_turns), bfs_max_depth(Config::getInstance().getInt("bfs_max_depth", BFS_MAX_DEPTH)) {}
+BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index)
+        : TankAlgorithmImp(player_id, tank_index), 
+        bfs_max_depth(10) {}
 
 ActionRequest BFSTankAlgorithm::getAction() {
     turn_counter++;

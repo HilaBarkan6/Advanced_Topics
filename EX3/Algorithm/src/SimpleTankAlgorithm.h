@@ -3,14 +3,15 @@
 
 #include "TankAlgorithmImp.h"
 #include "../../common/ActionRequest.h"
+using namespace Algorithm_209399021_208239152;
 
 class SimpleTankAlgorithm : public TankAlgorithmImp {
     private:
         ActionRequest action_to_apply;
 
     public:
-        SimpleTankAlgorithm(int player_id, int tank_index, int battle_info_request_period, int shooting_waiting_turns)
-            : TankAlgorithmImp(player_id, tank_index, battle_info_request_period, shooting_waiting_turns) {}
+        SimpleTankAlgorithm(int player_id, int tank_index)
+            : TankAlgorithmImp(player_id, tank_index) {}
 
         virtual ActionRequest getAction() override;
         virtual void updateBattleInfo(BattleInfo& info) override;

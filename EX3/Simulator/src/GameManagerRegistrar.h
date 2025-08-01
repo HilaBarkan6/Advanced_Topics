@@ -16,7 +16,7 @@ class GameManagerRegistrar {
         GameManagerFactory factory;
         GameManagerEntry(const std::string& name) : so_name(name) {}
         void setFactory(GameManagerFactory&& f) {
-            assert(!factory);  // Ensure only one factory per entry
+            assert(factory == nullptr);  // Ensure only one factory per entry
             factory = std::move(f);
         }
         const std::string& name() const { return so_name; }

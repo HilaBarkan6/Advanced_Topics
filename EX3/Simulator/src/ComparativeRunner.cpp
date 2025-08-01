@@ -70,14 +70,14 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 
     for (const auto& path : gm_paths) {
     
+        gm_registrar.createEntry(path);
         void* handle = dlopen(path.c_str(), RTLD_LAZY);
         if (!handle) {
             // CR: Consider throwing here as there is no need to continue running
-            std::cerr << "Failed to load GameManager: " << path << "\n";
+            const char* error_msg = dlerror();  // capture dlopen error
+            std::cerr << "Game manager dlopen failed: " << (error_msg ? error_msg : "Unknown error") << std::endl;
             continue;
         }
-
-        gm_registrar.createEntry(path);
 
         try {
             gm_registrar.validateLast();
@@ -111,7 +111,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
             tank_factory1, tank_factory2
         );
 
-        std::string key = formatResult(result);
+        std::string key = formatResult(result, input.max_steps);
         result_map[key].insert(fs::path(path).filename().string());
     }
 
@@ -143,14 +143,29 @@ void ComparativeRunner::writeResults(
     std::cout << "Results written to " << filename.str() << "\n";
 }
 
-std::string ComparativeRunner::formatResult(const GameResult& r) {
+std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_steps) {
     std::ostringstream ss;
-    ss << "Winner=" << r.winner << " Reason=" << r.reason << "\n";
-    ss << "Remaining tanks: ";
-    for (size_t i = 0; i < r.remaining_tanks.size(); ++i) {
-        if (i > 0) ss << ",";
-        ss << r.remaining_tanks[i];
+
+    //Tie
+    if(r.winner == 0){
+        if(r.reason == GameResult::ZERO_SHELLS){
+            ss << "Tie, both players have zero shells for 40 steps";
+        } else if(r.reason == GameResult::MAX_STEPS){
+            ss << "Tie, reached max steps = " << max_steps << " , player 1 has " << r.remaining_tanks[0] << " tanks, player 2 has " << r.remaining_tanks[1] << " tanks";
+        } else if(r.reason == GameResult::ALL_TANKS_DEAD){
+            ss << "Tie, both players have zero tanks";
+        }
+
     }
+    //Player 1 won
+    if(r.winner == 1){
+        ss << "Player 1 won with " << r.remaining_tanks[0] << " tanks still alive";
+    }
+    if(r.winner == 2){
+        ss << "Player 2 won with " << r.remaining_tanks[1] << " tanks still alive";
+    }
+    ss << std::endl;
+    ss << r.rounds;
     return ss.str();
 }
 

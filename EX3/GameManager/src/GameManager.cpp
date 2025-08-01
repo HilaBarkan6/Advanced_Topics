@@ -80,6 +80,8 @@ void GameManager::initializeGame(std::ofstream& output_file) {
             std::cerr << "Error opening output file: " << path_output_file << std::endl;
         }
     }
+
+    view = std::make_unique<SatelliteViewImp>();
 }
 
 void GameManager::handleEvenTurn(std::ofstream& output_file) {
@@ -185,6 +187,7 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
     std::ofstream output_file;
     initializeGame(output_file);
 
+    
     view->setRowsAndColumns(map_height, map_width);
     createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory);
     

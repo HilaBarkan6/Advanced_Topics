@@ -3,9 +3,9 @@
 
 Board::Board(int rows, int columns, int wall_lives, char wall_sign, char tank1_sign, char tank2_sign, char mine_sign) : rows(rows), columns(columns), wall_lives(wall_lives),
         wall_sign(wall_sign), tank1_sign(tank1_sign), tank2_sign(tank2_sign), mine_sign(mine_sign) {
-    board.resize(rows);
+    board.resize(columns);
     for (int i = 0; i < rows; ++i) {
-        board[i].resize(columns);
+        board[i].resize(rows);
     }
 }
 
@@ -18,21 +18,21 @@ int Board::getColumns() const {
 }
 
 bool Board::isWallLocation(int x, int y) const {
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
+    if (x >= 0 && x < columns && y >= 0 && y < rows) {
         return dynamic_cast<Wall*>(board[x][y].get()) != nullptr;
     }
     return false;
 }
 
 bool Board::isMineLocation(int x, int y) const {
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
+    if (x >= 0 && x < columns && y >= 0 && y < rows) {
         return dynamic_cast<Mine*>(board[x][y].get()) != nullptr;
     }
     return false;
 }
 
 void Board::setGameObjectAt(int x, int y, std::unique_ptr<GameObject> obj) {
-    if (x >= 0 && x < rows && y >= 0 && y < columns) {
+    if (x >= 0 && x < columns && y >= 0 && y < rows) {
         board[x][y] = std::move(obj);
     }
 }

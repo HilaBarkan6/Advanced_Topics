@@ -111,7 +111,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
             tank_factory1, tank_factory2
         );
 
-        std::string key = formatResult(result, input.max_steps);
+        std::string key = formatResult(result, input.max_steps, input.width, input.height);
         result_map[key].insert(fs::path(path).filename().string());
     }
 
@@ -143,7 +143,7 @@ void ComparativeRunner::writeResults(
     std::cout << "Results written to " << filename.str() << "\n";
 }
 
-std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_steps) {
+std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_steps, size_t width, size_t height) {
     std::ostringstream ss;
 
     //Tie
@@ -166,6 +166,14 @@ std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_step
     }
     ss << std::endl;
     ss << r.rounds;
+    ss << std::endl;
+    for(size_t y; y<height; y++){
+        for(size_t x = 0; x < width; x++){
+            char object = r.gameState->getObjectAt(x, y);
+            ss << object;
+        }
+        ss << std::endl;
+    }
     return ss.str();
 }
 

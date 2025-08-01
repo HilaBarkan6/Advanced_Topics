@@ -47,7 +47,7 @@ private:
     void writeResults(const std::map<std::string, std::set<std::string>>& result_map, const GameInput& input);
 
     // Converts a GameResult struct to a formatted string for output and comparison.
-    std::string formatResult(const GameResult& r, size_t max_steps);
+    std::string formatResult(const GameResult& r, size_t max_steps, size_t width, size_t height);
 
     // Joins a set of strings into a single comma-separated string.
     std::string join(const std::set<std::string>& items);

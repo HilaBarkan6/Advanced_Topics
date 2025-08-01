@@ -142,8 +142,8 @@ void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t he
     board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     view->setRowsAndColumns(height, width);
 
-    for (size_t i = 0; i < height; ++i) {
-        for (size_t j = 0; j < width; ++j) {
+    for (size_t i = 0; i < width; ++i) {
+        for (size_t j = 0; j < height; ++j) {
             char object = map.getObjectAt(i, j);
             if (object == wall_sign) {
                 board.setGameObjectAt(i, j, std::make_unique<Wall>(wall_lives));
@@ -209,15 +209,16 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
         }
         turn_counter++;
     }
+    //game_result.gameState = view;
     return std::move(game_result);
 }
 
 std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const {
-    std::vector<std::vector<char>> satellite_matrix(height, std::vector<char>(width, ' '));
+    std::vector<std::vector<char>> satellite_matrix(width, std::vector<char>(height, ' '));
 
     // Add Walls and Mines
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
             if (board.isMineLocation(i, j)) {
                 satellite_matrix[i][j] = mine_sign;
             } else if (board.isWallLocation(i, j)) {
@@ -260,6 +261,13 @@ void GameManager::FillGameResult(){
     game_result.rounds = turn_counter / 2;
     game_result.remaining_tanks.push_back(player1_alive_tanks);
     game_result.remaining_tanks.push_back(player2_alive_tanks);
+    for(int y = height-1 ; y>=0; y--){
+        for(int x = 0; x < width; x++){
+            char object = view->getObjectAt(x, y);
+            std::cout << object;
+        }
+        std::cout << std::endl;
+    }
     game_result.gameState = std::move(view);
 }
 

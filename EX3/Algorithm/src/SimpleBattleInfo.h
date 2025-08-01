@@ -15,7 +15,7 @@ class SimpleBattleInfo : public BattleInfo {
         std::vector<std::pair<int, int>> walls_locations;
 
     public:
-        SimpleBattleInfo(size_t height, size_t width): height(height), width(width) {};
+        SimpleBattleInfo(size_t width, size_t height): height(height), width(width) {};
 
         // Getters
         size_t getHeight() const;

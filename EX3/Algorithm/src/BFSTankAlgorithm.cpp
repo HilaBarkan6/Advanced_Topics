@@ -1,7 +1,7 @@
 #include "BFSTankAlgorithm.h"
 
 using namespace Algorithm_209399021_208239152;
-//REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
+REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
 
 BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index)
         : TankAlgorithmImp(player_id, tank_index), 
@@ -29,12 +29,12 @@ void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info); // Downcast is allowed
 
     // Compare with previous_battle_info if exists
-    if(prev_battle_info) {
+    if(prev_shells_locations.size() > 0) {
         // Analyze the changes in the battle info
-        analyzeShellsMovements(*prev_battle_info, simple_info);
+        analyzeShellsMovements(simple_info.getShellsLocations());
     }
 
-    prev_battle_info = std::make_unique<SimpleBattleInfo>(simple_info); // Store the current battle info for future comparisons
+    //prev_battle_info = std::make_unique<SimpleBattleInfo>(simple_info); // Store the current battle info for future comparisons
 
     if(height == 0 && width == 0){
         height = simple_info.getHeight();
@@ -66,29 +66,22 @@ void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     }
 }
 
-void BFSTankAlgorithm::analyzeShellsMovements(const SimpleBattleInfo& prev, const SimpleBattleInfo& curr) {
+void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> cur_shells_locations) {
     shells_movements.clear(); // Clear previous movements map
-    
-    // Get shell positions at previous and current turns
-    const auto& prev_shells = prev.getShellsLocations();
-    const auto& curr_shells = curr.getShellsLocations();
-
-    // Track which previous shells got matched to current shells
-    std::set<std::pair<int,int>> matched_prev_shells;
 
     // For each shell in the current state, try to find matching shell in previous state to infer movement vector
-    for (const auto& curr_shell : curr_shells) {
+    for (const auto& curr_shell : cur_shells_locations) {
         bool matched = false;
-        for (const auto& prev_shell : prev_shells) {
+        for (const auto& prev_shell : prev_shells_locations) {
             int dx = curr_shell.first - prev_shell.first;
             int dy = curr_shell.second - prev_shell.second;
 
-            // We expect shell to move by at most 1 cell in any direction (including diagonals)
-            if (std::abs(dx) <= 1 && std::abs(dy) <= 1) { // need to validate the movement with the counter not have to be 1
+            // We expect shell to move 2*(diff between turn_counter and last_info_request_turn ) 
+            int diff = 2*(turn_counter-last_info_request_turn);
+            if (std::abs(dx) == diff || std::abs(dy) == diff) { 
                 // Found a matching projectile, record its movement vector
                 shells_movements[curr_shell] = {dx, dy};
                 matched = true;
-                matched_prev_shells.insert(prev_shell);
                 break;
             }
         }
@@ -97,14 +90,9 @@ void BFSTankAlgorithm::analyzeShellsMovements(const SimpleBattleInfo& prev, cons
             shells_movements[curr_shell] = {0, 0}; // zero vector means "new shell" or unknown movement
         }
     }
+    prev_shells_locations = cur_shells_locations; // Update previous shells locations for next comparison
+    last_info_request_turn = turn_counter; // Update the last info request turn
 
-    // We need to consider shells that exist in curr battle info but not in prev so we can remove the following for-loop
-    // Mark shells that disappeared (not found in current) with special vector
-    for (const auto& prev_shell : prev_shells) {
-        if (matched_prev_shells.find(prev_shell) == matched_prev_shells.end()) {
-            shells_movements[prev_shell] = {-999, -999};  // Disappeared shell (exploded)
-        }
-    }
 }
 
 std::set<std::pair<int, int>> BFSTankAlgorithm::computeDangerPositions() const {
@@ -112,19 +100,21 @@ std::set<std::pair<int, int>> BFSTankAlgorithm::computeDangerPositions() const {
 
     for (const auto& [pos, vec] : shells_movements) {
         if (vec.first == 0 && vec.second == 0) continue;        // new shell
-        if (vec.first == -999 || vec.second == -999) continue;  // disappeared shell
 
         int x = pos.first;
         int y = pos.second;
-        int dx = vec.first;
-        int dy = vec.second;
+        int dx = dx > 0 ? 1 : -1;
+        int dy = dy > 0 ? 1 : -1;
 
-        danger_positions.insert({x + dx, y + dy});
-        danger_positions.insert({x + 2 * dx, y + 2 * dy});
+        danger_positions.insert({x + 3*dx, y + 3*dy});
+        danger_positions.insert({x + 4*dx, y + 4*dy});
     }
 
     return danger_positions;
 }
+
+
+
 
 bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location) {
     int x = current.state.x;

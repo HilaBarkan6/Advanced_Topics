@@ -4,7 +4,7 @@
 using namespace Algorithm_209399021_208239152;
 
 TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), 
-                turn_counter(0),  height(0), width(0),
+                turn_counter(0), last_info_request_turn(-1), height(0), width(0),
                  battle_info_request_period(3),
                  shooting_waiting_turns(4), 
                  last_shoot_turn(-1) {
@@ -53,32 +53,32 @@ bool TankAlgorithmImp::clearPathFromSrcToDst(int height, int width, const int sr
 
         switch (dir) {
             case CanonDirection::UP:
-                cx = (cx - 1 + height) % height;
+                cy = (cy - 1 + height) % height;
                 break;
             case CanonDirection::DOWN:
-                cx = (cx + 1) % height;
+                cy = (cy + 1) % height;
                 break;
             case CanonDirection::LEFT:
-                cy = (cy - 1 + width) % width;
+                cx = (cx - 1 + width) % width;
                 break;
             case CanonDirection::RIGHT:
-                cy = (cy + 1) % width;
+                cx = (cx + 1) % width;
                 break;
             case CanonDirection::UP_RIGHT:
-                cx = (cx - 1 + height) % height;
-                cy = (cy + 1) % width;
+                cy = (cy - 1 + height) % height;
+                cx = (cx + 1) % width;
                 break;
             case CanonDirection::UP_LEFT:
-                cx = (cx - 1 + height) % height;
-                cy = (cy - 1 + width) % width;
+                cy = (cy - 1 + height) % height;
+                cx = (cx - 1 + width) % width;
                 break;
             case CanonDirection::DOWN_RIGHT:
-                cx = (cx + 1) % height;
-                cy = (cy + 1) % width;
+                cy = (cy + 1) % height;
+                cx = (cx + 1) % width;
                 break;
             case CanonDirection::DOWN_LEFT:
-                cx = (cx + 1) % height;
-                cy = (cy - 1 + width) % width;
+                cy = (cy + 1) % height;
+                cx = (cx - 1 + width) % width;
                 break;
         }
     }
@@ -105,18 +105,18 @@ std::pair<int, int> TankAlgorithmImp::getNextForwardLocation(const std::pair<int
     int new_y = current_location.second;
 
     switch(dir){
-        case CanonDirection::UP: new_x--; break;
-        case CanonDirection::DOWN: new_x++; break;
-        case CanonDirection::LEFT: new_y--; break;
-        case CanonDirection::RIGHT: new_y++; break;
-        case CanonDirection::UP_RIGHT: new_x--; new_y++; break;
-        case CanonDirection::UP_LEFT: new_x--; new_y--; break;
-        case CanonDirection::DOWN_LEFT: new_x++; new_y--; break;
-        case CanonDirection::DOWN_RIGHT: new_x++; new_y++; break;
+        case CanonDirection::UP: new_y--; break;
+        case CanonDirection::DOWN: new_y++; break;
+        case CanonDirection::LEFT: new_x--; break;
+        case CanonDirection::RIGHT: new_x++; break;
+        case CanonDirection::UP_RIGHT: new_y--; new_x++; break;
+        case CanonDirection::UP_LEFT: new_y--; new_x--; break;
+        case CanonDirection::DOWN_LEFT: new_y++; new_x--; break;
+        case CanonDirection::DOWN_RIGHT: new_y++; new_x++; break;
         default: break;
     }
-    new_x = (new_x + height) % height;
-    new_y = (new_y + width) % width;
+    new_x = (new_x + width) % width;
+    new_y = (new_y + height) % height;
     return std::make_pair(new_x, new_y);
 }
 

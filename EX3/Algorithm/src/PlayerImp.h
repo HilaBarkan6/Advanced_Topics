@@ -26,6 +26,7 @@ class PlayerImp : public Player {
 
     protected:
         SimpleBattleInfo battle_info;
+        SimpleBattleInfo prev_battle_info;
         size_t width;
         size_t height;
 

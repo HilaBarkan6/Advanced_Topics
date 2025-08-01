@@ -6,6 +6,8 @@
 #include <iostream>
 #include <queue>
 #include <unordered_set>
+#include <map>
+#include <set>
 
 namespace Algorithm_209399021_208239152 {
 
@@ -39,6 +41,11 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
         std::unordered_set<State, StateHash> visited;
         std::queue<QueueNode> q;
+        
+        std::map<std::pair<int,int>, std::pair<int,int>> shells_movements; 
+        std::unique_ptr<SimpleBattleInfo> prev_battle_info; // Used to store the previous battle info for comparison
+        void analyzeShellsMovements(const SimpleBattleInfo& prev, const SimpleBattleInfo& curr); // Analyze the projectile movements between two battle info states
+        std::set<std::pair<int, int>> computeDangerPositions() const; // Compute the positions that are dangerous for the tank based on the shells_movements map
 
         std::vector<ActionRequest> actions_to_apply;
         //std::pair<int, int> getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const;
@@ -47,8 +54,8 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         
         // Helper functions for BFS
         bool tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location);
-        void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info);
-        void tryRotations(const QueueNode& current); // 
+        void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, const std::set<std::pair<int, int>>& danger_positions);
+        void tryRotations(const QueueNode& current, const std::set<std::pair<int, int>>& danger_positions);
 
     public:
         BFSTankAlgorithm(int player_id, int tank_index);

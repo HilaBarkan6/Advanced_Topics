@@ -210,7 +210,7 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
         }
         turn_counter++;
     }
-    //game_result.gameState = view;
+    
     return std::move(game_result);
 }
 
@@ -262,6 +262,7 @@ void GameManager::FillGameResult(){
     game_result.rounds = turn_counter / 2;
     game_result.remaining_tanks.push_back(player1_alive_tanks);
     game_result.remaining_tanks.push_back(player2_alive_tanks);
+    view->setSatelliteView(createSatelliteMatrix());
     for(int y = 0 ; y<height ; y++){
         for(int x = 0; x < width; x++){
             char object = view->getObjectAt(x, y);

@@ -1,35 +1,35 @@
-2025-08-01 12:47:00 [INFO] Turn is 0
-2025-08-01 12:47:00 [INFO] Tank 0 requested battle info
-2025-08-01 12:47:00 [INFO] Tank 1 requested battle info
-2025-08-01 12:47:00 [INFO] Tank 2 requested battle info
-2025-08-01 12:47:03 [INFO] Turn is 1
-2025-08-01 12:47:03 [INFO] Tank 0 is not ready to shoot, needs to wait 3 more turns
-2025-08-01 12:47:03 [INFO] Tank 1 moved forward to [7, 1]
-2025-08-01 12:47:03 [INFO] Tank 2 asked to rotate to RotateRight90 and is now rotating to DOWN
-2025-08-01 12:47:05 [INFO] Turn is 2
-2025-08-01 12:47:05 [INFO] Tank 0 is not ready to shoot, needs to wait 2 more turns
-2025-08-01 12:47:05 [INFO] Tank 1 moved forward to [6, 1]
-2025-08-01 12:47:05 [INFO] Tank 2 asked to rotate to RotateRight90 and is now rotating to LEFT
-2025-08-01 12:47:05 [INFO] Turn is 3
-2025-08-01 12:47:05 [INFO] Tank 0 requested battle info
-2025-08-01 12:47:05 [INFO] Tank 1 requested battle info
-2025-08-01 12:47:05 [INFO] Tank 2 requested battle info
-2025-08-01 12:47:05 [INFO] Turn is 4
-2025-08-01 12:47:05 [INFO] Tank 0 moved forward to [2, 1]
-2025-08-01 12:47:05 [INFO] Tank 1 moved forward to [5, 1]
-2025-08-01 12:47:05 [INFO] Tank 2 moved forward to [6, 2]
-2025-08-01 12:47:05 [INFO] Turn is 5
-2025-08-01 12:47:05 [INFO] Tank 0 moved forward to [3, 1]
-2025-08-01 12:47:05 [INFO] Tank 1 moved forward to [4, 1]
-2025-08-01 12:47:05 [INFO] Tank 2 moved forward to [5, 2]
-2025-08-01 12:47:05 [INFO] Turn is 6
-2025-08-01 12:47:05 [INFO] Tank 0 requested battle info
-2025-08-01 12:47:05 [INFO] Tank 1 requested battle info
-2025-08-01 12:47:05 [INFO] Tank 2 requested battle info
-2025-08-01 12:47:05 [INFO] Turn is 7
-2025-08-01 12:47:05 [INFO] Tank 0 shot a shell at [4, 1]
-2025-08-01 12:47:05 [INFO] New shell just hitted tank 1
-2025-08-01 12:47:05 [INFO] Tank 1 shot a shell at [3, 1]
-2025-08-01 12:47:05 [INFO] New shell just hitted tank 0
-2025-08-01 12:47:05 [INFO] Tank 2 moved forward to [4, 2]
-2025-08-01 12:47:05 [INFO] Player 2 won with 1 tanks still alive
+2025-08-01 13:46:09 [INFO] Turn is 0
+2025-08-01 13:46:09 [INFO] Tank 0 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 1 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 2 requested battle info
+2025-08-01 13:46:09 [INFO] Turn is 1
+2025-08-01 13:46:09 [INFO] Tank 0 is not ready to shoot, needs to wait 3 more turns
+2025-08-01 13:46:09 [INFO] Tank 1 moved forward to [7, 1]
+2025-08-01 13:46:09 [INFO] Tank 2 asked to rotate to RotateRight90 and is now rotating to DOWN
+2025-08-01 13:46:09 [INFO] Turn is 2
+2025-08-01 13:46:09 [INFO] Tank 0 is not ready to shoot, needs to wait 2 more turns
+2025-08-01 13:46:09 [INFO] Tank 1 moved forward to [6, 1]
+2025-08-01 13:46:09 [INFO] Tank 2 asked to rotate to RotateRight90 and is now rotating to LEFT
+2025-08-01 13:46:09 [INFO] Turn is 3
+2025-08-01 13:46:09 [INFO] Tank 0 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 1 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 2 requested battle info
+2025-08-01 13:46:09 [INFO] Turn is 4
+2025-08-01 13:46:09 [INFO] Tank 0 moved forward to [2, 1]
+2025-08-01 13:46:09 [INFO] Tank 1 moved forward to [5, 1]
+2025-08-01 13:46:09 [INFO] Tank 2 moved forward to [6, 2]
+2025-08-01 13:46:09 [INFO] Turn is 5
+2025-08-01 13:46:09 [INFO] Tank 0 moved forward to [3, 1]
+2025-08-01 13:46:09 [INFO] Tank 1 moved forward to [4, 1]
+2025-08-01 13:46:09 [INFO] Tank 2 moved forward to [5, 2]
+2025-08-01 13:46:09 [INFO] Turn is 6
+2025-08-01 13:46:09 [INFO] Tank 0 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 1 requested battle info
+2025-08-01 13:46:09 [INFO] Tank 2 requested battle info
+2025-08-01 13:46:09 [INFO] Turn is 7
+2025-08-01 13:46:09 [INFO] Tank 0 shot a shell at [4, 1]
+2025-08-01 13:46:09 [INFO] New shell just hitted tank 1
+2025-08-01 13:46:09 [INFO] Tank 1 shot a shell at [3, 1]
+2025-08-01 13:46:09 [INFO] New shell just hitted tank 0
+2025-08-01 13:46:09 [INFO] Tank 2 moved forward to [4, 2]
+2025-08-01 13:46:09 [INFO] Player 2 won with 1 tanks still alive

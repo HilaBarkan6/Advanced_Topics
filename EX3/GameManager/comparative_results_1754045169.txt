@@ -6,8 +6,8 @@ GameManager_209399021_208239152.so
 Player 2 won with 1 tanks still alive
 7
 #### #####
-#  21    #
-#  @ 2  #@
+#        #
+#  @2   #@
 ##@@ @@###
           
 

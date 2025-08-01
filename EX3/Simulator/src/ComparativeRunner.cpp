@@ -167,7 +167,7 @@ std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_step
     ss << std::endl;
     ss << r.rounds;
     ss << std::endl;
-    for(size_t y; y<height; y++){
+    for(size_t y = 0; y<height; y++){
         for(size_t x = 0; x < width; x++){
             char object = r.gameState->getObjectAt(x, y);
             ss << object;

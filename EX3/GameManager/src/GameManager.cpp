@@ -142,8 +142,9 @@ void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t he
     board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     view->setRowsAndColumns(height, width);
 
-    for (size_t i = 0; i < width; ++i) {
-        for (size_t j = 0; j < height; ++j) {
+     
+    for (size_t j = 0; j < height; ++j) {
+        for (size_t i = 0; i < width; ++i) {
             char object = map.getObjectAt(i, j);
             if (object == wall_sign) {
                 board.setGameObjectAt(i, j, std::make_unique<Wall>(wall_lives));
@@ -261,7 +262,7 @@ void GameManager::FillGameResult(){
     game_result.rounds = turn_counter / 2;
     game_result.remaining_tanks.push_back(player1_alive_tanks);
     game_result.remaining_tanks.push_back(player2_alive_tanks);
-    for(int y = height-1 ; y>=0; y--){
+    for(int y = 0 ; y<height ; y++){
         for(int x = 0; x < width; x++){
             char object = view->getObjectAt(x, y);
             std::cout << object;
@@ -416,19 +417,19 @@ void GameManager::updateShellNextLocation(std::shared_ptr<Shell> & shell){
     // Calculate dx and dy according to the shell flying direction
     // Used ChatGpt to calculate deltas. prompt was "Given the CanonDirection of the shell calculate next location"
     switch(dir){
-        case CanonDirection::UP: dx = -1; dy = 0; break;
-        case CanonDirection::DOWN: dx = 1; dy = 0; break;
-        case CanonDirection::LEFT: dx = 0; dy = -1; break;
-        case CanonDirection::RIGHT: dx = 0; dy = 1; break;
-        case CanonDirection::UP_RIGHT: dx = -1; dy = 1; break;
-        case CanonDirection::UP_LEFT: dx = -1; dy = -1; break;
-        case CanonDirection::DOWN_LEFT : dx = 1; dy = -1; break;
-        case CanonDirection::DOWN_RIGHT: dx = 1; dy = 1; break;
+        case CanonDirection::UP: dy = -1; dx = 0; break;
+        case CanonDirection::DOWN: dy = 1; dx = 0; break;
+        case CanonDirection::LEFT: dy = 0; dx = -1; break;
+        case CanonDirection::RIGHT: dy = 0; dx = 1; break;
+        case CanonDirection::UP_RIGHT: dy = -1; dx = 1; break;
+        case CanonDirection::UP_LEFT: dy = -1; dx = -1; break;
+        case CanonDirection::DOWN_LEFT : dy = 1; dx = -1; break;
+        case CanonDirection::DOWN_RIGHT: dy = 1; dx = 1; break;
         default: break;
     }
     // If shell arriving to the board border, continue from the other size, board is circular
-    int x_location = (shell->getLocation().first + dx + height) % height;
-    int y_location = (shell->getLocation().second + dy + width) % width;
+    int x_location = (shell->getLocation().first + dx + width) % width;
+    int y_location = (shell->getLocation().second + dy + height) % height;
     shell->setNextLocation(std::make_pair(x_location, y_location));
 }
 
@@ -440,32 +441,32 @@ std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tan
     // Used ChatGpt to calculate deltas. prompt was "Given the CanonDirection of the tank and action that is forward or backward, calculate next location"
     if(wanted_action == ActionRequest::MoveForward){
         switch(dir){
-            case CanonDirection::UP: dx = -1; dy = 0; break;
-            case CanonDirection::DOWN: dx = 1; dy = 0; break;
-            case CanonDirection::LEFT: dx = 0; dy = -1; break;
-            case CanonDirection::RIGHT: dx = 0; dy = 1; break;
-            case CanonDirection::UP_RIGHT: dx = -1; dy = 1; break;
-            case CanonDirection::UP_LEFT: dx = -1; dy = -1; break;
-            case CanonDirection::DOWN_LEFT : dx = 1; dy = -1; break;
-            case CanonDirection::DOWN_RIGHT: dx = 1; dy = 1; break;
-            default: break;
-        }
+        case CanonDirection::UP: dy = -1; dx = 0; break;
+        case CanonDirection::DOWN: dy = 1; dx = 0; break;
+        case CanonDirection::LEFT: dy = 0; dx = -1; break;
+        case CanonDirection::RIGHT: dy = 0; dx = 1; break;
+        case CanonDirection::UP_RIGHT: dy = -1; dx = 1; break;
+        case CanonDirection::UP_LEFT: dy = -1; dx = -1; break;
+        case CanonDirection::DOWN_LEFT : dy = 1; dx = -1; break;
+        case CanonDirection::DOWN_RIGHT: dy = 1; dx = 1; break;
+        default: break;
+    }
     }
     else if (wanted_action == ActionRequest::MoveBackward && canMoveBackward(tank_index)){
         switch(dir){
-            case CanonDirection::UP: dx = 1; dy = 0; break;
-            case CanonDirection::DOWN: dx = -1; dy = 0; break;
-            case CanonDirection::LEFT: dx = 0; dy = 1; break;
-            case CanonDirection::RIGHT: dx = 0; dy = -1; break;
-            case CanonDirection::UP_RIGHT: dx = 1; dy = -1; break;
-            case CanonDirection::UP_LEFT: dx = 1; dy = 1; break;
-            case CanonDirection::DOWN_LEFT : dx = -1; dy = 1; break;
-            case CanonDirection::DOWN_RIGHT: dx = -1; dy = -1; break;
+            case CanonDirection::UP: dy = 1; dx = 0; break;
+            case CanonDirection::DOWN: dy = -1; dx = 0; break;
+            case CanonDirection::LEFT: dy = 0; dx = 1; break;
+            case CanonDirection::RIGHT: dy = 0; dx = -1; break;
+            case CanonDirection::UP_RIGHT: dy = 1; dx = -1; break;
+            case CanonDirection::UP_LEFT: dy = 1; dx = 1; break;
+            case CanonDirection::DOWN_LEFT : dy = -1; dx = 1; break;
+            case CanonDirection::DOWN_RIGHT: dy = -1; dx = -1; break;
             default: break;
         }
     }
-    int x_location = (tank_to_move->getLocationX() + dx + height) % height;
-    int y_location = (tank_to_move->getLocationY() + dy + width) % width;
+    int x_location = (tank_to_move->getLocationX() + dx + width) % width;
+    int y_location = (tank_to_move->getLocationY() + dy + height) % height;
     return std::make_pair(x_location, y_location);
 }
 
@@ -764,18 +765,18 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_pt
      * prompt was "Given the CanonDirection what is the next location" */
 
     switch(dir){
-        case CanonDirection::UP: dx = -1; dy = 0; break;
-        case CanonDirection::DOWN: dx = 1; dy = 0; break;
-        case CanonDirection::LEFT: dx = 0; dy = -1; break;
-        case CanonDirection::RIGHT: dx = 0; dy = 1; break;
-        case CanonDirection::UP_RIGHT: dx = -1; dy = 1; break;
-        case CanonDirection::UP_LEFT: dx = -1; dy = -1; break;
-        case CanonDirection::DOWN_LEFT : dx = 1; dy = -1; break;
-        case CanonDirection::DOWN_RIGHT: dx = 1; dy = 1; break;
+        case CanonDirection::UP: dy = -1; dx = 0; break;
+        case CanonDirection::DOWN: dy = 1; dx = 0; break;
+        case CanonDirection::LEFT: dy = 0; dx = -1; break;
+        case CanonDirection::RIGHT: dy = 0; dx = 1; break;
+        case CanonDirection::UP_RIGHT: dy = -1; dx = 1; break;
+        case CanonDirection::UP_LEFT: dy = -1; dx = -1; break;
+        case CanonDirection::DOWN_LEFT : dy = 1; dx = -1; break;
+        case CanonDirection::DOWN_RIGHT: dy = 1; dx = 1; break;
         default: break;
     }
-    int x_location = (tank_to_shoot->getLocationX() + dx + height) % height;
-    int y_location = (tank_to_shoot->getLocationY() + dy + width) % width;
+    int x_location = (tank_to_shoot->getLocationX() + dx + width) % width;
+    int y_location = (tank_to_shoot->getLocationY() + dy + height) % height;
     return std::make_pair(x_location, y_location);
 }
 

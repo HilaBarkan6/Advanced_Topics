@@ -9,7 +9,7 @@ char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
     if (x >= columns || y >= rows) {
         return out_of_bounds_sign;
     }
-    return satellite_view[y][x];
+    return satellite_view[x][y];
       
 }
 

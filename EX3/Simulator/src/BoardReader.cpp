@@ -19,9 +19,9 @@ GameInput readBoard(const std::string& path_input_file){
 
     // this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     // logger.logInfo("GameManager initialized with board size: " + std::to_string(height) + "x" + std::to_string(width));
-    game_input.board.resize(game_input.height);             // total rows
+    game_input.board.resize(game_input.width);             // total rows
     for (auto& row : game_input.board)
-        row.resize(game_input.width);  
+        row.resize(game_input.height);  
 
     readBoardData(path_input_file, game_input);
 
@@ -90,22 +90,22 @@ void processCell(char cell, GameInput& input, int row, int col, bool& has_errors
     //TODO - can be simplified
 
     if (cell == config.get("wall_sign", std::string(1, WALL_SIGN))[0]) {
-        input.board[row][col] = cell;
+        input.board[col][row] = cell;
     } 
     else if (cell == config.get("mine_sign", std::string(1, MINE_SIGN))[0]) {
-        input.board[row][col] = cell;
+        input.board[col][row] = cell;
     } 
     else if (cell == config.get("tank1_sign", std::string(1, TANK1_SIGN))[0]) {
-        input.board[row][col] = cell;
+        input.board[col][row] = cell;
     } 
     else if (cell == config.get("tank2_sign", std::string(1, TANK2_SIGN))[0]) {
-        input.board[row][col] = cell;
+        input.board[col][row] = cell;
     }
      else if (cell == ' ') {
-        input.board[row][col] = ' ';
+        input.board[col][row] = ' ';
     }
     else {
-        input.board[row][col] = ' ';
+        input.board[col][row] = ' ';
         has_errors = true;
         error_log << "Unknown character '" << cell << "' at [" << row << ", " << col << "], treated as space.\n";
     }

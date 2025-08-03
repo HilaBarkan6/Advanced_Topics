@@ -10,6 +10,8 @@
 #include <utility> // for std::pair
 #include "../UserCommon/configuration/Config.h"
 
+using namespace UserCommon_209399021_208239152;
+
 namespace Algorithm_209399021_208239152 {
 
 

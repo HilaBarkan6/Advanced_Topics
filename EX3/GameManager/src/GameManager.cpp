@@ -81,7 +81,7 @@ void GameManager::initializeGame(std::ofstream& output_file) {
         }
     }
 
-    view = std::make_unique<SatelliteViewImp>();
+    
 }
 
 void GameManager::handleEvenTurn(std::ofstream& output_file) {
@@ -184,13 +184,13 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
     std::filesystem::create_directories("log_output");
     path_output_file = "results/output_" + filename;
     path_log_file = "log_output/log_" + filename;
+    
+    view = std::make_unique<SatelliteViewImp>();
+    view->setRowsAndColumns(map_height, map_width);
+    createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory);
 
     std::ofstream output_file;
     initializeGame(output_file);
-
-    
-    view->setRowsAndColumns(map_height, map_width);
-    createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory);
     
     while (!isGameOver(output_file)) {
         view->setSatelliteView(createSatelliteMatrix());

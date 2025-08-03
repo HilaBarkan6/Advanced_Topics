@@ -1,0 +1,42 @@
+4 - Player 2 won with 1 tanks still alive
+MaxSteps = 30
+NumShells=10
+Rows = 28
+Cols = 10
+##########
+#  2     #
+#       #@
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#   ######
+#   #### #
+#   #### #
+#   #### #
+#   ######
+#       2#
+#   ######
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#  1     #
+##########
+
+
+
+01223456789
+* *       2
+turn 10 - shell is in (2,1) 2 ask info and think shell is in (0,1)
+turn 11 - shell is in (4,1)
+turn 12 - shell is in (6,1)
+turn 13 - shell is in (8,1) 2 ask battle info shell and think shell is in (6,1)

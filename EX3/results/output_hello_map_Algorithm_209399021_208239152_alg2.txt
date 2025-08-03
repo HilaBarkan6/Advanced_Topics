@@ -1,31 +1,15 @@
 GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
+RotateRight90, RotateLeft90, RotateLeft45
+Shoot, RotateLeft90, RotateLeft45
 GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
+DoNothing, MoveForward, RotateLeft45
+DoNothing, MoveForward, RotateLeft45
 GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
+Shoot, MoveForward, RotateLeft45
+DoNothing, MoveForward, RotateLeft45
 GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
+DoNothing, DoNothing, MoveForward
+DoNothing, RotateLeft90, MoveForward
 GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-GetBattleInfo, GetBattleInfo, GetBattleInfo
-RotateLeft45, RotateLeft45, RotateLeft45
-RotateLeft45, RotateLeft45, RotateLeft45
-Tie, reached max steps = 30 , player 1 has 1 tanks, player 2 has 2 tanks
+Shoot, RotateRight45, DoNothing (killed)
+Player 2 won with 2 tanks still alive

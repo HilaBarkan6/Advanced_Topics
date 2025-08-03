@@ -9,6 +9,8 @@
 #include <map>
 #include <set>
 
+using namespace UserCommon_209399021_208239152;
+
 namespace Algorithm_209399021_208239152 {
 
 class BFSTankAlgorithm : public TankAlgorithmImp {

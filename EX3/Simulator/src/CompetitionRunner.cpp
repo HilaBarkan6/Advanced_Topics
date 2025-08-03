@@ -12,7 +12,8 @@ void CompetitionRunner::run() {
         std::cerr << "Competition requires at least 2 algorithms.\n";
         return;
     }
-
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+    gm_registrar.createEntry(args.game_manager);
     void* gm_handle = dlopen(args.game_manager.c_str(), RTLD_LAZY);
     if (!gm_handle) {
         std::cerr << "Failed to load GameManager .so file.\n";
@@ -40,14 +41,14 @@ std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
 
     for (const auto& path : algorithm_paths) {
         std::string name = fs::path(path).stem().string(); // Get filename without extension
+        registrar.createAlgorithmFactoryEntry(fs::path(path).stem().string());
 
         void* handle = dlopen(path.c_str(), RTLD_LAZY); // Load .so file dynamically
         if (!handle) {
-            std::cerr << "Failed to load algorithm: " << path << "\n";
-            continue;
+            const char* error_msg = dlerror();  // capture dlopen error
+            std::cerr << "dlopen failed: " << (error_msg ? error_msg : "Unknown error") << std::endl;
+            throw std::runtime_error("Failed to load algorithm .so: " + path);
         }
-
-        registrar.createAlgorithmFactoryEntry(name); // Start registration for this algorithm
 
         try {
             registrar.validateLastRegistration(); // Check if both Player and TankAlgorithm are registered
@@ -59,6 +60,7 @@ std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
             dlclose(handle);                     // Close the library handle
         }
     }
+
 
     if (score_table.size() < 2)
         throw std::runtime_error("At least two valid algorithms are required.");

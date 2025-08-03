@@ -35,7 +35,8 @@ void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
         analyzeShellsMovements(simple_info.getShellsLocations());
     }
 
-    //prev_battle_info = std::make_unique<SimpleBattleInfo>(simple_info); // Store the current battle info for future comparisons
+    prev_shells_locations = simple_info.getShellsLocations(); // Update previous shells locations for next comparison
+    last_info_request_turn = turn_counter; // Update the last info request turn
 
     if(height == 0 && width == 0){
         height = simple_info.getHeight();
@@ -91,8 +92,7 @@ void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> c
             shells_movements[curr_shell] = {0, 0}; // zero vector means "new shell" or unknown movement
         }
     }
-    prev_shells_locations = cur_shells_locations; // Update previous shells locations for next comparison
-    last_info_request_turn = turn_counter; // Update the last info request turn
+    
 
 }
 
@@ -107,11 +107,13 @@ std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankA
 
         int x = pos.first;
         int y = pos.second;
-        int dx = dx > 0 ? 1 : -1;
-        int dy = dy > 0 ? 1 : -1;
+        int dx = (vec.first > 0) ? 1 : ((vec.first == 0) ? 0 : -1);
+        int dy = (vec.second > 0) ? 1 : ((vec.second == 0) ? 0 : -1);
 
+        first_danger_positions.insert({x + 2*dx, y + 2*dy});
         first_danger_positions.insert({x + 3*dx, y + 3*dy});
         first_danger_positions.insert({x + 4*dx, y + 4*dy});
+        second_danger_positions.insert({x + 4*dx, y + 4*dy});
         second_danger_positions.insert({x + 5*dx, y + 5*dy});
         second_danger_positions.insert({x + 6*dx, y + 6*dy});
 

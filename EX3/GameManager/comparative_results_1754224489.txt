@@ -1,0 +1,37 @@
+game_map=run/map.txt
+algorithm1=/mnt/c/Projects/Advanced_Topics/EX3/Algorithm/Algorithm_209399021_208239152.so
+algorithm2=/mnt/c/Projects/Advanced_Topics/EX3/Algorithm/alg2.so
+
+GameManager_209399021_208239152.so
+Player 2 won with 2 tanks still alive
+13
+##########
+#  2     #
+#  *    #@
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#        #
+#   ######
+#  *#### #
+#   #### #
+#   #### #
+#   2    #
+#   ######
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#   #### #
+#        #
+##########
+
+

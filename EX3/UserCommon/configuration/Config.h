@@ -8,7 +8,7 @@
 #include <sstream>
 
  /* We used ChatGpt to learn how to work with configuraiton file*/
-
+namespace UserCommon_209399021_208239152{
 class Config {
 private:
     std::unordered_map<std::string, std::string> settings; // Stores key-value pairs from the configuration file
@@ -30,5 +30,6 @@ public:
     int getInt(const std::string& key, int default_val = 0) const; // Returns the integer value for a given key, or default_val if not found or conversion fails
     bool getBool(const std::string& key, bool default_val = false) const;  // Returns the boolean value for a given key ("true" or "1" as true), or default_val if not found 
 };
+}
 
 #endif // CONFIG_H

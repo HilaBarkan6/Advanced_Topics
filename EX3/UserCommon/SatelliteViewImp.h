@@ -7,6 +7,8 @@
 #include "../UserCommon/configuration/Config.h"
 #include <vector>
 
+namespace UserCommon_209399021_208239152{
+    
 class SatelliteViewImp : public SatelliteView {
     private:
         static constexpr const char OUT_OF_BOUNDS_SIGN = '&'; 
@@ -24,5 +26,6 @@ class SatelliteViewImp : public SatelliteView {
         void setCharAtLocation(const std::pair<int, int>& location, const char& char_to_put); // Sets a character at the specified location in the satellite view
         void setRowsAndColumns(size_t rows, size_t columns); 
 };
+}
 
 #endif

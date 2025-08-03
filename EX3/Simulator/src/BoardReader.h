@@ -7,6 +7,8 @@
 #include "../../UserCommon/Logger/Logger.h"
 #include "../../UserCommon/configuration/Config.h"
 
+using namespace UserCommon_209399021_208239152;
+
 struct GameInput{
     std::vector<std::vector<char>> board;
     int max_steps;

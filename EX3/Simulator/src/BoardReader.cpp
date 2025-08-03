@@ -1,4 +1,5 @@
 #include "BoardReader.h"
+using namespace UserCommon_209399021_208239152;
 
 GameInput readBoard(const std::string& path_input_file){
     size_t last_slash = path_input_file.find_last_of("/\\");

@@ -1,6 +1,8 @@
 #ifndef CANONDIRECTION_H
 #define CANONDIRECTION_H
 
+namespace UserCommon_209399021_208239152{
+
 enum class CanonDirection {  
     UP_LEFT,
     UP,
@@ -11,5 +13,6 @@ enum class CanonDirection {
     DOWN_LEFT,
     LEFT, 
 };
+}
 
 #endif

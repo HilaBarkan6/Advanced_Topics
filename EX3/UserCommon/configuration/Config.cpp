@@ -1,5 +1,7 @@
 #include "Config.h"
 
+using namespace UserCommon_209399021_208239152;
+
 Config::Config() {}
 
 Config &Config::getInstance()

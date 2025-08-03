@@ -13,6 +13,8 @@
 #include <limits>
 #include <cstdlib>
 
+using namespace UserCommon_209399021_208239152;
+
 namespace Algorithm_209399021_208239152 {
 
 class TankAlgorithmImp : public TankAlgorithm {

@@ -1,5 +1,7 @@
 #include "Logger.h"
 
+using namespace UserCommon_209399021_208239152;
+
 Logger::~Logger() {
     if (log_file_.is_open()) {
         log_file_.close();

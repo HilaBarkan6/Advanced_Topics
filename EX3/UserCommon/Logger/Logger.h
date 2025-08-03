@@ -8,7 +8,8 @@
 #include <iomanip>
 
  /* We used ChatGpt to learn how to work with Logger*/
- 
+namespace UserCommon_209399021_208239152{
+
 enum class LogLevel {
     INFO,
     WARNING,
@@ -38,5 +39,6 @@ public:
     void logWarning(const std::string& message); // Used for warning messages that are not critical but should be noted
     void setLogFile(const std::string& filename);
 };
+}
 
 #endif

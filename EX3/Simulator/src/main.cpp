@@ -2,11 +2,14 @@
 #include "CommandLineParser.h"
 #include "../../UserCommon/configuration/Config.h"
 
+using namespace UserCommon_209399021_208239152;
+
 int main(int argc, char* argv[]){
     
     try{
 
         // Load configuration
+        //TODO - make this relative path
         if (!Config::getInstance().loadFromFile("/mnt/c/Projects/Advanced_Topics/EX3/UserCommon/configuration/config.txt")) {
             std::cerr << "Warning: Could not load config.txt, using default values." << std::endl;
         }

@@ -30,6 +30,8 @@
 #include <algorithm>
 #include <filesystem>
 
+using namespace UserCommon_209399021_208239152;
+
 namespace GameManager_209399021_208239152{
 
 struct pair_hash {

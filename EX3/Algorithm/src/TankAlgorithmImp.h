@@ -20,9 +20,10 @@ class TankAlgorithmImp : public TankAlgorithm {
         int player_id;
         int tank_index;
         int turn_counter;
+        // this will keep the last time we requested battle info, required to know how much distance shell moved between requests.
+        int last_info_request_turn;
         int height;
         int width;
-        int battle_info_request_period;
         int shooting_waiting_turns;
         CanonDirection current_canon_direction;
         int last_shoot_turn;

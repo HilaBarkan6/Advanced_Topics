@@ -38,6 +38,9 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         //static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
 
         int bfs_max_depth;
+
+        // this const cannot be changed therefore not in config file
+        static constexpr int BATTLE_INFO_REQUEST_PERIOD = 3;
         // Visited and q are for BFS algorithm, Suggested by ChatGpt
         std::unordered_set<State, StateHash> visited;
         std::queue<QueueNode> q;
@@ -50,13 +53,13 @@ class BFSTankAlgorithm : public TankAlgorithmImp {
         
         // Helper functions for BFS
         bool tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location);
-        void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, const std::set<std::pair<int, int>>& danger_positions);
-        void tryRotations(const QueueNode& current, const std::set<std::pair<int, int>>& danger_positions);
+        void tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>>& danger_positions);
+        void tryRotations(const QueueNode& current);
 
         std::map<std::pair<int, int>, std::pair<int, int>> shells_movements;
         std::vector<std::pair<int, int>> prev_shells_locations;
         void analyzeShellsMovements(std::vector<std::pair<int, int>> cur_shells_locations); // Analyze the projectile movements between two battle info states
-        std::set<std::pair<int, int>> computeDangerPositions() const; // Compute the positions that are dangerous for the tank based on the shells_movements map
+        std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> computeDangerPositions() const; // Compute the positions that are dangerous for the tank based on the shells_movements map
 
     public:
         BFSTankAlgorithm(int player_id, int tank_index);

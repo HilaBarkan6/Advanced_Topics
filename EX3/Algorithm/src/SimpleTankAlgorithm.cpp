@@ -5,7 +5,7 @@ using namespace Algorithm_209399021_208239152;
 ActionRequest SimpleTankAlgorithm::getAction() {
     turn_counter++;  
     // We decided to request battle info every 2 turns
-    if(turn_counter % battle_info_request_period == 1){
+    if(turn_counter % 3 == 1){
         return ActionRequest::GetBattleInfo;
     }
 

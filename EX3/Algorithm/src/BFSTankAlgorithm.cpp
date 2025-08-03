@@ -3,6 +3,7 @@
 using namespace Algorithm_209399021_208239152;
 REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
 
+//TODO - fix the 10
 BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index)
         : TankAlgorithmImp(player_id, tank_index), 
         bfs_max_depth(10) {}
@@ -11,7 +12,7 @@ ActionRequest BFSTankAlgorithm::getAction() {
     turn_counter++;
     
     // We decided to request battle info every 3 turns, so if the turn counter is 1, we request battle info
-    if(turn_counter % battle_info_request_period == 1){
+    if(turn_counter % BATTLE_INFO_REQUEST_PERIOD == 1){
         return ActionRequest::GetBattleInfo;
     }
 
@@ -95,8 +96,11 @@ void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> c
 
 }
 
-std::set<std::pair<int, int>> BFSTankAlgorithm::computeDangerPositions() const {
-    std::set<std::pair<int, int>> danger_positions;
+std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankAlgorithm::computeDangerPositions() const {
+    // set of dangerous positions for the first turn after the info request
+    std::set<std::pair<int, int>> first_danger_positions;
+    // set of dangerous positions for the second turn after the info request
+    std::set<std::pair<int, int>> second_danger_positions;
 
     for (const auto& [pos, vec] : shells_movements) {
         if (vec.first == 0 && vec.second == 0) continue;        // new shell
@@ -106,11 +110,14 @@ std::set<std::pair<int, int>> BFSTankAlgorithm::computeDangerPositions() const {
         int dx = dx > 0 ? 1 : -1;
         int dy = dy > 0 ? 1 : -1;
 
-        danger_positions.insert({x + 3*dx, y + 3*dy});
-        danger_positions.insert({x + 4*dx, y + 4*dy});
+        first_danger_positions.insert({x + 3*dx, y + 3*dy});
+        first_danger_positions.insert({x + 4*dx, y + 4*dy});
+        second_danger_positions.insert({x + 5*dx, y + 5*dy});
+        second_danger_positions.insert({x + 6*dx, y + 6*dy});
+
     }
 
-    return danger_positions;
+    return std::make_pair(first_danger_positions, second_danger_positions);
 }
 
 
@@ -140,23 +147,23 @@ bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo
     return false;
 }
 
-void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, const std::set<std::pair<int, int>>& danger_positions) {
+void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>>& danger_positions) {
     auto [x, y] = getNextForwardLocation({current.state.x, current.state.y}, current.state.dir);
 
-    if (danger_positions.count({x, y})) return; // Unsafe move, location is dangerous because shells are moving there
+    //if (danger_positions.count({x, y})) return; // Unsafe move, location is dangerous because shells are moving there
 
     if (canMove(x, y, info.getWallsLocations(), info.getMinesLocations(), info.getTanks1Locations(), info.getTanks2Locations())) {
         State new_state = {x, y, current.state.dir};
         if (visited.find(new_state) == visited.end()) {
             visited.insert(new_state);
-            ActionRequest act1 = current.depth == 0 ? ActionRequest::MoveForward : current.firstAction;
-            ActionRequest act2 = current.depth == 1 ? ActionRequest::MoveForward : current.secondAction;
+            ActionRequest act1 = (current.depth == 0 && (danger_positions.first).count({x,y})==0) ? ActionRequest::MoveForward : current.firstAction;
+            ActionRequest act2 = (current.depth == 1 && (danger_positions.second).count({x,y})==0) ? ActionRequest::MoveForward : current.secondAction;
             q.push(QueueNode{new_state, act1, act2, current.depth + 1});
         }
     }
 }
 
-void BFSTankAlgorithm::tryRotations(const QueueNode& current, const std::set<std::pair<int, int>>& danger_positions) {
+void BFSTankAlgorithm::tryRotations(const QueueNode& current) {
     static const std::vector<std::pair<ActionRequest, int>> rotations = {
         {ActionRequest::RotateLeft45,  -1},
         {ActionRequest::RotateLeft90,  -2},
@@ -166,7 +173,7 @@ void BFSTankAlgorithm::tryRotations(const QueueNode& current, const std::set<std
 
     for (const auto& [rotation_act, new_dir] : rotations) {
         State new_state = {current.state.x, current.state.y, rotate(current.state.dir, new_dir)};
-        if (visited.find(new_state) == visited.end() && danger_positions.count({new_state.x, new_state.y}) == 0) {
+        if (visited.find(new_state) == visited.end()) {
             visited.insert(new_state);
             ActionRequest act1 = current.depth == 0 ? rotation_act : current.firstAction;
             ActionRequest act2 = current.depth == 1 ? rotation_act : current.secondAction;
@@ -199,7 +206,7 @@ void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const Simp
         tryMoveForward(current, simple_info, danger_positions);
 
         // Rotation options
-        tryRotations(current, danger_positions);
+        tryRotations(current);
     }
 
     // fallback if nothing was found

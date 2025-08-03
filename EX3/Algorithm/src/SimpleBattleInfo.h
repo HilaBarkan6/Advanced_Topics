@@ -2,6 +2,7 @@
 #define SIMPLEBATTLEINFO_H
 #include "../../common/BattleInfo.h"
 #include <vector>
+#include <set>
 
 class SimpleBattleInfo : public BattleInfo {
     private:
@@ -13,6 +14,7 @@ class SimpleBattleInfo : public BattleInfo {
         std::vector<std::pair<int, int>> shells_locations;
         std::vector<std::pair<int, int>> mines_locations;
         std::vector<std::pair<int, int>> walls_locations;
+        std::set<std::pair<int, int>> shells_danger_locations; 
 
     public:
         SimpleBattleInfo(size_t width, size_t height): height(height), width(width) {};

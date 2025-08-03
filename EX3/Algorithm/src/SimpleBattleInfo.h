@@ -3,6 +3,7 @@
 #include "../../common/BattleInfo.h"
 #include <vector>
 #include <set>
+#include <cstddef>
 
 class SimpleBattleInfo : public BattleInfo {
     private:

@@ -3,6 +3,8 @@ CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -g -fPIC
 
 SRC = $(wildcard src/*.cpp) \
       $(wildcard ../UserCommon/*.cpp) \
+      $(wildcard ../UserCommon/configuration/*.cpp) \
+      $(wildcard ../UserCommon/Logger/*.cpp)
 
       
 OBJ = $(SRC:.cpp=.o)

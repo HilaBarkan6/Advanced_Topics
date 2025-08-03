@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -g -fPIC
 
-SRC = $(wildcard src/game_objects/*.cpp)  $(wildcard ../UserCommon/configuration/*.cpp) $(wildcard ../UserCommon/Logger/*.cpp) $(wildcard src/*.cpp)
+SRC = $(wildcard src/game_objects/*.cpp)  $(wildcard ../UserCommon/configuration/*.cpp) $(wildcard ../UserCommon/Logger/*.cpp) $(wildcard ../UserCommon/*cpp) $(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 TARGET = GameManager_209399021_208239152.so

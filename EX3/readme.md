@@ -75,3 +75,22 @@ game manager and algorithm should use the macro to load themselves to the regitr
 Make sure output files are written to the correct place
 decide what to do with the logger
 Make our algorithms good
+
+
+What's next:
+- build Simulator with the general makefile and see it works run with the command line - yovel **done**
+- Make sure default configuration works - Hila
+- Error handaling - bad parameters -Hila
+- Make sure each function is not too long - Yovel **in progress**
+- Make sure there are no magic numbers - Yovel **in progress**
+- Fix "hello_map" - Hila
+- Run comparative mode with same algorithms pointing to the same file - Yovel **done**
+- threads
+- Comparative section 4 - Hila
+- Make sure in competition mode, mathces are generated properly - Yovel
+- Competitive section 2 - Yovel
+- Competitive section 5 - Hila
+- Additional output and error handaling - make sure everything works as wrriten there - Hila
+- student.txt and readme
+- Make sure all dll's closed at finish - Yovel 
+- Fix congureation file path in main - Yovel **done**

@@ -29,6 +29,10 @@ class ComparativeRunner {
 public:
     explicit ComparativeRunner(const ParsedArguments& args);
     void run();
+    void unloadSharedLibraries(const std::vector<void*>& handles); // Unloads all shared libraries loaded during the run.
+
+    std::vector<void*> algo_handles;
+    std::vector<void*> gm_handles; // Holds handles to GameManager shared libraries
 
 private:
     ParsedArguments args;
@@ -40,6 +44,9 @@ private:
 
     // Scans the given folder for all .so files representing GameManagers. returns a vector of full paths to these files.
     std::vector<std::string> findGameManagers(const std::string& folder);
+
+    // Tries to load all GameManager shared libraries (.so files) and returns a vector of their handles.
+    std::vector<void*> tryLoadGameManagers(const std::vector<std::string>& gm_paths);
 
     std::map<std::string, std::set<std::string>> runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input);
 

@@ -79,7 +79,7 @@ Make our algorithms good
 
 What's next:
 - build Simulator with the general makefile and see it works run with the command line - yovel **done**
-- Make sure default configuration works - Hila
+- Make sure default configuration works - Hila **done** deleted the config file localy and everything worked well
 - Error handaling - bad parameters -Hila
 - Make sure each function is not too long - Yovel **in progress**
 - Make sure there are no magic numbers - Yovel **in progress**

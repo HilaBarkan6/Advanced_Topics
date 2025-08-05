@@ -13,12 +13,9 @@ class Simulator {
         ParsedArguments args;
         std::vector<void*> algo_handles;
         std::vector<void*> gm_handles;
-
-        void unloadSharedLibraries(const std::vector<void*>& handles); // Unloads all shared libraries loaded during the run.
             
     public:
         Simulator(const ParsedArguments& args);
-        ~Simulator();
         void run();
 };
 

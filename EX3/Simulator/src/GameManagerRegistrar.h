@@ -25,6 +25,10 @@ class GameManagerRegistrar {
             return factory(verbose);
         }
         bool hasFactory() const { return factory != nullptr; }
+        ~GameManagerEntry(){
+            
+        }
+
     };
 
     std::vector<GameManagerEntry> managers;

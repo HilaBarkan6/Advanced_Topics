@@ -12,9 +12,11 @@ void ComparativeRunner::run() {
     auto result_map = runAllGames(gm_paths, input); // Run all games with the loaded GameManagers and algorithms
 
     writeResults(result_map, input);
+    AlgorithmRegistrar::getAlgorithmRegistrar().clear(); // Clear the algorithm registrar
+    GameManagerRegistrar::getGameManagerRegistrar().clear(); // Clear the GameManager registrar
 
-    // unloadSharedLibraries(algo_handles); // Clean up loaded algorithm handles
-    // unloadSharedLibraries(gm_handles); // Clean up loaded GameManager handles
+    unloadSharedLibraries(algo_handles); // Clean up loaded algorithm handles
+    unloadSharedLibraries(gm_handles); // Clean up loaded GameManager handles
 }
 
 GameInput ComparativeRunner::tryReadMap(const std::string& path) {

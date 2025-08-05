@@ -20,15 +20,3 @@ void Simulator::run() {
         std::cerr << "Simulator error: " << e.what() << std::endl;
     }
 }
-void Simulator::unloadSharedLibraries(const std::vector<void*>& handles) {
-    for (void* handle : handles) {
-        if (handle != nullptr) {
-            dlclose(handle);
-        }
-    }
-}
-
-Simulator::~Simulator() {
-    unloadSharedLibraries(algo_handles); // Clean up loaded algorithm handles
-    unloadSharedLibraries(gm_handles); // Clean up loaded GameManager handles
-}

@@ -92,5 +92,5 @@ What's next:
 - Competitive section 5 - Hila **done**
 - Additional output and error handaling - make sure everything works as wrriten there - Hila **in progress** still thinking what to do with input_errors.txt
 - student.txt and readme
-- Make sure all dll's closed at finish - Yovel 
+- Make sure all dll's closed at finish - Yovel **done**
 - Fix congureation file path in main - Yovel **done**

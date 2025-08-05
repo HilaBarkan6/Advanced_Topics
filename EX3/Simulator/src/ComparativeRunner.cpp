@@ -101,7 +101,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         SatelliteViewImp view;
         view.setSatelliteView(input.board);
         view.setRowsAndColumns(input.height, input.width);
-
+        
         GameResult result = gm->run(
             input.width, input.height,
             view,

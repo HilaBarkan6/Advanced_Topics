@@ -142,8 +142,9 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
     
 
     // Extract algorithm file names for score bookkeeping
-    auto a1_name = fs::path(algo_paths[i]).filename().string();
-    auto a2_name = fs::path(algo_paths[j]).filename().string();
+    
+    auto a1_name = fs::path(algo_paths[i]).stem().string(); //fs::path(algo_paths[i]).filename().string();
+    auto a2_name = fs::path(algo_paths[j]).stem().string();// fs::path(algo_paths[j]).filename().string();
 
     // Update scores based on the game result
     if (result.winner == 1) {

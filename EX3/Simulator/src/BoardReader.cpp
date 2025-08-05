@@ -2,13 +2,9 @@
 using namespace UserCommon_209399021_208239152;
 
 GameInput readBoard(const std::string& path_input_file){
-    size_t last_slash = path_input_file.find_last_of("/\\");
-    const std::string input_file_name = (last_slash == std::string::npos) ? path_input_file : path_input_file.substr(last_slash + 1);
-    // path_output_file = "output/output_" + input_file_name;
-    // path_log_file = "log_output/log_" + input_file_name + ".txt";
-
-    // logger.setLogFile(path_log_file);
-
+    // size_t last_slash = path_input_file.find_last_of("/\\");
+    // const std::string input_file_name = (last_slash == std::string::npos) ? path_input_file : path_input_file.substr(last_slash + 1);
+    const std::string input_file_name = std::filesystem::path(path_input_file).stem().string();
 
     std::ifstream file(path_input_file);
     if (!file.is_open()) {
@@ -16,10 +12,9 @@ GameInput readBoard(const std::string& path_input_file){
     }
 
     GameInput game_input;
+    game_input.input_file_name = input_file_name; // Store the input file name
     readGameParameters(file, game_input); 
 
-    // this->board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
-    // logger.logInfo("GameManager initialized with board size: " + std::to_string(height) + "x" + std::to_string(width));
     game_input.board.resize(game_input.width);             // total rows
     for (auto& row : game_input.board)
         row.resize(game_input.height);  

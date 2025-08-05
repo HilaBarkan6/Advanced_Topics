@@ -39,14 +39,12 @@ private:
 
     GameInput tryReadMap(const std::string& path);
 
-    // Loads two algorithm shared libraries (.so files). throws runtime_error if any of the libraries fail to load.
-    std::vector<void*> tryLoadAlgorithms(const std::string& a1, const std::string& a2);
+    void tryLoadAlgorithms(const std::string& a1, const std::string& a2);
 
     // Scans the given folder for all .so files representing GameManagers. returns a vector of full paths to these files.
     std::vector<std::string> findGameManagers(const std::string& folder);
 
-    // Tries to load all GameManager shared libraries (.so files) and returns a vector of their handles.
-    std::vector<void*> tryLoadGameManagers(const std::vector<std::string>& gm_paths);
+    void tryLoadGameManagers(const std::vector<std::string>& gm_paths);
 
     std::map<std::string, std::set<std::string>> runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input);
 

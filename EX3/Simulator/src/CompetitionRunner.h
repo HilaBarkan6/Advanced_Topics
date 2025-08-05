@@ -37,7 +37,7 @@ class CompetitionRunner {
         std::vector<std::string> findAlgorithmPaths();
 
         // Opens .so files and adds each algorithm to the score table
-        std::vector<void*> loadAllAlgorithmHandles(
+        void loadAllAlgorithmHandles(
             const std::vector<std::string>& algorithm_paths,
             std::map<std::string, int>& score_table);
 
@@ -56,9 +56,6 @@ class CompetitionRunner {
 
         // Writes the final scores to a timestamped result file
         void writeResults(const std::map<std::string, int>& score_table);
-
-        // Fallback: print results to stdout if file output fails
-        void printResultsToStdout(const std::map<std::string, int>& score_table);
 
         // Sorts algorithms by total score descending
         std::vector<std::pair<std::string, int>> sortScores(const std::map<std::string, int>& scores);

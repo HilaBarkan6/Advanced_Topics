@@ -6,17 +6,17 @@ ComparativeRunner::ComparativeRunner(const ParsedArguments& args) : args(args) {
 
 void ComparativeRunner::run() {
     GameInput input = tryReadMap(args.game_map); // Read the game map from the specified file
-    algo_handles = tryLoadAlgorithms(args.algorithm1, args.algorithm2); // Load the algorithm shared libraries
+    tryLoadAlgorithms(args.algorithm1, args.algorithm2); // Load the algorithm shared libraries
     auto gm_paths = findGameManagers(args.game_managers_folder); // Find all GameManager .so files in the specified folder
-    gm_handles = tryLoadGameManagers(gm_paths); // Load GameManager shared libraries
+    tryLoadGameManagers(gm_paths); // Load GameManager shared libraries
     auto result_map = runAllGames(gm_paths, input); // Run all games with the loaded GameManagers and algorithms
 
     writeResults(result_map, input);
-    AlgorithmRegistrar::getAlgorithmRegistrar().clear(); // Clear the algorithm registrar
-    GameManagerRegistrar::getGameManagerRegistrar().clear(); // Clear the GameManager registrar
+    // AlgorithmRegistrar::getAlgorithmRegistrar().clear(); // Clear the algorithm registrar
+    // GameManagerRegistrar::getGameManagerRegistrar().clear(); // Clear the GameManager registrar
 
-    unloadSharedLibraries(algo_handles); // Clean up loaded algorithm handles
-    unloadSharedLibraries(gm_handles); // Clean up loaded GameManager handles
+    //unloadSharedLibraries(algo_handles); // Clean up loaded algorithm handles
+    //unloadSharedLibraries(gm_handles); // Clean up loaded GameManager handles
 }
 
 GameInput ComparativeRunner::tryReadMap(const std::string& path) {
@@ -50,38 +50,49 @@ GameInput ComparativeRunner::tryReadMap(const std::string& path) {
 //     return handles;
 // }
 
-std::vector<void*> ComparativeRunner::tryLoadAlgorithms(const std::string& a1, const std::string& a2) {
-    auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    std::vector<void*> handles;
-    std::vector<std::string> algo_names;
+// std::vector<void*> ComparativeRunner::tryLoadAlgorithms(const std::string& a1, const std::string& a2) {
+//     auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+//     std::vector<void*> handles;
+//     std::vector<std::string> algo_names;
 
     
-    if (fs::equivalent(a1, a2)) {
+//     if (fs::equivalent(a1, a2)) {
        
-        std::string base_name = fs::path(a1).stem().string();
-        registrar.createAlgorithmFactoryEntry(base_name);
-        void* handle = dlopen(a1.c_str(), RTLD_LAZY);
-        if (!handle) throw std::runtime_error("Failed to load algorithm: " + a1);
-        handles.push_back(handle);
+//         std::string base_name = fs::path(a1).stem().string();
+//         registrar.createAlgorithmFactoryEntry(base_name);
+//         void* handle = dlopen(a1.c_str(), RTLD_LAZY);
+//         if (!handle) throw std::runtime_error("Failed to load algorithm: " + a1);
+//         handles.push_back(handle);
 
         
-        algo_names.push_back(base_name);
-        algo_names.push_back(base_name);
+//         algo_names.push_back(base_name);
+//         algo_names.push_back(base_name);
 
-    } else {
+//     } else {
         
-        for (const auto& path : {a1, a2}) {
-            std::string name = fs::path(path).stem().string();
-            registrar.createAlgorithmFactoryEntry(name);
-            void* handle = dlopen(path.c_str(), RTLD_LAZY);
-            if (!handle) throw std::runtime_error("Failed to load algorithm: " + path);
-            handles.push_back(handle);
-            algo_names.push_back(name);
-        }
-    }
+//         for (const auto& path : {a1, a2}) {
+//             std::string name = fs::path(path).stem().string();
+//             registrar.createAlgorithmFactoryEntry(name);
+//             void* handle = dlopen(path.c_str(), RTLD_LAZY);
+//             if (!handle) throw std::runtime_error("Failed to load algorithm: " + path);
+//             handles.push_back(handle);
+//             algo_names.push_back(name);
+//         }
+//     }
 
    
-    return handles;
+//     return handles;
+// }
+
+void ComparativeRunner::tryLoadAlgorithms(const std::string& a1, const std::string& a2) {
+    auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    if (fs::equivalent(a1, a2)) {
+        registrar.openSo(a1);
+    } 
+    else {
+        registrar.openSo(a1);
+        registrar.openSo(a2);   
+    }
 }
 
 std::vector<std::string> ComparativeRunner::findGameManagers(const std::string& folder) {
@@ -95,36 +106,43 @@ std::vector<std::string> ComparativeRunner::findGameManagers(const std::string& 
     return files;
 }
 
-std::vector<void*> ComparativeRunner::tryLoadGameManagers(const std::vector<std::string>& gm_paths) {
+// std::vector<void*> ComparativeRunner::tryLoadGameManagers(const std::vector<std::string>& gm_paths) {
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+//     std::vector<void*> handles;
+
+//     for (const auto& path : gm_paths) {
+//         gm_registrar.createEntry(path);  // Moved here, only once per path
+
+//         void* handle = dlopen(path.c_str(), RTLD_LAZY);
+//         if (!handle) {
+//             const char* error_msg = dlerror();
+//             throw std::runtime_error(std::string("Failed to load game manager: ") + path + "\n" + (error_msg ? error_msg : ""));
+//         }
+
+//         try {
+//             gm_registrar.validateLast();
+//         } 
+//         catch (...) {
+//             gm_registrar.removeLast();
+//             dlclose(handle);
+//             throw; 
+//         }
+
+//         handles.push_back(handle);
+//     }
+
+//     if (handles.empty()) {
+//         throw std::runtime_error("No valid GameManagers loaded");
+//     }
+
+//     return handles;
+// }
+
+void ComparativeRunner::tryLoadGameManagers(const std::vector<std::string>& gm_paths){
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-    std::vector<void*> handles;
-
     for (const auto& path : gm_paths) {
-        gm_registrar.createEntry(path);  // Moved here, only once per path
-
-        void* handle = dlopen(path.c_str(), RTLD_LAZY);
-        if (!handle) {
-            const char* error_msg = dlerror();
-            throw std::runtime_error(std::string("Failed to load game manager: ") + path + "\n" + (error_msg ? error_msg : ""));
-        }
-
-        try {
-            gm_registrar.validateLast();
-        } 
-        catch (...) {
-            gm_registrar.removeLast();
-            dlclose(handle);
-            throw; 
-        }
-
-        handles.push_back(handle);
+        gm_registrar.openSo(path);
     }
-
-    if (handles.empty()) {
-        throw std::runtime_error("No valid GameManagers loaded");
-    }
-
-    return handles;
 }
 
 
@@ -167,7 +185,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
             GameResult result = gm->run(
                 input.width, input.height,
                 view,
-                "hello_map",
+                input.input_file_name,
                 input.max_steps, input.num_shells,
                 *player1, a1.name(), *player2, a2.name(),
                 tank_factory1, tank_factory2
@@ -259,9 +277,16 @@ void ComparativeRunner::writeResults(
     std::ofstream out(filename.str());
 
     if (!out.is_open()) {
-        std::cerr << "Failed to open result file. Outputting to screen:\n";
-        for (const auto& [res, gms] : result_map)
+        std::cerr << "Error: Failed to create results file at \"" << filename.str() << "\". "
+                  << "Outputting results to screen instead:\n\n";
+
+        std::cout << "game_map=" << args.game_map << "\n";
+        std::cout << "algorithm1=" << args.algorithm1 << "\n";
+        std::cout << "algorithm2=" << args.algorithm2 << "\n\n";
+
+        for (const auto& [res, gms] : result_map) {
             std::cout << join(gms) << "\n" << res << "\n\n";
+        }
         return;
     }
 

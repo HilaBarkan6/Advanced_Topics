@@ -6,8 +6,10 @@
 
 #include <memory>
 #include <cassert>
+#include <filesystem>
 #include "../../common/Player.h"
 #include "../../common/TankAlgorithm.h"
+#include "SoOpener.h"
 
 class AlgorithmRegistrar {
     class AlgorithmAndPlayerFactories {
@@ -42,7 +44,9 @@ class AlgorithmRegistrar {
             return tankAlgorithmFactory;
         }
     };
+
     std::vector<AlgorithmAndPlayerFactories> algorithms;
+    std::vector<std::unique_ptr<SoOpener>> algorithms_so; // Must be below algorithms to release later
     static AlgorithmRegistrar registrar;
 
 public:
@@ -50,6 +54,16 @@ public:
 
     const std::vector<AlgorithmAndPlayerFactories>& getAlgorithms() const {
         return algorithms;
+    }
+    void openSo(const std::string& so_path) {
+        algorithms.emplace_back(std::filesystem::path(so_path).stem().string());
+        algorithms_so.emplace_back(std::make_unique<SoOpener>(so_path));
+        try {
+            validateLastRegistration();
+        } catch (...) {
+            removeLast();
+            throw std::runtime_error("Failed to load algorithm: " + so_path);
+        }
     }
 
     void createAlgorithmFactoryEntry(const std::string& name) {

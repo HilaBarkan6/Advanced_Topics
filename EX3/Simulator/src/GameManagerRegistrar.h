@@ -7,6 +7,7 @@
 #include <string>
 #include <cassert>
 #include "../../common/AbstractGameManager.h"
+#include "SoOpener.h"
 
 // Handles registration of dynamically loaded GameManager classes
 class GameManagerRegistrar {
@@ -30,13 +31,14 @@ class GameManagerRegistrar {
         }
 
     };
-
     std::vector<GameManagerEntry> managers;
+    std::vector<std::unique_ptr<SoOpener>> gm_handles; // Should always be below managers to release later
     static GameManagerRegistrar registrar;
 
 public:
     static GameManagerRegistrar& getGameManagerRegistrar();
 
+    void openSo(const std::string& so_path);
     void createEntry(const std::string& name);
     void setFactoryToLast(GameManagerFactory&& factory);
     void validateLast();

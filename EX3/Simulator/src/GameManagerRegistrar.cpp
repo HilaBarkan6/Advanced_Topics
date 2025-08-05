@@ -6,6 +6,17 @@ GameManagerRegistrar& GameManagerRegistrar::getGameManagerRegistrar() {
     return registrar;
 }
 
+void GameManagerRegistrar::openSo(const std::string& so_path) {
+    managers.emplace_back(so_path);
+    gm_handles.emplace_back(std::make_unique<SoOpener>(so_path));
+    try {
+        validateLast();
+    } catch (...) {
+        removeLast();
+        throw std::runtime_error("Failed to load GameManager: " + so_path);
+    }
+}
+
 void GameManagerRegistrar::createEntry(const std::string& name) {
     managers.emplace_back(name);
 }

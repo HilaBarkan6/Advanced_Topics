@@ -13,59 +13,72 @@ void CompetitionRunner::run() {
         return;
     }
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-    gm_registrar.createEntry(args.game_manager);
-    void* gm_handle = dlopen(args.game_manager.c_str(), RTLD_LAZY);
-    if (!gm_handle) {
-        std::cerr << "Failed to load GameManager .so file.\n";
-        return;
-    }
+    // gm_registrar.createEntry(args.game_manager);
+    // void* gm_handle = dlopen(args.game_manager.c_str(), RTLD_LAZY);
+    // if (!gm_handle) {
+    //     std::cerr << "Failed to load GameManager .so file.\n";
+    //     return;
+    // }
+    gm_registrar.openSo(args.game_manager);
 
     std::map<std::string, int> score_table;
-    std::vector<void*> algo_handles = loadAllAlgorithmHandles(algorithm_paths, score_table);
+    loadAllAlgorithmHandles(algorithm_paths, score_table);
     runAllGames(maps, algorithm_paths, score_table);
     writeResults(score_table);
-    // TODO - think if this should be here or in the destructor
-    for (void* handle : algo_handles) {
-        if(handle){
-            dlclose(handle);
-        } // Clean up loaded algorithm handles
-    }
+    
 }
 
-std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
+// std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
+//     const std::vector<std::string>& algorithm_paths,
+//     std::map<std::string, int>& score_table) {
+
+//     std::vector<void*> handles;
+//     auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+
+//     for (const auto& path : algorithm_paths) {
+//         std::string name = fs::path(path).stem().string(); // Get filename without extension
+//         registrar.createAlgorithmFactoryEntry(fs::path(path).stem().string());
+
+//         void* handle = dlopen(path.c_str(), RTLD_LAZY); // Load .so file dynamically
+//         if (!handle) {
+//             const char* error_msg = dlerror();  // capture dlopen error
+//             std::cerr << "dlopen failed: " << (error_msg ? error_msg : "Unknown error") << std::endl;
+//             throw std::runtime_error("Failed to load algorithm .so: " + path);
+//         }
+
+//         try {
+//             registrar.validateLastRegistration(); // Check if both Player and TankAlgorithm are registered
+//             handles.push_back(handle);            // Store the handle for later cleanup
+//             score_table[name] = 0;                // Initialize score entry for this algorithm
+//         } catch (const AlgorithmRegistrar::BadRegistrationException& e) {
+//             std::cerr << "Bad registration in: " << name << "\n";
+//             registrar.removeLast();              // Remove failed registration entry
+//             dlclose(handle);                     // Close the library handle
+//         }
+//     }
+
+
+//     if (score_table.size() < 2)
+//         throw std::runtime_error("At least two valid algorithms are required.");
+
+//     return handles;
+// }
+
+void CompetitionRunner::loadAllAlgorithmHandles(
     const std::vector<std::string>& algorithm_paths,
     std::map<std::string, int>& score_table) {
 
-    std::vector<void*> handles;
     auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
 
     for (const auto& path : algorithm_paths) {
+        registrar.openSo(path); // Open the shared object file
         std::string name = fs::path(path).stem().string(); // Get filename without extension
-        registrar.createAlgorithmFactoryEntry(fs::path(path).stem().string());
-
-        void* handle = dlopen(path.c_str(), RTLD_LAZY); // Load .so file dynamically
-        if (!handle) {
-            const char* error_msg = dlerror();  // capture dlopen error
-            std::cerr << "dlopen failed: " << (error_msg ? error_msg : "Unknown error") << std::endl;
-            throw std::runtime_error("Failed to load algorithm .so: " + path);
-        }
-
-        try {
-            registrar.validateLastRegistration(); // Check if both Player and TankAlgorithm are registered
-            handles.push_back(handle);            // Store the handle for later cleanup
-            score_table[name] = 0;                // Initialize score entry for this algorithm
-        } catch (const AlgorithmRegistrar::BadRegistrationException& e) {
-            std::cerr << "Bad registration in: " << name << "\n";
-            registrar.removeLast();              // Remove failed registration entry
-            dlclose(handle);                     // Close the library handle
-        }
+        score_table[name] = 0;
     }
 
-
-    if (score_table.size() < 2)
+    if (score_table.size() < 2){
         throw std::runtime_error("At least two valid algorithms are required.");
-
-    return handles;
+    }
 }
 
 void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
@@ -132,7 +145,7 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
     GameResult result = game_manager->run(
         map.width, map.height,
         view,
-        "hello_map", // Placeholder for map name
+        map.input_file_name, 
         map.max_steps, map.num_shells,
         *p1, algorithms[i].name(), *p2, algorithms[j].name(),
         tank_algo_factory1,
@@ -199,8 +212,12 @@ void CompetitionRunner::writeResults(const std::map<std::string, int>& score_tab
     std::ofstream out(filename.str());
     if (!out.is_open()) {
         std::cerr << "Failed to write output file. Showing results below:\n";
-        printResultsToStdout(score_table);
-        return;
+        std::cout << "game_maps_folder=" << args.game_maps_folder << "\n";
+        std::cout << "game_manager=" << args.game_manager << "\n\n";
+
+        auto sorted = sortScores(score_table);
+        for (const auto& [name, score] : sorted)
+            std::cout << name << " " << score << "\n";
     }
 
     out << "game_maps_folder=" << args.game_maps_folder << "\n";
@@ -213,10 +230,6 @@ void CompetitionRunner::writeResults(const std::map<std::string, int>& score_tab
     std::cout << "Results written to: " << filename.str() << "\n";
 }
 
-void CompetitionRunner::printResultsToStdout(const std::map<std::string, int>& score_table) {
-    for (const auto& [name, score] : score_table)
-        std::cout << name << " " << score << "\n";
-}
 
 std::vector<std::pair<std::string, int>> CompetitionRunner::sortScores(const std::map<std::string, int>& scores) {
     std::vector<std::pair<std::string, int>> sorted(scores.begin(), scores.end());

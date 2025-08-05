@@ -179,10 +179,9 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
     this->max_steps = max_steps;
     this->num_shells = num_shells;
 
-    std::string filename = map_name + "_" + name1 + "_" + name2 + ".txt";
-    std::filesystem::create_directories("results");
+    std::string filename = map_name + "_" + name1 + "_" + name2 + "_" + std::to_string(std::time(nullptr)) + ".txt";
     std::filesystem::create_directories("log_output");
-    path_output_file = "results/output_" + filename;
+    path_output_file = "output_" + filename;
     path_log_file = "log_output/log_" + filename;
     
     view = std::make_unique<SatelliteViewImp>();

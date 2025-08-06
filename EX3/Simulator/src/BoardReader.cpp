@@ -148,7 +148,7 @@ int readBoardLines(std::ifstream& file, GameInput& input, bool& has_errors, std:
 void fillMissingRows(int start_row, GameInput& input, bool& has_errors, std::ostringstream& error_log) {
     for (int row = start_row; row < input.height; ++row) {
         for (int col = 0; col < input.width; ++col) {
-            input.board[row][col] = ' ';
+           input.board[col][row] = ' ';
         }
         has_errors = true;
         error_log << "Row " << row << " is missing, filled with spaces.\n";

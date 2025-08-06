@@ -96,3 +96,4 @@ What's next:
 - Fix congureation file path in main - Yovel **done**
 - Delete commented functions 
 - Look on TODO things and CR things
+- Delete files we don't need (for example simple player, or maybe remove it to another folder)

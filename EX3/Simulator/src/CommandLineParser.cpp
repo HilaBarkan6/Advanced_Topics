@@ -41,17 +41,14 @@ static void parseToken(const std::string& token, ParsedArguments& args, std::uno
     }
 }
 
-static void checkRequiredKeys(const std::unordered_map<std::string, std::string>& kv,
-                               const std::unordered_set<std::string>& requiredKeys,
-                               const std::string& modeName) {
+static void checkRequiredKeys(const std::unordered_map<std::string, std::string>& kv, const std::unordered_set<std::string>& requiredKeys, const std::string& modeName) {
     for (const auto& key : requiredKeys) {
         if (!kv.count(key))
             throw std::invalid_argument("Missing required argument for " + modeName + ": " + key);
     }
 }
 
-static void checkUnsupportedKeys(const std::unordered_map<std::string, std::string>& kv,
-                                 const std::unordered_set<std::string>& validKeys) {
+static void checkUnsupportedKeys(const std::unordered_map<std::string, std::string>& kv, const std::unordered_set<std::string>& validKeys) {
     std::vector<std::string> unsupported;
     for (const auto& [key, _] : kv) {
         if (!validKeys.count(key))

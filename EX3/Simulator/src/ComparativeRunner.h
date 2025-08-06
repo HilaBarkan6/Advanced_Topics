@@ -26,16 +26,8 @@
 #include <set>
 
 class ComparativeRunner {
-public:
-    explicit ComparativeRunner(const ParsedArguments& args);
-    void run();
-    void unloadSharedLibraries(const std::vector<void*>& handles); // Unloads all shared libraries loaded during the run.
-
-    std::vector<void*> algo_handles;
-    std::vector<void*> gm_handles; // Holds handles to GameManager shared libraries
-
-private:
-    ParsedArguments args;
+    private:
+    ParsedArguments args; // Parsed command line arguments
 
     GameInput tryReadMap(const std::string& path);
 
@@ -46,6 +38,7 @@ private:
 
     void tryLoadGameManagers(const std::vector<std::string>& gm_paths);
 
+    SatelliteViewImp createSatelliteView(const GameInput& input) const; // Creates a SatelliteViewImp object initialized with the game input data.
     std::map<std::string, std::set<std::string>> runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input);
 
     // Writes the aggregated results to an output file in the GameManager folder.
@@ -56,6 +49,10 @@ private:
 
     // Joins a set of strings into a single comma-separated string.
     std::string join(const std::set<std::string>& items);
+    
+    public:
+        explicit ComparativeRunner(const ParsedArguments& args);
+        void run();
 };
 
 #endif

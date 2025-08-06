@@ -15,7 +15,7 @@ GameInput readBoard(const std::string& path_input_file){
     game_input.input_file_name = input_file_name; // Store the input file name
     readGameParameters(file, game_input); 
 
-    game_input.board.resize(game_input.width);             // total rows
+    game_input.board.resize(game_input.width); // total rows
     for (auto& row : game_input.board)
         row.resize(game_input.height);  
 
@@ -174,7 +174,6 @@ void readBoardData(const std::string& path_input_file, GameInput& input) {
 
     std::ostringstream error_log;
     bool has_errors = false;
-
 
     int rows_read = readBoardLines(file, input, has_errors, error_log);
     fillMissingRows(rows_read, input, has_errors, error_log);

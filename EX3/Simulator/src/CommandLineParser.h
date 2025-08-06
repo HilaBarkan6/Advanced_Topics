@@ -29,9 +29,8 @@ struct ParsedArguments {
 };
 
 class CommandLineParser {
-
-public:
-    static ParsedArguments parse(int argc, char* argv[]);
+    public:
+        static ParsedArguments parse(int argc, char* argv[]);
 };
 
 #endif // COMMAND_LINE_PARSER_H

@@ -45,7 +45,11 @@ class CompetitionRunner {
         void runAllGames(const std::vector<GameInput>& maps,
                         const std::vector<std::string>& algorithm_paths,
                         std::map<std::string, int>& score_table);
+        
+        SatelliteViewImp createSatelliteView(const GameInput& map) const; // Creates a SatelliteViewImp from the game map
 
+        void updateScore(std::map<std::string, int>& table, int winner, const std::string& a1, const std::string& a2) const; // Updates the score table based on the game result
+            
         // Runs a single game between two algorithms on a given map
         void runSingleGameAndScore(const GameInput& map, int i, int j, 
             std::map<std::string, int>& score_table, 
@@ -59,6 +63,8 @@ class CompetitionRunner {
 
         // Sorts algorithms by total score descending
         std::vector<std::pair<std::string, int>> sortScores(const std::map<std::string, int>& scores);
+
+        void printUsage(); // Prints usage instructions for the competition runner
 
     public:
         explicit CompetitionRunner(const ParsedArguments& args);

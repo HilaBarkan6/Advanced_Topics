@@ -5,8 +5,6 @@ using namespace UserCommon_209399021_208239152;
 SatelliteViewImp::SatelliteViewImp()
     : out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]){}
 
-
-
 char SatelliteViewImp::getObjectAt(size_t x, size_t y) const {
     if (x >= columns || y >= rows) {
         return out_of_bounds_sign;

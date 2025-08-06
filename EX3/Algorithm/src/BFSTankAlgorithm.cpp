@@ -43,10 +43,9 @@ void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
         width = simple_info.getWidth();
     }
 
-    // Find closest enemy tank
     std::pair<int, int> my_location = simple_info.getCalledTankLocation();
     std::vector<std::pair<int, int>> enemy_tanks = (player_id==1) ? simple_info.getTanks2Locations() : simple_info.getTanks1Locations();
-    std::pair<int, int> closest_enemy = getClosestEnemyTank(my_location, enemy_tanks);
+    std::pair<int, int> closest_enemy = getClosestEnemyTank(my_location, enemy_tanks); // Get the closest enemy tank location
 
     // If closest enemy is not found, try to move using the function can_move and if not possible rotate
     if(closest_enemy.first == -1 && closest_enemy.second == -1){
@@ -92,38 +91,65 @@ void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> c
             shells_movements[curr_shell] = {0, 0}; // zero vector means "new shell" or unknown movement
         }
     }
-    
-
 }
 
+// std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankAlgorithm::computeDangerPositions() const {
+//     // set of dangerous positions for the first turn after the info request
+//     std::set<std::pair<int, int>> first_danger_positions;
+//     // set of dangerous positions for the second turn after the info request
+//     std::set<std::pair<int, int>> second_danger_positions;
+
+//     for (const auto& [pos, vec] : shells_movements) {
+//         if (vec.first == 0 && vec.second == 0) continue; // new shell
+
+//         int x = pos.first;
+//         int y = pos.second;
+//         int dx = (vec.first > 0) ? 1 : ((vec.first == 0) ? 0 : -1);
+//         int dy = (vec.second > 0) ? 1 : ((vec.second == 0) ? 0 : -1);
+
+//         first_danger_positions.insert({x + 2*dx, y + 2*dy});
+//         first_danger_positions.insert({x + 3*dx, y + 3*dy});
+//         first_danger_positions.insert({x + 4*dx, y + 4*dy});
+//         second_danger_positions.insert({x + 4*dx, y + 4*dy});
+//         second_danger_positions.insert({x + 5*dx, y + 5*dy});
+//         second_danger_positions.insert({x + 6*dx, y + 6*dy});
+
+//     }
+
+//     return std::make_pair(first_danger_positions, second_danger_positions);
+// }
+
 std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankAlgorithm::computeDangerPositions() const {
-    // set of dangerous positions for the first turn after the info request
+    constexpr int DANGER_FIRST_TURN_START_STEP = 2;
+    constexpr int DANGER_FIRST_TURN_END_STEP = 4;
+
+    constexpr int DANGER_SECOND_TURN_START_STEP = 4;
+    constexpr int DANGER_SECOND_TURN_END_STEP = 6;
+
     std::set<std::pair<int, int>> first_danger_positions;
-    // set of dangerous positions for the second turn after the info request
     std::set<std::pair<int, int>> second_danger_positions;
 
     for (const auto& [pos, vec] : shells_movements) {
-        if (vec.first == 0 && vec.second == 0) continue;        // new shell
+        if (vec.first == 0 && vec.second == 0) continue; // new shell
 
         int x = pos.first;
         int y = pos.second;
         int dx = (vec.first > 0) ? 1 : ((vec.first == 0) ? 0 : -1);
         int dy = (vec.second > 0) ? 1 : ((vec.second == 0) ? 0 : -1);
 
-        first_danger_positions.insert({x + 2*dx, y + 2*dy});
-        first_danger_positions.insert({x + 3*dx, y + 3*dy});
-        first_danger_positions.insert({x + 4*dx, y + 4*dy});
-        second_danger_positions.insert({x + 4*dx, y + 4*dy});
-        second_danger_positions.insert({x + 5*dx, y + 5*dy});
-        second_danger_positions.insert({x + 6*dx, y + 6*dy});
+        // Add positions for the first turn
+        for (int step = DANGER_FIRST_TURN_START_STEP; step <= DANGER_FIRST_TURN_END_STEP; ++step) {
+            first_danger_positions.emplace(x + dx * step, y + dy * step);
+        }
 
+        // Add positions for the second turn
+        for (int step = DANGER_SECOND_TURN_START_STEP; step <= DANGER_SECOND_TURN_END_STEP; ++step) {
+            second_danger_positions.emplace(x + dx * step, y + dy * step);
+        }
     }
 
-    return std::make_pair(first_danger_positions, second_danger_positions);
+    return {first_danger_positions, second_danger_positions};
 }
-
-
-
 
 bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location) {
     int x = current.state.x;
@@ -204,10 +230,10 @@ void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const Simp
         // Check for shooting opportunity
         if (tryShoot(current, simple_info, enemy_location)) return;
 
-        // Move forward
+        // Try move forward
         tryMoveForward(current, simple_info, danger_positions);
 
-        // Rotation options
+        // Try rotation options
         tryRotations(current);
     }
 

@@ -12,14 +12,14 @@ TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index): player_id(pla
         current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
 }
 
-bool TankAlgorithmImp::canShoot(int height, int width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location, const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
+bool TankAlgorithmImp::canShoot(int height, int width, const std::pair<int, int>& my_location, const std::pair<int, int>& enemy_location,
+                                const CanonDirection& my_direction, const std::vector<std::pair<int, int>>& wall_locations) const {
     return clearPathFromSrcToDst(height, width, my_location.first, my_location.second, enemy_location.first, enemy_location.second, my_direction, wall_locations);
 }
 
 bool TankAlgorithmImp::canMove(int new_x, int new_y,
     const std::vector<std::pair<int, int>>& wall_locations, const std::vector<std::pair<int, int>>& mine_locations, 
-    const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const
-    {
+    const std::vector<std::pair<int, int>>& tanks1_locations ,const std::vector<std::pair<int, int>>& tanks2_locations) const {
         // Used chatGpt to learn how to combine vectors, prompt was "How to combine 4 vectors in c++ in the most efficient way"
         std::vector<std::pair<int, int>> bad_moves_locations;
         bad_moves_locations.reserve(wall_locations.size() + mine_locations.size() + tanks1_locations.size() + tanks2_locations.size());
@@ -35,7 +35,8 @@ bool TankAlgorithmImp::canMove(int new_x, int new_y,
         return true;
     }
 
-bool TankAlgorithmImp::clearPathFromSrcToDst(int height, int width, const int src_x, const int src_y, const int dst_x, const int dst_y, const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const{
+bool TankAlgorithmImp::clearPathFromSrcToDst(int height, int width, const int src_x, const int src_y, const int dst_x, const int dst_y,
+                                        const CanonDirection dir, const std::vector<std::pair<int, int>>& bad_moves_locations) const {
     int cx = src_x;
     int cy = src_y;
     int ox = dst_x;
@@ -86,7 +87,7 @@ bool TankAlgorithmImp::clearPathFromSrcToDst(int height, int width, const int sr
 }
 
 
-std::pair<int, int> TankAlgorithmImp::getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const{
+std::pair<int, int> TankAlgorithmImp::getClosestEnemyTank(const std::pair<int, int>& my_location, const std::vector<std::pair<int, int>>& enemy_tanks) const {
     // There shouldn't be a case were the return value is {-1,-1} because if the enemy doesn't have any live tanks the game will finish.
     int min_dist = std::numeric_limits<int>::max();
     std::pair<int, int> closest_enemy = {-1, -1};
@@ -121,8 +122,7 @@ std::pair<int, int> TankAlgorithmImp::getNextForwardLocation(const std::pair<int
 }
 
 void TankAlgorithmImp::updateLocalState(ActionRequest action) {
-    switch (action) 
-    {
+    switch (action) {
         case ActionRequest::RotateLeft45:
             current_canon_direction = rotate(current_canon_direction, -1);
             break;
@@ -153,7 +153,9 @@ CanonDirection TankAlgorithmImp::rotate(CanonDirection cur_dir, int rotation) {
     int new_dir = static_cast<int>(cur_dir) + rotation;
     if (new_dir < 0) {
         new_dir += 8; // Wrap around to the last direction
-    } else if (new_dir >= 8) {
+    } 
+    
+    else if (new_dir >= 8) {
         new_dir -= 8; // Wrap around to the first direction
     }
     return static_cast<CanonDirection>(new_dir);

@@ -7,8 +7,6 @@ void Simulator::run() {
         if (args.mode == RunMode::Comparative) {
             ComparativeRunner runner(args);
             runner.run();
-            algo_handles = runner.algo_handles; // Store handles for cleanup
-            gm_handles = runner.gm_handles; // Store GameManager handles for cleanup
         } 
         else if (args.mode == RunMode::Competition) {
             CompetitionRunner runner(args);

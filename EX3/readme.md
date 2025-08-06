@@ -81,16 +81,18 @@ What's next:
 - build Simulator with the general makefile and see it works run with the command line - yovel **done**
 - Make sure default configuration works - Hila **done** deleted the config file localy and everything worked well
 - Error handaling - bad parameters -Hila **done**
-- Make sure each function is not too long - Yovel **in progress**
-- Make sure there are no magic numbers - Yovel **in progress**
+- Make sure each function is not too long - Yovel **done**
+- Make sure there are no magic numbers - Yovel **done**
 - Fix "hello_map" - Hila **done**
 - Run comparative mode with same algorithms pointing to the same file - Yovel **done**
 - threads
 - Comparative section 4 - Hila **done**
-- Make sure in competition mode, mathces are generated properly - Yovel
-- Competitive section 2 - Yovel
+- Make sure in competition mode, mathces are generated properly - Yovel **done**
+- Competitive section 2 - Yovel **done**
 - Competitive section 5 - Hila **done**
 - Additional output and error handaling - make sure everything works as wrriten there - Hila **in progress** still thinking what to do with input_errors.txt
 - student.txt and readme
 - Make sure all dll's closed at finish - Yovel **done**
 - Fix congureation file path in main - Yovel **done**
+- Delete commented functions 
+- Look on TODO things and CR things

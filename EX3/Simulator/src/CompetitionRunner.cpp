@@ -6,27 +6,58 @@ CompetitionRunner::CompetitionRunner(const ParsedArguments& args) : args(args) {
 
 void CompetitionRunner::run() {
     auto maps = loadAllMaps();
+    if (maps.empty()) {
+        std::cerr << "Competition requires at least one map.\n";
+        printUsage();
+        return;
+    }
+
     auto algorithm_paths = findAlgorithmPaths();
     int N = algorithm_paths.size();
     if (N < 2) {
         std::cerr << "Competition requires at least 2 algorithms.\n";
+        printUsage();
         return;
     }
+
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-    // gm_registrar.createEntry(args.game_manager);
-    // void* gm_handle = dlopen(args.game_manager.c_str(), RTLD_LAZY);
-    // if (!gm_handle) {
-    //     std::cerr << "Failed to load GameManager .so file.\n";
-    //     return;
-    // }
-    gm_registrar.openSo(args.game_manager);
+    gm_registrar.openSo(args.game_manager); 
 
     std::map<std::string, int> score_table;
     loadAllAlgorithmHandles(algorithm_paths, score_table);
     runAllGames(maps, algorithm_paths, score_table);
     writeResults(score_table);
-    
+
+    AlgorithmRegistrar::getAlgorithmRegistrar().clear();
+    GameManagerRegistrar::getGameManagerRegistrar().clear();
 }
+
+// void CompetitionRunner::run() {
+//     auto maps = loadAllMaps();
+//     auto algorithm_paths = findAlgorithmPaths();
+//     int N = algorithm_paths.size();
+//     if (N < 2) {
+//         std::cerr << "Competition requires at least 2 algorithms.\n";
+//         return;
+//     }
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+//     // gm_registrar.createEntry(args.game_manager);
+//     // void* gm_handle = dlopen(args.game_manager.c_str(), RTLD_LAZY);
+//     // if (!gm_handle) {
+//     //     std::cerr << "Failed to load GameManager .so file.\n";
+//     //     return;
+//     // }
+//     gm_registrar.openSo(args.game_manager); 
+
+//     std::map<std::string, int> score_table; // Initialize score table for algorithms 
+//     loadAllAlgorithmHandles(algorithm_paths, score_table); // Load algorithms and initialize scores
+//     runAllGames(maps, algorithm_paths, score_table); 
+//     writeResults(score_table); 
+
+//     AlgorithmRegistrar::getAlgorithmRegistrar().clear(); // Clear the algorithm registrar
+//     GameManagerRegistrar::getGameManagerRegistrar().clear(); // Clear the GameManager registrar
+    
+// }
 
 // std::vector<void*> CompetitionRunner::loadAllAlgorithmHandles(
 //     const std::vector<std::string>& algorithm_paths,
@@ -64,9 +95,7 @@ void CompetitionRunner::run() {
 //     return handles;
 // }
 
-void CompetitionRunner::loadAllAlgorithmHandles(
-    const std::vector<std::string>& algorithm_paths,
-    std::map<std::string, int>& score_table) {
+void CompetitionRunner::loadAllAlgorithmHandles( const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
 
     auto& registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
 
@@ -81,9 +110,7 @@ void CompetitionRunner::loadAllAlgorithmHandles(
     }
 }
 
-void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
-                                    const std::vector<std::string>& algorithm_paths,
-                                    std::map<std::string, int>& score_table) {
+void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
 
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
@@ -104,6 +131,12 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
         // Generate competing algorithm pairs for this map index
         auto pairs = generatePairs(k, algo_registrar.count());
 
+        // TODO: delete later
+        std::cout << "\nMap " << k << ":\n";
+        for (const auto& [i, j] : pairs) {
+            std::cout << "Game: " << i << " vs " << j << "\n";
+        }
+
         // Run games for each algorithm pair and each GameManager
         for (const auto& [i, j] : pairs) {
             runSingleGameAndScore(
@@ -112,64 +145,103 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
                 score_table,
                 algorithm_paths     // Score tracking
             );
-        
         }
     }
 }
 
-void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j,
-    std::map<std::string, int>& score_table,
-    const std::vector<std::string>& algo_paths) {
-
-    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-
-    const auto& algorithms = algo_registrar.getAlgorithms();
-    // Create players using player factories from the algorithms registrar
-    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
-    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
-
-    // Get tank algorithm factories for each algorithm
-    auto tank_algo_factory1 = algorithms[i].getTankAlgorithmFactory();
-    auto tank_algo_factory2 = algorithms[j].getTankAlgorithmFactory();
-
-    auto game_manager = gm_registrar.begin()->create(args.verbose); // Create GameManager instance
-
-    // Run the game with the single GameManager instance provided
-    // TODO - currently the board is matrix of chars but is should be satellite view.
-
+SatelliteViewImp CompetitionRunner::createSatelliteView(const GameInput& map) const {
     SatelliteViewImp view;
     view.setSatelliteView(map.board);
     view.setRowsAndColumns(map.height, map.width);
+    return view;
+}
 
-    GameResult result = game_manager->run(
-        map.width, map.height,
-        view,
-        map.input_file_name, 
-        map.max_steps, map.num_shells,
-        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
-        tank_algo_factory1,
-        tank_algo_factory2
-    );
-
-    
-
-    // Extract algorithm file names for score bookkeeping
-    
-    auto a1_name = fs::path(algo_paths[i]).stem().string(); //fs::path(algo_paths[i]).filename().string();
-    auto a2_name = fs::path(algo_paths[j]).stem().string();// fs::path(algo_paths[j]).filename().string();
-
-    // Update scores based on the game result
-    if (result.winner == 1) {
-        score_table[a1_name] += 3;
-    } else if (result.winner == 2) {
-        score_table[a2_name] += 3;
+void CompetitionRunner::updateScore(std::map<std::string, int>& table, int winner, const std::string& a1, const std::string& a2) const {
+    if (winner == 1) {
+        table[a1] += 3;
+    } else if (winner == 2) {
+        table[a2] += 3;
     } else {
-        // Draw case: both get 1 point
-        score_table[a1_name] += 1;
-        score_table[a2_name] += 1;
+        table[a1] += 1;
+        table[a2] += 1;
     }
 }
+
+void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths) {
+
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+    const auto& algorithms = algo_registrar.getAlgorithms();
+
+    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+
+    auto gm = gm_registrar.begin()->create(args.verbose);
+    auto view = createSatelliteView(map);
+
+    GameResult result = gm->run(
+        map.width, map.height, view, map.input_file_name,
+        map.max_steps, map.num_shells,
+        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
+        algorithms[i].getTankAlgorithmFactory(),
+        algorithms[j].getTankAlgorithmFactory()
+    );
+
+    auto a1 = fs::path(algo_paths[i]).stem().string();
+    auto a2 = fs::path(algo_paths[j]).stem().string();
+
+    updateScore(score_table, result.winner, a1, a2);
+}
+
+// void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths) {
+
+//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar(); // Get the AlgorithmRegistrar instance
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar(); // Get the GameManagerRegistrar instance
+
+//     const auto& algorithms = algo_registrar.getAlgorithms(); // Get all registered algorithms
+
+//     // Create players using player factories from the algorithms registrar
+//     auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+//     auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+
+//     // Get tank algorithm factories for each algorithm
+//     auto tank_algo_factory1 = algorithms[i].getTankAlgorithmFactory();
+//     auto tank_algo_factory2 = algorithms[j].getTankAlgorithmFactory();
+
+//     auto game_manager = gm_registrar.begin()->create(args.verbose); // Create GameManager instance
+
+//     // Run the game with the single GameManager instance provided
+//     // TODO - currently the board is matrix of chars but is should be satellite view.
+
+//     SatelliteViewImp view;
+//     view.setSatelliteView(map.board);
+//     view.setRowsAndColumns(map.height, map.width);
+
+//     GameResult result = game_manager->run(
+//         map.width, map.height,
+//         view,
+//         map.input_file_name, 
+//         map.max_steps, map.num_shells,
+//         *p1, algorithms[i].name(), *p2, algorithms[j].name(),
+//         tank_algo_factory1,
+//         tank_algo_factory2
+//     );
+
+//     // Extract algorithm file names for score bookkeeping    
+//     auto a1_name = fs::path(algo_paths[i]).stem().string(); 
+//     auto a2_name = fs::path(algo_paths[j]).stem().string();
+
+//     // Update scores based on the game result
+//     if (result.winner == 1) {
+//         score_table[a1_name] += 3;
+//     } else if (result.winner == 2) {
+//         score_table[a2_name] += 3;
+//     } else {
+//         // Draw case: both get 1 point
+//         score_table[a1_name] += 1;
+//         score_table[a2_name] += 1;
+//     }
+// }
 
 std::vector<GameInput> CompetitionRunner::loadAllMaps() {
     std::vector<GameInput> maps;
@@ -182,6 +254,7 @@ std::vector<GameInput> CompetitionRunner::loadAllMaps() {
             }
         }
     }
+
     if (maps.empty()) throw std::runtime_error("No valid maps found.");
     return maps;
 }
@@ -230,10 +303,18 @@ void CompetitionRunner::writeResults(const std::map<std::string, int>& score_tab
     std::cout << "Results written to: " << filename.str() << "\n";
 }
 
-
 std::vector<std::pair<std::string, int>> CompetitionRunner::sortScores(const std::map<std::string, int>& scores) {
     std::vector<std::pair<std::string, int>> sorted(scores.begin(), scores.end());
     std::sort(sorted.begin(), sorted.end(),
               [](const auto& a, const auto& b) { return a.second > b.second; });
     return sorted;
+}
+
+void CompetitionRunner::printUsage() {
+    std::cerr << "Usage: simulator <mode> <path_to_algorithms> <path_to_maps> <game_manager.so>\n"
+              << " - mode: 'competition' or 'comparative'\n"
+              << " - path_to_algorithms: folder containing algorithm .so files (at least 2 required)\n"
+              << " - path_to_maps: folder containing game maps (at least 1 required)\n"
+              << " - game_manager.so: shared library for the GameManager\n"
+              << "Please ensure the inputs meet these requirements before running the competition.\n";
 }

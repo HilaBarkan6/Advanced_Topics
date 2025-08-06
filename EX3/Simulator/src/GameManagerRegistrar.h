@@ -26,11 +26,9 @@ class GameManagerRegistrar {
             return factory(verbose);
         }
         bool hasFactory() const { return factory != nullptr; }
-        ~GameManagerEntry(){
-            
-        }
-
+        ~GameManagerEntry(){} // TODO: Do we need to implement rule of five here? 
     };
+    
     std::vector<GameManagerEntry> managers;
     std::vector<std::unique_ptr<SoOpener>> gm_handles; // Should always be below managers to release later
     static GameManagerRegistrar registrar;

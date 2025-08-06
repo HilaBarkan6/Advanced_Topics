@@ -16,6 +16,7 @@ class AlgorithmRegistrar {
         std::string so_name;
         TankAlgorithmFactory tankAlgorithmFactory;
         PlayerFactory playerFactory;
+
     public:
         AlgorithmAndPlayerFactories(const std::string& so_name) : so_name(so_name) {}
         void setTankAlgorithmFactory(TankAlgorithmFactory&& factory) {
@@ -45,7 +46,7 @@ class AlgorithmRegistrar {
         }
     };
 
-    std::vector<AlgorithmAndPlayerFactories> algorithms;
+    std::vector<AlgorithmAndPlayerFactories> algorithms; // Must be before algorithms_so to ensure correct destruction order
     std::vector<std::unique_ptr<SoOpener>> algorithms_so; // Must be below algorithms to release later
     static AlgorithmRegistrar registrar;
 

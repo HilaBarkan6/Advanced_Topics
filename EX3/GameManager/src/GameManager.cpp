@@ -20,7 +20,6 @@ std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
     return os;
 }
 
-
 // Overload operator<< for CanonDirection
 std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     switch (direction) {
@@ -57,9 +56,6 @@ GameManager::GameManager(bool verbose):
       view(),
       counter_no_shells(0) {}
 
-
-
-
 void GameManager::initializeGame(std::ofstream& output_file) {
     //this->view.setRowsAndColumns(height, width);
     //TODO - we receive the players in run function so we save them there
@@ -80,13 +76,10 @@ void GameManager::initializeGame(std::ofstream& output_file) {
             std::cerr << "Error opening output file: " << path_output_file << std::endl;
         }
     }
-
-    
 }
 
 void GameManager::handleEvenTurn(std::ofstream& output_file) {
     MoveShells(true);
-
     std::unordered_map<int, ActionRequest> wanted_actions;
     std::unordered_map<int, std::pair<int, int>> new_wanted_locations;
 
@@ -98,14 +91,12 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
             wanted_actions[i] != ActionRequest::MoveForward &&
             wanted_actions[i] != ActionRequest::GetBattleInfo) {
                 /* If the tank is waiting for backward move and it is the 3rd turn, and the action was not forward or get battle info,
-                 its time to move so we ignore what the tank asked because the actual action is backward.
-                 for more info about this behavior see readme */
+                 its time to move so we ignore what the tank asked because the actual action is backward. for more info about this behavior see readme */
                 wanted_actions[i] = ActionRequest::MoveBackward;
             }
             new_wanted_locations[i] = getNewLocation(all_tanks[i], i, wanted_actions[i]);
         }
     }
-
     std::unordered_map<int, bool> can_move = checkCollisions(new_wanted_locations);
     deleteCollidedShells();
 
@@ -121,13 +112,11 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
             if(should_verbose){
                 output_file << ", ";
             }
-            
         }
     }
-    if(should_verbose){
+    if (should_verbose) {
         output_file << std::endl;
     }
-
     deleteCollidedShells();
 }
 
@@ -136,13 +125,13 @@ void GameManager::handleOddTurn() {
     deleteCollidedShells();
 }
 
-void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory, TankAlgorithmFactory player2_tank_algo_factory) {
+void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory,
+                                            TankAlgorithmFactory player2_tank_algo_factory) {
     this->height = height;
     this->width = width;
     board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     view->setRowsAndColumns(height, width);
 
-     
     for (size_t j = 0; j < height; ++j) {
         for (size_t i = 0; i < width; ++i) {
             char object = map.getObjectAt(i, j);
@@ -161,44 +150,37 @@ void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t he
             }
         }
     }
-
 }
-    
 
-GameResult GameManager::run(size_t map_width, size_t map_height,
-                        const SatelliteView& map,
-                        string map_name,
-                        size_t max_steps, size_t num_shells,
-                        Player& player1, string name1, Player& player2, string name2,
-                        TankAlgorithmFactory player1_tank_algo_factory,
-                        TankAlgorithmFactory player2_tank_algo_factory) 
-    {
+GameResult GameManager::run(size_t map_width, size_t map_height, const SatelliteView& map, string map_name, size_t max_steps, size_t num_shells,
+                        Player& player1, string name1, Player& player2, string name2, TankAlgorithmFactory player1_tank_algo_factory,
+                        TankAlgorithmFactory player2_tank_algo_factory) {
     //TODO - fix this, not sure how to take the players from the parameters and keep them locally in game manager as unique_ptrs
     this->player1 = &player1;
     this->player2 = &player2;
     this->max_steps = max_steps;
     this->num_shells = num_shells;
 
-    std::string filename = map_name + "_" + name1 + "_" + name2 + "_" + std::to_string(std::time(nullptr)) + ".txt";
-    std::filesystem::create_directories("log_output");
-    path_output_file = "output_" + filename;
-    path_log_file = "log_output/log_" + filename;
+    std::string filename = map_name + "_" + name1 + "_" + name2 + "_" + std::to_string(std::time(nullptr)) + ".txt"; 
+    std::filesystem::create_directories("log_output"); // Create log_output directory if it doesn't exist
+    path_output_file = "output_" + filename; // Output file path
+    path_log_file = "log_output/log_" + filename; // Log file path
     
     view = std::make_unique<SatelliteViewImp>();
     view->setRowsAndColumns(map_height, map_width);
-    createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory);
-
+    createBoardAndTanksFromMap(map, map_height, map_width, player1_tank_algo_factory, player2_tank_algo_factory); // Create the board and tanks according to the map
     std::ofstream output_file;
     initializeGame(output_file);
     
     while (!isGameOver(output_file)) {
         view->setSatelliteView(createSatelliteMatrix());
         
-
-        if (turn_counter % 2 == 0) {
+        if (turn_counter % 2 == 0) { // Even turn
             logger.logInfo("Turn is " + std::to_string(turn_counter / 2));
             handleEvenTurn(output_file);
-        } else {
+        } 
+        
+        else {
             handleOddTurn();
         }
 
@@ -209,7 +191,6 @@ GameResult GameManager::run(size_t map_width, size_t map_height,
         }
         turn_counter++;
     }
-    
     return std::move(game_result);
 }
 
@@ -246,8 +227,6 @@ std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const {
     return satellite_matrix;
 }
 
-
-// Check if both players finished their shells for all tanks
 bool GameManager::shellFinished(){
     for(size_t i=0; i<all_tanks.size(); i++){
         if(all_tanks[i]->getUnusedShellsCount() > 0){
@@ -258,12 +237,13 @@ bool GameManager::shellFinished(){
 }
 
 void GameManager::FillGameResult(){
-    game_result.rounds = turn_counter / 2;
-    game_result.remaining_tanks.push_back(player1_alive_tanks);
-    game_result.remaining_tanks.push_back(player2_alive_tanks);
-    view->setSatelliteView(createSatelliteMatrix());
-    for(int y = 0 ; y<height ; y++){
-        for(int x = 0; x < width; x++){
+    game_result.rounds = turn_counter / 2; 
+    game_result.remaining_tanks.push_back(player1_alive_tanks); // add player 1 remaining tanks
+    game_result.remaining_tanks.push_back(player2_alive_tanks); // add player 2 remaining tanks
+    view->setSatelliteView(createSatelliteMatrix()); // Create the satellite view at the end of the game
+
+    for(int y = 0 ; y < height ; y++) {
+        for(int x = 0; x < width; x++) {
             char object = view->getObjectAt(x, y);
             std::cout << object;
         }
@@ -272,72 +252,113 @@ void GameManager::FillGameResult(){
     game_result.gameState = std::move(view);
 }
 
+// bool GameManager::isGameOver(std::ofstream& output_file) {
+//     // Check if both players finished their shells and 40 turns passed
+//     if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
+//         if(no_more_shells && counter_no_shells>=2*max_turns_no_shells){
+//             if(should_verbose) {
+//                 output_file << "Tie, both players have zero shells for " << max_turns_no_shells << " steps";
+//             }
+//             logger.logInfo("Tie, both players have zero shells for " + std::to_string(max_turns_no_shells) + " steps");
+            
+//             FillGameResult();
+//             game_result.winner = 0;
+//             game_result.reason = GameResult::ZERO_SHELLS;
+//             return true;
+//         }
+
+//         if(turn_counter >= max_steps * 2){
+
+//             if(should_verbose) {
+//                 output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks";
+//             }
+
+//             logger.logInfo("Tie, reached max steps = " + std::to_string(max_steps) + " , player 1 has " + std::to_string(player1_alive_tanks) + " tanks, player 2 has " + std::to_string(player2_alive_tanks) + " tanks");
+//             FillGameResult();
+//             game_result.winner = 0; 
+//             game_result.reason = GameResult::MAX_STEPS;
+//             return true;
+//         }
+//         return false; 
+//     }
+
+//     // Both players are dead
+//     if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
+//         if(should_verbose){
+//             output_file << "Tie, both players have zero tanks";
+//         }
+//         logger.logInfo("Tie, both players have zero tanks");
+
+//         FillGameResult();
+//         game_result.winner = 0;
+//         game_result.reason = GameResult::ALL_TANKS_DEAD;
+//         return true;
+//     }
+//     // Only player1 dead
+//     else if (player1_alive_tanks == 0) {
+//         if(should_verbose){
+//             output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive";
+//     }
+//         logger.logInfo("Player 2 won with " + std::to_string(player2_alive_tanks) + " tanks still alive");
+//         FillGameResult();
+//         game_result.winner = 2;
+//         game_result.reason = GameResult::ALL_TANKS_DEAD;
+
+//         return true;
+//     // Only player 2 dead
+//     } else if (player2_alive_tanks == 0) {
+//         if(should_verbose){
+//             output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive";
+//         }
+//         logger.logInfo("Player 1 won with " + std::to_string(player1_alive_tanks) + " tanks still alive");
+//         FillGameResult();
+//         game_result.winner = 1; 
+//         game_result.reason = GameResult::ALL_TANKS_DEAD;
+//         return true;
+//     }
+    
+//     return true;  
+// }
+
 bool GameManager::isGameOver(std::ofstream& output_file) {
-    // Check if both players finished their shells and 40 turns passed
-    if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
-        if(no_more_shells && counter_no_shells>=2*max_turns_no_shells){
-            
-            if(should_verbose){
-                output_file << "Tie, both players have zero shells for " << max_turns_no_shells << " steps";
-            }
-            logger.logInfo("Tie, both players have zero shells for " + std::to_string(max_turns_no_shells) + " steps");
-            
-            FillGameResult();
-            game_result.winner = 0;
-            game_result.reason = GameResult::ZERO_SHELLS;
-            
-            return true;
-        }
-        if(turn_counter >= max_steps*2){
-
-            if(should_verbose){
-                output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks";
-            }
-
-            logger.logInfo("Tie, reached max steps = " + std::to_string(max_steps) + " , player 1 has " + std::to_string(player1_alive_tanks) + " tanks, player 2 has " + std::to_string(player2_alive_tanks) + " tanks");
-            FillGameResult();
-            game_result.winner = 0;
-            game_result.reason = GameResult::MAX_STEPS;
-            return true;
-        }
-        return false; 
-    }
-    // Both players are dead
-    if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
-        if(should_verbose){
-            output_file << "Tie, both players have zero tanks";
-        }
-        logger.logInfo("Tie, both players have zero tanks");
-
+    auto logTie = [&](const std::string& msg, GameResult::Reason reason) { // Helper function to log a tie
+        if (should_verbose) output_file << msg;
+        logger.logInfo(msg);
         FillGameResult();
         game_result.winner = 0;
-        game_result.reason = GameResult::ALL_TANKS_DEAD;
+        game_result.reason = reason;
         return true;
-    }
-    // Only player1 dead
-    else if (player1_alive_tanks == 0) {
-        if(should_verbose){
-            output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive";
-    }
-        logger.logInfo("Player 2 won with " + std::to_string(player2_alive_tanks) + " tanks still alive");
-        FillGameResult();
-        game_result.winner = 2;
-        game_result.reason = GameResult::ALL_TANKS_DEAD;
+    };
 
-        return true;
-    // Only player 2 dead
-    } else if (player2_alive_tanks == 0) {
-        if(should_verbose){
-            output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive";
-        }
-        logger.logInfo("Player 1 won with " + std::to_string(player1_alive_tanks) + " tanks still alive");
+    auto logWin = [&](int winner, int alive_tanks) { // Helper function to log a win
+        if (should_verbose) output_file << "Player " << winner << " won with " << alive_tanks << " tanks still alive";
+        logger.logInfo("Player " + std::to_string(winner) + " won with " + std::to_string(alive_tanks) + " tanks still alive");
         FillGameResult();
-        game_result.winner = 1; 
+        game_result.winner = winner;
         game_result.reason = GameResult::ALL_TANKS_DEAD;
         return true;
+    };
+
+    if (player1_alive_tanks > 0 && player2_alive_tanks > 0) { 
+        if (no_more_shells && counter_no_shells >= 2 * max_turns_no_shells)
+            return logTie("Tie, both players have zero shells for " + std::to_string(max_turns_no_shells) + " steps", GameResult::ZERO_SHELLS);
+
+        if (turn_counter >= max_steps * 2)
+            return logTie("Tie, reached max steps = " + std::to_string(max_steps) +
+                          " , player 1 has " + std::to_string(player1_alive_tanks) +
+                          " tanks, player 2 has " + std::to_string(player2_alive_tanks) + " tanks", GameResult::MAX_STEPS);
+
+        return false;
     }
-    
-    return true;  
+
+    if (player1_alive_tanks == 0 && player2_alive_tanks == 0)
+        return logTie("Tie, both players have zero tanks", GameResult::ALL_TANKS_DEAD);
+    if (player1_alive_tanks == 0)
+        return logWin(2, player2_alive_tanks);
+    if (player2_alive_tanks == 0)
+        return logWin(1, player1_alive_tanks);
+
+    return true;
 }
 
 void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
@@ -353,7 +374,7 @@ void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int,
         int x = shell->getNextLocation().first;
         int y = shell->getNextLocation().second;
 
-        if (board.isWallLocation(x, y)) {
+        if (board.isWallLocation(x, y)) { // if shell hits a wall
             board.reduceWallLives(x, y);
             if (board.wallIsDestroyed(x, y)) {
                 board.setGameObjectAt(x, y, std::make_unique<Empty>());
@@ -736,7 +757,7 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     }
 }
 
-bool GameManager::canMoveBackward(int tank_index) const{
+bool GameManager::canMoveBackward(int tank_index) const {
     bool last_action_backward = std::get<1>(all_tanks_backwards_info.at(tank_index));
     int counter = std::get<0>(all_tanks_backwards_info.at(tank_index));
     
@@ -757,7 +778,7 @@ CanonDirection GameManager::rotate(CanonDirection cur_dir, int rotation) {
     return static_cast<CanonDirection>(new_dir);
 }
 
-std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_ptr<Tank>& tank_to_shoot) const{
+std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_ptr<Tank>& tank_to_shoot) const {
     int dx = 0;
     int dy = 0;
     CanonDirection dir = tank_to_shoot->getCanonDirection();
@@ -775,13 +796,13 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_pt
         case CanonDirection::DOWN_RIGHT: dy = 1; dx = 1; break;
         default: break;
     }
-    int x_location = (tank_to_shoot->getLocationX() + dx + width) % width;
-    int y_location = (tank_to_shoot->getLocationY() + dy + height) % height;
+    int x_location = (tank_to_shoot->getLocationX() + dx + width) % width; // If shell arriving to the board border, continue from the other size, board is circular
+    int y_location = (tank_to_shoot->getLocationY() + dy + height) % height; // If shell arriving to the board border, continue from the other size, board is circular
     return std::make_pair(x_location, y_location);
 }
 
 // Called in every game iteration to delete collided flying shells
-void GameManager::deleteCollidedShells(){
+void GameManager::deleteCollidedShells() {
     // Used ChatGpt to create and work with set. prompt was "How to create set of pointers of shells, how to add and remove from it"
     for(const std::shared_ptr<Shell>& shell : shells_to_delete){
         flying_shells.erase(std::remove_if(flying_shells.begin(), flying_shells.end(), [&shell](const std::shared_ptr<Shell>& s) { return s == shell; }), flying_shells.end());   
@@ -789,17 +810,18 @@ void GameManager::deleteCollidedShells(){
     shells_to_delete.clear();
 }
 
-void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill){
-    if(tank_to_kill->getPlayerId() == 1){
+void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill) {
+    if(tank_to_kill->getPlayerId() == 1) {
         player1_alive_tanks--;
     }
-    else{
+    else {
         player2_alive_tanks--;
     }
+
     tank_to_kill->setAlive();
 }
 
-void GameManager::addTank(int row, int col, int player_id){
+void GameManager::addTank(int row, int col, int player_id) {
     
     if (player_id == 1) {
         all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells));

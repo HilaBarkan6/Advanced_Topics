@@ -23,21 +23,21 @@ class SimpleBattleInfo : public BattleInfo {
         // Getters
         size_t getHeight() const;
         size_t getWidth() const;
-        const std::vector<std::pair<int, int>>& getTanks1Locations() const;
-        const std::vector<std::pair<int, int>>& getTanks2Locations() const;
-        const std::pair<int, int>& getCalledTankLocation() const;
-        const std::vector<std::pair<int, int>>& getShellsLocations() const;
+        const std::vector<std::pair<int, int>>& getTanks1Locations() const; // Locations of player 1 tanks
+        const std::vector<std::pair<int, int>>& getTanks2Locations() const; // Locations of player 2 tanks
+        const std::pair<int, int>& getCalledTankLocation() const; // Location of the called tank
+        const std::vector<std::pair<int, int>>& getShellsLocations() const; 
         const std::vector<std::pair<int, int>>& getMinesLocations() const; 
         const std::vector<std::pair<int, int>>& getWallsLocations() const; 
 
-        void addTanks1Location(std::pair<int, int> tank1);
-        void addTanks2Location(std::pair<int, int> tank2);
-        void addCalledTankLocation(const std::pair<int, int> called_tank_location);
+        void addTanks1Location(std::pair<int, int> tank1); // Add a tank location for player 1
+        void addTanks2Location(std::pair<int, int> tank2); // Add a tank location for player 2
+        void addCalledTankLocation(const std::pair<int, int> called_tank_location); // Add a called tank location
         void addShellLocation(std::pair<int, int> shell);  
         void addMineLocation(std::pair<int, int> mine);
         void addWallLocation(std::pair<int, int> wall);
 
-        void clearInfo();
+        void clearInfo(); // Clear all battle information
 };
 
 #endif

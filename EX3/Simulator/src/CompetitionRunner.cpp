@@ -245,10 +245,11 @@ void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j
 
 std::vector<GameInput> CompetitionRunner::loadAllMaps() {
     std::vector<GameInput> maps;
+    std::string input_error_path = "input_error_" + std::to_string(std::time(nullptr)) + ".txt";
     for (const auto& entry : fs::directory_iterator(args.game_maps_folder)) {
         if (entry.path().extension() == ".txt") {
             try {
-                maps.push_back(readBoard(entry.path().string()));
+                maps.push_back(readBoard(entry.path().string(), input_error_path));
             } catch (...) {
                 std::cerr << "Failed to read map: " << entry.path() << "\n";
             }

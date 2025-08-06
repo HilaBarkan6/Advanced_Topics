@@ -28,16 +28,16 @@ static constexpr const char MINE_SIGN = '@';
 
 //Logger logger;
 
-GameInput readBoard(const std::string& path_input_file);
+GameInput readBoard(const std::string& path_input_file, const std::string& input_error_path);
 void readGameParameters(std::ifstream& file, GameInput& input);
 int readIntValueFromLine(const std::string& line, const std::string& key);
 
 // read the board matrix itself
-void readBoardData(const std::string& path_input_file, GameInput& input);
+void readBoardData(const std::string& path_input_file, GameInput& input, const std::string& input_error_path);
 void skipMetadata(std::ifstream& file);
 int readBoardLines(std::ifstream& file, GameInput& input, bool& has_errors, std::ostringstream& error_log);
 void processCell(char cell, GameInput& input, int row, int col, bool& has_errors, std::ostringstream& error_log);
 void fillMissingRows(int start_row, GameInput& input, bool& has_errors, std::ostringstream& error_log);
-void writeErrorLog(const std::ostringstream& error_log);
+void writeErrorLog(const std::ostringstream& error_log, const std::string& input_error_path, const std::string& path_input_file);
 
 #endif // BoardReader_H

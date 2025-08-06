@@ -1,9 +1,8 @@
 #include "BoardReader.h"
 using namespace UserCommon_209399021_208239152;
 
-GameInput readBoard(const std::string& path_input_file){
-    // size_t last_slash = path_input_file.find_last_of("/\\");
-    // const std::string input_file_name = (last_slash == std::string::npos) ? path_input_file : path_input_file.substr(last_slash + 1);
+GameInput readBoard(const std::string& path_input_file, const std::string& input_error_path){
+
     const std::string input_file_name = std::filesystem::path(path_input_file).stem().string();
 
     std::ifstream file(path_input_file);
@@ -19,9 +18,8 @@ GameInput readBoard(const std::string& path_input_file){
     for (auto& row : game_input.board)
         row.resize(game_input.height);  
 
-    readBoardData(path_input_file, game_input);
+    readBoardData(path_input_file, game_input, input_error_path);
 
-    //logger.logInfo("Board successfully built");
     file.close();
     return game_input;
 }
@@ -116,7 +114,8 @@ int readBoardLines(std::ifstream& file, GameInput& input, bool& has_errors, std:
     while (std::getline(file, line)) {
         if (row >= input.height) {
             has_errors = true;
-            error_log << "Too many rows, ignoring line " << row << ".\n";
+            error_log << "Too many rows, ignoring line " << row+1 << ".\n";
+            ++row;
             continue;
         }
 
@@ -157,14 +156,16 @@ void fillMissingRows(int start_row, GameInput& input, bool& has_errors, std::ost
     }
 }
 
-void writeErrorLog(const std::ostringstream& error_log) {
-    std::ofstream err_file("input_errors.txt");
+void writeErrorLog(const std::ostringstream& error_log, const std::string& input_error_path, const std::string& path_input_file) {
+    std::ofstream err_file(input_error_path, std::ios::app);
     if (err_file.is_open()) {
+        err_file << "Errors found in input file: " << path_input_file << "\n";
         err_file << error_log.str();
+        err_file << "\n";
     }
 }
 
-void readBoardData(const std::string& path_input_file, GameInput& input) {
+void readBoardData(const std::string& path_input_file, GameInput& input, const std::string& input_error_path) {
     std::ifstream file(path_input_file);
     if (!file.is_open()) {
         throw std::runtime_error("Error opening board file: " + path_input_file);
@@ -179,6 +180,6 @@ void readBoardData(const std::string& path_input_file, GameInput& input) {
     fillMissingRows(rows_read, input, has_errors, error_log);
 
     if (has_errors) {
-        writeErrorLog(error_log);
+        writeErrorLog(error_log, input_error_path, path_input_file);
     }
 }

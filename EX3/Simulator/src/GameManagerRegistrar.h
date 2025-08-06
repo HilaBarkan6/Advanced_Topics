@@ -21,7 +21,6 @@ class GameManagerRegistrar {
             factory = std::move(f);
         }
         const std::string& name() const { return so_name; }
-        //TODO - should return the real game manager?
         std::unique_ptr<AbstractGameManager> create(bool verbose) const {
             return factory(verbose);
         }

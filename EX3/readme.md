@@ -90,7 +90,7 @@ What's next:
 - Make sure in competition mode, mathces are generated properly - Yovel **done**
 - Competitive section 2 - Yovel **done**
 - Competitive section 5 - Hila **done**
-- Additional output and error handaling - make sure everything works as wrriten there - Hila **in progress** still thinking what to do with input_errors.txt
+- Additional output and error handaling - make sure everything works as wrriten there - Hila **done** 
 - student.txt and readme
 - Make sure all dll's closed at finish - Yovel **done**
 - Fix congureation file path in main - Yovel **done**

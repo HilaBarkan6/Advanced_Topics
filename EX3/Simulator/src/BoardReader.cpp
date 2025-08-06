@@ -81,7 +81,6 @@ void skipMetadata(std::ifstream& file) {
 
 void processCell(char cell, GameInput& input, int row, int col, bool& has_errors, std::ostringstream& error_log) {
     const Config& config = Config::getInstance();
-    //TODO - can be simplified
 
     if (cell == config.get("wall_sign", std::string(1, WALL_SIGN))[0]) {
         input.board[col][row] = cell;

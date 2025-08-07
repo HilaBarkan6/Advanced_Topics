@@ -1,5 +1,5 @@
-#ifndef GAME_MANAGER_H
-#define GAME_MANAGER_H
+#ifndef GAME_MANAGER_209399021_208239152_H
+#define GAME_MANAGER_209399021_208239152_H
 #include "Board.h"
 #include "../../common/Player.h"
 #include "../../common/ActionRequest.h"
@@ -39,7 +39,7 @@ namespace GameManager_209399021_208239152 {
         }
     };
 
-    class GameManager: public AbstractGameManager {
+    class GameManager_208239152_209399021: public AbstractGameManager {
         private:
             // Config parameters, default values, can be changed in config file
             static constexpr const char OUT_OF_BOUNDS_SIGN = '&';
@@ -172,8 +172,8 @@ namespace GameManager_209399021_208239152 {
             bool handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations); // Handles the shooting action for the tank, checks if the tank can shoot and updates the shell locations.
 
         public:
-            GameManager(bool verbose);
-            virtual ~GameManager() = default;
+            GameManager_208239152_209399021(bool verbose);
+            virtual ~GameManager_208239152_209399021() = default;
             //void readBoard(const std::string& pathInputFile);
             GameResult run(size_t map_width, size_t map_height,
                     const SatelliteView& map, // <= assume it is a snapshot, NOT updated

@@ -1,14 +1,14 @@
-#include "BFSTankAlgorithm.h"
+#include "TankAlgorithm_209399021_208239152.h"
 
 using namespace Algorithm_209399021_208239152;
-REGISTER_TANK_ALGORITHM(BFSTankAlgorithm);
+REGISTER_TANK_ALGORITHM(TankAlgorithm_209399021_208239152);
 
 //TODO - fix the 10
-BFSTankAlgorithm::BFSTankAlgorithm(int player_id, int tank_index)
+TankAlgorithm_209399021_208239152::TankAlgorithm_209399021_208239152(int player_id, int tank_index)
         : TankAlgorithmImp(player_id, tank_index), 
         bfs_max_depth(10) {}
 
-ActionRequest BFSTankAlgorithm::getAction() {
+ActionRequest TankAlgorithm_209399021_208239152::getAction() {
     turn_counter++;
     
     // We decided to request battle info every 3 turns, so if the turn counter is 1, we request battle info
@@ -25,7 +25,7 @@ ActionRequest BFSTankAlgorithm::getAction() {
 /* We decided that updateBattleInfo is a complex function that calculates the next 2 actions.
 *  GetAction will return the result of the calculation.
 */
-void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
+void TankAlgorithm_209399021_208239152::updateBattleInfo(BattleInfo& info) {
     actions_to_apply.clear();
     SimpleBattleInfo& simple_info = dynamic_cast<SimpleBattleInfo&>(info); // Downcast is allowed
 
@@ -67,7 +67,7 @@ void BFSTankAlgorithm::updateBattleInfo(BattleInfo& info) {
     }
 }
 
-void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> cur_shells_locations) {
+void TankAlgorithm_209399021_208239152::analyzeShellsMovements(std::vector<std::pair<int, int>> cur_shells_locations) {
     shells_movements.clear(); // Clear previous movements map
 
     // For each shell in the current state, try to find matching shell in previous state to infer movement vector
@@ -93,7 +93,7 @@ void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> c
     }
 }
 
-// std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankAlgorithm::computeDangerPositions() const {
+// std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> TankAlgorithm_209399021_208239152::computeDangerPositions() const {
 //     // set of dangerous positions for the first turn after the info request
 //     std::set<std::pair<int, int>> first_danger_positions;
 //     // set of dangerous positions for the second turn after the info request
@@ -119,7 +119,7 @@ void BFSTankAlgorithm::analyzeShellsMovements(std::vector<std::pair<int, int>> c
 //     return std::make_pair(first_danger_positions, second_danger_positions);
 // }
 
-std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankAlgorithm::computeDangerPositions() const {
+std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> TankAlgorithm_209399021_208239152::computeDangerPositions() const {
     constexpr int DANGER_FIRST_TURN_START_STEP = 2;
     constexpr int DANGER_FIRST_TURN_END_STEP = 4;
 
@@ -151,7 +151,7 @@ std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> BFSTankA
     return {first_danger_positions, second_danger_positions};
 }
 
-bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location) {
+bool TankAlgorithm_209399021_208239152::tryShoot(const QueueNode& current, const SimpleBattleInfo& info, const std::pair<int, int>& enemy_location) {
     int x = current.state.x;
     int y = current.state.y;
     CanonDirection dir = current.state.dir;
@@ -175,7 +175,7 @@ bool BFSTankAlgorithm::tryShoot(const QueueNode& current, const SimpleBattleInfo
     return false;
 }
 
-void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>>& danger_positions) {
+void TankAlgorithm_209399021_208239152::tryMoveForward(const QueueNode& current, const SimpleBattleInfo& info, std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>>& danger_positions) {
     auto [x, y] = getNextForwardLocation({current.state.x, current.state.y}, current.state.dir);
 
     //if (danger_positions.count({x, y})) return; // Unsafe move, location is dangerous because shells are moving there
@@ -191,7 +191,7 @@ void BFSTankAlgorithm::tryMoveForward(const QueueNode& current, const SimpleBatt
     }
 }
 
-void BFSTankAlgorithm::tryRotations(const QueueNode& current) {
+void TankAlgorithm_209399021_208239152::tryRotations(const QueueNode& current) {
     static const std::vector<std::pair<ActionRequest, int>> rotations = {
         {ActionRequest::RotateLeft45,  -1},
         {ActionRequest::RotateLeft90,  -2},
@@ -211,7 +211,7 @@ void BFSTankAlgorithm::tryRotations(const QueueNode& current) {
 }
 
 
-void BFSTankAlgorithm::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
+void TankAlgorithm_209399021_208239152::bfs(const std::pair<int, int>& enemy_location, const SimpleBattleInfo& simple_info ){
     visited.clear();
     q = std::queue<QueueNode>();
     actions_to_apply.clear();

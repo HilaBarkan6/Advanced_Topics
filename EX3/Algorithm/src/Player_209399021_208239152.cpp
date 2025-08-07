@@ -1,11 +1,11 @@
 
-#include "SimplePlayer.h"
+#include "Player_209399021_208239152.h"
 using namespace Algorithm_209399021_208239152;
 
-REGISTER_PLAYER(SimplePlayer);
+REGISTER_PLAYER(Player_209399021_208239152);
 
 namespace Algorithm_209399021_208239152 {
-    void SimplePlayer::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
+    void Player_209399021_208239152::updateTankWithBattleInfo(TankAlgorithm& tank, SatelliteView& satellite_view) {
         prev_battle_info = battle_info; // Store the previous battle info for future comparisons
         battle_info.clearInfo();
 

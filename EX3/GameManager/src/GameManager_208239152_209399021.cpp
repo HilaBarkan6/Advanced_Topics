@@ -1,7 +1,7 @@
-#include "GameManager.h"
+#include "GameManager_208239152_209399021.h"
 
 using namespace GameManager_209399021_208239152;
-REGISTER_GAME_MANAGER(GameManager);
+REGISTER_GAME_MANAGER(GameManager_208239152_209399021);
 
 // Overload operator<< for ActionRequest
 std::ostream& operator<<(std::ostream& os, const ActionRequest& action) {
@@ -36,7 +36,7 @@ std::ostream& operator<<(std::ostream& os, const CanonDirection& direction) {
     return os;
 }
 
-GameManager::GameManager(bool verbose): 
+GameManager_208239152_209399021::GameManager_208239152_209399021(bool verbose): 
       out_of_bounds_sign(Config::getInstance().get("out_of_bounds_sign", std::string(1, OUT_OF_BOUNDS_SIGN))[0]),
       wall_sign(Config::getInstance().get("wall_sign", std::string(1, WALL_SIGN))[0]),
       tank1_sign(Config::getInstance().get("tank1_sign", std::string(1, TANK1_SIGN))[0]),
@@ -56,7 +56,7 @@ GameManager::GameManager(bool verbose):
       view(),
       counter_no_shells(0) {}
 
-void GameManager::initializeGame(std::ofstream& output_file) {
+void GameManager_208239152_209399021::initializeGame(std::ofstream& output_file) {
 
     for(size_t i = 0; i < all_tanks.size(); i++){
         tank_last_shooting[i] = -1;
@@ -74,7 +74,7 @@ void GameManager::initializeGame(std::ofstream& output_file) {
     }
 }
 
-void GameManager::handleEvenTurn(std::ofstream& output_file) {
+void GameManager_208239152_209399021::handleEvenTurn(std::ofstream& output_file) {
     MoveShells(true);
     std::unordered_map<int, ActionRequest> wanted_actions;
     std::unordered_map<int, std::pair<int, int>> new_wanted_locations;
@@ -116,12 +116,12 @@ void GameManager::handleEvenTurn(std::ofstream& output_file) {
     deleteCollidedShells();
 }
 
-void GameManager::handleOddTurn() {
+void GameManager_208239152_209399021::handleOddTurn() {
     MoveShells(false);
     deleteCollidedShells();
 }
 
-void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory,
+void GameManager_208239152_209399021::createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory,
                                             TankAlgorithmFactory player2_tank_algo_factory) {
     this->height = height;
     this->width = width;
@@ -148,7 +148,7 @@ void GameManager::createBoardAndTanksFromMap(const SatelliteView& map, size_t he
     }
 }
 
-GameResult GameManager::run(size_t map_width, size_t map_height, const SatelliteView& map, string map_name, size_t max_steps, size_t num_shells,
+GameResult GameManager_208239152_209399021::run(size_t map_width, size_t map_height, const SatelliteView& map, string map_name, size_t max_steps, size_t num_shells,
                         Player& player1, string name1, Player& player2, string name2, TankAlgorithmFactory player1_tank_algo_factory,
                         TankAlgorithmFactory player2_tank_algo_factory) {
     //TODO - fix this, not sure how to take the players from the parameters and keep them locally in game manager as unique_ptrs
@@ -190,7 +190,7 @@ GameResult GameManager::run(size_t map_width, size_t map_height, const Satellite
     return std::move(game_result);
 }
 
-std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const {
+std::vector<std::vector<char>> GameManager_208239152_209399021::createSatelliteMatrix() const {
     std::vector<std::vector<char>> satellite_matrix(width, std::vector<char>(height, ' '));
 
     // Add Walls and Mines
@@ -223,7 +223,7 @@ std::vector<std::vector<char>> GameManager::createSatelliteMatrix() const {
     return satellite_matrix;
 }
 
-bool GameManager::shellFinished(){
+bool GameManager_208239152_209399021::shellFinished(){
     for(size_t i=0; i<all_tanks.size(); i++){
         if(all_tanks[i]->getUnusedShellsCount() > 0){
             return false;
@@ -232,7 +232,7 @@ bool GameManager::shellFinished(){
     return true;
 }
 
-void GameManager::FillGameResult(){
+void GameManager_208239152_209399021::FillGameResult(){
     game_result.rounds = turn_counter / 2; 
     game_result.remaining_tanks.push_back(player1_alive_tanks); // add player 1 remaining tanks
     game_result.remaining_tanks.push_back(player2_alive_tanks); // add player 2 remaining tanks
@@ -248,75 +248,8 @@ void GameManager::FillGameResult(){
     game_result.gameState = std::move(view);
 }
 
-// bool GameManager::isGameOver(std::ofstream& output_file) {
-//     // Check if both players finished their shells and 40 turns passed
-//     if (player1_alive_tanks > 0  && player2_alive_tanks > 0) {
-//         if(no_more_shells && counter_no_shells>=2*max_turns_no_shells){
-//             if(should_verbose) {
-//                 output_file << "Tie, both players have zero shells for " << max_turns_no_shells << " steps";
-//             }
-//             logger.logInfo("Tie, both players have zero shells for " + std::to_string(max_turns_no_shells) + " steps");
-            
-//             FillGameResult();
-//             game_result.winner = 0;
-//             game_result.reason = GameResult::ZERO_SHELLS;
-//             return true;
-//         }
 
-//         if(turn_counter >= max_steps * 2){
-
-//             if(should_verbose) {
-//                 output_file << "Tie, reached max steps = " << max_steps << " , player 1 has " << player1_alive_tanks << " tanks, player 2 has " << player2_alive_tanks << " tanks";
-//             }
-
-//             logger.logInfo("Tie, reached max steps = " + std::to_string(max_steps) + " , player 1 has " + std::to_string(player1_alive_tanks) + " tanks, player 2 has " + std::to_string(player2_alive_tanks) + " tanks");
-//             FillGameResult();
-//             game_result.winner = 0; 
-//             game_result.reason = GameResult::MAX_STEPS;
-//             return true;
-//         }
-//         return false; 
-//     }
-
-//     // Both players are dead
-//     if (player1_alive_tanks == 0  && player2_alive_tanks == 0) {
-//         if(should_verbose){
-//             output_file << "Tie, both players have zero tanks";
-//         }
-//         logger.logInfo("Tie, both players have zero tanks");
-
-//         FillGameResult();
-//         game_result.winner = 0;
-//         game_result.reason = GameResult::ALL_TANKS_DEAD;
-//         return true;
-//     }
-//     // Only player1 dead
-//     else if (player1_alive_tanks == 0) {
-//         if(should_verbose){
-//             output_file << "Player 2 won with " << player2_alive_tanks << " tanks still alive";
-//     }
-//         logger.logInfo("Player 2 won with " + std::to_string(player2_alive_tanks) + " tanks still alive");
-//         FillGameResult();
-//         game_result.winner = 2;
-//         game_result.reason = GameResult::ALL_TANKS_DEAD;
-
-//         return true;
-//     // Only player 2 dead
-//     } else if (player2_alive_tanks == 0) {
-//         if(should_verbose){
-//             output_file << "Player 1 won with " << player1_alive_tanks << " tanks still alive";
-//         }
-//         logger.logInfo("Player 1 won with " + std::to_string(player1_alive_tanks) + " tanks still alive");
-//         FillGameResult();
-//         game_result.winner = 1; 
-//         game_result.reason = GameResult::ALL_TANKS_DEAD;
-//         return true;
-//     }
-    
-//     return true;  
-// }
-
-bool GameManager::isGameOver(std::ofstream& output_file) {
+bool GameManager_208239152_209399021::isGameOver(std::ofstream& output_file) {
     auto logTie = [&](const std::string& msg, GameResult::Reason reason) { // Helper function to log a tie
         if (should_verbose) output_file << msg;
         logger.logInfo(msg);
@@ -357,7 +290,7 @@ bool GameManager::isGameOver(std::ofstream& output_file) {
     return true;
 }
 
-void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
+void GameManager_208239152_209399021::moveAndHandleShellCollisions(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
     for (auto& shell : flying_shells) {
         auto shell_cur_location = shell->getLocation();
 
@@ -387,7 +320,7 @@ void GameManager::moveAndHandleShellCollisions(std::unordered_map<std::pair<int,
     }
 }
 
-void GameManager::handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
+void GameManager_208239152_209399021::handleShellTankHits(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
     for (const auto& [loc, _] : shell_locations_map) {
         for (size_t i = 0; i < all_tanks.size(); i++) {
             if (loc.first == all_tanks[i]->getLocationX() && loc.second == all_tanks[i]->getLocationY() && all_tanks[i]->getAlive()) {
@@ -404,7 +337,7 @@ void GameManager::handleShellTankHits(const std::unordered_map<std::pair<int, in
     }
 }
 
-void GameManager::handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
+void GameManager_208239152_209399021::handleShellToShellCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash>& shell_locations_map) {
     for (const auto& [loc, vec] : shell_locations_map) {
         if (vec.size() > 1) {
             logger.logInfo(std::to_string(vec.size()) + " shells collided at location [" + std::to_string(loc.first) + ", " + std::to_string(loc.second) + "]");
@@ -415,7 +348,7 @@ void GameManager::handleShellToShellCollisions(const std::unordered_map<std::pai
     }
 }
 
-void GameManager::MoveShells(bool is_even_turn) {
+void GameManager_208239152_209399021::MoveShells(bool is_even_turn) {
     std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Shell>>, pair_hash> shell_locations_map;
 
     moveAndHandleShellCollisions(shell_locations_map);
@@ -427,7 +360,7 @@ void GameManager::MoveShells(bool is_even_turn) {
     handleShellToShellCollisions(shell_locations_map);
 }
 
-void GameManager::updateShellNextLocation(std::shared_ptr<Shell> & shell){
+void GameManager_208239152_209399021::updateShellNextLocation(std::shared_ptr<Shell> & shell){
     int dx = 0;
     int dy = 0;
     CanonDirection dir = shell->getFlyingDirection();
@@ -450,7 +383,7 @@ void GameManager::updateShellNextLocation(std::shared_ptr<Shell> & shell){
     shell->setNextLocation(std::make_pair(x_location, y_location));
 }
 
-std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tank_to_move, int tank_index, ActionRequest wanted_action){
+std::pair<int, int> GameManager_208239152_209399021::getNewLocation(const std::shared_ptr<Tank>& tank_to_move, int tank_index, ActionRequest wanted_action){
     int dx = 0;
     int dy = 0;
     CanonDirection dir = tank_to_move->getCanonDirection();
@@ -487,7 +420,7 @@ std::pair<int, int> GameManager::getNewLocation(const std::shared_ptr<Tank>& tan
     return std::make_pair(x_location, y_location);
 }
 
-void GameManager::addTankToLocationMap(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map,
+void GameManager_208239152_209399021::addTankToLocationMap(std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map,
     int tank_index, const std::pair<int, int>& cur_location, const std::pair<int, int>& new_location) {
 
     map[cur_location].push_back(all_tanks[tank_index]);
@@ -497,14 +430,14 @@ void GameManager::addTankToLocationMap(std::unordered_map<std::pair<int, int>, s
     }
 }
 
-void GameManager::checkWallCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
+void GameManager_208239152_209399021::checkWallCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
     if (board.isWallLocation(new_location.first, new_location.second)) {
         logger.logInfo("Bad move, Tank " + std::to_string(tank_index) + " hit a wall!");
         can_tank_move[tank_index] = false;
     }
 }
 
-void GameManager::checkMineCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
+void GameManager_208239152_209399021::checkMineCollision(int tank_index, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
     if (board.isMineLocation(new_location.first, new_location.second)) {
         logger.logInfo("Bad move, Tank " + std::to_string(tank_index) + " hit a mine!");
         can_tank_move[tank_index] = false;
@@ -516,7 +449,7 @@ void GameManager::checkMineCollision(int tank_index, const std::pair<int,int>& n
     }
 }
 
-void GameManager::checkShellCollision(int tank_index, const std::pair<int,int>& cur_location, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
+void GameManager_208239152_209399021::checkShellCollision(int tank_index, const std::pair<int,int>& cur_location, const std::pair<int,int>& new_location, std::unordered_map<int,bool>& can_tank_move) {
     for (const auto& shell : flying_shells) {
         bool will_move = can_tank_move[tank_index];
         if ((will_move && (shell->getLocation() == new_location || shell->getPrevLocation() == new_location)) ||
@@ -531,7 +464,7 @@ void GameManager::checkShellCollision(int tank_index, const std::pair<int,int>& 
     }
 }
 
-void GameManager::resolveTankCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map) {
+void GameManager_208239152_209399021::resolveTankCollisions(const std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash>& map) {
     for (const auto& [location, tanks] : map) {
         if (tanks.size() > 1) {
             for (const auto& tank : tanks) {
@@ -541,7 +474,7 @@ void GameManager::resolveTankCollisions(const std::unordered_map<std::pair<int, 
     }
 }
 
-void GameManager::applyTankKillResults(std::unordered_map<int,bool>& can_tank_move) {
+void GameManager_208239152_209399021::applyTankKillResults(std::unordered_map<int,bool>& can_tank_move) {
     for (auto& [tank_index, can_move] : can_tank_move) {
         if (tanks_to_kill.find(all_tanks[tank_index]) != tanks_to_kill.end()) {
             can_tank_move[tank_index] = false;
@@ -553,7 +486,7 @@ void GameManager::applyTankKillResults(std::unordered_map<int,bool>& can_tank_mo
     }
 }
 
-std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations) {
+std::unordered_map<int,bool> GameManager_208239152_209399021::checkCollisions(std::unordered_map<int, std::pair<int, int>> new_wanted_locations) {
     std::unordered_map<int,bool> can_tank_move;
     std::unordered_map<std::pair<int, int>, std::vector<std::shared_ptr<Tank>>, pair_hash> tank_locations_map;
 
@@ -574,7 +507,7 @@ std::unordered_map<int,bool> GameManager::checkCollisions(std::unordered_map<int
     return can_tank_move;
 }
 
-bool GameManager::handleBackwardWaiting(int tank_index, ActionRequest action) {
+bool GameManager_208239152_209399021::handleBackwardWaiting(int tank_index, ActionRequest action) {
     if (action != ActionRequest::MoveBackward && std::get<2>(all_tanks_backwards_info[tank_index])) {
         /* Check if player requested forward while waiting for backward movement, if so, cancel backward waiting.
          * Backward info is: first - counter since requesting backward, 
@@ -606,7 +539,7 @@ bool GameManager::handleBackwardWaiting(int tank_index, ActionRequest action) {
     return false; 
 }
 
-void GameManager::handleBattleInfo(int tank_index) {
+void GameManager_208239152_209399021::handleBattleInfo(int tank_index) {
     int player_id = all_tanks[tank_index]->getPlayerId();
     auto cur_location = std::make_pair(all_tanks[tank_index]->getLocationX(), all_tanks[tank_index]->getLocationY());
     view->setCharAtLocation(cur_location, called_tank_sign);
@@ -621,7 +554,7 @@ void GameManager::handleBattleInfo(int tank_index) {
     }
 }
 
-bool GameManager::handleMoveForward(int tank_index, bool can_move, std::pair<int,int> new_location) {
+bool GameManager_208239152_209399021::handleMoveForward(int tank_index, bool can_move, std::pair<int,int> new_location) {
     if (can_move) {
         all_tanks[tank_index]->setLocation(new_location.first, new_location.second);
         logger.logInfo("Tank " + std::to_string(tank_index) + " moved forward to [" + std::to_string(new_location.first) + ", " + std::to_string(new_location.second) + "]");
@@ -630,7 +563,7 @@ bool GameManager::handleMoveForward(int tank_index, bool can_move, std::pair<int
     return true; 
 }
 
-bool GameManager::handleMoveBackward(int tank_index, bool can_move, std::pair<int,int> new_location) {
+bool GameManager_208239152_209399021::handleMoveBackward(int tank_index, bool can_move, std::pair<int,int> new_location) {
     if(canMoveBackward(tank_index)) {
         if (can_move) {
             all_tanks[tank_index]->setLocation(new_location.first, new_location.second);
@@ -649,7 +582,7 @@ bool GameManager::handleMoveBackward(int tank_index, bool can_move, std::pair<in
     return false;
 }
 
-void GameManager::handleRotation(int tank_index, ActionRequest action) {
+void GameManager_208239152_209399021::handleRotation(int tank_index, ActionRequest action) {
     CanonDirection current_dir = all_tanks[tank_index]->getCanonDirection();
     switch(action) {
         case ActionRequest::RotateLeft90:
@@ -673,7 +606,7 @@ void GameManager::handleRotation(int tank_index, ActionRequest action) {
     logger.logInfo(oss.str());
 }
 
-bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations) {
+bool GameManager_208239152_209399021::handleShooting(int tank_index, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations) {
     int last = tank_last_shooting[tank_index];
     
     /* Check if allowed to shoot
@@ -713,7 +646,7 @@ bool GameManager::handleShooting(int tank_index, const std::unordered_map<int, s
     }
 }
 
-void GameManager::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
+void GameManager_208239152_209399021::applyAction(int tank_index, ActionRequest action, bool can_move, std::pair<int, int> new_location, const std::unordered_map<int, std::pair<int, int>>& new_wanted_locations, std::ofstream& output_file) {
     bool is_ignored = false;
 
     if(handleBackwardWaiting(tank_index, action)){
@@ -753,7 +686,7 @@ void GameManager::applyAction(int tank_index, ActionRequest action, bool can_mov
     }
 }
 
-bool GameManager::canMoveBackward(int tank_index) const {
+bool GameManager_208239152_209399021::canMoveBackward(int tank_index) const {
     bool last_action_backward = std::get<1>(all_tanks_backwards_info.at(tank_index));
     int counter = std::get<0>(all_tanks_backwards_info.at(tank_index));
     
@@ -763,7 +696,7 @@ bool GameManager::canMoveBackward(int tank_index) const {
     return false;
 }
 
-CanonDirection GameManager::rotate(CanonDirection cur_dir, int rotation) {
+CanonDirection GameManager_208239152_209399021::rotate(CanonDirection cur_dir, int rotation) {
     // Used ChatGpt to cast the direction to number and preforme rotation as addition/substraction
     int new_dir = static_cast<int>(cur_dir) + rotation;
     if (new_dir < 0) {
@@ -774,7 +707,7 @@ CanonDirection GameManager::rotate(CanonDirection cur_dir, int rotation) {
     return static_cast<CanonDirection>(new_dir);
 }
 
-std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_ptr<Tank>& tank_to_shoot) const {
+std::pair<int, int> GameManager_208239152_209399021::getShellLocationOnCreation(const std::shared_ptr<Tank>& tank_to_shoot) const {
     int dx = 0;
     int dy = 0;
     CanonDirection dir = tank_to_shoot->getCanonDirection();
@@ -798,7 +731,7 @@ std::pair<int, int> GameManager::getShellLocationOnCreation(const std::shared_pt
 }
 
 // Called in every game iteration to delete collided flying shells
-void GameManager::deleteCollidedShells() {
+void GameManager_208239152_209399021::deleteCollidedShells() {
     // Used ChatGpt to create and work with set. prompt was "How to create set of pointers of shells, how to add and remove from it"
     for(const std::shared_ptr<Shell>& shell : shells_to_delete){
         flying_shells.erase(std::remove_if(flying_shells.begin(), flying_shells.end(), [&shell](const std::shared_ptr<Shell>& s) { return s == shell; }), flying_shells.end());   
@@ -806,7 +739,7 @@ void GameManager::deleteCollidedShells() {
     shells_to_delete.clear();
 }
 
-void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill) {
+void GameManager_208239152_209399021::killTank(std::shared_ptr<Tank>& tank_to_kill) {
     if(tank_to_kill->getPlayerId() == 1) {
         player1_alive_tanks--;
     }
@@ -817,7 +750,7 @@ void GameManager::killTank(std::shared_ptr<Tank>& tank_to_kill) {
     tank_to_kill->setAlive();
 }
 
-void GameManager::addTank(int row, int col, int player_id) {
+void GameManager_208239152_209399021::addTank(int row, int col, int player_id) {
     
     if (player_id == 1) {
         all_tanks.emplace_back(std::make_shared<Tank>(row, col, CanonDirection::LEFT, 1, player1_alive_tanks, num_shells));

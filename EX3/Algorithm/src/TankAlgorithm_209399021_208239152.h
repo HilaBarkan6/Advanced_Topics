@@ -1,5 +1,5 @@
-#ifndef BFSTANKALGORITHM_H
-#define BFSTANKALGORITHM_H
+#ifndef TankAlgorithm_209399021_208239152_H
+#define TankAlgorithm_209399021_208239152_H
 #include "TankAlgorithmImp.h"
 #include "../../common/ActionRequest.h"
 #include "../UserCommon/configuration/Config.h"
@@ -12,7 +12,7 @@
 using namespace UserCommon_209399021_208239152;
 
 namespace Algorithm_209399021_208239152 {
-    class BFSTankAlgorithm : public TankAlgorithmImp {
+    class TankAlgorithm_209399021_208239152 : public TankAlgorithmImp {
         struct State{
             int x, y;
             CanonDirection dir;
@@ -55,10 +55,10 @@ namespace Algorithm_209399021_208239152 {
             std::pair<std::set<std::pair<int, int>>, std::set<std::pair<int, int>>> computeDangerPositions() const; // Compute the positions that are dangerous for the tank based on the shells_movements map
 
         public:
-            BFSTankAlgorithm(int player_id, int tank_index); 
+            TankAlgorithm_209399021_208239152(int player_id, int tank_index); 
             virtual ActionRequest getAction() override; 
             virtual void updateBattleInfo(BattleInfo& info) override; 
-            virtual ~BFSTankAlgorithm() override = default;
+            virtual ~TankAlgorithm_209399021_208239152() override = default;
     };
 }
 

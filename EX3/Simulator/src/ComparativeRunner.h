@@ -24,6 +24,12 @@
 #include <ctime>
 #include <map>
 #include <set>
+#include <thread>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
+#include <atomic>
+
 
 class ComparativeRunner {
     private:
@@ -40,6 +46,10 @@ class ComparativeRunner {
 
     SatelliteViewImp createSatelliteView(const GameInput& input) const; // Creates a SatelliteViewImp object initialized with the game input data.
     std::map<std::string, std::set<std::string>> runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input);
+
+    void runSingleGame(const std::string& path, const GameInput& input,
+                                      std::map<std::string, std::set<std::string>>& result_map,
+                                      std::mutex& result_mutex);
 
     // Writes the aggregated results to an output file in the GameManager folder.
     void writeResults(const std::map<std::string, std::set<std::string>>& result_map, const GameInput& input);

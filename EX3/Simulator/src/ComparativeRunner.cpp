@@ -64,45 +64,127 @@ SatelliteViewImp ComparativeRunner::createSatelliteView(const GameInput& input) 
     return view;
 }
 
-std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input) {
+// std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input) {
+//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+
+//     std::map<std::string, std::set<std::string>> result_map;
+//     bool same_algorithm = (args.algorithm1 == args.algorithm2) || fs::equivalent(args.algorithm1, args.algorithm2);
+
+//     if (algo_registrar.count() < 2 && !same_algorithm) {
+//         std::cerr << "Not enough algorithms registered (need 2).\n";
+//         return result_map;
+//     }
+
+//     for (const auto& path : gm_paths) {
+//         try {
+//             auto gm = gm_registrar.begin()->create(args.verbose);
+
+//             const auto& a1 = algo_registrar.getAlgorithms()[0];
+//             const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;
+
+//             auto player1 = a1.createPlayer(1, input.width, input.height, input.max_steps, input.num_shells);
+//             auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
+
+//             auto view = createSatelliteView(input);
+//             auto result = gm->run(
+//                 input.width, input.height, view, input.input_file_name,
+//                 input.max_steps, input.num_shells,
+//                 *player1, a1.name(), *player2, a2.name(),
+//                 a1.getTankAlgorithmFactory(), a2.getTankAlgorithmFactory()
+//             );
+
+//             std::string key = formatResult(result, input.max_steps, input.width, input.height);
+//             result_map[key].insert(fs::path(path).filename().string());
+
+//         } catch (const std::exception& e) {
+//             std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
+//         }
+//     }
+
+//     return result_map;
+// }
+
+std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
+    const std::vector<std::string>& gm_paths, const GameInput& input) {
+
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
     std::map<std::string, std::set<std::string>> result_map;
-    bool same_algorithm = (args.algorithm1 == args.algorithm2) || fs::equivalent(args.algorithm1, args.algorithm2);
+    std::mutex result_mutex;
 
+    bool same_algorithm = (args.algorithm1 == args.algorithm2) || fs::equivalent(args.algorithm1, args.algorithm2);
     if (algo_registrar.count() < 2 && !same_algorithm) {
         std::cerr << "Not enough algorithms registered (need 2).\n";
         return result_map;
     }
 
-    for (const auto& path : gm_paths) {
-        try {
-            auto gm = gm_registrar.begin()->create(args.verbose);
-
-            const auto& a1 = algo_registrar.getAlgorithms()[0];
-            const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;
-
-            auto player1 = a1.createPlayer(1, input.width, input.height, input.max_steps, input.num_shells);
-            auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
-
-            auto view = createSatelliteView(input);
-            auto result = gm->run(
-                input.width, input.height, view, input.input_file_name,
-                input.max_steps, input.num_shells,
-                *player1, a1.name(), *player2, a2.name(),
-                a1.getTankAlgorithmFactory(), a2.getTankAlgorithmFactory()
-            );
-
-            std::string key = formatResult(result, input.max_steps, input.width, input.height);
-            result_map[key].insert(fs::path(path).filename().string());
-
-        } catch (const std::exception& e) {
-            std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
+    int num_threads = args.num_threads > 0 ? args.num_threads : 1;
+    if (num_threads <= 1 || gm_paths.size() <= 1) {
+        // Single-threaded fallback
+        for (const auto& path : gm_paths) {
+            runSingleGame(path, input, result_map, result_mutex);
         }
+        return result_map;
     }
 
+    // Thread pool with (num_threads - 1) workers
+    std::vector<std::thread> workers;
+    std::atomic<size_t> index{0};
+
+    auto worker = [&]() {
+        while (true) {
+            size_t i = index.fetch_add(1);
+            if (i >= gm_paths.size()) break;
+            runSingleGame(gm_paths[i], input, result_map, result_mutex);
+        }
+    };
+
+    for (size_t i = 0; i < num_threads - 1; ++i)
+        workers.emplace_back(worker);
+
+    // Main thread also works
+    worker();
+
+    for (auto& t : workers)
+        t.join();
+
     return result_map;
+}
+
+void ComparativeRunner::runSingleGame(const std::string& path, const GameInput& input,
+                                      std::map<std::string, std::set<std::string>>& result_map,
+                                      std::mutex& result_mutex) {
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+
+    try {
+        auto gm = gm_registrar.begin()->create(args.verbose);
+
+        const auto& a1 = algo_registrar.getAlgorithms()[0];
+        const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;
+
+        auto player1 = a1.createPlayer(1, input.width, input.height, input.max_steps, input.num_shells);
+        auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
+
+        auto view = createSatelliteView(input);
+        auto result = gm->run(
+            input.width, input.height, view, input.input_file_name,
+            input.max_steps, input.num_shells,
+            *player1, a1.name(), *player2, a2.name(),
+            a1.getTankAlgorithmFactory(), a2.getTankAlgorithmFactory()
+        );
+
+        std::string key = formatResult(result, input.max_steps, input.width, input.height);
+
+        std::lock_guard<std::mutex> lock(result_mutex);
+        result_map[key].insert(fs::path(path).filename().string());
+
+    } catch (const std::exception& e) {
+        std::lock_guard<std::mutex> lock(result_mutex);
+        std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
+    }
 }
 
 

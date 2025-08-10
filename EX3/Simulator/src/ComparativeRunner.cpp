@@ -167,7 +167,7 @@ void ComparativeRunner::writeResults(
                   << "Outputting results to screen instead:\n\n";
 
                   
-        std::cout << "game_map=" << std::filesystem::path(args.game_map).stem().string() << "\n";
+        std::cout << "game_map=" << std::filesystem::path(args.game_map).string() << "\n";
         std::cout << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
         std::cout << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
 
@@ -177,7 +177,7 @@ void ComparativeRunner::writeResults(
         return;
     }
 
-    out << "game_map=" << std::filesystem::path(args.game_map).stem().string() << "\n";
+    out << "game_map=" << std::filesystem::path(args.game_map).string() << "\n";
     out << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
     out << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
 

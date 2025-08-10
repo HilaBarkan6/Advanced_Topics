@@ -25,7 +25,6 @@ class GameManagerRegistrar {
             return factory(verbose);
         }
         bool hasFactory() const { return factory != nullptr; }
-        ~GameManagerEntry(){} // TODO: Do we need to implement rule of five here? 
     } GameManagerEntry;
     
     std::vector<GameManagerEntry> managers;

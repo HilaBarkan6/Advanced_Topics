@@ -48,45 +48,6 @@ void CompetitionRunner::loadAllAlgorithmHandles( const std::vector<std::string>&
     }
 }
 
-// void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
-
-//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-
-//     // Check that at least two algorithms are registered
-//     if (algo_registrar.count() < 2) {
-//         std::cerr << "Error: Not enough algorithms registered.\n";
-//         return;
-//     }
-//     // Check that at least one GameManager is registered
-//     if (gm_registrar.count() < 1) {
-//         std::cerr << "Error: No GameManager registered.\n";
-//         return;
-//     }
-
-
-//     // Loop over all maps
-//     for (size_t k = 0; k < maps.size(); ++k) {
-//         // Generate competing algorithm pairs for this map index
-//         auto pairs = generatePairs(k, algo_registrar.count());
-
-//         // TODO: delete later
-//         std::cout << "\nMap " << k << ":\n";
-//         for (const auto& [i, j] : pairs) {
-//             std::cout << "Game: " << i << " vs " << j << "\n";
-//         }
-
-//         // Run games for each algorithm pair and each GameManager
-//         for (const auto& [i, j] : pairs) {
-//             runSingleGameAndScore(
-//                 maps[k],        // Current map
-//                 i, j,           // Algorithm indices
-//                 score_table,
-//                 algorithm_paths     // Score tracking
-//             );
-//         }
-//     }
-// }
 
 void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
@@ -200,45 +161,19 @@ void CompetitionRunner::updateScore(std::map<std::string, int>& table, int winne
     }
 }
 
-// void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths) {
-
-//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-//     const auto& algorithms = algo_registrar.getAlgorithms();
-
-//     auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
-//     auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
-
-//     auto gm = gm_registrar.begin()->create(args.verbose);
-//     auto view = createSatelliteView(map);
-
-//     GameResult result = gm->run(
-//         map.width, map.height, view, map.input_file_name,
-//         map.max_steps, map.num_shells,
-//         *p1, algorithms[i].name(), *p2, algorithms[j].name(),
-//         algorithms[i].getTankAlgorithmFactory(),
-//         algorithms[j].getTankAlgorithmFactory()
-//     );
-
-//     auto a1 = fs::path(algo_paths[i]).stem().string();
-//     auto a2 = fs::path(algo_paths[j]).stem().string();
-
-//     updateScore(score_table, result.winner, a1, a2);
-// }
-
-
 
 std::vector<GameInput> CompetitionRunner::loadAllMaps() {
     std::vector<GameInput> maps;
-    std::string input_error_path = "input_error_" + std::to_string(std::time(nullptr)) + ".txt";
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    std::string input_error_path = "input_error_" + std::to_string(timestamp) + ".txt";
     for (const auto& entry : fs::directory_iterator(args.game_maps_folder)) {
-        if (entry.path().extension() == ".txt") {
-            try {
-                maps.push_back(readBoard(entry.path().string(), input_error_path));
-            } catch (...) {
-                std::cerr << "Failed to read map: " << entry.path() << "\n";
-            }
+        //if (entry.path().extension() == ".txt") {
+        try {
+            maps.push_back(readBoard(entry.path().string(), input_error_path));
+        } catch (...) {
+            std::cerr << "Failed to read map: " << entry.path() << "\n";
         }
+        //}
     }
 
     if (maps.empty()) throw std::runtime_error("No valid maps found.");
@@ -266,13 +201,14 @@ std::vector<std::pair<int, int>> CompetitionRunner::generatePairs(int k, int N) 
 
 void CompetitionRunner::writeResults(const std::map<std::string, int>& score_table) {
     std::ostringstream filename;
-    filename << args.algorithms_folder << "/competition_" << std::time(nullptr) << ".txt";
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    filename << args.algorithms_folder << "/competition_" << timestamp << ".txt";
 
     std::ofstream out(filename.str());
     if (!out.is_open()) {
         std::cerr << "Failed to write output file. Showing results below:\n";
         std::cout << "game_maps_folder=" << args.game_maps_folder << "\n";
-        std::cout << "game_manager=" << args.game_manager << "\n\n";
+        std::cout << "game_manager=" << std::filesystem::path(args.game_manager).stem().string() << "\n\n";
 
         auto sorted = sortScores(score_table);
         for (const auto& [name, score] : sorted)
@@ -280,7 +216,7 @@ void CompetitionRunner::writeResults(const std::map<std::string, int>& score_tab
     }
 
     out << "game_maps_folder=" << args.game_maps_folder << "\n";
-    out << "game_manager=" << args.game_manager << "\n\n";
+    out << "game_manager=" << std::filesystem::path(args.game_manager).stem().string() << "\n\n";
 
     auto sorted = sortScores(score_table);
     for (const auto& [name, score] : sorted)

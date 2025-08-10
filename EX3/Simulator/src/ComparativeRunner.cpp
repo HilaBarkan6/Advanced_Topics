@@ -17,7 +17,8 @@ void ComparativeRunner::run() {
 }
 
 GameInput ComparativeRunner::tryReadMap(const std::string& path) {
-    std::string input_error_path = "input_error_" + std::to_string(std::time(nullptr)) + ".txt";
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    std::string input_error_path = "input_error_" + std::to_string(timestamp) + ".txt";
     try {
         return readBoard(path, input_error_path);
     } catch (const std::exception& e) {
@@ -64,46 +65,6 @@ SatelliteViewImp ComparativeRunner::createSatelliteView(const GameInput& input) 
     return view;
 }
 
-// std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(const std::vector<std::string>& gm_paths, const GameInput& input) {
-//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-
-//     std::map<std::string, std::set<std::string>> result_map;
-//     bool same_algorithm = (args.algorithm1 == args.algorithm2) || fs::equivalent(args.algorithm1, args.algorithm2);
-
-//     if (algo_registrar.count() < 2 && !same_algorithm) {
-//         std::cerr << "Not enough algorithms registered (need 2).\n";
-//         return result_map;
-//     }
-
-//     for (const auto& path : gm_paths) {
-//         try {
-//             auto gm = gm_registrar.begin()->create(args.verbose);
-
-//             const auto& a1 = algo_registrar.getAlgorithms()[0];
-//             const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;
-
-//             auto player1 = a1.createPlayer(1, input.width, input.height, input.max_steps, input.num_shells);
-//             auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
-
-//             auto view = createSatelliteView(input);
-//             auto result = gm->run(
-//                 input.width, input.height, view, input.input_file_name,
-//                 input.max_steps, input.num_shells,
-//                 *player1, a1.name(), *player2, a2.name(),
-//                 a1.getTankAlgorithmFactory(), a2.getTankAlgorithmFactory()
-//             );
-
-//             std::string key = formatResult(result, input.max_steps, input.width, input.height);
-//             result_map[key].insert(fs::path(path).filename().string());
-
-//         } catch (const std::exception& e) {
-//             std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
-//         }
-//     }
-
-//     return result_map;
-// }
 
 std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     const std::vector<std::string>& gm_paths, const GameInput& input) {
@@ -181,10 +142,10 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
         // lock the mutex to safely update the result map by multiple threads.
         if (result_mutex) {
             std::lock_guard<std::mutex> lock(*result_mutex);
-            result_map[key].insert(fs::path(path).filename().string());
+            result_map[key].insert(fs::path(path).filename().stem().string());
         } 
         else {
-            result_map[key].insert(fs::path(path).filename().string());
+            result_map[key].insert(fs::path(path).filename().stem().string());
         }
 
     } catch (const std::exception& e) {
@@ -197,16 +158,18 @@ void ComparativeRunner::writeResults(
     const std::map<std::string, std::set<std::string>>& result_map, const GameInput& ) {
 
     std::ostringstream filename;
-    filename << args.game_managers_folder << "/comparative_results_" << std::time(nullptr) << ".txt";
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    filename << args.game_managers_folder << "/comparative_results_" << timestamp << ".txt";
     std::ofstream out(filename.str());
 
     if (!out.is_open()) {
         std::cerr << "Error: Failed to create results file at \"" << filename.str() << "\". "
                   << "Outputting results to screen instead:\n\n";
 
-        std::cout << "game_map=" << args.game_map << "\n";
-        std::cout << "algorithm1=" << args.algorithm1 << "\n";
-        std::cout << "algorithm2=" << args.algorithm2 << "\n\n";
+                  
+        std::cout << "game_map=" << std::filesystem::path(args.game_map).stem().string() << "\n";
+        std::cout << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
+        std::cout << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
 
         for (const auto& [res, gms] : result_map) {
             std::cout << join(gms) << "\n" << res << "\n\n";
@@ -214,9 +177,9 @@ void ComparativeRunner::writeResults(
         return;
     }
 
-    out << "game_map=" << args.game_map << "\n";
-    out << "algorithm1=" << args.algorithm1 << "\n";
-    out << "algorithm2=" << args.algorithm2 << "\n\n";
+    out << "game_map=" << std::filesystem::path(args.game_map).stem().string() << "\n";
+    out << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
+    out << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
 
     for (const auto& [res, gms] : result_map) {
         out << join(gms) << "\n" << res << "\n\n";

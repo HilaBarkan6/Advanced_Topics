@@ -85,16 +85,19 @@ What's next:
 - Make sure there are no magic numbers - Yovel **done**
 - Fix "hello_map" - Hila **done**
 - Run comparative mode with same algorithms pointing to the same file - Yovel **done**
-- threads
+- threads **done**
 - Comparative section 4 - Hila **done**
 - Make sure in competition mode, mathces are generated properly - Yovel **done**
 - Competitive section 2 - Yovel **done**
 - Competitive section 5 - Hila **done**
 - Additional output and error handaling - make sure everything works as wrriten there - Hila **done** 
-- student.txt and readme
+- student.txt and readme - Hila
 - Make sure all dll's closed at finish - Yovel **done**
 - Fix congureation file path in main - Yovel **done**
-- Delete commented functions 
-- Look on TODO things and CR things
-- Delete files we don't need (for example simple player, or maybe remove it to another folder)
-- Use system.clock instead of time
+- Delete commented functions **done**
+- Look on TODO things and CR things - Yovel
+- Delete files we don't need (for example simple player, or maybe remove it to another folder) **done**
+- Use system.clock instead of time **done**
+- Make sure comments are correct - both
+- Go over forum to make sure we didn't miss anything - both
+- Clean code again - Yovel

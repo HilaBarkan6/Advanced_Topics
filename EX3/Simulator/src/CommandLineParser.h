@@ -14,7 +14,6 @@
 
 enum class RunMode { Comparative, Competition };
 
-//CR: Consider removing the struct and just use the class either with public members or with getters.
 struct ParsedArguments {
     RunMode mode;
     std::string game_map;

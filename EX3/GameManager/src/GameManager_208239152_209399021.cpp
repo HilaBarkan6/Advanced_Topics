@@ -151,15 +151,15 @@ void GameManager_208239152_209399021::createBoardAndTanksFromMap(const Satellite
 GameResult GameManager_208239152_209399021::run(size_t map_width, size_t map_height, const SatelliteView& map, string map_name, size_t max_steps, size_t num_shells,
                         Player& player1, string name1, Player& player2, string name2, TankAlgorithmFactory player1_tank_algo_factory,
                         TankAlgorithmFactory player2_tank_algo_factory) {
-    //TODO - fix this, not sure how to take the players from the parameters and keep them locally in game manager as unique_ptrs
     this->player1 = &player1;
     this->player2 = &player2;
     this->max_steps = max_steps;
     this->num_shells = num_shells;
 
-    std::string filename = map_name + "_" + name1 + "_" + name2 + "_" + std::to_string(std::time(nullptr)) + ".txt"; 
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    std::string filename = map_name + "_" + name1 + "_" + name2 + "_" + std::to_string(timestamp) + ".txt"; 
     std::filesystem::create_directories("log_output"); // Create log_output directory if it doesn't exist
-    path_output_file = "output_" + filename; // Output file path
+    path_output_file = "output_209399021_208239152" + filename; // Output file path
     path_log_file = "log_output/log_" + filename; // Log file path
     
     view = std::make_unique<SatelliteViewImp>();

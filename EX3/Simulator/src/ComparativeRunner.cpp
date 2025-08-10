@@ -109,7 +109,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     const std::vector<std::string>& gm_paths, const GameInput& input) {
 
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+    //auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
     std::map<std::string, std::set<std::string>> result_map;
     std::mutex result_mutex;
@@ -141,7 +141,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         }
     };
 
-    for (size_t i = 0; i < num_threads - 1; ++i)
+    for (int i = 0; i < args.num_threads; ++i)
         workers.emplace_back(worker);
 
     // Main thread also works
@@ -161,7 +161,8 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
 
     try {
         std::string gm_name = fs::path(path).stem().string();
-        auto gm = gm_registrar.get(gm_index)->create(args.verbose);
+        auto gm_entry = (gm_registrar.get(gm_index));
+        auto gm = gm_entry.create(args.verbose);
 
         const auto& a1 = algo_registrar.getAlgorithms()[0];
         const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;
@@ -179,6 +180,7 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
 
         std::string key = formatResult(result, input.max_steps, input.width, input.height);
 
+        // lock the mutex to safely update the result map by multiple threads.
         std::lock_guard<std::mutex> lock(result_mutex);
         result_map[key].insert(fs::path(path).filename().string());
 

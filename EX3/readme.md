@@ -97,3 +97,4 @@ What's next:
 - Delete commented functions 
 - Look on TODO things and CR things
 - Delete files we don't need (for example simple player, or maybe remove it to another folder)
+- Use system.clock instead of time

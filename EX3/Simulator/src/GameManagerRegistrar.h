@@ -43,7 +43,7 @@ public:
     void clear();
     size_t count() const;
 
-    auto get(int index) const;
+    auto get(int index);
     auto begin() const { return managers.begin(); }
     auto end() const { return managers.end(); }
 

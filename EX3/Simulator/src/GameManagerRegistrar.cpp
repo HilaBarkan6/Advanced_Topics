@@ -49,7 +49,7 @@ size_t GameManagerRegistrar::count() const {
     return managers.size();
 }
 
-auto GameManagerRegistrar::get(int index) const {
+auto GameManagerRegistrar::get(int index) {
     return managers.at(index);
 }
     

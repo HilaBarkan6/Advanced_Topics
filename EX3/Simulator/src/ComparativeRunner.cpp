@@ -153,7 +153,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 
 void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, const GameInput& input,
                                       std::map<std::string, std::set<std::string>>& result_map,
-                                      std::mutex* result_mutex = nullptr) {
+                                      std::mutex* result_mutex) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 

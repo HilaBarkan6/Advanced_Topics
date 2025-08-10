@@ -146,7 +146,7 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const st
         w.join();
 }
 
-void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths, std::mutex* score_mutex = nullptr) {
+void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths, std::mutex* score_mutex) {
     try{
         auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
         auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();

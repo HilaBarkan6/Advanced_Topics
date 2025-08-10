@@ -1,61 +1,44 @@
-This is our version for EX2 of the tank game of "Advanced Topics in Programming" course.
+This is our version for EX3 of the tank game of "Advanced Topics in Programming" course.
 Yovel Hatan - 209399021
 Hila Barkan - 208239152
 
 **Overview -**
-    In this project, we implemented the required classes and adapted the game to support multiple tanks for each player.
-    Additionally, we added some bonus features: logging, configuration, and tests.
-    The main code is located in the /src directory. For bonus features, see the file bonus.txt.
+    This project consists of three main components: Game Manager, Algorithm, and Simulator.
+    Additionally, there is a UserCommon project that provides logging and configuration utilities, and Implementation of SatelliteView (relevant for both GameManager and Algorithm).
+    The main source code for each component is located in its respective src/ directory.
 
 **Implementatins -**
-    SatelliteView - We implemented SimpleSatelliteView, which maintains a matrix of characters received from the GameManager and uses it to implement the getObjectAt function.
+    Algorithm-
+    Implemented SimpleBattleInfo, which stores location vectors for: walls, mines, shells, tanks of player 1, tanks of player 2, and the position of the requesting tank (i.e., the tank that requested the battle info).
 
-    BattleInfo - We implemented SimpleBattleInfo, which stores location vectors for: walls, mines, shells, tanks of player 1, tanks of player 2, and the position of the calling tank (i.e., the tank requesting the battle info).
+    Implemented Player (Player_209339021_208239152):
+    When the Game Manager calls updateTankWithBattleInfo(), this player creates a SimpleBattleInfo object containing all data from the SatelliteView, then passes it to the corresponding tank algorithm via updateBattleInfo().
 
-    Players - We implemented two types of players:
-        SimplePlayer: When the GameManager calls updateTankWithBattleInfo(), this player creates a SimpleBattleInfo containing **all** data from the SatelliteView, and then passes it to the corresponding tank algorithm via updateBattleInfo().
+    Implemented TankAlgorithm (TankAlgorithm_209339021_208239152):
+    Every three turns, it requests battle info, locates the nearest enemy, and runs a BFS algorithm to determine the best next two moves to shoot at that enemy. It then executes these moves over the next two turns before requesting info again.
+    While calculating, it tracks moving shells and, when enough data is available to determine their direction, avoids them while choosing the shortest path to attack the enemy without collision.
 
-        RadiusPlayer: Also implements updateTankWithBattleInfo(), but only provides data within a specified radius from the requesting tank. This avoids sending irrelevant data from distant parts of the board, simplifying communication and improving efficiency.
+    The Player and TankAlgorithm inherit from the base classes PlayerImp and TankAlgorithmImp, which provide general reusable functionality for other player or tank algorithm implementations.
 
-    Both players share some common functionality, so they inherit from the PlayerImp class.
+    GameManager - 
+    Implemented according to the assignment specification.
 
-    TankAlgorithm - We implemented two tank algorithms:
-        BFSTankAlgorithm: Every three turns, it requests battle info, then uses it to locate the nearest enemy and runs a BFS algorithm to determine the best next two moves to shoot at that enemy. It then executes these moves in the next two turns before requesting info again.
+    Simulator - 
+    Implemented according to the assignment specification.
 
-        SimpleTankAlgorithm : Every second turn, it requests batlle info, then it uses it to locate the nearest enemy. If it has a clear shooting line it shoots at the enemy, if not, if moving forward is a good idea (meaning no wall, mines, etc) it moves forward and if not then it rotates so maybe next time moving will be possible.
 
-        RotatingTankAlgorithm: A simple algorithm used only for testing. It only rotates in place and typically loses unless the opponent makes critical mistakes.
+    UserCommon - 
+    Implemented SatelliteViewImp, which maintains a character matrix received from the Game Manager and uses it to implement the getObjectAt() function.
+    Implemented logging and configuration file handling.
     
-    BFSTankAlgorithm and SimpleTankAlgorithm share some common functionality, so they inherit from the TankAlgorithmImp class.
-
-    Factories - 
-        SimpleTankAlgorithmFactory: Creates a BFSTankAlgorithm for player 1 and a SimpleTankAlgorithm for player 2.
-        SimplePlayerFactory: Creates a player instance based on the type specified in the configuration file. 
-                             The current configuration is RadiusPlayer for player1 and SimplePlayer for player2.
-                             This setup creates intresting games, since player1 tank's are smart and use BFS, but they only see data within a small radius, and player2 tank's have a much simpler algorithm, but they see the whole board.
-
-**How to Run -**
-    The GameManager should receive the two factories via its constructor.
-    In main.cpp, we create them using make_unique.
-    To use different factories, simply modify line 24 in main.cpp—and that's it!
-
-**Input and Output examples -**
-    We provide three input and output files in the /input and /output directories.
-    See bonus.txt for additional test inputs.
-
 
 **Building Instructions**
-    To compile the project, make sure you have a C++20-compatible compiler (e.g., g++) and the GoogleTest library installed.
-    - Build the main game executable:
-        make
-        This will produce the main executable: tank_game.exe
-    - Build and run the tests:
-        make test
-        ./test_runner.exe
-    - Build the main game executable and the test executable:
-        make all
-    - Clean build files:
-        make clean
+    To build the entire project, use the Makefile in the main directory.
+    To build an individual component, use the Makefile located in that component’s directory.
+
+**How to Run -**
+    Build the Simulator project and run it with the arguments specified in the assignment.
+
 
 **Notes:**
     - For backward movement:
@@ -67,14 +50,6 @@ Hila Barkan - 208239152
                           Another example: tank asks for backward in turn 1 and in turn 3 asks for forward movement, the movement will be applied in turn 3 and the backword movement won't.
 
 
-What to do next time - 
-Simulator runners should send the game manager satellite view and not matrix of chars
-Game manager factory should return a real game manager and not abstract
-Our game manager should implement the abstract game manager properly - this changes tanks and board creation
-game manager and algorithm should use the macro to load themselves to the regitrars
-Make sure output files are written to the correct place
-decide what to do with the logger
-Make our algorithms good
 
 
 What's next:

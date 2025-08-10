@@ -123,8 +123,8 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     int num_threads = args.num_threads > 0 ? args.num_threads : 1;
     if (num_threads <= 1 || gm_paths.size() <= 1) {
         // Single-threaded fallback
-        for (const auto& path : gm_paths) {
-            runSingleGame(path, input, result_map, result_mutex);
+        for (size_t i = 0; i < gm_paths.size(); ++i) {
+            runSingleGame(gm_paths[i], i, input, result_map, result_mutex);
         }
         return result_map;
     }
@@ -137,7 +137,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         while (true) {
             size_t i = index.fetch_add(1);
             if (i >= gm_paths.size()) break;
-            runSingleGame(gm_paths[i], input, result_map, result_mutex);
+            runSingleGame(gm_paths[i], i, input, result_map, result_mutex);
         }
     };
 
@@ -153,14 +153,15 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     return result_map;
 }
 
-void ComparativeRunner::runSingleGame(const std::string& path, const GameInput& input,
+void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, const GameInput& input,
                                       std::map<std::string, std::set<std::string>>& result_map,
                                       std::mutex& result_mutex) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
     try {
-        auto gm = gm_registrar.begin()->create(args.verbose);
+        std::string gm_name = fs::path(path).stem().string();
+        auto gm = gm_registrar.get(gm_index)->create(args.verbose);
 
         const auto& a1 = algo_registrar.getAlgorithms()[0];
         const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;

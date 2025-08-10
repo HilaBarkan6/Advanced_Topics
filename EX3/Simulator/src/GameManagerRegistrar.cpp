@@ -48,3 +48,8 @@ void GameManagerRegistrar::clear() {
 size_t GameManagerRegistrar::count() const {
     return managers.size();
 }
+
+auto GameManagerRegistrar::get(int index) const {
+    return managers.at(index);
+}
+    

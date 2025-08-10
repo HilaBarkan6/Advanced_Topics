@@ -24,6 +24,11 @@
 #include <sstream>
 #include <ctime>
 #include <algorithm>
+#include <thread>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
+#include <atomic>
 
 class CompetitionRunner {
 
@@ -51,9 +56,9 @@ class CompetitionRunner {
         void updateScore(std::map<std::string, int>& table, int winner, const std::string& a1, const std::string& a2) const; // Updates the score table based on the game result
             
         // Runs a single game between two algorithms on a given map
-        void runSingleGameAndScore(const GameInput& map, int i, int j, 
+        void runSingleGame(const GameInput& map, int i, int j, 
             std::map<std::string, int>& score_table, 
-            const std::vector<std::string>& algo_paths);
+            const std::vector<std::string>& algo_paths, std::mutex* score_mutex = nullptr);
 
         // Generates (i, j) algorithm index pairs for competition logic
         std::vector<std::pair<int, int>> generatePairs(int k, int N);

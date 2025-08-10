@@ -48,42 +48,131 @@ void CompetitionRunner::loadAllAlgorithmHandles( const std::vector<std::string>&
     }
 }
 
-void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
+// void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
 
+//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+
+//     // Check that at least two algorithms are registered
+//     if (algo_registrar.count() < 2) {
+//         std::cerr << "Error: Not enough algorithms registered.\n";
+//         return;
+//     }
+//     // Check that at least one GameManager is registered
+//     if (gm_registrar.count() < 1) {
+//         std::cerr << "Error: No GameManager registered.\n";
+//         return;
+//     }
+
+
+//     // Loop over all maps
+//     for (size_t k = 0; k < maps.size(); ++k) {
+//         // Generate competing algorithm pairs for this map index
+//         auto pairs = generatePairs(k, algo_registrar.count());
+
+//         // TODO: delete later
+//         std::cout << "\nMap " << k << ":\n";
+//         for (const auto& [i, j] : pairs) {
+//             std::cout << "Game: " << i << " vs " << j << "\n";
+//         }
+
+//         // Run games for each algorithm pair and each GameManager
+//         for (const auto& [i, j] : pairs) {
+//             runSingleGameAndScore(
+//                 maps[k],        // Current map
+//                 i, j,           // Algorithm indices
+//                 score_table,
+//                 algorithm_paths     // Score tracking
+//             );
+//         }
+//     }
+// }
+
+void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
-    // Check that at least two algorithms are registered
     if (algo_registrar.count() < 2) {
         std::cerr << "Error: Not enough algorithms registered.\n";
         return;
     }
-    // Check that at least one GameManager is registered
     if (gm_registrar.count() < 1) {
         std::cerr << "Error: No GameManager registered.\n";
         return;
     }
 
-    // Loop over all maps
+    struct GameTask {
+        int map_index;
+        int i;
+        int j;
+    };
+    std::vector<GameTask> tasks;
     for (size_t k = 0; k < maps.size(); ++k) {
-        // Generate competing algorithm pairs for this map index
         auto pairs = generatePairs(k, algo_registrar.count());
-
-        // TODO: delete later
-        std::cout << "\nMap " << k << ":\n";
-        for (const auto& [i, j] : pairs) {
-            std::cout << "Game: " << i << " vs " << j << "\n";
+        for (auto& p : pairs) {
+            tasks.push_back({static_cast<int>(k), p.first, p.second});
         }
+    }
 
-        // Run games for each algorithm pair and each GameManager
-        for (const auto& [i, j] : pairs) {
-            runSingleGameAndScore(
-                maps[k],        // Current map
-                i, j,           // Algorithm indices
-                score_table,
-                algorithm_paths     // Score tracking
-            );
+    int num_threads = args.num_threads > 0 ? args.num_threads : 1;
+
+    if (num_threads <= 1 || tasks.size() <= 1) {
+        for (const auto& task : tasks) {
+            runSingleGame(maps[task.map_index], task.i, task.j, score_table, algorithm_paths);
         }
+        return;
+    }
+
+    std::mutex score_mutex;
+    std::atomic<size_t> task_index{0};
+
+    auto worker = [&]() {
+        while (true) {
+            size_t idx = task_index.fetch_add(1);
+            if (idx >= tasks.size())
+                break;
+            const auto& t = tasks[idx];
+            runSingleGame(maps[t.map_index], t.i, t.j, score_table, algorithm_paths, &score_mutex);
+        }
+    };
+
+    std::vector<std::thread> workers;
+    for (int t = 0; t < num_threads - 1; ++t)
+        workers.emplace_back(worker);
+
+    worker();
+
+    for (auto& w : workers)
+        w.join();
+}
+
+void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths, std::mutex* score_mutex = nullptr) {
+    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+    const auto& algorithms = algo_registrar.getAlgorithms();
+
+    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+
+    auto gm = gm_registrar.begin()->create(args.verbose); // יצירת מופע חדש של GameManager לכל משחק
+    auto view = createSatelliteView(map);
+
+    GameResult result = gm->run(
+        map.width, map.height, view, map.input_file_name,
+        map.max_steps, map.num_shells,
+        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
+        algorithms[i].getTankAlgorithmFactory(),
+        algorithms[j].getTankAlgorithmFactory()
+    );
+
+    auto a1 = fs::path(algo_paths[i]).stem().string();
+    auto a2 = fs::path(algo_paths[j]).stem().string();
+
+    if (score_mutex) {
+        std::lock_guard<std::mutex> lock(*score_mutex);
+        updateScore(score_table, result.winner, a1, a2);
+    } else {
+        updateScore(score_table, result.winner, a1, a2);
     }
 }
 
@@ -105,31 +194,31 @@ void CompetitionRunner::updateScore(std::map<std::string, int>& table, int winne
     }
 }
 
-void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths) {
+// void CompetitionRunner::runSingleGameAndScore(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths) {
 
-    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-    const auto& algorithms = algo_registrar.getAlgorithms();
+//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+//     const auto& algorithms = algo_registrar.getAlgorithms();
 
-    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
-    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+//     auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+//     auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
 
-    auto gm = gm_registrar.begin()->create(args.verbose);
-    auto view = createSatelliteView(map);
+//     auto gm = gm_registrar.begin()->create(args.verbose);
+//     auto view = createSatelliteView(map);
 
-    GameResult result = gm->run(
-        map.width, map.height, view, map.input_file_name,
-        map.max_steps, map.num_shells,
-        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
-        algorithms[i].getTankAlgorithmFactory(),
-        algorithms[j].getTankAlgorithmFactory()
-    );
+//     GameResult result = gm->run(
+//         map.width, map.height, view, map.input_file_name,
+//         map.max_steps, map.num_shells,
+//         *p1, algorithms[i].name(), *p2, algorithms[j].name(),
+//         algorithms[i].getTankAlgorithmFactory(),
+//         algorithms[j].getTankAlgorithmFactory()
+//     );
 
-    auto a1 = fs::path(algo_paths[i]).stem().string();
-    auto a2 = fs::path(algo_paths[j]).stem().string();
+//     auto a1 = fs::path(algo_paths[i]).stem().string();
+//     auto a2 = fs::path(algo_paths[j]).stem().string();
 
-    updateScore(score_table, result.winner, a1, a2);
-}
+//     updateScore(score_table, result.winner, a1, a2);
+// }
 
 
 

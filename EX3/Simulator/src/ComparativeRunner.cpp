@@ -129,7 +129,6 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         return result_map;
     }
 
-    // Thread pool with (num_threads - 1) workers
     std::vector<std::thread> workers;
     std::atomic<size_t> index{0};
 

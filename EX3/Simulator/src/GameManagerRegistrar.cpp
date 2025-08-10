@@ -49,7 +49,9 @@ size_t GameManagerRegistrar::count() const {
     return managers.size();
 }
 
-auto GameManagerRegistrar::get(int index) {
-    return managers.at(index);
+GameManagerRegistrar::GameManagerEntry* GameManagerRegistrar::get(int index) {
+    if (index < 0 || index >= static_cast<int>(managers.size())) {
+        throw std::out_of_range("Index out of range in GameManagerRegistrar");
+    }
+    return &managers[index];
 }
-    

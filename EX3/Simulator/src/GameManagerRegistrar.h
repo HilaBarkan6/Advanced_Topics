@@ -12,7 +12,7 @@
 // Handles registration of dynamically loaded GameManager classes
 class GameManagerRegistrar {
 
-    struct GameManagerEntry {
+    typedef struct GameManagerEntry {
         std::string so_name;
         GameManagerFactory factory;
         GameManagerEntry(const std::string& name) : so_name(name) {}
@@ -26,7 +26,7 @@ class GameManagerRegistrar {
         }
         bool hasFactory() const { return factory != nullptr; }
         ~GameManagerEntry(){} // TODO: Do we need to implement rule of five here? 
-    };
+    } GameManagerEntry;
     
     std::vector<GameManagerEntry> managers;
     std::vector<std::unique_ptr<SoOpener>> gm_handles; // Should always be below managers to release later
@@ -43,7 +43,7 @@ public:
     void clear();
     size_t count() const;
 
-    auto get(int index);
+    GameManagerEntry* get(int index);
     auto begin() const { return managers.begin(); }
     auto end() const { return managers.end(); }
 

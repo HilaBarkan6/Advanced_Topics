@@ -162,7 +162,7 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
     try {
         std::string gm_name = fs::path(path).stem().string();
         auto gm_entry = (gm_registrar.get(gm_index));
-        auto gm = gm_entry.create(args.verbose);
+        std::unique_ptr<AbstractGameManager> gm = gm_entry->create(args.verbose);
 
         const auto& a1 = algo_registrar.getAlgorithms()[0];
         const auto& a2 = (algo_registrar.count() > 1) ? algo_registrar.getAlgorithms()[1] : a1;

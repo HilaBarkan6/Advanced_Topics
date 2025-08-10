@@ -147,32 +147,38 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const st
 }
 
 void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths, std::mutex* score_mutex = nullptr) {
-    auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-    const auto& algorithms = algo_registrar.getAlgorithms();
+    try{
+        auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+        auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+        const auto& algorithms = algo_registrar.getAlgorithms();
 
-    auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
-    auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
+        auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
+        auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
 
-    auto gm = gm_registrar.begin()->create(args.verbose); // יצירת מופע חדש של GameManager לכל משחק
-    auto view = createSatelliteView(map);
+        auto gm = gm_registrar.begin()->create(args.verbose); // יצירת מופע חדש של GameManager לכל משחק
+        auto view = createSatelliteView(map);
 
-    GameResult result = gm->run(
-        map.width, map.height, view, map.input_file_name,
-        map.max_steps, map.num_shells,
-        *p1, algorithms[i].name(), *p2, algorithms[j].name(),
-        algorithms[i].getTankAlgorithmFactory(),
-        algorithms[j].getTankAlgorithmFactory()
-    );
+        GameResult result = gm->run(
+            map.width, map.height, view, map.input_file_name,
+            map.max_steps, map.num_shells,
+            *p1, algorithms[i].name(), *p2, algorithms[j].name(),
+            algorithms[i].getTankAlgorithmFactory(),
+            algorithms[j].getTankAlgorithmFactory()
+        );
 
-    auto a1 = fs::path(algo_paths[i]).stem().string();
-    auto a2 = fs::path(algo_paths[j]).stem().string();
+        auto a1 = fs::path(algo_paths[i]).stem().string();
+        auto a2 = fs::path(algo_paths[j]).stem().string();
 
-    if (score_mutex) {
-        std::lock_guard<std::mutex> lock(*score_mutex);
-        updateScore(score_table, result.winner, a1, a2);
-    } else {
-        updateScore(score_table, result.winner, a1, a2);
+        if (score_mutex) {
+            std::lock_guard<std::mutex> lock(*score_mutex);
+            updateScore(score_table, result.winner, a1, a2);
+        } else {
+            updateScore(score_table, result.winner, a1, a2);
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error running game between " << algo_paths[i] << " and " << algo_paths[j] 
+                  << " on map " << map.input_file_name << ": " << e.what() << std::endl;
     }
 }
 

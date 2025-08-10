@@ -49,7 +49,7 @@ class ComparativeRunner {
 
     void runSingleGame(const std::string& path, int gm_index, const GameInput& input,
                                       std::map<std::string, std::set<std::string>>& result_map,
-                                      std::mutex& result_mutex);
+                                      std::mutex* result_mutex = nullptr);
 
     // Writes the aggregated results to an output file in the GameManager folder.
     void writeResults(const std::map<std::string, std::set<std::string>>& result_map, const GameInput& input);

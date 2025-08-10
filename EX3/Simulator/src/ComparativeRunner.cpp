@@ -122,9 +122,8 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 
     int num_threads = args.num_threads > 0 ? args.num_threads : 1;
     if (num_threads <= 1 || gm_paths.size() <= 1) {
-        // Single-threaded fallback
         for (size_t i = 0; i < gm_paths.size(); ++i) {
-            runSingleGame(gm_paths[i], i, input, result_map, result_mutex);
+            runSingleGame(gm_paths[i], i, input, result_map);
         }
         return result_map;
     }
@@ -136,7 +135,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
         while (true) {
             size_t i = index.fetch_add(1);
             if (i >= gm_paths.size()) break;
-            runSingleGame(gm_paths[i], i, input, result_map, result_mutex);
+            runSingleGame(gm_paths[i], i, input, result_map, &result_mutex);
         }
     };
 
@@ -154,7 +153,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 
 void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, const GameInput& input,
                                       std::map<std::string, std::set<std::string>>& result_map,
-                                      std::mutex& result_mutex) {
+                                      std::mutex* result_mutex = nullptr) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
@@ -180,11 +179,15 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
         std::string key = formatResult(result, input.max_steps, input.width, input.height);
 
         // lock the mutex to safely update the result map by multiple threads.
-        std::lock_guard<std::mutex> lock(result_mutex);
-        result_map[key].insert(fs::path(path).filename().string());
+        if (result_mutex) {
+            std::lock_guard<std::mutex> lock(*result_mutex);
+            result_map[key].insert(fs::path(path).filename().string());
+        } 
+        else {
+            result_map[key].insert(fs::path(path).filename().string());
+        }
 
     } catch (const std::exception& e) {
-        std::lock_guard<std::mutex> lock(result_mutex);
         std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
     }
 }

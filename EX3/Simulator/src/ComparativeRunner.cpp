@@ -260,7 +260,7 @@ std::string ComparativeRunner::formatResult(const GameResult& r, size_t max_step
 std::string ComparativeRunner::join(const std::set<std::string>& items) {
     std::ostringstream ss;
     for (auto it = items.begin(); it != items.end(); ++it) {
-        if (it != items.begin()) ss << ",";
+        if (it != items.begin()) ss << ", ";
         ss << *it;
     }
     return ss.str();

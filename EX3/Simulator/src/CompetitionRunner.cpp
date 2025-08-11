@@ -49,49 +49,115 @@ void CompetitionRunner::loadAllAlgorithmHandles( const std::vector<std::string>&
 }
 
 
-void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
+// void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
+//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
+//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
+
+//     if (algo_registrar.count() < 2) {
+//         std::cerr << "Error: Not enough algorithms registered.\n";
+//         return;
+//     }
+//     if (gm_registrar.count() < 1) {
+//         std::cerr << "Error: No GameManager registered.\n";
+//         return;
+//     }
+
+//     struct GameTask {
+//         int map_index;
+//         int i;
+//         int j;
+//     };
+//     std::vector<GameTask> tasks;
+//     for (size_t k = 0; k < maps.size(); ++k) {
+//         auto pairs = generatePairs(k, algo_registrar.count());
+//         for (auto& p : pairs) {
+//             tasks.push_back({static_cast<int>(k), p.first, p.second});
+//         }
+//     }
+
+//     int num_threads = args.num_threads > 0 ? args.num_threads : 1;
+
+//     if (num_threads <= 1 || tasks.size() <= 1) {
+//         for (const auto& task : tasks) {
+//             runSingleGame(maps[task.map_index], task.i, task.j, score_table, algorithm_paths);
+//         }
+//         return;
+//     }
+
+//     std::mutex score_mutex;
+//     std::atomic<size_t> task_index{0};
+
+//     auto worker = [&]() {
+//         while (true) {
+//             size_t idx = task_index.fetch_add(1);
+//             if (idx >= tasks.size())
+//                 break;
+//             const auto& t = tasks[idx];
+//             runSingleGame(maps[t.map_index], t.i, t.j, score_table, algorithm_paths, &score_mutex);
+//         }
+//     };
+
+//     std::vector<std::thread> workers;
+//     for (int t = 0; t < num_threads - 1; ++t)
+//         workers.emplace_back(worker);
+
+//     worker();
+
+//     for (auto& w : workers)
+//         w.join();
+// }
+
+void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
+    const std::vector<std::string>& algorithm_paths,
+    std::map<std::string, int>& score_table) {
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
 
-    if (algo_registrar.count() < 2) {
-        std::cerr << "Error: Not enough algorithms registered.\n";
-        return;
-    }
-    if (gm_registrar.count() < 1) {
-        std::cerr << "Error: No GameManager registered.\n";
-        return;
-    }
+    if (!validateRegistrars(algo_registrar, gm_registrar)) return;
 
-    struct GameTask {
-        int map_index;
-        int i;
-        int j;
-    };
-    std::vector<GameTask> tasks;
-    for (size_t k = 0; k < maps.size(); ++k) {
-        auto pairs = generatePairs(k, algo_registrar.count());
-        for (auto& p : pairs) {
-            tasks.push_back({static_cast<int>(k), p.first, p.second});
-        }
-    }
-
+    auto tasks = createGameTasks(maps.size(), algo_registrar.count());
     int num_threads = args.num_threads > 0 ? args.num_threads : 1;
 
     if (num_threads <= 1 || tasks.size() <= 1) {
-        for (const auto& task : tasks) {
-            runSingleGame(maps[task.map_index], task.i, task.j, score_table, algorithm_paths);
-        }
+        for (const auto& t : tasks)
+            runSingleGame(maps[t.map_index], t.i, t.j, score_table, algorithm_paths);
         return;
     }
 
+    runGamesMultiThreaded(tasks, maps, algorithm_paths, score_table, num_threads);
+}
+
+bool CompetitionRunner::validateRegistrars(const AlgorithmRegistrar& algo_registrar, const GameManagerRegistrar& gm_registrar) const {
+    if (algo_registrar.count() < 2) {
+        std::cerr << "Error: Not enough algorithms registered.\n";
+        return false;
+    }
+    if (gm_registrar.count() < 1) {
+        std::cerr << "Error: No GameManager registered.\n";
+        return false;
+    }
+    return true;
+}
+
+std::vector<CompetitionRunner::GameTask> CompetitionRunner::createGameTasks(size_t num_maps, size_t algo_count) {
+    std::vector<GameTask> tasks;
+    for (size_t k = 0; k < num_maps; ++k) {
+        for (auto& p : generatePairs(k, algo_count))
+            tasks.push_back({ static_cast<int>(k), p.first, p.second });
+    }
+    return tasks;
+}
+
+void CompetitionRunner::runGamesMultiThreaded( const std::vector<GameTask>& tasks,  const std::vector<GameInput>& maps,
+                                    const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table,
+                                    int num_threads) {
     std::mutex score_mutex;
     std::atomic<size_t> task_index{0};
 
     auto worker = [&]() {
         while (true) {
             size_t idx = task_index.fetch_add(1);
-            if (idx >= tasks.size())
-                break;
+            if (idx >= tasks.size()) break;
             const auto& t = tasks[idx];
             runSingleGame(maps[t.map_index], t.i, t.j, score_table, algorithm_paths, &score_mutex);
         }
@@ -102,9 +168,7 @@ void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const st
         workers.emplace_back(worker);
 
     worker();
-
-    for (auto& w : workers)
-        w.join();
+    for (auto& w : workers) w.join();
 }
 
 void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::map<std::string, int>& score_table, const std::vector<std::string>& algo_paths, std::mutex* score_mutex) {

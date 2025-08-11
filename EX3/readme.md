@@ -70,9 +70,9 @@ What's next:
 - Make sure all dll's closed at finish - Yovel **done**
 - Fix congureation file path in main - Yovel **done**
 - Delete commented functions **done**
-- Look on TODO things and CR things - Yovel
+- Look on TODO things and CR things - Yovel **done**
 - Delete files we don't need (for example simple player, or maybe remove it to another folder) **done**
 - Use system.clock instead of time **done**
 - Make sure comments are correct - both
 - Go over forum to make sure we didn't miss anything - both
-- Clean code again - Yovel
+- Clean code again - Yovel **done**

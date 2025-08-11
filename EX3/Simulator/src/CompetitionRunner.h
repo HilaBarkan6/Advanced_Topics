@@ -33,6 +33,12 @@
 class CompetitionRunner {
 
     private:
+        struct GameTask {
+            int map_index;
+            int i;
+            int j;
+        };
+
         ParsedArguments args;
 
         // Loads all valid .map files from the game_maps_folder
@@ -51,6 +57,14 @@ class CompetitionRunner {
                         const std::vector<std::string>& algorithm_paths,
                         std::map<std::string, int>& score_table);
         
+        bool validateRegistrars(const AlgorithmRegistrar& algo_registrar, const GameManagerRegistrar& gm_registrar) const; // Validates that at least two algorithms and one game manager are registered
+
+        std::vector<CompetitionRunner::GameTask> createGameTasks(size_t num_maps, size_t algo_count); // Creates game tasks for all algorithm pairs on each map
+
+        void runGamesMultiThreaded( const std::vector<GameTask>& tasks,  const std::vector<GameInput>& maps,
+                                    const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table,
+                                    int num_threads); // Runs games in parallel using multiple threads
+
         SatelliteViewImp createSatelliteView(const GameInput& map) const; // Creates a SatelliteViewImp from the game map
 
         void updateScore(std::map<std::string, int>& table, int winner, const std::string& a1, const std::string& a2) const; // Updates the score table based on the game result

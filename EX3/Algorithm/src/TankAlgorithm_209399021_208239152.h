@@ -36,7 +36,8 @@ namespace Algorithm_209399021_208239152 {
         };
         
         private:
-            int bfs_max_depth;  //static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
+            static constexpr int BFS_MAX_DEPTH = 10; // Maximum depth for BFS, can be change in config.txt file
+            int bfs_max_depth;  
             static constexpr int BATTLE_INFO_REQUEST_PERIOD = 3;  // This const cannot be changed therefore not in config file
             std::unordered_set<State, StateHash> visited;  // Visited and q are for BFS algorithm, Suggested by ChatGpt
             std::queue<QueueNode> q;

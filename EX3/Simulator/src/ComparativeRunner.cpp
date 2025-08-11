@@ -70,8 +70,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     const std::vector<std::string>& gm_paths, const GameInput& input) {
 
     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-    //auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-
+    //auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar(); // TODO: can we delete this line?
     std::map<std::string, std::set<std::string>> result_map;
     std::mutex result_mutex;
 
@@ -91,7 +90,6 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
 
     std::vector<std::thread> workers;
     std::atomic<size_t> index{0};
-
     auto worker = [&]() {
         while (true) {
             size_t i = index.fetch_add(1);
@@ -103,9 +101,7 @@ std::map<std::string, std::set<std::string>> ComparativeRunner::runAllGames(
     for (int i = 0; i < args.num_threads; ++i)
         workers.emplace_back(worker);
 
-    // Main thread also works
-    worker();
-
+    worker(); // This allows the main thread to also participate in running games
     for (auto& t : workers)
         t.join();
 
@@ -152,7 +148,6 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
         std::cerr << "Error running game manager " << path << ": " << e.what() << std::endl;
     }
 }
-
 
 void ComparativeRunner::writeResults(
     const std::map<std::string, std::set<std::string>>& result_map, const GameInput& ) {

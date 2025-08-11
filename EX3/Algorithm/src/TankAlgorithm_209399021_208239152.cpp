@@ -3,10 +3,9 @@
 using namespace Algorithm_209399021_208239152;
 REGISTER_TANK_ALGORITHM(TankAlgorithm_209399021_208239152);
 
-//TODO - fix the 10
 TankAlgorithm_209399021_208239152::TankAlgorithm_209399021_208239152(int player_id, int tank_index)
         : TankAlgorithmImp(player_id, tank_index), 
-        bfs_max_depth(10) {}
+        bfs_max_depth(Config::getInstance().get("bfs_max_depth", std::string(1, BFS_MAX_DEPTH))[0]) {}
 
 ActionRequest TankAlgorithm_209399021_208239152::getAction() {
     turn_counter++;

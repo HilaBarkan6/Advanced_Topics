@@ -3,11 +3,10 @@
 #include <cstdlib>
 using namespace Algorithm_209399021_208239152;
 
-//TODO - fix the 4
 TankAlgorithmImp::TankAlgorithmImp(int player_id, int tank_index): player_id(player_id), tank_index(tank_index), 
                 turn_counter(0), last_info_request_turn(-1), height(0), width(0),
                  shooting_waiting_turns(4), 
-                 last_shoot_turn(-1) {
+                 last_shoot_turn(LAST_SHOOT_TURN) {
 
         current_canon_direction = (player_id == 1) ? CanonDirection::LEFT : CanonDirection::RIGHT;
 }

@@ -18,6 +18,8 @@ using namespace UserCommon_209399021_208239152;
 namespace Algorithm_209399021_208239152 {
     class TankAlgorithmImp : public TankAlgorithm {
         protected:
+            static constexpr int LAST_SHOOT_TURN = -1; // Constant to indicate that the tank has not shot yet
+
             int player_id;
             int tank_index;
             int turn_counter;

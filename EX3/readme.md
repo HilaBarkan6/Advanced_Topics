@@ -77,3 +77,15 @@ What's next:
 - Make sure comments are correct - both
 - Go over forum to make sure we didn't miss anything - both
 - Clean code again - Yovel **done**
+
+thing we need to check:
+- BattleInfo should be under namespace? smae for GameManager code
+- If unsupported command lines arguments are provided, the program should print a usage with an error message pointing at all the unsupported command lines arguments provided, then finish.
+- In case command line arguments are missing, the program should print a usage with an error message detailing the missing command lines arguments, then finish.
+- In case a command line argument that should point at a file is pointing at a non-existing file or one that cannot be opened, the program should print a usage with a proper error message, then finish.
+- in case a command line argument that should point at a folder is pointing at a non-existing folder or one that cannot be traversed or at a folder that has zero files of the desired usage (at least one that seem to be valid), the program should print a usage with a proper error message, then finish.
+- comparative mode: In case the file cannot be created in that folder, write a proper error to screen and print 
+- competition mode: In case the file cannot be created in that folder, write a proper error to screen and print the output to screen instead, right after the error message.
+    It is valid to have a single game map, if it doesn’t have any maps at all, print usage to screen and do not run competition.
+- Did we check this? The GameManager shall create output files as in assignment 2, iff -verbose appears on the command line
+

@@ -8,8 +8,6 @@
 #include <vector>
 #include <memory>
 
-
-
 class Board {
     private:
         int rows;

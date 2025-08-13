@@ -100,9 +100,20 @@ static void parseToken(const std::string& token, ParsedArguments& args, std::uno
 }
 
 static void checkRequiredKeys(const std::unordered_map<std::string, std::string>& kv, const std::unordered_set<std::string>& requiredKeys, const std::string& modeName) {
+    std::vector<std::string> missing;
     for (const auto& key : requiredKeys) {
-        if (!kv.count(key))
-            throw std::invalid_argument("Missing required argument for " + modeName + ": " + key);
+        if (!kv.count(key)){
+            missing.push_back(key);
+        }    
+    }
+    if (!missing.empty()) {
+        std::ostringstream oss;
+        oss << "Missing required argument(s) for " << modeName << ": ";
+        for (size_t i = 0; i < missing.size(); ++i) {
+            oss << missing[i];
+            if (i + 1 < missing.size()) oss << ", ";
+        }
+        throw std::invalid_argument(oss.str());
     }
 }
 
@@ -175,4 +186,13 @@ ParsedArguments CommandLineParser::parse(int argc, char* argv[]) {
 
     fillArgs(args, kv);
     return args;
+}
+
+void CommandLineParser::printUsage() {
+    std::cerr << "Usage: simulator <mode> <path_to_algorithms> <path_to_maps> <game_manager.so>\n"
+              << " - mode: 'competition' or 'comparative'\n"
+              << " - path_to_algorithms: folder containing algorithm .so files (at least 2 required)\n"
+              << " - path_to_maps: folder containing game maps (at least 1 required)\n"
+              << " - game_manager.so: shared library for the GameManager\n"
+              << "Please ensure the inputs meet these requirements before running the competition.\n";
 }

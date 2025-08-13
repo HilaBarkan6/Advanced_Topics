@@ -45,7 +45,15 @@ int main(int argc, char* argv[]) {
         }
 
         // Parse command-line arguments
-        ParsedArguments args = CommandLineParser::parse(argc, argv);
+        ParsedArguments args;
+        try{
+            args = CommandLineParser::parse(argc, argv);
+        }
+        catch (const std::exception& e) {
+            std::cerr << "Error parsing command line arguments: " << e.what() << std::endl;
+            CommandLineParser::printUsage();
+            return 1;
+        }
 
         // Run the simulator
         Simulator simulator(args);

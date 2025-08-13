@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -Werror -pedantic -rdynamic
 
-SRC = $(wildcard ../UserCommon/*.cpp) $(wildcard ../UserCommon/configuration/*.cpp) $(wildcard src/*.cpp) 
+SRC = $(wildcard ../UserCommon/*.cpp) $(wildcard ../UserCommon/configuration/*.cpp) $(wildcard ../UserCommon/Logger/*.cpp) $(wildcard src/*.cpp) 
 OBJ = $(SRC:.cpp=.o)
 
 TARGET = simulator_209399021_208239152

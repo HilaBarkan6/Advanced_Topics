@@ -30,6 +30,7 @@ struct ParsedArguments {
 class CommandLineParser {
     public:
         static ParsedArguments parse(int argc, char* argv[]);
+        static void printUsage();
 
     private:
         static bool isFlagToken(const std::string& s);

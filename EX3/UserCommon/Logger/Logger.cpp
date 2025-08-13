@@ -45,6 +45,13 @@ void Logger::logWarning(const std::string& message) {
     log(LogLevel::WARNING, message);
 }
 
+void Logger::logStartSO(const std::string& soPath) {
+    logInfo("START_SO: " + soPath);
+}
+void Logger::logEndSO(const std::string& soPath) {
+    logInfo("END_SO: " + soPath);
+}
+
 std::string Logger::getTimestamp() {
     std::time_t now = std::time(nullptr);
     char buf[20];

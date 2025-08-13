@@ -173,6 +173,7 @@ GameResult GameManager_208239152_209399021::run(size_t map_width, size_t map_hei
         
         if (turn_counter % 2 == 0) { // Even turn
             logger.logInfo("Turn is " + std::to_string(turn_counter / 2));
+            //getSimulatorLogger().logInfo( + "ENTER: GameManager: " + gm_name);
             handleEvenTurn(output_file);
         } 
         

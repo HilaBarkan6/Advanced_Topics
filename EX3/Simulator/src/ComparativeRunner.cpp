@@ -133,12 +133,14 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
         auto player2 = a2.createPlayer(2, input.width, input.height, input.max_steps, input.num_shells);
 
         auto view = createSatelliteView(input);
+        getSimulatorLogger().logInfo("ENTER: GameManager: " + gm_name);
         auto result = gm->run(
             input.width, input.height, view, input.input_file_name,
             input.max_steps, input.num_shells,
             *player1, a1.name(), *player2, a2.name(),
             a1.getTankAlgorithmFactory(), a2.getTankAlgorithmFactory()
         );
+        getSimulatorLogger().logInfo("EXIT: GameManager: " + gm_name);
 
         std::string key = formatResult(result, input.max_steps, input.width, input.height);
         std::string game_manager_name;

@@ -14,6 +14,7 @@
 #include "../../common/GameManagerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
 #include "../../UserCommon/configuration/Config.h"
+#include "../../UserCommon/Logger/SimulatorLogger.h" 
 
 #include <filesystem>
 #ifdef __unix__
@@ -43,7 +44,7 @@ class ComparativeRunner {
     std::string game_manager_print_name;
     std::string algorithm_print_name;
     std::string map_print_name;
-
+    
     GameInput tryReadMap(const std::string& path);
 
     void tryLoadAlgorithms(const std::string& a1, const std::string& a2);

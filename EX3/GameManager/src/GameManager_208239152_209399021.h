@@ -15,6 +15,7 @@
 #include "../../UserCommon/SatelliteViewImp.h"
 #include "../../UserCommon/configuration/Config.h"
 #include "../../UserCommon/Logger/Logger.h"
+#include "../../UserCommon/Logger/SimulatorLogger.h" 
 
 #include <vector>
 #include <string>

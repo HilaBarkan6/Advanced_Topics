@@ -36,6 +36,8 @@ namespace UserCommon_209399021_208239152{
         void logInfo(const std::string& message); // Used for general information messages
         void logError(const std::string& message); // Used for error messages that may require attention
         void logWarning(const std::string& message); // Used for warning messages that are not critical but should be noted
+        void logStartSO(const std::string& soPath); // Used to log the start of a shared object (SO) loading process
+        void logEndSO(const std::string& soPath); // Used to log the end of a shared object (SO) loading process
         void setLogFile(const std::string& filename);
     };
 }

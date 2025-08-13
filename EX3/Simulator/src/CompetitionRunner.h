@@ -10,6 +10,7 @@
 #include "../../common/PlayerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
 #include "../../UserCommon/configuration/Config.h"
+#include "../../UserCommon/Logger/SimulatorLogger.h" 
 #include <string>
 #include <vector>
 #include <map>
@@ -51,7 +52,6 @@ class CompetitionRunner {
         std::string maps_dir_print_name;
         std::string algorithm_print_name;
     
-
         // Loads all valid .map files from the game_maps_folder
         std::vector<GameInput> loadAllMaps();
 

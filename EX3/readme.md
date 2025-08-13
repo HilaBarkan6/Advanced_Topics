@@ -88,4 +88,6 @@ thing we need to check:
 - competition mode: In case the file cannot be created in that folder, write a proper error to screen and print the output to screen instead, right after the error message.
     It is valid to have a single game map, if it doesn’t have any maps at all, print usage to screen and do not run competition.
 - Did we check this? The GameManager shall create output files as in assignment 2, iff -verbose appears on the command line
+- Dealing with so that is not loaded as expected - Amir said "בגדול ויתור על so יהיה הפתרון הנכון. כמובן אם לא נטענו בכלל קבצי so מהסוג הרלבנטי אז לא ניתן לרוץ ויש לסיים עם הודעה מתאימה למסך."
+- https://moodle.tau.ac.il/mod/forum/discuss.php?d=116589
 

@@ -129,9 +129,11 @@ void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::m
         auto p1 = algorithms[i].createPlayer(1, map.width, map.height, map.max_steps, map.num_shells);
         auto p2 = algorithms[j].createPlayer(2, map.width, map.height, map.max_steps, map.num_shells);
 
-        auto gm = gm_registrar.begin()->create(args.verbose); // יצירת מופע חדש של GameManager לכל משחק
+        auto gm = gm_registrar.begin()->create(args.verbose); 
         auto view = createSatelliteView(map);
 
+        std::string game_manager_name = fs::path(args.game_manager).filename().stem().string();
+        //getSimulatorLogger().logInfo("ENTER: GameManager: " + game_manager_name);
         GameResult result = gm->run(
             map.width, map.height, view, map.input_file_name,
             map.max_steps, map.num_shells,
@@ -139,6 +141,7 @@ void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::m
             algorithms[i].getTankAlgorithmFactory(),
             algorithms[j].getTankAlgorithmFactory()
         );
+        getSimulatorLogger().logInfo("EXIT: GameManager: " + game_manager_name);
 
         std::string a1, a2;
         if(algorithm_print_name == "file_name") {

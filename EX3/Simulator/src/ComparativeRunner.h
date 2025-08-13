@@ -13,7 +13,7 @@
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../common/GameManagerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
-#include "../../UserCommon/configuration/config.h"
+#include "../../UserCommon/configuration/Config.h"
 
 #include <filesystem>
 #ifdef __unix__

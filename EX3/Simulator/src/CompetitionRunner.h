@@ -9,7 +9,7 @@
 #include "../../common/GameManagerRegistration.h"
 #include "../../common/PlayerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
-#include "../../UserCommon/configuration/config.h"
+#include "../../UserCommon/configuration/Config.h"
 #include <string>
 #include <vector>
 #include <map>

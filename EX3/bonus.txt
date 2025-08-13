@@ -1,13 +1,12 @@
 Bonus Requests:
+    1.  Spaces around '=' in command-line arguments:
+        feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=106427
+        Enable the simulator to accept arguments with any number of spaces around the equal sign.
+        For example: "num_threads = 3"
 
-1. Spaces around '=' in command-line arguments:
-feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=106427
-Enable the simulator to accept arguments with any number of spaces around the equal sign.
-For example: "num_threads = 3"
-
-2. Configuration of file/directory presentation in output files:
-feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=113418 and https://moodle.tau.ac.il/mod/forum/discuss.php?d=106429
-Allow configuration of how game manager, map, maps directory, and algorithms are displayed in output files.
-Options include: just the file/dir name or the full path.
-To change the configuration, go to UserCommon/configuration/config.txt and set the relevant values to file_name, dir_name, or full_path.
-Default settings: .so files show the file name, while map files and maps directories show the full path.
+    2.  Configuration of file/directory presentation in output files:
+        feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=113418 and https://moodle.tau.ac.il/mod/forum/discuss.php?d=106429
+        Allow configuration of how game manager, map, maps directory, and algorithms are displayed in output files.
+        Options include: just the file/dir name or the full path.
+        To change the configuration, go to UserCommon/configuration/config.txt and set the relevant values to file_name, dir_name, or full_path.
+        Default settings: .so files show the file name, while map files and maps directories show the full path.

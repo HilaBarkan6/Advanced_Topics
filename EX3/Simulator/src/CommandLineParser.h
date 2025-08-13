@@ -30,6 +30,15 @@ struct ParsedArguments {
 class CommandLineParser {
     public:
         static ParsedArguments parse(int argc, char* argv[]);
+
+    private:
+        static bool isFlagToken(const std::string& s);
+        static void mergeEqAtStart(std::vector<std::string>& toks, const std::string& s);
+        static void mergeEqAtEnd(std::vector<std::string>& toks, const std::string& s, int& i, int argc, char* argv[]);
+        static void mergeSeparateEq(std::vector<std::string>& toks, const std::string& key, int& i, int argc, char* argv[]);
+        static void mergeNextStartsWithEq(std::vector<std::string>& toks, const std::string& key, int& i, char* argv[]);
+        static std::vector<std::string> canonicalizeArgs(int argc, char* argv[]);
+
 };
 
 #endif // COMMAND_LINE_PARSER_H

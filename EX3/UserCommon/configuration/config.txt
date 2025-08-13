@@ -15,3 +15,7 @@ battle_info_request_period_simple=2
 bfs_max_depth=10
 backward_wating_turns=2
 shooting_waiting_turns=4
+game_manager_print_name=file_name
+map_print_name=full_path
+algorithm_print_name=file_name
+maps_dir_print_name=full_path

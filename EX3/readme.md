@@ -6,6 +6,7 @@ Hila Barkan - 208239152
     This project consists of three main components: Game Manager, Algorithm, and Simulator.
     Additionally, there is a UserCommon project that provides logging and configuration utilities, and Implementation of SatelliteView (relevant for both GameManager and Algorithm).
     The main source code for each component is located in its respective src/ directory.
+    See bonus.txt for requested bonus for some features seen in the forum.
 
 **Implementatins -**
     Algorithm-

@@ -9,6 +9,7 @@
 #include "../../common/GameManagerRegistration.h"
 #include "../../common/PlayerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
+#include "../../UserCommon/configuration/config.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -40,6 +41,16 @@ class CompetitionRunner {
         };
 
         ParsedArguments args;
+
+        static constexpr std::string_view GAME_MANAGER_PRINT_NAME = "file_name";
+        static constexpr std::string_view MAPS_DIR_PRINT_NAME = "full_path";  
+        static constexpr std::string_view ALGORITHM_PRINT_NAME = "file_name";  
+
+        
+        std::string game_manager_print_name;
+        std::string maps_dir_print_name;
+        std::string algorithm_print_name;
+    
 
         // Loads all valid .map files from the game_maps_folder
         std::vector<GameInput> loadAllMaps();

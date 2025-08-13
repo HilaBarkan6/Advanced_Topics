@@ -13,6 +13,7 @@
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../common/GameManagerRegistration.h"
 #include "../../UserCommon/SatelliteViewImp.h"
+#include "../../UserCommon/configuration/config.h"
 
 #include <filesystem>
 #ifdef __unix__
@@ -34,6 +35,14 @@
 class ComparativeRunner {
     private:
     ParsedArguments args; // Parsed command line arguments
+
+    static constexpr std::string_view GAME_MANAGER_PRINT_NAME = "file_name";
+    static constexpr std::string_view ALGORITHM_PRINT_NAME = "file_name";  
+    static constexpr std::string_view MAP_PRINT_NAME = "full_path";
+
+    std::string game_manager_print_name;
+    std::string algorithm_print_name;
+    std::string map_print_name;
 
     GameInput tryReadMap(const std::string& path);
 

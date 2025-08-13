@@ -2,7 +2,14 @@
 
 namespace fs = std::filesystem;
 
-ComparativeRunner::ComparativeRunner(const ParsedArguments& args) : args(args) {}
+ComparativeRunner::ComparativeRunner(const ParsedArguments& args) : args(args),
+ game_manager_print_name(Config::getInstance().get("game_manager_print_name", std::string(GAME_MANAGER_PRINT_NAME))),
+ algorithm_print_name(Config::getInstance().get("algorithm_print_name", std::string(ALGORITHM_PRINT_NAME))),
+ map_print_name(Config::getInstance().get("map_print_name", std::string(MAP_PRINT_NAME))){
+    game_manager_print_name.erase(game_manager_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+    algorithm_print_name.erase(algorithm_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+    map_print_name.erase(map_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+ }
 
 void ComparativeRunner::run() {
     GameInput input = tryReadMap(args.game_map); // Read the game map from the specified file
@@ -134,14 +141,20 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
         );
 
         std::string key = formatResult(result, input.max_steps, input.width, input.height);
+        std::string game_manager_name;
+        if(game_manager_print_name == "file_name") {
+            game_manager_name = fs::path(path).filename().stem().string();
+        } else {
+            game_manager_name = path;
+        }
 
         // lock the mutex to safely update the result map by multiple threads.
         if (result_mutex) {
             std::lock_guard<std::mutex> lock(*result_mutex);
-            result_map[key].insert(fs::path(path).filename().stem().string());
+            result_map[key].insert(game_manager_name);
         } 
         else {
-            result_map[key].insert(fs::path(path).filename().stem().string());
+            result_map[key].insert(game_manager_name);
         }
 
     } catch (const std::exception& e) {
@@ -151,6 +164,25 @@ void ComparativeRunner::runSingleGame(const std::string& path, int gm_index, con
 
 void ComparativeRunner::writeResults(
     const std::map<std::string, std::set<std::string>>& result_map, const GameInput& ) {
+
+    std::string game_map_name;
+    std::string algorithm1_name;
+    std::string algorithm2_name;
+
+    if(game_manager_print_name == "file_name") {
+        game_map_name = fs::path(args.game_map).filename().string();
+    } else {
+        game_map_name = args.game_map;
+    }
+    if(algorithm_print_name == "file_name") {
+        algorithm1_name = fs::path(args.algorithm1).filename().stem().string();
+        algorithm2_name = fs::path(args.algorithm2).filename().stem().string();
+    } else {
+        algorithm1_name = args.algorithm1;
+        algorithm2_name = args.algorithm2;
+    }
+
+
 
     std::ostringstream filename;
     auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
@@ -162,9 +194,9 @@ void ComparativeRunner::writeResults(
                   << "Outputting results to screen instead:\n\n";
 
                   
-        std::cout << "game_map=" << std::filesystem::path(args.game_map).string() << "\n";
-        std::cout << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
-        std::cout << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
+        std::cout << "game_map=" << game_map_name << "\n";
+        std::cout << "algorithm1=" << algorithm1_name << "\n";
+        std::cout << "algorithm2=" << algorithm2_name << "\n\n";
 
         for (const auto& [res, gms] : result_map) {
             std::cout << join(gms) << "\n" << res << "\n\n";
@@ -172,9 +204,9 @@ void ComparativeRunner::writeResults(
         return;
     }
 
-    out << "game_map=" << std::filesystem::path(args.game_map).string() << "\n";
-    out << "algorithm1=" << std::filesystem::path(args.algorithm1).stem().string() << "\n";
-    out << "algorithm2=" << std::filesystem::path(args.algorithm2).stem().string() << "\n\n";
+    out << "game_map=" << game_map_name << "\n";
+    out << "algorithm1=" << algorithm1_name << "\n";
+    out << "algorithm2=" << algorithm2_name << "\n\n";
 
     for (const auto& [res, gms] : result_map) {
         out << join(gms) << "\n" << res << "\n\n";

@@ -2,7 +2,14 @@
 
 namespace fs = std::filesystem;
 
-CompetitionRunner::CompetitionRunner(const ParsedArguments& args) : args(args) {}
+CompetitionRunner::CompetitionRunner(const ParsedArguments& args) : args(args),
+game_manager_print_name(Config::getInstance().get("game_manager_print_name", std::string(GAME_MANAGER_PRINT_NAME))),
+maps_dir_print_name(Config::getInstance().get("maps_dir_print_name", std::string(MAPS_DIR_PRINT_NAME))),
+algorithm_print_name(Config::getInstance().get("algorithm_print_name", std::string(ALGORITHM_PRINT_NAME))) {
+    game_manager_print_name.erase(game_manager_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+    maps_dir_print_name.erase(maps_dir_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+    algorithm_print_name.erase(algorithm_print_name.find_last_not_of(" \t\n\r\f\v") + 1);
+}
 
 void CompetitionRunner::run() {
     auto maps = loadAllMaps();
@@ -48,64 +55,6 @@ void CompetitionRunner::loadAllAlgorithmHandles( const std::vector<std::string>&
     }
 }
 
-
-// void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps, const std::vector<std::string>& algorithm_paths, std::map<std::string, int>& score_table) {
-//     auto& algo_registrar = AlgorithmRegistrar::getAlgorithmRegistrar();
-//     auto& gm_registrar = GameManagerRegistrar::getGameManagerRegistrar();
-
-//     if (algo_registrar.count() < 2) {
-//         std::cerr << "Error: Not enough algorithms registered.\n";
-//         return;
-//     }
-//     if (gm_registrar.count() < 1) {
-//         std::cerr << "Error: No GameManager registered.\n";
-//         return;
-//     }
-
-//     struct GameTask {
-//         int map_index;
-//         int i;
-//         int j;
-//     };
-//     std::vector<GameTask> tasks;
-//     for (size_t k = 0; k < maps.size(); ++k) {
-//         auto pairs = generatePairs(k, algo_registrar.count());
-//         for (auto& p : pairs) {
-//             tasks.push_back({static_cast<int>(k), p.first, p.second});
-//         }
-//     }
-
-//     int num_threads = args.num_threads > 0 ? args.num_threads : 1;
-
-//     if (num_threads <= 1 || tasks.size() <= 1) {
-//         for (const auto& task : tasks) {
-//             runSingleGame(maps[task.map_index], task.i, task.j, score_table, algorithm_paths);
-//         }
-//         return;
-//     }
-
-//     std::mutex score_mutex;
-//     std::atomic<size_t> task_index{0};
-
-//     auto worker = [&]() {
-//         while (true) {
-//             size_t idx = task_index.fetch_add(1);
-//             if (idx >= tasks.size())
-//                 break;
-//             const auto& t = tasks[idx];
-//             runSingleGame(maps[t.map_index], t.i, t.j, score_table, algorithm_paths, &score_mutex);
-//         }
-//     };
-
-//     std::vector<std::thread> workers;
-//     for (int t = 0; t < num_threads - 1; ++t)
-//         workers.emplace_back(worker);
-
-//     worker();
-
-//     for (auto& w : workers)
-//         w.join();
-// }
 
 void CompetitionRunner::runAllGames(const std::vector<GameInput>& maps,
     const std::vector<std::string>& algorithm_paths,
@@ -191,8 +140,15 @@ void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::m
             algorithms[j].getTankAlgorithmFactory()
         );
 
-        auto a1 = fs::path(algo_paths[i]).stem().string();
-        auto a2 = fs::path(algo_paths[j]).stem().string();
+        std::string a1, a2;
+        if(algorithm_print_name == "file_name") {
+            a1 = fs::path(algo_paths[i]).filename().stem().string();
+            a2 = fs::path(algo_paths[j]).filename().stem().string();
+        }
+        else{
+            a1 = algo_paths[i];
+            a2 = algo_paths[j];
+        }
 
         if (score_mutex) {
             std::lock_guard<std::mutex> lock(*score_mutex);
@@ -268,19 +224,33 @@ void CompetitionRunner::writeResults(const std::map<std::string, int>& score_tab
     auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
     filename << args.algorithms_folder << "/competition_" << timestamp << ".txt";
 
+    std::string maps_dir_name;
+    std::string game_manager_name;
+
+    if (maps_dir_print_name == "full_path") {
+        maps_dir_name = args.game_maps_folder;
+    } else {
+        maps_dir_name = fs::path(args.game_maps_folder).filename().string();
+    }   
+    if (game_manager_print_name == "file_name") {
+        game_manager_name = fs::path(args.game_manager).filename().stem().string();
+    } else {
+        game_manager_name = args.game_manager;
+    }
+
     std::ofstream out(filename.str());
     if (!out.is_open()) {
         std::cerr << "Failed to write output file. Showing results below:\n";
-        std::cout << "game_maps_folder=" << args.game_maps_folder << "\n";
-        std::cout << "game_manager=" << std::filesystem::path(args.game_manager).stem().string() << "\n\n";
+        std::cout << "game_maps_folder=" << maps_dir_name << "\n";
+        std::cout << "game_manager=" << game_manager_name << "\n\n";
 
         auto sorted = sortScores(score_table);
         for (const auto& [name, score] : sorted)
             std::cout << name << " " << score << "\n";
     }
 
-    out << "game_maps_folder=" << args.game_maps_folder << "\n";
-    out << "game_manager=" << std::filesystem::path(args.game_manager).stem().string() << "\n\n";
+    out << "game_maps_folder=" << maps_dir_name << "\n";
+    out << "game_manager=" << game_manager_name << "\n\n";
 
     auto sorted = sortScores(score_table);
     for (const auto& [name, score] : sorted)

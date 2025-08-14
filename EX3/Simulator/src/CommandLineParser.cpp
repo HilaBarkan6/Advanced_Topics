@@ -170,9 +170,6 @@ static void fillArgs(ParsedArguments& args, const std::unordered_map<std::string
     }
 }
 
-
-
-
 ParsedArguments CommandLineParser::parse(int argc, char* argv[]) {
     ParsedArguments args;
     std::unordered_map<std::string, std::string> kv;

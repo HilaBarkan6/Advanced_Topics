@@ -2,6 +2,8 @@
 #include <utility> // for std::pair
 #include <vector>
 
+using namespace Algorithm_209399021_208239152;
+
 size_t SimpleBattleInfo::getHeight() const {
     return height;
 }

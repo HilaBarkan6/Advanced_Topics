@@ -133,7 +133,7 @@ void CompetitionRunner::runSingleGame(const GameInput& map, int i, int j, std::m
         auto view = createSatelliteView(map);
 
         std::string game_manager_name = fs::path(args.game_manager).filename().stem().string();
-        //getSimulatorLogger().logInfo("ENTER: GameManager: " + game_manager_name);
+        getSimulatorLogger().logInfo("ENTER: GameManager: " + game_manager_name);
         GameResult result = gm->run(
             map.width, map.height, view, map.input_file_name,
             map.max_steps, map.num_shells,
@@ -190,13 +190,11 @@ std::vector<GameInput> CompetitionRunner::loadAllMaps() {
     auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
     std::string input_error_path = "input_error_" + std::to_string(timestamp) + ".txt";
     for (const auto& entry : fs::directory_iterator(args.game_maps_folder)) {
-        //if (entry.path().extension() == ".txt") {
         try {
             maps.push_back(readBoard(entry.path().string(), input_error_path));
         } catch (...) {
             std::cerr << "Failed to read map: " << entry.path() << "\n";
         }
-        //}
     }
 
     if (maps.empty()) throw std::runtime_error("No valid maps found.");

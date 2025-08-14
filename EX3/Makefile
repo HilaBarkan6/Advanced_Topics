@@ -18,9 +18,9 @@ run_external: externalmanager simulator gamemanager algorithm
 	./ExternalManager \
 		"Simulator/src/main" \
 		"-competition" \
-		"game_maps_folder=run/maps/" \
+		"game_maps_folder=<maps_folder>" \
 		"game_manager=GameManager/GameManager_209399021_208239152.so" \
-		"algorithms_folder=run/algos/" \
+		"algorithms_folder=<algorithms_folder>" \
 		"num_threads=3" \
 		"-verbose"
 

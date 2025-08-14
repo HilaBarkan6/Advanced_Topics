@@ -8,12 +8,13 @@
 #include <sys/wait.h>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>
 
 namespace fs = std::filesystem;
 
 // Write a message directly to external.log with timestamp
 void logToExternal(const std::string& message) {
-    std::ofstream log_file("external.log");
+    std::ofstream log_file("external.log", std::ios::app);
     if (!log_file.is_open()) return;
 
     std::time_t now = std::time(nullptr);
@@ -21,7 +22,7 @@ void logToExternal(const std::string& message) {
     std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
 
     log_file << buf << " [INFO] " << message << std::endl;
-    log_file.flush(); // Force immediate write
+    log_file.flush();
 }
 
 // Finds the last Algorithm SO that started in the simulator log file
@@ -49,6 +50,24 @@ int main(int argc, char* argv[]) {
     }
 
     std::vector<std::string> original_args(argv + 1, argv + argc);
+
+    // Detect algorithms_folder argument
+    std::string algorithmsFolder;
+    for (const auto& arg : original_args) {
+        if (arg.rfind("algorithms_folder=", 0) == 0) { // starts with algorithms_folder=
+            algorithmsFolder = arg.substr(strlen("algorithms_folder="));
+            if (!algorithmsFolder.empty() && algorithmsFolder.back() == '/')
+                algorithmsFolder.pop_back();
+            logToExternal("Detected algorithms_folder: " + algorithmsFolder);
+            break;
+        }
+    }
+
+    if (algorithmsFolder.empty()) {
+        logToExternal("ERROR: algorithms_folder argument not provided. Cannot proceed.");
+        std::cerr << "ERROR: Missing required argument algorithms_folder=<path>" << std::endl;
+        return 1;
+    }
 
     while (true) {
         std::vector<char*> exec_args;
@@ -81,7 +100,7 @@ int main(int argc, char* argv[]) {
                     if (!offender.empty()) {
                         fs::create_directories("bad_algos");
 
-                        fs::path offenderPath = fs::path("run/algos") / offender;
+                        fs::path offenderPath = fs::path(algorithmsFolder) / offender;
                         if (fs::exists(offenderPath)) {
                             fs::rename(offenderPath, fs::path("bad_algos") / offender);
 
@@ -89,7 +108,7 @@ int main(int argc, char* argv[]) {
                             logToExternal("OFFENDING_SO_MOVED: " + offender + " -> bad_algos, restarting simulator...");
                         } else {
                             std::cout << "Offending SO not found: " << offender << std::endl;
-                            logToExternal("WARNING: Offending SO not found in run/algos: " + offender);
+                            logToExternal("WARNING: Offending SO not found in " + algorithmsFolder + ": " + offender);
                         }
 
                         original_args.erase(

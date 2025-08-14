@@ -1,5 +1,7 @@
 #include "Wall.h"
 
+using namespace GameManager_209399021_208239152;
+
 void Wall::reduceLife() {
     lives--;
 }

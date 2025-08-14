@@ -5,39 +5,41 @@
 #include <set>
 #include <cstddef>
 
-class SimpleBattleInfo : public BattleInfo {
-    private:
-        size_t height;
-        size_t width;
-        std::vector<std::pair<int, int>> tanks1_locations; // Locations of player 1 tanks
-        std::vector<std::pair<int, int>> tanks2_locations; // Locations of player 2 tanks
-        std::pair<int, int> called_tank_location; 
-        std::vector<std::pair<int, int>> shells_locations;
-        std::vector<std::pair<int, int>> mines_locations;
-        std::vector<std::pair<int, int>> walls_locations;
-        std::set<std::pair<int, int>> shells_danger_locations; 
+namespace Algorithm_209399021_208239152{
+    class SimpleBattleInfo : public BattleInfo {
+        private:
+            size_t height;
+            size_t width;
+            std::vector<std::pair<int, int>> tanks1_locations; // Locations of player 1 tanks
+            std::vector<std::pair<int, int>> tanks2_locations; // Locations of player 2 tanks
+            std::pair<int, int> called_tank_location; 
+            std::vector<std::pair<int, int>> shells_locations;
+            std::vector<std::pair<int, int>> mines_locations;
+            std::vector<std::pair<int, int>> walls_locations;
+            std::set<std::pair<int, int>> shells_danger_locations; 
 
-    public:
-        SimpleBattleInfo(size_t width, size_t height): height(height), width(width) {};
+        public:
+            SimpleBattleInfo(size_t width, size_t height): height(height), width(width) {};
 
-        // Getters
-        size_t getHeight() const;
-        size_t getWidth() const;
-        const std::vector<std::pair<int, int>>& getTanks1Locations() const; // Locations of player 1 tanks
-        const std::vector<std::pair<int, int>>& getTanks2Locations() const; // Locations of player 2 tanks
-        const std::pair<int, int>& getCalledTankLocation() const; // Location of the called tank
-        const std::vector<std::pair<int, int>>& getShellsLocations() const; 
-        const std::vector<std::pair<int, int>>& getMinesLocations() const; 
-        const std::vector<std::pair<int, int>>& getWallsLocations() const; 
+            // Getters
+            size_t getHeight() const;
+            size_t getWidth() const;
+            const std::vector<std::pair<int, int>>& getTanks1Locations() const; // Locations of player 1 tanks
+            const std::vector<std::pair<int, int>>& getTanks2Locations() const; // Locations of player 2 tanks
+            const std::pair<int, int>& getCalledTankLocation() const; // Location of the called tank
+            const std::vector<std::pair<int, int>>& getShellsLocations() const; 
+            const std::vector<std::pair<int, int>>& getMinesLocations() const; 
+            const std::vector<std::pair<int, int>>& getWallsLocations() const; 
 
-        void addTanks1Location(std::pair<int, int> tank1); // Add a tank location for player 1
-        void addTanks2Location(std::pair<int, int> tank2); // Add a tank location for player 2
-        void addCalledTankLocation(const std::pair<int, int> called_tank_location); // Add a called tank location
-        void addShellLocation(std::pair<int, int> shell);  
-        void addMineLocation(std::pair<int, int> mine);
-        void addWallLocation(std::pair<int, int> wall);
+            void addTanks1Location(std::pair<int, int> tank1); // Add a tank location for player 1
+            void addTanks2Location(std::pair<int, int> tank2); // Add a tank location for player 2
+            void addCalledTankLocation(const std::pair<int, int> called_tank_location); // Add a called tank location
+            void addShellLocation(std::pair<int, int> shell);  
+            void addMineLocation(std::pair<int, int> mine);
+            void addWallLocation(std::pair<int, int> wall);
 
-        void clearInfo(); // Clear all battle information
-};
+            void clearInfo(); // Clear all battle information
+    };
+}
 
 #endif

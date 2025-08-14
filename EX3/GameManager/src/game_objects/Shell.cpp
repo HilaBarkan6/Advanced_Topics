@@ -1,6 +1,8 @@
 #include "Shell.h"
 #include "Tank.h"
 
+using namespace GameManager_209399021_208239152;
+
 Shell::Shell(std::pair<int, int> loc, CanonDirection dir): GameObject(), location(loc), flying_direction(dir) {};
 
 std::pair<int,int> Shell::getLocation() const { return location; }

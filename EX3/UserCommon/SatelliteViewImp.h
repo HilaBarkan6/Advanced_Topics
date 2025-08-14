@@ -1,9 +1,6 @@
 #ifndef SATELLITE_VIEW_IMP_H
 #define SATELLITE_VIEW_IMP_H    
 #include "../common/SatelliteView.h"
-//#include "Board.h"
-//#include "game_objects/Shell.h"
-//#include "game_objects/Tank.h"
 #include "../UserCommon/configuration/Config.h"
 #include <vector>
 

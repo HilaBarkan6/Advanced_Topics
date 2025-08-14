@@ -31,26 +31,22 @@ void readGameParameters(std::ifstream& file, GameInput& input) {
     std::getline(file, line);
 
     if (!std::getline(file, line)) {
-        //logger.logError("Missing MaxSteps line.");
         throw std::runtime_error("Missing MaxSteps line.");
     }
 
     input.max_steps = readIntValueFromLine(line, "MaxSteps");
 
     if (!std::getline(file, line)) {
-        //logger.logError("Missing NumShells line.");
         throw std::runtime_error("Missing NumShells line.");
     }
     input.num_shells = readIntValueFromLine(line, "NumShells");
 
     if (!std::getline(file, line)) {
-        //logger.logError("Missing Rows line.");
         throw std::runtime_error("Missing Rows line.");
     }
     input.height = readIntValueFromLine(line, "Rows");
 
     if (!std::getline(file, line)) {
-        //logger.logError("Missing Cols line.");
         throw std::runtime_error("Missing Cols line.");
     }
     input.width = readIntValueFromLine(line, "Cols");
@@ -59,13 +55,11 @@ void readGameParameters(std::ifstream& file, GameInput& input) {
 int readIntValueFromLine(const std::string& line, const std::string& key) {
     size_t pos = line.find("=");
     if (pos == std::string::npos) {
-        //logger.logError("Invalid " + key + " line: " + line);
         throw std::runtime_error("Invalid " + key + " line.");
     }
     try {
         return std::stoi(line.substr(pos + 1));
     } catch (...) {
-        //logger.logError("Invalid " + key + " value.");
         throw std::runtime_error("Invalid " + key + " value.");
     }
 }

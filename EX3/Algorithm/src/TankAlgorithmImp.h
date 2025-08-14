@@ -5,7 +5,6 @@
 #include "../../UserCommon/CanonDirection.h"
 #include "../../common/TankAlgorithmRegistration.h"
 #include "../../UserCommon/configuration/Config.h"
-
 #include "SimpleBattleInfo.h"
 
 #include <utility>

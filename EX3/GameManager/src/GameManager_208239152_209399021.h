@@ -72,10 +72,6 @@ namespace GameManager_209399021_208239152 {
             std::string path_output_file;
             bool should_verbose;
             std::string path_log_file;
-            // std::unique_ptr<PlayerFactory> player_factory;
-            // std::unique_ptr<TankAlgorithmFactory> tank_algorithm_factory;
-            // std::unique_ptr<Player> player1;
-            // std::unique_ptr<Player> player2;
             Player* player1;
             Player* player2;
             
@@ -143,8 +139,6 @@ namespace GameManager_209399021_208239152 {
             void deleteCollidedShells();
             void killTank(std::shared_ptr<Tank>& tank_to_kill);
             
-            // void readGameParameters(std::ifstream& file); 
-            // int readIntValueFromLine(const std::string& line, const std::string& key); 
             void initializeGame(std::ofstream& output_file); 
             void createBoardAndTanksFromMap(const SatelliteView& map, size_t height, size_t width, TankAlgorithmFactory player1_tank_algo_factory, TankAlgorithmFactory player2_tank_algo_factory); // Creates the board and tanks from the given map.
             void handleEvenTurn(std::ofstream& output_file); 

@@ -26,8 +26,6 @@ static constexpr const char TANK1_SIGN = '1';
 static constexpr const char TANK2_SIGN = '2';
 static constexpr const char MINE_SIGN = '@';
 
-//Logger logger;
-
 GameInput readBoard(const std::string& path_input_file, const std::string& input_error_path);
 void readGameParameters(std::ifstream& file, GameInput& input);
 int readIntValueFromLine(const std::string& line, const std::string& key);

@@ -11,7 +11,7 @@ Bonus Requests:
             To change the configuration, go to UserCommon/configuration/config.txt and set the relevant values to file_name, dir_name, or full_path.
             Default settings: .so files show the file name, while map files and maps directories show the full path.
     
-    3.  ExternalManager: automatic detection of crashing SOs and restart:
+    3.  ExternalManager: automatic detection of crashing SOs and restart (Primary for competetion mode):
             feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=116589
 
             We implemented an external manager program (ExternalManager) that monitors the simulator.
@@ -26,7 +26,7 @@ Bonus Requests:
 
         1. Make sure you are in the root directory containing the Makefile.
         2. Build everything by running:
-            make all
+            make all (make sure to fill the arguments in run_external target inside the makefile)
         3. To run the simulator via the external manager, use the dedicated Makefile target:
             make run_external
         This target executes ExternalManager with the default configuration of game manager, maps, algorithms folder, and number of threads.

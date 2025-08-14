@@ -15,7 +15,7 @@ SoOpener::~SoOpener() {
     try {
         if (handle) {
             dlclose(handle);
-            handle = nullptr; // למנוע double close
+            handle = nullptr; 
         }
     }
     catch (...) {}

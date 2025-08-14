@@ -1,5 +1,7 @@
 #include "Tank.h"
 
+using namespace GameManager_209399021_208239152;
+
 Tank::Tank(int x, int y, CanonDirection direction, int player_id, int tank_index, int shells_count) : 
     GameObject(),
     player_id(player_id),

@@ -5,8 +5,30 @@ Bonus Requests:
         For example: "num_threads = 3"
 
     2.  Configuration of file/directory presentation in output files:
-        feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=113418 and https://moodle.tau.ac.il/mod/forum/discuss.php?d=106429
-        Allow configuration of how game manager, map, maps directory, and algorithms are displayed in output files.
-        Options include: just the file/dir name or the full path.
-        To change the configuration, go to UserCommon/configuration/config.txt and set the relevant values to file_name, dir_name, or full_path.
-        Default settings: .so files show the file name, while map files and maps directories show the full path.
+            feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=113418 and https://moodle.tau.ac.il/mod/forum/discuss.php?d=106429
+            Allow configuration of how game manager, map, maps directory, and algorithms are displayed in output files.
+            Options include: just the file/dir name or the full path.
+            To change the configuration, go to UserCommon/configuration/config.txt and set the relevant values to file_name, dir_name, or full_path.
+            Default settings: .so files show the file name, while map files and maps directories show the full path.
+    
+    3.  ExternalManager: automatic detection of crashing SOs and restart:
+            feature idea from https://moodle.tau.ac.il/mod/forum/discuss.php?d=116589
+
+            We implemented an external manager program (ExternalManager) that monitors the simulator.
+            If the simulator crashes due to a misbehaving SO, the ExternalManager:
+                - Reads the simulator log to identify the last SO that started.
+                - Moves the offending SO to a "bad_algos" folder.
+                - Writes an explanation to a separate log file (external.log) immediately.
+                - Restarts the simulator without the offending SO.
+            This mechanism works automatically, including multi-threaded runs, and ensures that the simulator can continue running even if one SO is faulty.
+
+        How to run the simulator with the ExternalManager:
+
+        1. Make sure you are in the root directory containing the Makefile.
+        2. Build everything by running:
+            make all
+        3. To run the simulator via the external manager, use the dedicated Makefile target:
+            make run_external
+        This target executes ExternalManager with the default configuration of game manager, maps, algorithms folder, and number of threads.
+        4. If you want to use different parameters, edit them in the Makefile target for run_external before running the command.
+        5. Logs for crashes and actions taken by the manager are written to "external.log".

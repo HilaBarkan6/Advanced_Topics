@@ -7,19 +7,36 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <cstdlib>
+#include <ctime>
 
 namespace fs = std::filesystem;
 
-// Finds the last Algorithm SO that started in the log file
+// Write a message directly to external.log with timestamp
+void logToExternal(const std::string& message) {
+    std::ofstream log_file("external.log");
+    if (!log_file.is_open()) return;
+
+    std::time_t now = std::time(nullptr);
+    char buf[20];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    log_file << buf << " [INFO] " << message << std::endl;
+    log_file.flush(); // Force immediate write
+}
+
+// Finds the last Algorithm SO that started in the simulator log file
 std::string findOffender(const std::string& logFile) {
     std::ifstream file(logFile);
     std::string line;
     std::string lastStart;
     while (std::getline(file, line)) {
-        if (line.find("START_SO: Algorithm_") != std::string::npos) {
-            // extract only the filename
+        if (line.find("START_SO:") != std::string::npos &&
+            line.find("Algorithm_") != std::string::npos) {
+
             auto pos = line.find("Algorithm_");
-            lastStart = line.substr(pos); // Algorithm_*_*.so
+            if (pos != std::string::npos) {
+                lastStart = line.substr(pos); // Algorithm_*_*.so
+            }
         }
     }
     return lastStart;
@@ -31,16 +48,14 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Copy original arguments into a vector of strings for easy manipulation
     std::vector<std::string> original_args(argv + 1, argv + argc);
 
     while (true) {
-        // Build argv array for execvp from original_args
         std::vector<char*> exec_args;
         for (auto& s : original_args) {
             exec_args.push_back(s.data());
         }
-        exec_args.push_back(nullptr); // execvp requires nullptr-terminated array
+        exec_args.push_back(nullptr);
 
         pid_t pid = fork();
         if (pid < 0) {
@@ -49,12 +64,10 @@ int main(int argc, char* argv[]) {
         }
 
         if (pid == 0) {
-            // Child process: execute simulator
             execvp(exec_args[0], exec_args.data());
-            perror("execvp failed"); // only reached if execvp fails
+            perror("execvp failed");
             exit(1);
         } else {
-            // Parent process: wait for child
             int status;
             waitpid(pid, &status, 0);
 
@@ -62,38 +75,45 @@ int main(int argc, char* argv[]) {
                 int sig = WTERMSIG(status);
                 if (sig == SIGSEGV || sig == SIGABRT) {
                     std::cout << "Simulator crashed (signal " << sig << ")." << std::endl;
+                    logToExternal("Simulator crashed (signal " + std::to_string(sig) + ")");
 
                     std::string offender = findOffender("simulator.log");
                     if (!offender.empty()) {
-                        fs::create_directories("quarantine");
+                        fs::create_directories("bad_algos");
 
-                        // Move offending SO to quarantine
                         fs::path offenderPath = fs::path("run/algos") / offender;
                         if (fs::exists(offenderPath)) {
                             fs::rename(offenderPath, fs::path("bad_algos") / offender);
-                            std::cout << "Moved offending SO to quarantine: " << offender << std::endl;
+
+                            std::cout << "Moved offending SO to bad_algos: " << offender << std::endl;
+                            logToExternal("OFFENDING_SO_MOVED: " + offender + " -> bad_algos, restarting simulator...");
                         } else {
                             std::cout << "Offending SO not found: " << offender << std::endl;
+                            logToExternal("WARNING: Offending SO not found in run/algos: " + offender);
                         }
 
-                        // Remove offending SO from original_args so it won't run next time
                         original_args.erase(
                             std::remove_if(original_args.begin(), original_args.end(),
                                 [&offender](const std::string& s){ return s.find(offender) != std::string::npos; }),
                             original_args.end()
                         );
+                    } else {
+                        std::cout << "No offending SO found in log." << std::endl;
+                        logToExternal("WARNING: No offending SO found in simulator.log.");
+                        break;
                     }
 
                     std::cout << "Restarting simulator without the offending SO..." << std::endl;
-                    continue; // try again
+                    logToExternal("Restarting simulator without the offending SO...");
+                    continue;
                 }
             }
 
-            // Child exited normally or with a different signal
-            break;
+            break; // child exited normally
         }
     }
 
     std::cout << "Simulator finished successfully." << std::endl;
+    logToExternal("Simulator finished successfully.");
     return 0;
 }

@@ -72,6 +72,12 @@ void GameManager_208239152_209399021::initializeGame(std::ofstream& output_file)
             std::cerr << "Error opening output file: " << path_output_file << std::endl;
         }
     }
+    //In case of multiple use of the same game manager
+    this->turn_counter = 0;
+    this->no_more_shells = false;
+    this->counter_no_shells = 0;
+    
+    
 }
 
 void GameManager_208239152_209399021::handleEvenTurn(std::ofstream& output_file) {
@@ -127,6 +133,15 @@ void GameManager_208239152_209399021::createBoardAndTanksFromMap(const Satellite
     this->width = width;
     board = Board(height, width, wall_lives, wall_sign, tank1_sign, tank2_sign, mine_sign);
     view->setRowsAndColumns(height, width);
+    // Should already be the values but reset them to be sure in case of multiple use of the same game manager
+    this->player1_alive_tanks = 0;
+    this->player2_alive_tanks = 0;
+    this->all_tanks.clear();
+    this->flying_shells.clear();
+    this->tanks_to_kill.clear();
+    this->tank_last_shooting.clear();
+    this->shells_to_delete.clear();
+    this->all_tanks_backwards_info.clear();
 
     for (size_t j = 0; j < height; ++j) {
         for (size_t i = 0; i < width; ++i) {

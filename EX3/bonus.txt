@@ -32,3 +32,12 @@ Bonus Requests:
         This target executes ExternalManager with the default configuration of game manager, maps, algorithms folder, and number of threads.
         4. If you want to use different parameters, edit them in the Makefile target for run_external before running the command.
         5. Logs for crashes and actions taken by the manager are written to "external.log".
+
+        Testing Procedure:
+            To verify that our implementation works:
+                - We took an SO that causes a segmentation fault and placed it in the algorithms folder used in competition mode.
+                - When running via ExternalManager, this SO was successfully moved to the bad_algos folder.
+                - An entry was immediately written to external.log, explaining that the problematic SO was detected.
+                - The simulator automatically restarted and ran successfully.
+                - A final message confirming successful completion was written to external.log.
+                - We also tested the case where more than one SO causes a crash, and the manager handled all offending SOs correctly.
